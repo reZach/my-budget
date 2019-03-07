@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as DateActions from '../actions/date';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as DateActions from "../actions/date";
 import styles from "./Date.css";
 
 class Date extends Component<Props> {
@@ -11,7 +11,7 @@ class Date extends Component<Props> {
         return (
             <div>
                 <button onClick={this.props.decrement} type="button">&lt;</button>
-                <div className={styles.red}>month {this.props.date.months}. years {this.props.date.years}</div>
+                <span className={styles.red}>month {this.props.date.months}. years {this.props.date.years}</span>
                 <button onClick={this.props.increment} type="button">&gt;</button>
             </div>
         );
