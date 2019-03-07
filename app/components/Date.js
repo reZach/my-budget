@@ -10,9 +10,9 @@ class Date extends Component<Props> {
     render() {
         return (
             <div>
-                <div>&lt;</div>
-                <div className={styles.red}>{this.props.date.years}</div>
-                <div>&gt;</div>
+                <button onClick={this.props.decrement} type="button">&lt;</button>
+                <div className={styles.red}>month {this.props.date.months}. years {this.props.date.years}</div>
+                <button onClick={this.props.increment} type="button">&gt;</button>
             </div>
         );
     }
