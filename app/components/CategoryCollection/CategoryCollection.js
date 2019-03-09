@@ -9,10 +9,12 @@ class CategoryCollection extends Component<Props> {
 
     render() {
         return (
-            <div>CategoryCollection</div>
-            {props.categories.map((value, index, array) => 
-                <span>category {index}</span>
-            )}
+            <React.Fragment>
+                <div>CategoryCollection</div>
+                {this.props.categories.map((value, index, array) => 
+                    <span key={index}>category {index}</span>
+                )}
+            </React.Fragment>
         );
     }
 }

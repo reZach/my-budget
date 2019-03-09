@@ -9,11 +9,11 @@ class Date extends Component<Props> {
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <button onClick={this.props.decrement} type="button">&lt;</button>
                 <span className={styles.red}>month {this.props.date.months}. years {this.props.date.years}</span>
                 <button onClick={this.props.increment} type="button">&gt;</button>
-            </div>
+            </React.Fragment>
         );
     }
 }

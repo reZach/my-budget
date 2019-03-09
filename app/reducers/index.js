@@ -9,6 +9,6 @@ export default function createRootReducer(history: History) {
   return combineReducers({
     router: connectRouter(history),
     date: date,
-    categoryCollection: categoryCollection
+    categories: categoryCollection
   });
 }
