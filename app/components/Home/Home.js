@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import routes from '../constants/routes';
+import routes from '../../constants/routes';
 import styles from './Home.css';
-import Date from "./Date";
+import Date from "../Date/Date";
 
 type Props = {};
 

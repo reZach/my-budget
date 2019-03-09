@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as DateActions from "../actions/date";
+import * as DateActions from "../../actions/date";
 import styles from "./Date.css";
 
 class Date extends Component<Props> {
