@@ -5,8 +5,13 @@ export type counterStateType = {
 };
 
 export type Action = {
-  type: string
+  type: string,
+  payload: object
 };
+
+export function update(state, mutations){
+  return Object.assign({}, state, mutations);
+}
 
 export type GetState = () => counterStateType;
 
