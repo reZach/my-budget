@@ -6,6 +6,10 @@ import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 
 const store = configureStore({
+  categories: [{
+    name: "First",
+    items: []
+  }],
   date: {
     months: (new Date()).getMonth(),
     years: (new Date()).getFullYear()
