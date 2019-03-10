@@ -7,11 +7,47 @@ import styles from "./CategoryCollection.css";
 class CategoryCollection extends Component<Props> {
     props: Props;
 
+    constructor(){
+        super();
+        this.state = {
+            newCategoryName: ""
+        };
+
+        this.modifyNewCategoryName = this.modifyNewCategoryName.bind(this);
+        this.createNewCategory = this.createNewCategory.bind(this);
+    }
+    
+    modifyNewCategoryName(event){
+        this.setState({
+            newCategoryName: event.target.value
+        });
+    }
+
+    createNewCategory(event) {
+        if (this.state.newCategoryName !== "") {
+
+            // Don't create duplicate categories
+            if (typeof this.props.categories.find(c => c.dateId === this.props.date.id &&
+                    c.name === this.state.newCategoryName) === "undefined") {
+                this.props.addCategory(this.state.newCategoryName);
+
+                this.setState({
+                    newCategoryName: ""
+                });
+            }
+
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
-                <div>CategoryCollection</div>
-                <button onClick={() => {this.props.addCategory("testing")}}>add new category</button>
+                
+                <form onSubmit={() => this.createNewCategory()}>
+                    <input type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
+                    <button type="submit">add new category</button>
+                </form>
+                
                 
                 {this.props.categories.map((value, index, array) => {
                     return value.dateId === this.props.date.id ?
