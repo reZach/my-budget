@@ -13,11 +13,14 @@ class CategoryCollection extends Component<Props> {
                 <div>CategoryCollection</div>
                 <button onClick={() => {this.props.addCategory("testing")}}>add new category</button>
                 
-                {this.props.categories.map((value, index, array) => 
-                    <div key={index}>
-                        <span>'{value.name}' category {index}</span>
-                    </div>                    
-                )}
+                {this.props.categories.map((value, index, array) => {
+                    return value.dateId === this.props.date.id ?
+                        <div key={index}>
+                            <span>'{value.name}' category</span>
+                        </div>
+                    :
+                        <React.Fragment key={index}></React.Fragment>
+                })}
 
                 
                 {/* <button onClick={this.props.increment} type="button">&gt;</button> */}
@@ -30,6 +33,7 @@ class CategoryCollection extends Component<Props> {
 
 function mapStateToProps(state){
     return {
+        date: state.date,
         categories: state.categories
     }
 }
