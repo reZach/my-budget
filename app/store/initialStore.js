@@ -13,11 +13,14 @@ export const initialStore = {
     //   }],
     //   items: [{
     //     id: "",
+    //     dateId: "",
     //     categoryId: "",
     //     name: ""
     //   }],
     //   transactions: [{
     //     id: "",
+    //     dateId: "",
+    //     categoryId: "",
     //     itemId: "",
     //     amount: 0,
     //     note: ""

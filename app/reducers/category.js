@@ -11,9 +11,6 @@ import {
     Action,
     update
 } from "./types";
-import {
-    Store as store
-} from "../reducers/types";
 
 
 
