@@ -63,9 +63,6 @@ class CategoryCollection extends Component<Props> {
                     :
                         <React.Fragment key={index}></React.Fragment>
                 })}
-
-                
-                {/* <button onClick={this.props.increment} type="button">&gt;</button> */}
             </React.Fragment>
         );
     }

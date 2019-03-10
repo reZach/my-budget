@@ -15,7 +15,7 @@ export default class Home extends Component<Props> {
     return (
       <div className={styles.container} data-tid="container">
         <Date />
-        <h2>Home</h2>
+        <div style={{"marginBottom": "50px"}}></div>
         <CategoryCollection />
         {/* <Link to={routes.COUNTER}>to Counter</Link> */}
       </div>
