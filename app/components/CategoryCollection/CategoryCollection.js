@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as CategoryCollectionActions from "../../actions/categoryCollection";
+import * as CategoryActions from "../../actions/category";
 import styles from "./CategoryCollection.css";
 
 class CategoryCollection extends Component<Props> {
@@ -11,9 +11,16 @@ class CategoryCollection extends Component<Props> {
         return (
             <React.Fragment>
                 <div>CategoryCollection</div>
+                <button onClick={() => {this.props.addCategory("testing")}}>add new category</button>
+                
                 {this.props.categories.map((value, index, array) => 
-                    <span key={index}>category {index}</span>
+                    <div key={index}>
+                        <span>'{value.name}' category {index}</span>
+                    </div>                    
                 )}
+
+                
+                {/* <button onClick={this.props.increment} type="button">&gt;</button> */}
             </React.Fragment>
         );
     }
@@ -28,7 +35,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(CategoryCollectionActions, dispatch);
+    return bindActionCreators(CategoryActions, dispatch);
 }
 
 export default connect(
