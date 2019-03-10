@@ -31,11 +31,18 @@ export default function category(state: any = CATEGORY_INITIAL_STATE, action: Ac
             } else {
                 return update(state,
                     [{
-                        id: state
+                        id: (state
                             .filter(c => c.dateId === action.payload.dateId)
-                            .reduce(function(accumulator, current = "0") {
-                                return accumulator + parseInt(current.id);
-                            }).toString(),
+                            .reduce((accumulator, current) => {
+                                var id = parseInt(current.id);
+
+                                if (id > accumulator){
+                                    return id;
+                                }
+
+                                // Should never get into this, but still
+                                return accumulator;
+                            }, 0) + 1).toString(),
                         dateId: action.payload.dateId,
                         name: action.payload.name
                     }]
