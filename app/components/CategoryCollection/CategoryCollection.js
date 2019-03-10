@@ -15,6 +15,7 @@ class CategoryCollection extends Component<Props> {
 
         this.modifyNewCategoryName = this.modifyNewCategoryName.bind(this);
         this.createNewCategory = this.createNewCategory.bind(this);
+        this.deleteCategory = this.deleteCategory.bind(this);
     }
     
     modifyNewCategoryName(event){
@@ -39,6 +40,10 @@ class CategoryCollection extends Component<Props> {
         }
     }
 
+    deleteCategory(event){
+        this.props.removeCategory(event.target.id);
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -51,8 +56,9 @@ class CategoryCollection extends Component<Props> {
                 
                 {this.props.categories.map((value, index, array) => {
                     return value.dateId === this.props.date.id ?
-                        <div key={index}>
+                        <div key={this.props.date.id + "-" + value.id}>
                             <span>'{value.name}' category</span>
+                            <button id={value.id} onClick={this.deleteCategory}>Delete</button>
                         </div>
                     :
                         <React.Fragment key={index}></React.Fragment>

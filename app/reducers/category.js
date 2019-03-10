@@ -48,10 +48,9 @@ export default function category(state: any = CATEGORY_INITIAL_STATE, action: Ac
                     }]
                 );
             }
-            // case REMOVE_CATEGORY:
-            //     return update(state, {
-            //         items: state.items.filter(e => e.name !== action.payload.name)
-            //     })
+            case REMOVE_CATEGORY:
+                return update([], state.filter(c => c.dateId === action.payload.dateId &&
+                    c.id !== action.payload.categoryId));
             // case RENAME_CATEGORY:
             //   return update(state, {
             //     categories: state.categories.map((item, index) => {
