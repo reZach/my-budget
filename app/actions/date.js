@@ -40,7 +40,7 @@ var decrement_year = function(){
 
 export function increment() {
     return (dispatch: Dispatch, store: Store) => {
-        const month = store().date.months;
+        const month = store().date.month;
 
         if (month == 12){
             dispatch(reset_month_1());
@@ -54,7 +54,7 @@ export function increment() {
 
 export function decrement() {
     return (dispatch: Dispatch, store: Store) => {
-        const month = store().date.months;
+        const month = store().date.month;
 
         if (month == 1){
             dispatch(reset_month_12());

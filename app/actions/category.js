@@ -1,4 +1,4 @@
-import { Dispatch } from "../reducers/types";
+import { Store, Dispatch } from "../reducers/types";
 
 export const ADD_CATEGORY = "ADD_CATEGORY";
 export const REMOVE_CATEGORY = "REMOVE_CATEGORY";
@@ -8,31 +8,35 @@ export const REMOVE_CATEGORY_ITEM = "REMOVE_CATEGORY_ITEM";
 export const RENAME_CATEGORY_ITEM = "RENAME_CATEGORY_ITEM";
 
 export const CATEGORY_INITIAL_STATE = {
-    name: "",
-    items: []
+    id: "",
+    dateId: "",
+    name: ""
 };
 
-var add_category = function(name: string){
+var add_category = function(dateId: string, name: string){
     return {
         type: ADD_CATEGORY,
         payload: {
+            dateId: dateId,
             name: name
         }
     };
 }
-var remove_category = function(name: string){
+var remove_category = function(dateId: string, categoryId: string){
     return {
         type: REMOVE_CATEGORY,
         payload: {
-            name: name
+            dateId: dateId,
+            categoryId: categoryId
         }
     };
 }
-var rename_category = function(oldName: string, newName: string){
+var rename_category = function(dateId: string, categoryId: string, newName: string){
     return {
         type: RENAME_CATEGORY,
         payload: {
-            oldName: oldName,
+            dateId: dateId,
+            categoryId: categoryId,
             newName: newName
         }        
     };
@@ -67,20 +71,23 @@ var rename_category_item = function(categoryName: string, oldName: string, newNa
 }
 
 export function addCategory(name: string) {
-    return (dispatch: Dispatch) => {
-        dispatch(add_category(name));
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(add_category(
+            store().date.id, name));
     }
 }
 
-export function removeCategory(name: string) {
-    return (dispatch: Dispatch) => {
-        dispatch(remove_category(name));
+export function removeCategory(categoryId: string) {
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(remove_category(
+            store().date.id, categoryId));
     }
 }
 
-export function renameCategory(oldName: string, newName: string) {
-    return (dispatch: Dispatch) => {
-        dispatch(rename_category(oldName, newName));
+export function renameCategory(categoryId:string, newName: string) {
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(rename_category(
+            store().date.id, categoryId, newName));
     }
 }
 
