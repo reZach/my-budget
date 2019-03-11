@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as CategoryActions from "../../actions/category";
 import styles from "./Category.css";
 
-export class Category extends Component<Props> {
+export default class Category extends Component<Props> {
     props: Props;
 
     constructor(){
@@ -15,6 +15,7 @@ export class Category extends Component<Props> {
         return (
             <React.Fragment>
                 <span>'{this.props.name}' category</span>
+                <button onClick={() => this.props.rename(this.props.id, "newname")}>Rename</button>
                 <button id={this.props.id} onClick={() => this.props.delete(this.props.id)}>Delete</button>
             </React.Fragment>
         );
@@ -22,20 +23,20 @@ export class Category extends Component<Props> {
 }
 
 
-function mapStateToProps(state){
-    return {
-        state: {}
-    }
-}
+// function mapStateToProps(state, props){
+//     return {                
+//         category: state.categories.find(c => c.dateId === props.dateId)
+//     }
+// }
 
-function mapDispatchToProps(dispatch){
-    return bindActionCreators(CategoryActions, dispatch);
-}
+// function mapDispatchToProps(dispatch){
+//     return bindActionCreators(CategoryActions, dispatch);
+// }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Category);
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+// )(Category);
 
 // ugh:
 // https://blog.scottlogic.com/2016/05/19/redux-reducer-arrays.html

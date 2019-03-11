@@ -3,6 +3,7 @@ import { Dispatch } from "../reducers/types";
 
 export const ADD_CATEGORY = "ADD_CATEGORY";
 export const REMOVE_CATEGORY = "REMOVE_CATEGORY";
+export const RENAME_CATEGORY = "RENAME_CATEGORY";
 
 export const CATEGORY_COLLECTION_INITIAL_STATE = [
     CATEGORY_INITIAL_STATE
@@ -26,6 +27,16 @@ var remove_category = function(dateId: string, categoryId: string){
         }
     };
 }
+var rename_category = function(dateId: string, categoryId: string, newName: string){
+    return {
+        type: RENAME_CATEGORY,
+        payload: {
+            dateId: dateId,
+            categoryId: categoryId,
+            newName: newName
+        }        
+    };
+}
 
 export function addCategory(name: string) {
     return (dispatch: Dispatch, store: Store) => {
@@ -38,5 +49,12 @@ export function removeCategory(categoryId: string) {
     return (dispatch: Dispatch, store: Store) => {
         dispatch(remove_category(
             store().date.id, categoryId));
+    }
+}
+
+export function renameCategory(categoryId:string, newName: string) {
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(rename_category(
+            store().date.id, categoryId, newName));
     }
 }
