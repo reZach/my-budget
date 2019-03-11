@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import * as CategoryActions from "../../actions/category";
+import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import styles from "./CategoryCollection.css";
+import Category from "../Category/Category";
 
 class CategoryCollection extends Component<Props> {
     props: Props;
@@ -40,8 +41,8 @@ class CategoryCollection extends Component<Props> {
         }
     }
 
-    deleteCategory(event){
-        this.props.removeCategory(event.target.id);
+    deleteCategory(id){
+        this.props.removeCategory(id);
     }
 
     render() {
@@ -57,8 +58,7 @@ class CategoryCollection extends Component<Props> {
                 {this.props.categories.map((value, index, array) => {
                     return value.dateId === this.props.date.id ?
                         <div key={this.props.date.id + "-" + value.id}>
-                            <span>'{value.name}' category</span>
-                            <button id={value.id} onClick={this.deleteCategory}>Delete</button>
+                            <Category {...value} delete={this.deleteCategory}></Category>
                         </div>
                     :
                         <React.Fragment key={index}></React.Fragment>
@@ -78,7 +78,7 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(CategoryActions, dispatch);
+    return bindActionCreators(CategoryCollectionActions, dispatch);
 }
 
 export default connect(
