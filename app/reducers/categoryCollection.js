@@ -1,6 +1,7 @@
 import {
     ADD_CATEGORY,
     REMOVE_CATEGORY,
+    RENAME_CATEGORY,
     CATEGORY_COLLECTION_INITIAL_STATE
 } from "../actions/categoryCollection";
 import {
@@ -42,6 +43,17 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
         case REMOVE_CATEGORY:
             return update([], state.filter(c => !(c.dateId === action.payload.dateId &&
                 c.id === action.payload.categoryId)));
+        case RENAME_CATEGORY:
+            return update([], 
+                state.map(c => {
+                    if (c.dateId === action.payload.dateId &&
+                        c.id === action.payload.categoryId){
+                        c.name = action.payload.newName;
+                    }
+
+                    return c;
+                })
+            );
         default:
             return state;
     }

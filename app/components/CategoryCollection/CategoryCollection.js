@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import styles from "./CategoryCollection.css";
 import Category from "../Category/Category";
+import { timingSafeEqual } from "crypto";
 
 class CategoryCollection extends Component<Props> {
     props: Props;
@@ -16,6 +17,7 @@ class CategoryCollection extends Component<Props> {
 
         this.modifyNewCategoryName = this.modifyNewCategoryName.bind(this);
         this.createNewCategory = this.createNewCategory.bind(this);
+        this.renameCategory = this.renameCategory.bind(this);
         this.deleteCategory = this.deleteCategory.bind(this);
     }
     
@@ -41,6 +43,10 @@ class CategoryCollection extends Component<Props> {
         }
     }
 
+    renameCategory(id, newName){
+        this.props.renameCategory(id, newName);
+    }
+
     deleteCategory(id){
         this.props.removeCategory(id);
     }
@@ -58,7 +64,7 @@ class CategoryCollection extends Component<Props> {
                 {this.props.categories.map((value, index, array) => {
                     return value.dateId === this.props.date.id ?
                         <div key={this.props.date.id + "-" + value.id}>
-                            <Category {...value} delete={this.deleteCategory}></Category>
+                            <Category {...value} rename={this.renameCategory} delete={this.deleteCategory}></Category>
                         </div>
                     :
                         <React.Fragment key={index}></React.Fragment>
