@@ -1,7 +1,5 @@
 import { Store, Dispatch } from "../reducers/types";
 
-export const ADD_CATEGORY = "ADD_CATEGORY";
-export const REMOVE_CATEGORY = "REMOVE_CATEGORY";
 export const RENAME_CATEGORY = "RENAME_CATEGORY";
 export const ADD_CATEGORY_ITEM = "ADD_CATEGORY_ITEM";
 export const REMOVE_CATEGORY_ITEM = "REMOVE_CATEGORY_ITEM";
@@ -13,24 +11,6 @@ export const CATEGORY_INITIAL_STATE = {
     name: ""
 };
 
-var add_category = function(dateId: string, name: string){
-    return {
-        type: ADD_CATEGORY,
-        payload: {
-            dateId: dateId,
-            name: name
-        }
-    };
-}
-var remove_category = function(dateId: string, categoryId: string){
-    return {
-        type: REMOVE_CATEGORY,
-        payload: {
-            dateId: dateId,
-            categoryId: categoryId
-        }
-    };
-}
 var rename_category = function(dateId: string, categoryId: string, newName: string){
     return {
         type: RENAME_CATEGORY,
@@ -68,20 +48,6 @@ var rename_category_item = function(categoryName: string, oldName: string, newNa
             newName: newName
         }        
     };
-}
-
-export function addCategory(name: string) {
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(add_category(
-            store().date.id, name));
-    }
-}
-
-export function removeCategory(categoryId: string) {
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(remove_category(
-            store().date.id, categoryId));
-    }
 }
 
 export function renameCategory(categoryId:string, newName: string) {

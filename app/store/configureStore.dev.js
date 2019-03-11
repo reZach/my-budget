@@ -7,6 +7,7 @@ import createRootReducer from '../reducers';
 import * as counterActions from '../actions/counter';
 import * as dateActions from "../actions/date";
 import * as categoryActions from "../actions/category";
+import * as categoryCollectionActions from "../actions/categoryCollection";
 import * as transactionActions from "../actions/transaction";
 import category from '../reducers/category';
 
@@ -42,6 +43,7 @@ const configureStore = (initialState?: any) => {
     ...counterActions,
     ...dateActions,
     ...categoryActions,
+    ...categoryCollectionActions,
     ...transactionActions,
     ...routerActions
   };
