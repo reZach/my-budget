@@ -52,7 +52,7 @@ export function removeCategory(categoryId: string) {
     }
 }
 
-export function renameCategory(categoryId:string, newName: string) {
+export function renameCategory(categoryId: string, newName: string) {
     return (dispatch: Dispatch, store: Store) => {
         dispatch(rename_category(
             store().date.id, categoryId, newName));
