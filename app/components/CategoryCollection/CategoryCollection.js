@@ -55,7 +55,7 @@ class CategoryCollection extends Component<Props> {
             <React.Fragment>
                 
                 <form onSubmit={() => this.createNewCategory()}>
-                    <input type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
+                    <input type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
                     <button type="submit">add new category</button>
                 </form>
                 

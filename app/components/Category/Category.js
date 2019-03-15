@@ -40,25 +40,26 @@ class Category extends Component<Props> {
     render () {
         return (
             <React.Fragment>
-                <div>
-                    <span>'{this.props.name}' category</span>
-                    <button onClick={() => this.props.rename(this.props.id, "newname")}>Rename</button>
-                    <button id={this.props.id} onClick={() => this.props.delete(this.props.id)}>Delete</button>
-                </div>                
+                <div style={{"border": "1px solid red"}}>
+                    <div>
+                        <span>'{this.props.name}' category</span>
+                        <button onClick={() => this.props.rename(this.props.id, "newname")}>Rename</button>
+                        <button id={this.props.id} onClick={() => this.props.delete(this.props.id)}>Delete</button>
+                    </div>                
 
-                <div>
-                    <span>items</span>
-                    <form onSubmit={() => this.createNewItem()}>
-                        <input type="text" value={this.state.newItemName} onChange={this.modifyNewItemName}></input>
-                        <button type="submit">new item</button>
-                    </form>
-                    {this.props.items.map((value, index, array) => {
-                        return <div key={index}>
-                            <Item></Item>
-                        </div>;
-                    })}
+                    <div>
+                        {/* <span>items</span> */}
+                        <form onSubmit={() => this.createNewItem()}>
+                            <input type="text" value={this.state.newItemName} onChange={this.modifyNewItemName}></input>
+                            <button type="submit">new item</button>
+                        </form>
+                        {this.props.items.map((value, index, array) => {
+                            return <div key={index}>
+                                <Item {...value} categoryId={this.props.id} dateId={this.props.dateId}></Item>
+                            </div>;
+                        })}
+                    </div>
                 </div>
-                
             </React.Fragment>
         );
     }

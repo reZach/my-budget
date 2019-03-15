@@ -12,7 +12,7 @@ export default class Item extends Component<Props> {
     render(){
         return (
             <React.Fragment>
-                <div>in item</div>
+                <div>id: {this.props.id} -{this.props.name}</div>
             </React.Fragment>
         );
     }
