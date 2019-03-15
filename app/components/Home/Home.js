@@ -5,6 +5,7 @@ import routes from '../../constants/routes';
 import styles from './Home.css';
 import Date from "../Date/Date";
 import CategoryCollection from "../CategoryCollection/CategoryCollection";
+import TransactionCollection from '../TransactionCollection/TransactionCollection';
 
 type Props = {};
 
@@ -16,7 +17,16 @@ export default class Home extends Component<Props> {
       <div className={styles.container} data-tid="container">
         <Date />
         <div style={{"marginBottom": "50px"}}></div>
-        <CategoryCollection />
+        <div>
+          <div style={{"width": "50%", "float": "left"}}>
+            <CategoryCollection />
+          </div>
+          <div style={{"width": "50%", "float": "left"}}>
+            <TransactionCollection />
+          </div>
+        </div>
+        
+        
         {/* <Link to={routes.COUNTER}>to Counter</Link> */}
       </div>
     );

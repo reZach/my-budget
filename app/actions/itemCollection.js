@@ -1,5 +1,5 @@
 import { ITEM_INITIAL_STATE } from "./item";
-import { Dispatch } from "../reducers/types";
+import { Store, Dispatch } from "../reducers/types";
 
 export const ADD_ITEM = "ADD_ITEM";
 
