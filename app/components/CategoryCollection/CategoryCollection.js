@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
+import * as ItemCollectionActions from "../../actions/itemCollection";
 import styles from "./CategoryCollection.css";
 import Category from "../Category/Category";
 
@@ -48,6 +49,15 @@ class CategoryCollection extends Component<Props> {
 
     deleteCategory(id){
         this.props.removeCategory(id);
+
+        let items = this.props.items.filter(i => i.categoryId === id && i.dateId === this.props.date.id);
+
+        // delete items
+        if (items.length > 0){
+            for (var i = 0; i < items.length; i++){
+                this.props.removeItem(id, items[i].id);
+            }
+        }        
     }
 
     render() {
@@ -78,12 +88,13 @@ class CategoryCollection extends Component<Props> {
 function mapStateToProps(state){
     return {
         date: state.date,
-        categories: state.categories
+        categories: state.categories,
+        items: state.items
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(CategoryCollectionActions, dispatch);
+    return bindActionCreators({...CategoryCollectionActions, ...ItemCollectionActions}, dispatch);
 }
 
 export default connect(
