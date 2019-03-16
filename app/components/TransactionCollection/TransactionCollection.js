@@ -13,9 +13,9 @@ class TransactionCollection extends Component<Props> {
         this.state = {
             name: "",
             amount: 0,
-            selectedCategory: "",
+            selectedCategory: "---",
             selectedCategoryId: "",
-            selectedItem: ""
+            selectedItem: "---"
         }
 
         this.modifyName = this.modifyName.bind(this);
@@ -91,9 +91,11 @@ class TransactionCollection extends Component<Props> {
 
                 <form onSubmit={() => this.createNewTransaction()}>
                     <select value={this.state.selectedCategory} onChange={this.modifyCategory}>
+                        <option value="---">---</option>
                         {this.createCategoriesDropDown()}
                     </select><br />  
                     <select value={this.state.selectedItem} onChange={this.modifyItem}>
+                        <option value="---">---</option>
                         {this.createItemsDropDown()}  
                     </select>                 
                     <input type="number" placeholder="amount" value={this.state.amount} onChange={this.modifyAmount}></input><br />
