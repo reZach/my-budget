@@ -60,7 +60,7 @@ class CategoryCollection extends Component<Props> {
                 </form>
                 
                 
-                {this.props.categories.map((value, index, array) => {
+                {this.props.categories.sort((a, b) => a.name > b.name).map((value, index, array) => {
                     return value.dateId === this.props.date.id ?
                         <div key={this.props.date.id + "-" + value.id}>
                             <Category {...value} dateId={this.props.date.id} rename={this.renameCategory} delete={this.deleteCategory}></Category>

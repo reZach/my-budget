@@ -53,7 +53,7 @@ class Category extends Component<Props> {
                             <input type="text" value={this.state.newItemName} onChange={this.modifyNewItemName}></input>
                             <button type="submit">new item</button>
                         </form>
-                        {this.props.items.map((value, index, array) => {
+                        {this.props.items.sort((a, b) => a.name > b.name).map((value, index, array) => {
                             return <div key={index}>
                                 <Item {...value} categoryId={this.props.id} dateId={this.props.dateId}></Item>
                             </div>;
