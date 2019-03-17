@@ -7,6 +7,7 @@ import date from "./date";
 import categoryCollection from "./categoryCollection";
 import itemCollection from "./itemCollection";
 import transactionCollection from "./transactionCollection";
+import createTransaction from "./createTransaction";
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -14,6 +15,7 @@ export default function createRootReducer(history: History) {
     date: date,
     categories: categoryCollection,
     items: itemCollection,
-    transactions: transactionCollection
+    transactions: transactionCollection,
+    createTransaction: createTransaction
   });
 }
