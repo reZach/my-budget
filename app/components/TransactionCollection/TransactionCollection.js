@@ -11,29 +11,41 @@ class TransactionCollection extends Component<Props> {
     constructor(){
         super();
         this.state = {
-            name: "",
+            note: "",
             amount: 0,
-            selectedCategory: "---",
+            day: 1,
+            selectedCategory: "",
             selectedCategoryId: "",
-            selectedItem: "---"
+            selectedItem: "",
+            selectedItemId: ""
         }
 
-        this.modifyName = this.modifyName.bind(this);
+        this.modifyNote = this.modifyNote.bind(this);
         this.modifyAmount = this.modifyAmount.bind(this);
+        this.modifyDay = this.modifyDay.bind(this);
         this.modifyCategory = this.modifyCategory.bind(this);
-        this.modifyItem = this.modifyItem.bind(this);
+        this.modifyItem = this.modifyItem.bind(this);        
         this.createNewTransaction = this.createNewTransaction.bind(this);
     }
 
-    modifyName(event){
+    modifyNote(event){
         this.setState({
-            name: event.target.value
+            note: event.target.value
         });
     }
 
-    modifyAmount(event){
+    modifyAmount(event){        
+        var newValue = event.target.value;
+        if (newValue.match(/^(\d+)?\.?\d?\d?$/) !== null){
+            this.setState({
+                amount: newValue
+            });
+        }
+    }
+
+    modifyDay(event){
         this.setState({
-            amount: event.target.value
+            day: event.target.value
         });
     }
 
@@ -45,11 +57,13 @@ class TransactionCollection extends Component<Props> {
 
         // find item
         var item = "";
+        var newItemId = "";
         if (this.props.items.length > 0){
             var exists = this.props.items.sort((a, b) => a.name > b.name).find(i => i.dateId === this.props.date.id && i.categoryId === newCategoryId);
 
             if (typeof exists !== "undefined"){
                 item = exists.name;
+                newItemId = exists.id;
             }
         }
         
@@ -57,18 +71,35 @@ class TransactionCollection extends Component<Props> {
         this.setState({
             selectedCategory: event.target.value,
             selectedCategoryId: newCategoryId,
-            selectedItem: item 
+            selectedItem: item,
+            selectedItemId: newItemId 
         });
     }
 
     modifyItem(event){
-        this.setState({
-            selectedItem: event.target.value
-        });
+        var item = this.props.items.find(i => i.dateId === this.props.date.id && i.categoryId === this.state.selectedCategoryId && i.name === event.target.value);
+
+        if (typeof item !== "undefined"){
+            this.setState({
+                selectedItem: item.name,
+                selectedItemId: item.id
+            });
+        } else {
+            this.setState({
+                selectedItem: "",
+                selectedItemId: ""
+            });
+        }
     }
 
     createNewTransaction(event){
+        this.props.addTransaction(this.state.selectedCategoryId, 
+            this.state.selectedItemId, this.state.day, this.state.amount, this.state.note);
 
+        this.setState({
+            amount: 0,
+            note: ""
+        });
     }
 
     createCategoriesDropDown(){
@@ -91,22 +122,23 @@ class TransactionCollection extends Component<Props> {
 
                 <form onSubmit={() => this.createNewTransaction()}>
                     <select value={this.state.selectedCategory} onChange={this.modifyCategory}>
-                        <option value="---">---</option>
+                        <option value="">---</option>
                         {this.createCategoriesDropDown()}
                     </select><br />  
                     <select value={this.state.selectedItem} onChange={this.modifyItem}>
-                        <option value="---">---</option>
+                        <option value="">---</option>
                         {this.createItemsDropDown()}  
                     </select>                 
                     <input type="number" placeholder="amount" value={this.state.amount} onChange={this.modifyAmount}></input><br />
-                    <input type="text" placeholder="note" value={this.state.name} onChange={this.modifyName}></input>
+                    <input type="text" placeholder="note" value={this.state.note} onChange={this.modifyNote}></input>
+                    <input type="number" placeholder="day" min={1} max={31} value={this.state.day} onChange={this.modifyDay}></input>
                     <input type="submit" disabled={this.state.selectedCategory === "" || this.state.selectedItem === ""} value="Add">
                     </input>
                 </form>
 
 
                 {this.props.transactions.map((value, index, array) => {
-                    return <div>a</div>
+                    return <div>"{value.note}" ${value.amount}</div>
                 })}
             </React.Fragment>
         );

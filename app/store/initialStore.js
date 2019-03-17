@@ -22,8 +22,9 @@ export const initialStore = {
     //     dateId: "",
     //     categoryId: "",
     //     itemId: "",
+    //     day: 0,
     //     amount: 0,
-    //     note: ""
+    //     note: ""    
     //   }],
     date: {
         id: `${month}-${year}`,
