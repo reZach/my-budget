@@ -32,8 +32,11 @@ class TransactionCollection extends Component<Props> {
 
     modifyAmount(event){        
         let newValue = event.target.value;
-        if (newValue.match(/^(\d+)?\.?\d?\d?$/) !== null){
+        if (newValue.match(/^$/) !== null ||
+            newValue.match(/^\d+\.?\d?\d?$/) !== null){
             this.props.modifyAmount(newValue);
+        } else {
+            this.props.modifyAmount(this.props.createTransaction.amount);
         }
     }
 
@@ -126,7 +129,7 @@ class TransactionCollection extends Component<Props> {
                         <option value="">---</option>
                         {this.createItemsDropDown()}  
                     </select>                 
-                    <input type="number" placeholder="amount" pattern="^(\d+)?\.?\d?\d?$" value={this.props.createTransaction.amount} onChange={this.modifyAmount}></input><br />
+                    <input type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount}></input><br />
                     <input type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote}></input>
                     <input type="number" placeholder="day" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
                     <input type="submit" disabled={this.state.selectedCategory === "" || this.state.selectedItem === ""} value="Add">
