@@ -7,17 +7,23 @@ export const TRANSACTION_COLLECTION_INITIAL_STATE = [
     TRANSACTION_INITIAL_STATE
 ];
 
-var add_transaction = function(){
+var add_transaction = function(dateId: string, categoryId: string, itemId: string, day: string, amount: string, note: string){
     return {
         type: ADD_TRANSACTION,
         payload: {
-
+            dateId: dateId,
+            categoryId: categoryId,
+            itemId: itemId,
+            day: day,
+            amount: amount,
+            note: note
         }
     };
 }
 
-export function addTransaction(){
+export function addTransaction(categoryId: string, itemId: string, day: string, amount: string, note: string){
     return (dispatch: Dispatch, store: Store) => {
-        dispatch(add_transaction());
+        dispatch(add_transaction(
+            store().date.id, categoryId, itemId, day, amount, note));
     }
 }
