@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as TransactionActions from "../../actions/transactionCollection";
+import * as CreateTransaction from "../../actions/createTransaction";
 import styles from "./TransactionCollection.css";
 import Transaction from "../Transaction/Transaction";
 
@@ -11,9 +12,6 @@ class TransactionCollection extends Component<Props> {
     constructor(){
         super();
         this.state = {
-            note: "",
-            amount: 0,
-            day: 1,
             selectedCategory: "",
             selectedCategoryId: "",
             selectedItem: "",
@@ -29,24 +27,26 @@ class TransactionCollection extends Component<Props> {
     }
 
     modifyNote(event){
-        this.setState({
-            note: event.target.value
-        });
+        this.props.modifyNote(event.target.value);        
     }
 
     modifyAmount(event){        
-        var newValue = event.target.value;
+        let newValue = event.target.value;
         if (newValue.match(/^(\d+)?\.?\d?\d?$/) !== null){
-            this.setState({
-                amount: newValue
-            });
+            this.props.modifyAmount(newValue);
         }
     }
 
     modifyDay(event){
-        this.setState({
-            day: event.target.value
-        });
+        let day = event.target.value;
+        if (day.match(/^$/) !== null ||
+            day.match(/^[1-9]$/) !== null ||
+            day.match(/^[12][0-9]$/) !== null ||   
+            day.match(/^3[01]$/) !== null){
+            this.props.modifyDay(day);
+        } else {
+            this.props.modifyDay(this.props.createTransaction.day);
+        }        
     }
 
     modifyCategory(event){
@@ -94,12 +94,9 @@ class TransactionCollection extends Component<Props> {
 
     createNewTransaction(event){
         this.props.addTransaction(this.state.selectedCategoryId, 
-            this.state.selectedItemId, this.state.day, this.state.amount, this.state.note);
+            this.state.selectedItemId, this.props.createTransaction.day, this.props.createTransaction.amount, this.props.createTransaction.note);
 
-        this.setState({
-            amount: 0,
-            note: ""
-        });
+        this.props.resetCreateNewTransaction();
     }
 
     createCategoriesDropDown(){
@@ -129,9 +126,9 @@ class TransactionCollection extends Component<Props> {
                         <option value="">---</option>
                         {this.createItemsDropDown()}  
                     </select>                 
-                    <input type="number" placeholder="amount" value={this.state.amount} onChange={this.modifyAmount}></input><br />
-                    <input type="text" placeholder="note" value={this.state.note} onChange={this.modifyNote}></input>
-                    <input type="number" placeholder="day" min={1} max={31} value={this.state.day} onChange={this.modifyDay}></input>
+                    <input type="number" placeholder="amount" pattern="^(\d+)?\.?\d?\d?$" value={this.props.createTransaction.amount} onChange={this.modifyAmount}></input><br />
+                    <input type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote}></input>
+                    <input type="number" placeholder="day" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
                     <input type="submit" disabled={this.state.selectedCategory === "" || this.state.selectedItem === ""} value="Add">
                     </input>
                 </form>
@@ -153,12 +150,16 @@ function mapStateToProps(state){
         date: state.date,
         categories: state.categories,
         items: state.items,
-        transactions: state.transactions
+        transactions: state.transactions,
+        createTransaction: state.createTransaction
     }
 }
 
 function mapDispatchToProps(dispatch){
-    return bindActionCreators(TransactionActions, dispatch);
+    return bindActionCreators({
+        ...TransactionActions,
+        ...CreateTransaction
+    }, dispatch);
 }
 
 export default connect(
