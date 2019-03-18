@@ -11,12 +11,6 @@ class TransactionCollection extends Component<Props> {
 
     constructor(){
         super();
-        this.state = {
-            selectedCategory: "",
-            selectedCategoryId: "",
-            selectedItem: "",
-            selectedItemId: ""
-        }
 
         this.modifyNote = this.modifyNote.bind(this);
         this.modifyAmount = this.modifyAmount.bind(this);
@@ -53,8 +47,9 @@ class TransactionCollection extends Component<Props> {
     }
 
     modifyCategory(event){
+
         // find category
-        var category = this.props.categories.find(c => c.dateId === this.props.date.id && c.name === event.target.value);
+        var category = this.props.categories.find(c => c.name === event.target.value);
         
         var newCategoryId = (typeof category !== "undefined") ? category.id : "";
 
@@ -62,56 +57,46 @@ class TransactionCollection extends Component<Props> {
         var item = "";
         var newItemId = "";
         if (this.props.items.length > 0){
-            var exists = this.props.items.sort((a, b) => a.name > b.name).find(i => i.dateId === this.props.date.id && i.categoryId === newCategoryId);
+            var exists = this.props.items.sort((a, b) => a.name > b.name).find(i => i.categoryId === newCategoryId);
 
             if (typeof exists !== "undefined"){
                 item = exists.name;
                 newItemId = exists.id;
             }
+
+            this.props.modifySelectedItem(newItemId, item);
         }
         
-
-        this.setState({
-            selectedCategory: event.target.value,
-            selectedCategoryId: newCategoryId,
-            selectedItem: item,
-            selectedItemId: newItemId 
-        });
+        this.props.modifySelectedCategory(newCategoryId, event.target.value);        
     }
 
     modifyItem(event){
-        var item = this.props.items.find(i => i.dateId === this.props.date.id && i.categoryId === this.state.selectedCategoryId && i.name === event.target.value);
+        var item = this.props.items.find(i => i.categoryId === this.props.createTransaction.selectedCategoryId && i.name === event.target.value);
 
         if (typeof item !== "undefined"){
-            this.setState({
-                selectedItem: item.name,
-                selectedItemId: item.id
-            });
+            this.props.modifySelectedItem(item.id, item.name);
         } else {
-            this.setState({
-                selectedItem: "",
-                selectedItemId: ""
-            });
+            this.props.modifySelectedItem("", "");
         }
     }
 
     createNewTransaction(event){
-        this.props.addTransaction(this.state.selectedCategoryId, 
-            this.state.selectedItemId, this.props.createTransaction.day, this.props.createTransaction.amount, this.props.createTransaction.note);
+        this.props.addTransaction(this.props.createTransaction.selectedCategoryId, 
+            this.props.createTransaction.selectedItemId, this.props.createTransaction.day, this.props.createTransaction.amount, this.props.createTransaction.note);
 
         this.props.resetCreateNewTransaction();
     }
 
     createCategoriesDropDown(){
         let categories = this.props.categories;
-        return categories.filter(c => c.dateId === this.props.date.id).sort((a, b) => a.name > b.name).map((category) =>
+        return categories.sort((a, b) => a.name > b.name).map((category) =>
             <option key={`${category.dateId}.${category.id}.${category.name}`}>{category.name}</option>
         );
     }
 
     createItemsDropDown(){
         let items = this.props.items;
-        return items.filter(i => i.dateId === this.props.date.id && i.categoryId === this.state.selectedCategoryId).sort((a, b) => a.name > b.name).map((item) => 
+        return items.filter(i => i.categoryId === this.props.createTransaction.selectedCategoryId).sort((a, b) => a.name > b.name).map((item) => 
             <option key={`${item.dateId}.${item.id}.${item.name}`}>{item.name}</option>
         );
     }
@@ -121,25 +106,24 @@ class TransactionCollection extends Component<Props> {
             <React.Fragment>
 
                 <form onSubmit={() => this.createNewTransaction()}>
-                    <select value={this.state.selectedCategory} onChange={this.modifyCategory}>
+                    <select value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
                         <option value="">---</option>
                         {this.createCategoriesDropDown()}
                     </select><br />  
-                    <select value={this.state.selectedItem} onChange={this.modifyItem}>
+                    <select value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
                         <option value="">---</option>
                         {this.createItemsDropDown()}  
                     </select>                 
                     <input type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount}></input><br />
                     <input type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote}></input>
                     <input type="number" placeholder="day" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
-                    <input type="submit" disabled={this.state.selectedCategory === "" || this.state.selectedItem === ""} value="Add">
+                    <input type="submit" disabled={this.props.createTransaction.selectedCategory === "" || this.props.createTransaction.selectedItem === ""} value="Add">
                     </input>
                 </form>
 
-
-                {this.props.transactions.map((value, index, array) => {
-                    return <div>"{value.note}" ${value.amount}</div>
-                })}
+                {this.props.transactions.map((value, index, array) => 
+                <Transaction key={index} {...value}></Transaction>
+                )}
             </React.Fragment>
         );
     }
@@ -151,9 +135,9 @@ class TransactionCollection extends Component<Props> {
 function mapStateToProps(state){
     return {
         date: state.date,
-        categories: state.categories,
-        items: state.items,
-        transactions: state.transactions,
+        categories: state.categories.filter(c => c.dateId === state.date.id),
+        items: state.items.filter(i => i.dateId === state.date.id),
+        transactions: state.transactions.filter(t => t.dateId === state.date.id),
         createTransaction: state.createTransaction
     }
 }

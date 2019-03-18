@@ -7,12 +7,14 @@ export const RESET_CREATE_NEW_TRANSACTION = "RESET_CREATE_NEW_TRANSACTION";
 export const MODIFY_NOTE = "MODIFY_NOTE";
 export const MODIFY_AMOUNT = "MODIFY_AMOUNT";
 export const MODIFY_DAY = "MODIFY_DAY";
+export const MODIFY_SELECTED_CATEGORY = "MODIFY_SELECTED_CATEGORY";
+export const MODIFY_SELECTED_ITEM = "MODIFY_SELECTED_ITEM";
 
 export const CREATE_NEW_TRANSACTION_INITIAL_STATE = {
     selectedCategoryId: "",
     selectedItemId: "",
     day: 1,
-    amount: 0,
+    amount: "",
     note: ""
 };
 
@@ -20,7 +22,7 @@ var reset_create_new_transaction = function(){
     return {
         type: RESET_CREATE_NEW_TRANSACTION,
         payload: {            
-            amount: 0,
+            amount: "",
             note: ""
         }
     };
@@ -46,6 +48,24 @@ var modify_day = function(day: number){
         type: MODIFY_DAY,
         payload: {
             day: day
+        }
+    };
+}
+var modify_selected_category = function(categoryId: string, categoryName: string){
+    return {
+        type: MODIFY_SELECTED_CATEGORY,
+        payload: {
+            categoryId: categoryId,
+            categoryName: categoryName
+        }
+    };
+}
+var modify_selected_item = function(itemId: string, itemName: string){
+    return {
+        type: MODIFY_SELECTED_ITEM,
+        payload: {
+            itemId: itemId,
+            itemName: itemName
         }
     };
 }
@@ -75,5 +95,15 @@ export function modifyAmount(amount: number){
 export function modifyDay(day: number){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(modify_day(day));
+    }
+}
+export function modifySelectedCategory(categoryId: string, categoryName: string){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(modify_selected_category(categoryId, categoryName));
+    }
+}
+export function modifySelectedItem(itemId: string, itemName: string){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(modify_selected_item(itemId, itemName));
     }
 }
