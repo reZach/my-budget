@@ -4,7 +4,9 @@ import {
     RESET_CREATE_NEW_TRANSACTION,
     MODIFY_NOTE,
     MODIFY_AMOUNT,
-    MODIFY_DAY
+    MODIFY_DAY,
+    MODIFY_SELECTED_CATEGORY,
+    MODIFY_SELECTED_ITEM
 } from "../actions/createTransaction";
 import {
     Action,
@@ -13,33 +15,38 @@ import {
 
 export default function createTransaction(state: any = CREATE_NEW_TRANSACTION_INITIAL_STATE, action: Action){
     switch (action.type){
-        case CREATE_NEW_TRANSACTION:
-            // UPDATE THE BELOW
+        case CREATE_NEW_TRANSACTION:            
             if (state.length === 0) {
                 return update(state,
                     [{
                         id: "1",
                         dateId: action.payload.dateId,
-                        name: action.payload.name
+                        categoryId: action.payload.categoryId,
+                        itemId: action.payload.itemId,
+                        day: action.payload.day,
+                        amount: action.payload.amount,
+                        note: action.payload.amount
                     }]
                 );
             } else {
                 return update(state,
                     [{
-                        id: (state
-                            .filter(c => c.dateId === action.payload.dateId)
-                            .reduce((accumulator, current) => {
-                                var id = parseInt(current.id);
+                        id: (state.filter(t => t.dateId === action.payload.dateId && t.categoryId === action.payload.categoryId && t.itemId === action.payload.itemId).reduce((accumulator, current) => {
+                            var id = parseInt(current.id);
 
-                                if (id > accumulator) {
-                                    return id;
-                                }
+                            if (id > accumulator) {
+                                return id;
+                            }
 
-                                // Should never get into this, but still
-                                return accumulator;
-                            }, 0) + 1).toString(),
+                            // Should never get into this, but still
+                            return accumulator;
+                        }, 0) + 1).toString(),
                         dateId: action.payload.dateId,
-                        name: action.payload.name
+                        categoryId: action.payload.categoryId,
+                        itemId: action.payload.itemId,
+                        day: action.payload.day,
+                        amount: action.payload.amount,
+                        note: action.payload.note
                     }]
                 );
             }
@@ -59,6 +66,16 @@ export default function createTransaction(state: any = CREATE_NEW_TRANSACTION_IN
         case MODIFY_DAY:
             return update(state, {
                 day: action.payload.day
+            });
+        case MODIFY_SELECTED_CATEGORY:
+            return update(state, {
+                selectedCategoryId: action.payload.categoryId,
+                selectedCategory: action.payload.categoryName
+            });
+        case MODIFY_SELECTED_ITEM:
+            return update(state, {
+                selectedItemId: action.payload.itemId,
+                selectedItem: action.payload.itemName
             });
         default:
             return state;
