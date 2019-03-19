@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import routes from '../../constants/routes';
 import styles from './Home.css';
 import Date from "../Date/Date";
+import Save from "../Save/Save";
 import CategoryCollection from "../CategoryCollection/CategoryCollection";
 import TransactionCollection from '../TransactionCollection/TransactionCollection';
 
@@ -26,7 +27,7 @@ export default class Home extends Component<Props> {
           </div>
         </div>
         
-        
+        <Save/>
         {/* <Link to={routes.COUNTER}>to Counter</Link> */}
       </div>
     );
