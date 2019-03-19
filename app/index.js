@@ -6,7 +6,6 @@ import { initialStore } from "./store/initialStore";
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 
-
 const store = configureStore(initialStore);
 
 render(

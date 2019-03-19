@@ -89,7 +89,7 @@ app.on('ready', async () => {
     }
   });
 
-  mainWindow.on('closed', () => {
+  mainWindow.on('closed', () => {    
     mainWindow = null;
   });
 
