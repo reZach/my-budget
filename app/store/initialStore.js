@@ -18,10 +18,20 @@ catch (error)
 }
 
 export const initialStore = {
+    income: success ? fileContents.income : [{
+        id: "1",
+        dateId: `${month}-${year}`,
+        amount: 0
+    }],
     categories: success ? fileContents.categories : [],
     items: success ? fileContents.items : [],
     transactions: success ? fileContents.transactions : [],
     createTransaction: CREATE_NEW_TRANSACTION_INITIAL_STATE,
+    //   income: [{
+    //       id: "",
+    //       dateId: "",
+    //       income: 0
+    //   }],
     //   categories: [{
     //     id: "",
     //     dateId: "",
