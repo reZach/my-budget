@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import routes from '../../constants/routes';
 import styles from './Home.css';
 import Date from "../Date/Date";
+import Income from "../Income/Income";
 import Save from "../Save/Save";
 import CategoryCollection from "../CategoryCollection/CategoryCollection";
 import TransactionCollection from '../TransactionCollection/TransactionCollection';
@@ -16,7 +17,14 @@ export default class Home extends Component<Props> {
   render() {
     return (
       <div className={styles.container} data-tid="container">
-        <Date />
+        <div>
+        <div style={{"width": "50%", "float": "left"}}>
+            <Date />
+          </div>
+          <div style={{"width": "50%", "float": "left"}}>
+            <Income />
+          </div>
+        </div>
         <div style={{"marginBottom": "50px"}}></div>
         <div>
           <div style={{"width": "50%", "float": "left"}}>

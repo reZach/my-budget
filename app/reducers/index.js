@@ -8,10 +8,12 @@ import categoryCollection from "./categoryCollection";
 import itemCollection from "./itemCollection";
 import transactionCollection from "./transactionCollection";
 import createTransaction from "./createTransaction";
+import income from "./income";
 
 export default function createRootReducer(history: History) {
   return combineReducers({
     router: connectRouter(history),
+    income: income,
     date: date,
     categories: categoryCollection,
     items: itemCollection,
