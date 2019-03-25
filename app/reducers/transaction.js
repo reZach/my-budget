@@ -11,6 +11,7 @@ import {
 export default function transaction(state: any = TRANSACTION_INITIAL_STATE, action: Action) {
     switch (action.type){
         case ADD_TRANSACTION:
+            // not used below
             if (state.length === 0) {
                 return update(state,
                     [{
@@ -22,7 +23,7 @@ export default function transaction(state: any = TRANSACTION_INITIAL_STATE, acti
                 );
             } else {
                 return state;
-            }
+            }        
         default:
             return state;
     }

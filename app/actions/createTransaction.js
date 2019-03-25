@@ -13,7 +13,7 @@ export const MODIFY_SELECTED_ITEM = "MODIFY_SELECTED_ITEM";
 export const CREATE_NEW_TRANSACTION_INITIAL_STATE = {
     selectedCategoryId: "",
     selectedItemId: "",
-    day: 1,
+    day: (new Date()).getDate(),
     amount: "",
     note: ""
 };

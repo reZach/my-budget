@@ -20,8 +20,10 @@ var add_transaction = function(itemId: string, amount: number, note: string){
     }
 }
 
+
 export function addTransaction(itemId: string, amount: number, note: string){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(add_transaction(itemId, amount, note));
     }
 }
+

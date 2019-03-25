@@ -2,7 +2,7 @@ import { CREATE_NEW_TRANSACTION_INITIAL_STATE } from "../actions/createTransacti
 let fs = require("fs");
 
 var date: Date = (new Date());
-var month: string = date.getMonth();
+var month: string = date.getMonth() + 1;
 var year: string = date.getFullYear();
 
 var success = false;
@@ -59,7 +59,7 @@ export const initialStore = {
     //       amount: 0,
     //       note: ""
     //   }
-    date: success ? fileContents.date : {
+    date: /*success ? fileContents.date :*/ {
         id: `${month}-${year}`,
         month: month,
         year: year
