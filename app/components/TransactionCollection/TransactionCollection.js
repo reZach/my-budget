@@ -18,6 +18,7 @@ class TransactionCollection extends Component<Props> {
         this.modifyCategory = this.modifyCategory.bind(this);
         this.modifyItem = this.modifyItem.bind(this);        
         this.createNewTransaction = this.createNewTransaction.bind(this);
+        this.deleteTransaction = this.deleteTransaction.bind(this);
     }
 
     modifyNote(event){
@@ -87,6 +88,10 @@ class TransactionCollection extends Component<Props> {
         this.props.resetCreateNewTransaction();
     }
 
+    deleteTransaction(categoryId: string, itemId: string, transactionId: string){
+        this.props.removeTransaction(categoryId, itemId, transactionId);
+    }
+
     createCategoriesDropDown(){
         let categories = this.props.categories;
         return categories.sort((a, b) => a.name > b.name).map((category) =>
@@ -122,7 +127,7 @@ class TransactionCollection extends Component<Props> {
                 </form>
 
                 {this.props.transactions.map((value, index, array) => 
-                <Transaction key={index} {...value}></Transaction>
+                <Transaction key={index} {...value} delete={this.deleteTransaction}></Transaction>
                 )}
             </React.Fragment>
         );

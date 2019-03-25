@@ -1,4 +1,5 @@
 import type { Store, Dispatch } from "../reducers/types";
+import { saveIncome } from "./income";
 
 export const INCREMENT_MONTH = "INCREMENT_MONTH";
 export const DECREMENT_MONTH = "DECREMENT_MONTH";
