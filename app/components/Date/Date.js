@@ -10,11 +10,27 @@ class Date extends Component<Props> {
     render() {
         return (
             <React.Fragment>
-                {/* <span>debug: {this.props.date.id}</span> */}
-                <button onClick={this.props.decrement} type="button">&lt;</button>
-                <span className={styles.red}>month {this.props.date.month}. years {this.props.date.year}</span>
-                <button onClick={this.props.increment} type="button">&gt;</button>
-            </React.Fragment>
+                <div className="columns">
+                    <div className="column col-12 col-mx-auto">
+                        <img src="../images/calendar.png"></img>
+                    </div>
+                </div>
+                <div className="columns">
+                    <div className="column col-6 col-mx-auto">
+                        <div className="columns">
+                            <div className="column col-4">
+                                <button className="btn btn-primary btn-lg" onClick={this.props.decrement} type="button">&lt;</button>
+                            </div>
+                            <div className="column col-4">
+                                <h5>{this.props.date.month} / {this.props.date.year}</h5>
+                            </div>
+                            <div className="column col-4">
+                                <button className="btn btn-primary btn-lg" onClick={this.props.increment} type="button">&gt;</button>
+                            </div>
+                        </div>                                                                        
+                    </div>
+                </div>
+            </React.Fragment>            
         );
     }
 }

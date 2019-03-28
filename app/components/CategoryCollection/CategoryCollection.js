@@ -63,21 +63,29 @@ class CategoryCollection extends Component<Props> {
     render() {
         return (
             <React.Fragment>
-                
-                <form onSubmit={() => this.createNewCategory()}>
-                    <input type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
-                    <button type="submit">add new category</button>
-                </form>
-                
-                
+                <div className="columns">
+                    <div className="column col-12 text-left">
+                        <h3>categories</h3>
+                    </div>
+                    <div className={`column col-8 text-left ${styles['category-input']}`}>
+                        <form onSubmit={() => this.createNewCategory()}>                            
+                            <div className="input-group">
+                                <input className="form-input input-lg" type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
+                                <button className="btn btn-primary btn-lg input-group-btn" type="submit">add new category</button>
+                            </div>                                                        
+                        </form>
+                    </div>                    
+                </div>
+                <div className="columns">
                 {this.props.categories.sort((a, b) => a.name > b.name).map((value, index, array) => {
                     return value.dateId === this.props.date.id ?
-                        <div key={this.props.date.id + "-" + value.id}>
+                        <div className={`column col-8 text-left ${styles.category}`} key={this.props.date.id + "-" + value.id}>
                             <Category {...value} dateId={this.props.date.id} rename={this.renameCategory} delete={this.deleteCategory}></Category>
                         </div>
                     :
                         <React.Fragment key={index}></React.Fragment>
-                })}
+                })}    
+                </div>                                                                
             </React.Fragment>
         );
     }
