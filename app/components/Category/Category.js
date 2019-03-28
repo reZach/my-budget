@@ -40,9 +40,17 @@ class Category extends Component<Props> {
     render () {
         return (
             <React.Fragment>
+                <div className="columns">
+                    <div className="column col-12 text-left">
+                        <h4>{this.props.name}</h4>
+                    </div>
+                    <div className="column col-12 text-left">
+                    
+                    </div>
+                </div>
                 <div style={{"border": "1px solid red"}}>
                     <div>
-                        <span>'{this.props.name}' category</span>
+                        
                         <button onClick={() => this.props.rename(this.props.id, "newname")}>Rename</button>
                         <button id={this.props.id} onClick={() => this.props.delete(this.props.id)}>Delete</button>
                     </div>                
@@ -50,8 +58,11 @@ class Category extends Component<Props> {
                     <div>
                         {/* <span>items</span> */}
                         <form onSubmit={() => this.createNewItem()}>
-                            <input type="text" placeholder="item" value={this.state.newItemName} onChange={this.modifyNewItemName}></input>
-                            <button type="submit">new item</button>
+                            <div className="input-group">
+                                <input className="form-input" type="text"value={this.state.newItemName} onChange={this.modifyNewItemName}></input>
+                                <button className="btn btn-primary input-group-btn" type="submit">new item</button>
+                            </div>
+                            
                         </form>
                         {this.props.items.sort((a, b) => a.name > b.name).map((value, index, array) => {
                             return <div key={index}>

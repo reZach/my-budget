@@ -16,26 +16,24 @@ export default class Home extends Component<Props> {
 
   render() {
     return (
-      <div className={styles.container} data-tid="container">
-        <div>
-        <div style={{"width": "50%", "float": "left"}}>
+      <div className="container">
+        <div className="columns text-center">
+          <div className="column col-6 col-mx-auto">
             <Date />
           </div>
-          <div style={{"width": "50%", "float": "left"}}>
+          <div className="column col-2">
             <Income />
           </div>
         </div>
-        <div style={{"marginBottom": "50px"}}></div>
-        <div>
-          <div style={{"width": "50%", "float": "left"}}>
+        <div className="columns">
+          <div className="column col-8">
             <CategoryCollection />
           </div>
-          <div style={{"width": "50%", "float": "left"}}>
+          <div className="column col-4">
             <TransactionCollection />
-          </div>
+          </div>                    
+          <Save/>
         </div>
-        
-        <Save/>
         {/* <Link to={routes.COUNTER}>to Counter</Link> */}
       </div>
     );
