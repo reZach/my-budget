@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+const {dialog} = require('electron').remote;
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ItemCollectionActions from "../../actions/itemCollection";
 import styles from "./CategoryCollection.css";
@@ -44,20 +45,36 @@ class CategoryCollection extends Component<Props> {
     }
 
     renameCategory(id, newName){
-        this.props.renameCategory(id, newName);
+        let categories = this.props.categories;
+
+        if (typeof categories.find(c => c.name === newName) === "undefined"){
+            this.props.renameCategory(id, newName);
+        }        
     }
 
-    deleteCategory(id){
-        this.props.removeCategory(id);
+    deleteCategory(id, name){
 
-        let items = this.props.items.filter(i => i.categoryId === id && i.dateId === this.props.date.id);
+        dialog.showMessageBox({
+            title: "delete category",
+            type: "question",
+            buttons: ["Yes", "No"],
+            message: `are you sure you want to delete '${name}'?`
+        }, (i) => {
 
-        // delete items
-        if (items.length > 0){
-            for (var i = 0; i < items.length; i++){
-                this.props.removeItem(id, items[i].id);
+            // Yes
+            if (i === 0){
+                this.props.removeCategory(id);
+
+                let items = this.props.items.filter(i => i.categoryId === id && i.dateId === this.props.date.id);
+        
+                // delete items
+                if (items.length > 0){
+                    for (var i = 0; i < items.length; i++){
+                        this.props.removeItem(id, items[i].id);
+                    }
+                }
             }
-        }        
+        });        
     }
 
     render() {
@@ -96,7 +113,7 @@ class CategoryCollection extends Component<Props> {
 function mapStateToProps(state){
     return {
         date: state.date,
-        categories: state.categories,
+        categories: state.categories.filter(c => c.dateId === state.date.id),
         items: state.items
     }
 }

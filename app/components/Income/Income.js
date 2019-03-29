@@ -48,14 +48,16 @@ class Income extends Component<Props>{
             return (
                 <React.Fragment>
                     <div className="columns">
-                        <div className="column col-12 text-left">
+                        <div className={`column col-12 text-left ${styles['some-mb']}`}>
                             <h2>income</h2>
                             <span className="label label-success">${data.amount}</span>
                         </div>
                         <div className="column col-12 text-left">
                             <form onSubmit={() => this.changeIncome()}>
-                                <input type="text" placeholder="income" value={this.state.amount} onChange={this.changeAmount}></input>
-                                <input type="submit"></input>
+                                <div className="input-group">
+                                    <input className="form-input" type="text" placeholder="income" value={this.state.amount} onChange={this.changeAmount}></input>
+                                    <button className="btn btn-primary" type="submit">set</button>
+                                </div>                                
                             </form>
                         </div>
                     </div>                    

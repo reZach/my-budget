@@ -11,15 +11,49 @@ class Category extends Component<Props> {
     constructor(){
         super();
         this.state = {
-            newItemName: ""
+            newItemName: "",
+            newCategoryName: "",
+            renameActive: false
         }
 
+        this.toggleRenameActive = this.toggleRenameActive.bind(this);
+        this.renameCategory = this.renameCategory.bind(this);
         this.modifyNewItemName = this.modifyNewItemName.bind(this);
+        this.modifyNewCategoryName = this.modifyNewCategoryName.bind(this);        
+    }
+
+    toggleRenameActive(event){
+        let newState = !this.state.renameActive;
+
+        if (newState){
+            this.setState({
+                renameActive: newState
+            });
+        } else {
+            this.setState({
+                renameActive: newState,
+                newCategoryName: ""
+            });
+        }
+    }
+
+    renameCategory(event){
+        this.props.rename(this.props.id, this.state.newCategoryName);
+        this.setState({
+            renameActive: false,
+            newCategoryName: ""
+        });
     }
 
     modifyNewItemName(event){
         this.setState({
             newItemName: event.target.value
+        });
+    }
+
+    modifyNewCategoryName(event){
+        this.setState({
+            newCategoryName: event.target.value
         });
     }
 
@@ -41,12 +75,24 @@ class Category extends Component<Props> {
         return (
             <React.Fragment>
                 <div className="columns">
-                    <div className="column col-8 text-left">
+                    <div className="column col-7 text-left">
                         <h3>{this.props.name}</h3>                        
                     </div>
-                    <div className="column col-4 text-right">
-                        <button className="btn btn-sm" onClick={() => this.props.rename(this.props.id, "newname")}>Rename</button>
-                        <button className="btn btn-sm btn-error" id={this.props.id} onClick={() => this.props.delete(this.props.id)}>Delete</button>
+                    <div className="column col-5 text-right">
+                        {this.state.renameActive ? 
+                        <form onSubmit={() => this.renameCategory()}>
+                            <div className="input-group">
+                                <input className="form-input input-sm" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
+                                <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()}>cancel</button>
+                                <button className="btn btn-sm btn-primary input-group-btn" type="submit">update</button>
+                            </div>                            
+                        </form>
+                         : 
+                         <div className="input-group float-right">
+                            <button className="btn btn-sm input-group-btn" onClick={this.toggleRenameActive}>rename</button>
+                            <button className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.props.delete(this.props.id, this.props.name)}>delete</button>
+                         </div>                        
+                        }
                     </div>
                 </div>                
                 <div className="columns">
@@ -54,7 +100,7 @@ class Category extends Component<Props> {
                         {/* <span>items</span> */}
                         <form onSubmit={() => this.createNewItem()}>
                             <div className="input-group">
-                                <input className="form-input" type="text"value={this.state.newItemName} onChange={this.modifyNewItemName}></input>
+                                <input className="form-input" type="text" value={this.state.newItemName} onChange={this.modifyNewItemName}></input>
                                 <button className="btn btn-primary input-group-btn" type="submit">new item</button>
                             </div>
                             

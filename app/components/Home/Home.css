@@ -1,3 +1,7 @@
+.app-container {
+  padding:20px 10px 10px 10px;
+}
+
 .container {
   text-align: center;
 }
@@ -8,4 +12,8 @@
 
 .container a {
   font-size: 1.4rem;
+}
+
+.column-mb {
+  margin-bottom:40px;
 }
