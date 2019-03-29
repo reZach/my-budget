@@ -65,12 +65,12 @@ class CategoryCollection extends Component<Props> {
             <React.Fragment>
                 <div className="columns">
                     <div className="column col-12 text-left">
-                        <h3>categories</h3>
-                    </div>
-                    <div className={`column col-8 text-left ${styles['category-input']}`}>
+                        <h2>categories</h2>                        
+                    </div>                    
+                    <div className={`column col-8 text-left ${styles['category-input']}`}>      
                         <form onSubmit={() => this.createNewCategory()}>                            
                             <div className="input-group">
-                                <input className="form-input input-lg" type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
+                                <input className="form-input input-lg" type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
                                 <button className="btn btn-primary btn-lg input-group-btn" type="submit">add new category</button>
                             </div>                                                        
                         </form>
