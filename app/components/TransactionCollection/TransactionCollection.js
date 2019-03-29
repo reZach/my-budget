@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+const {dialog} = require('electron').remote;
 import * as TransactionActions from "../../actions/transactionCollection";
 import * as CreateTransaction from "../../actions/createTransaction";
 import styles from "./TransactionCollection.css";
@@ -19,6 +20,7 @@ class TransactionCollection extends Component<Props> {
         this.modifyItem = this.modifyItem.bind(this);        
         this.createNewTransaction = this.createNewTransaction.bind(this);
         this.deleteTransaction = this.deleteTransaction.bind(this);
+        this.deleteAllTransactions = this.deleteAllTransactions.bind(this);
     }
 
     modifyNote(event){
@@ -89,7 +91,34 @@ class TransactionCollection extends Component<Props> {
     }
 
     deleteTransaction(categoryId: string, itemId: string, transactionId: string){
-        this.props.removeTransaction(categoryId, itemId, transactionId);
+
+        dialog.showMessageBox({
+            title: "delete transaction",
+            type: "question",
+            buttons: ["Yes", "No"],
+            message: `are you sure you want to delete this transaction?`
+        }, (i) => {
+
+            // Yes
+            if (i === 0){
+                this.props.removeTransaction(categoryId, itemId, transactionId);
+            }
+        });        
+    }
+
+    deleteAllTransactions(){
+        dialog.showMessageBox({
+            title: "delete all transactions",
+            type: "question",
+            buttons: ["Yes", "No"],
+            message: `are you sure you want to delete all transactions for this month?`
+        }, (i) => {
+
+            // Yes
+            if (i === 0){
+                this.props.removeAllTransactions();
+            }
+        });
     }
 
     createCategoriesDropDown(){
@@ -114,7 +143,7 @@ class TransactionCollection extends Component<Props> {
                         <h2>transactions</h2>
                     </div>
                 </div>
-                <div className="columns">
+                <div className={`columns ${styles['some-mb']}`}>
                     <div className="column col-12 text-left">
                         <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>
                             <div className="form-group">
@@ -153,9 +182,12 @@ class TransactionCollection extends Component<Props> {
                                     <input className="form-input" type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote}></input>
                                 </div>
                             </div>
-                            <div className="column col-12 col-mr-auto">
+                            <div className="column col-12">
+                                <div className="form-group float-left">
+                                    <input className="btn btn-lg btn-error" type="button" value="delete all" onClick={() => this.deleteAllTransactions()}></input>
+                                </div>
                                 <div className="form-group float-right">
-                                    <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="Add"></input>
+                                    <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="add new"></input>
                                 </div>
                             </div>
                         </form>

@@ -88,7 +88,7 @@ class CategoryCollection extends Component<Props> {
                         <form onSubmit={() => this.createNewCategory()}>                            
                             <div className="input-group">
                                 <input className="form-input input-lg" type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
-                                <button className="btn btn-primary btn-lg input-group-btn" type="submit">add new category</button>
+                                <button className="btn btn-primary btn-lg input-group-btn" type="submit">add new</button>
                             </div>                                                        
                         </form>
                     </div>                    

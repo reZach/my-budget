@@ -1,6 +1,7 @@
 import {
     ADD_TRANSACTION,
-    REMOVE_TRANSACTION
+    REMOVE_TRANSACTION,
+    REMOVE_ALL_TRANSACTION
 } from "../actions/transactionCollection";
 import {
     Action,
@@ -46,6 +47,8 @@ export default function transactionCollection(state: any = {}, action: Action){
             }
         case REMOVE_TRANSACTION:
             return update([], state.filter(t => t.dateId === action.payload.dateId && t.categoryId === action.payload.categoryId && t.itemId === action.payload.itemId && t.id !== action.payload.transactionId));
+        case REMOVE_ALL_TRANSACTION:
+            return update([], state.filter(t => t.dateId !== action.payload.dateId));
         default:
             return state;
     }

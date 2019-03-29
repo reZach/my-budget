@@ -100,8 +100,8 @@ class Category extends Component<Props> {
                         {/* <span>items</span> */}
                         <form onSubmit={() => this.createNewItem()}>
                             <div className="input-group">
-                                <input className="form-input" type="text" value={this.state.newItemName} onChange={this.modifyNewItemName}></input>
-                                <button className="btn btn-primary input-group-btn" type="submit">new item</button>
+                                <input className="form-input" type="text" placeholder="sub-category" value={this.state.newItemName} onChange={this.modifyNewItemName}></input>
+                                <button className="btn btn-primary input-group-btn" type="submit">add new</button>
                             </div>
                             
                         </form>

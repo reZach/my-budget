@@ -16,11 +16,15 @@ class Transaction extends Component<Props> {
             <React.Fragment>
                 <div className="columns">                    
                     <div className="column col-10 text-left">
-                        <div>({this.props.id}) ${this.props.amount} - {this.props.note}</div>
+                        <div>${this.props.amount} {this.props.note !== "" ? 
+                        <React.Fragment>
+                            - {this.props.note}
+                        </React.Fragment> : <React.Fragment></React.Fragment>}
+                        </div>
                     </div>
                     <div className="column col-2 text-right">
                         <form onSubmit={() => this.props.delete(this.props.categoryId, this.props.itemId, this.props.id)}>
-                            <input class="btn btn-sm btn-error" type="submit" value="delete"></input>
+                            <input className="btn btn-sm btn-error" type="submit" value="delete"></input>
                         </form>
                     </div>
                 </div>
