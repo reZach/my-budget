@@ -11,7 +11,7 @@ class Income extends Component<Props>{
         super();
 
         this.state = {
-            amount: 0
+            amount: ""
         };
 
         this.changeAmount = this.changeAmount.bind(this);
@@ -46,13 +46,20 @@ class Income extends Component<Props>{
         let data = this.props.income[0];
         if (typeof data !== "undefined"){
             return (
-                <div>
-                    income ${data.amount}
-                    <form onSubmit={() => this.changeIncome()}>
-                        <input type="text" placeholder="income" value={this.state.amount} onChange={this.changeAmount}></input>
-                        <input type="submit"></input>
-                    </form>
-                </div>
+                <React.Fragment>
+                    <div className="columns">
+                        <div className="column col-12 text-left">
+                            <h2>income</h2>
+                            <span className="label label-success">${data.amount}</span>
+                        </div>
+                        <div className="column col-12 text-left">
+                            <form onSubmit={() => this.changeIncome()}>
+                                <input type="text" placeholder="income" value={this.state.amount} onChange={this.changeAmount}></input>
+                                <input type="submit"></input>
+                            </form>
+                        </div>
+                    </div>                    
+                </React.Fragment>
             );
         } else {
             return (

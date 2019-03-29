@@ -18,10 +18,10 @@ export default class Home extends Component<Props> {
     return (
       <div className="container">
         <div className="columns text-center">
-          <div className="column col-6 col-mx-auto">
+          <div className="column col-8 col-mx-auto">
             <Date />
           </div>
-          <div className="column col-2">
+          <div className="column col-4">
             <Income />
           </div>
         </div>

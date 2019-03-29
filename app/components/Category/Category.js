@@ -41,21 +41,16 @@ class Category extends Component<Props> {
         return (
             <React.Fragment>
                 <div className="columns">
-                    <div className="column col-12 text-left">
-                        <h4>{this.props.name}</h4>
+                    <div className="column col-8 text-left">
+                        <h3>{this.props.name}</h3>                        
                     </div>
-                    <div className="column col-12 text-left">
-                    
+                    <div className="column col-4 text-right">
+                        <button className="btn btn-sm" onClick={() => this.props.rename(this.props.id, "newname")}>Rename</button>
+                        <button className="btn btn-sm btn-error" id={this.props.id} onClick={() => this.props.delete(this.props.id)}>Delete</button>
                     </div>
-                </div>
-                <div style={{"border": "1px solid red"}}>
-                    <div>
-                        
-                        <button onClick={() => this.props.rename(this.props.id, "newname")}>Rename</button>
-                        <button id={this.props.id} onClick={() => this.props.delete(this.props.id)}>Delete</button>
-                    </div>                
-
-                    <div>
+                </div>                
+                <div className="columns">
+                    <div className="column col-12 text-left">
                         {/* <span>items</span> */}
                         <form onSubmit={() => this.createNewItem()}>
                             <div className="input-group">

@@ -13,9 +13,9 @@ export class Save extends Component<Props>{
 
     render(){
         return (
-            <div>
-                <input type="button" value="save" onClick={() => this.props.save()}></input>
-            </div>
+            <React.Fragment>
+                <input className="btn btn-primary" type="button" value="save" onClick={() => this.props.save()}></input>
+            </React.Fragment>
         );
     }
 }

@@ -109,22 +109,59 @@ class TransactionCollection extends Component<Props> {
     render() {
         return (
             <React.Fragment>
-
-                <form onSubmit={() => this.createNewTransaction()}>
-                    <select value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
-                        <option value="">---</option>
-                        {this.createCategoriesDropDown()}
-                    </select><br />  
-                    <select value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
-                        <option value="">---</option>
-                        {this.createItemsDropDown()}  
-                    </select>                 
-                    <input type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount}></input><br />
-                    <input type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote}></input>
-                    <input type="number" placeholder="day" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
-                    <input type="submit" disabled={this.props.createTransaction.selectedCategory === "" || this.props.createTransaction.selectedItem === ""} value="Add">
-                    </input>
-                </form>
+                <div className="columns">
+                    <div className="column col-12">
+                        <h2>transactions</h2>
+                    </div>
+                </div>
+                <div className="columns">
+                    <div className="column col-12 text-left">
+                        <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>
+                            <div className="form-group">
+                                <div className="col-3">category</div>
+                                <div className="col-9">
+                                    <select className="form-select" value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
+                                        <option value="">---</option>
+                                        {this.createCategoriesDropDown()}
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <div className="col-3">sub-category</div>
+                                <div className="col-9">
+                                    <select className="form-select" value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
+                                        <option value="">---</option>
+                                        {this.createItemsDropDown()}  
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <div className="col-3">amount</div>
+                                <div className="col-9">
+                                    <input className="form-input" type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount}></input>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <div className="col-3">day</div>
+                                <div className="col-9">
+                                    <input className="form-input" type="number" placeholder="day" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <div className="col-3">note</div>
+                                <div className="col-9">
+                                    <input className="form-input" type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote}></input>
+                                </div>
+                            </div>
+                            <div className="column col-12 col-mr-auto">
+                                <div className="form-group float-right">
+                                    <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="Add"></input>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
 
                 {this.props.transactions.map((value, index, array) => 
                 <Transaction key={index} {...value} delete={this.deleteTransaction}></Transaction>

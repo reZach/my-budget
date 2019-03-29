@@ -52,7 +52,7 @@ export default function createTransaction(state: any = CREATE_NEW_TRANSACTION_IN
             }
         case RESET_CREATE_NEW_TRANSACTION:
             return update(state, {
-                amount: 0,
+                amount: "",
                 note: ""
             });
         case MODIFY_NOTE:
