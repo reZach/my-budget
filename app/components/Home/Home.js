@@ -16,8 +16,8 @@ export default class Home extends Component<Props> {
 
   render() {
     return (
-      <div className="container">
-        <div className="columns text-center">
+      <div className={`container ${styles['app-container']}`}>
+        <div className={`columns text-center ${styles['column-mb']}`}>
           <div className="column col-8 col-mx-auto">
             <Date />
           </div>
