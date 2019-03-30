@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+const {dialog} = require('electron').remote;
 import * as ItemCollectionActions from "../../actions/itemCollection";
 import styles from "./Category.css";
 import Item from "../Item/Item";
@@ -18,6 +19,8 @@ class Category extends Component<Props> {
 
         this.toggleRenameActive = this.toggleRenameActive.bind(this);
         this.renameCategory = this.renameCategory.bind(this);
+        this.renameItem = this.renameItem.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);
         this.modifyNewItemName = this.modifyNewItemName.bind(this);
         this.modifyNewCategoryName = this.modifyNewCategoryName.bind(this);        
     }
@@ -45,6 +48,30 @@ class Category extends Component<Props> {
         });
     }
 
+    renameItem(categoryId: string, id: string, newName: string){
+        let items = this.props.items;
+
+        if (typeof items.find(i => i.name === newName) === "undefined"){
+            this.props.renameItem(categoryId, id, newName);
+        }        
+    }
+
+    deleteItem(categoryId: string, id: string, name: string){
+                
+        dialog.showMessageBox({
+            title: "delete sub-category",
+            type: "question",
+            buttons: ["Yes", "No"],
+            message: `are you sure you want to delete '${name}'?`
+        }, (i) => {
+
+            // Yes
+            if (i === 0){
+                this.props.removeItem(categoryId, id);
+            }
+        });        
+    }
+
     modifyNewItemName(event){
         this.setState({
             newItemName: event.target.value
@@ -61,7 +88,7 @@ class Category extends Component<Props> {
         if (this.state.newItemName !== ""){
 
             // Don't create duplicate items
-            if (typeof this.props.items.find(i => i.dateId === this.props.dateId && i.name === this.state.newItemName) === "undefined"){
+            if (typeof this.props.items.find(i => i.name === this.state.newItemName) === "undefined"){
                 this.props.addItem(this.props.id, this.state.newItemName);
 
                 this.setState({
@@ -78,7 +105,7 @@ class Category extends Component<Props> {
                     <div className="column col-7 text-left">
                         <h3>{this.props.name}</h3>                        
                     </div>
-                    <div className="column col-5 text-right">
+                    <div className="column col-5">
                         {this.state.renameActive ? 
                         <form onSubmit={() => this.renameCategory()}>
                             <div className="input-group">
@@ -107,7 +134,7 @@ class Category extends Component<Props> {
                         </form>
                         {this.props.items.sort((a, b) => a.name > b.name).map((value, index, array) => {
                             return <div key={index}>
-                                <Item {...value} categoryId={this.props.id} dateId={this.props.dateId}></Item>
+                                <Item {...value} categoryId={this.props.id} dateId={this.props.dateId} rename={this.renameItem} delete={this.deleteItem}></Item>
                             </div>;
                         })}
                     </div>

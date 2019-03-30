@@ -1,7 +1,6 @@
 import {
     ADD_CATEGORY_ITEM,
     REMOVE_CATEGORY_ITEM,
-    RENAME_CATEGORY_ITEM,
     CATEGORY_INITIAL_STATE
 } from "../actions/category";
 import {
@@ -12,7 +11,10 @@ import {
 
 
 export default function category(state: any = CATEGORY_INITIAL_STATE, action: Action) {
-    switch (action.type) {        
+    switch (action.type) {   
+        case RENAME_CATEGORY_ITEM:
+            console.error('hit');
+            return state;     
         default:
             return state;
     }
