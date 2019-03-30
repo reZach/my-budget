@@ -90,13 +90,13 @@ class TransactionCollection extends Component<Props> {
         this.props.resetCreateNewTransaction();
     }
 
-    deleteTransaction(categoryId: string, itemId: string, transactionId: string){
+    deleteTransaction(categoryId: string, itemId: string, transactionId: string, amount: number){
 
         dialog.showMessageBox({
             title: "delete transaction",
             type: "question",
             buttons: ["Yes", "No"],
-            message: `are you sure you want to delete this transaction?`
+            message: `are you sure you want to delete this transaction of $${amount}?`
         }, (i) => {
 
             // Yes
@@ -184,7 +184,7 @@ class TransactionCollection extends Component<Props> {
                             </div>
                             <div className="column col-12">
                                 <div className="form-group float-left">
-                                    <input className="btn btn-lg btn-error" type="button" value="delete all" onClick={() => this.deleteAllTransactions()}></input>
+                                    <input className="btn btn-lg btn-error" type="button" value="delete all" onClick={() => this.deleteAllTransactions()} disabled={this.props.transactions.length <= 0}></input>
                                 </div>
                                 <div className="form-group float-right">
                                     <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="add new"></input>
@@ -194,10 +194,10 @@ class TransactionCollection extends Component<Props> {
                     </div>
                 </div>
                 
-
                 {this.props.transactions.map((value, index, array) => 
-                <Transaction key={index} {...value} delete={this.deleteTransaction}></Transaction>
+                    <Transaction key={index} {...value} delete={this.deleteTransaction}></Transaction>
                 )}
+                
             </React.Fragment>
         );
     }

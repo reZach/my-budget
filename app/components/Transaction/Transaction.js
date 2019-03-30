@@ -23,7 +23,7 @@ class Transaction extends Component<Props> {
                         </div>
                     </div>
                     <div className="column col-2 text-right">
-                        <form onSubmit={() => this.props.delete(this.props.categoryId, this.props.itemId, this.props.id)}>
+                        <form onSubmit={() => this.props.delete(this.props.categoryId, this.props.itemId, this.props.id, this.props.amount)}>
                             <input className="btn btn-sm btn-error" type="submit" value="delete"></input>
                         </form>
                     </div>

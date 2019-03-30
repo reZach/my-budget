@@ -1,6 +1,7 @@
 import {
     ADD_ITEM,
     REMOVE_ITEM,
+    RENAME_ITEM,
     ITEM_COLLECTION_INITIAL_STATE
 } from "../actions/itemCollection";
 import {
@@ -41,6 +42,18 @@ export default function itemCollection(state: any = ITEM_COLLECTION_INITIAL_STAT
             }
         case REMOVE_ITEM:
             return update([], state.filter(i => !(i.dateId === action.payload.dateId && i.categoryId === action.payload.categoryId && i.id === action.payload.id)));
+        case RENAME_ITEM:
+            return update([], 
+                state.map(i => {
+                    if (i.dateId === action.payload.dateId &&
+                        i.categoryId === action.payload.categoryId &&
+                        i.id === action.payload.id){
+                        i.name = action.payload.newName;
+                    }
+
+                    return i;
+                })
+            );
         default:
             return state;
     }
