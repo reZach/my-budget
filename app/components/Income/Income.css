@@ -1,3 +1,13 @@
 .some-mb {
     margin-bottom:20px;
 }
+
+.bar-good {
+    background-color: #32b643 !important;
+}
+.bar-okay {
+    background-color: #ffb700 !important;
+}
+.bar-bad {
+    background-color: #e85600 !important;
+}
