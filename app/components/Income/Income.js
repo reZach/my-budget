@@ -16,6 +16,8 @@ class Income extends Component<Props>{
 
         this.changeAmount = this.changeAmount.bind(this);
         this.changeIncome = this.changeIncome.bind(this);
+        this.getPercentSpent = this.getPercentSpent.bind(this);
+        this.getRemainingDays = this.getRemainingDays.bind(this);
     }
 
     componentDidUpdate(previousProps){
@@ -42,15 +44,54 @@ class Income extends Component<Props>{
         });
     }
 
+    getPercentSpent(data){
+        if (data.amount === 0){
+            return "0.00";
+        }
+        
+        var runningTotal = 0;
+
+        for(var i = 0; i < this.props.transactions.length; i++){
+            runningTotal = runningTotal + parseFloat(this.props.transactions[i].amount);
+        }
+        
+        return ((runningTotal / parseFloat(data.amount)) * 100).toFixed(2);
+    }
+
+    getRemainingDays(){
+        // http://embed.plnkr.co/FFUXhl/preview
+        var date = new Date();
+        var time = new Date(date.getTime());
+        time.setMonth(date.getMonth() + 1);
+        time.setDate(0);
+        var days = time.getDate() > date.getDate() ? time.getDate() - date.getDate() : 0;
+        return days;
+    }
+
     render(){        
-        let data = this.props.income[0];
+        let data = this.props.income[0];        
         if (typeof data !== "undefined"){
+            let spent = this.getPercentSpent(data);
+
             return (
                 <React.Fragment>
                     <div className="columns">
                         <div className={`column col-12 text-left ${styles['some-mb']}`}>
                             <h2>income</h2>
                             <span className="label label-success">${data.amount}</span>
+                            <span>&nbsp; {spent !== "0.00" ?
+                                <React.Fragment>{spent}% spent</React.Fragment> :
+                                <React.Fragment></React.Fragment>
+                            }</span>
+                            &nbsp;
+                            <span className="label label-secondary">{this.getRemainingDays()} days left!</span>
+                        </div>
+                        <div className={`column col-12 ${styles['some-mb']}`}>
+                            {spent !== "0.00" ? 
+                            <div className="bar">
+                                <div className={`bar-item ${spent <= 33 ? styles["bar-good"] : spent <= 66 ? styles["bar-okay"] : styles["bar-bad"]}`} role="progressbar" style={{width: spent + "%"}} aria-valuenow={`${spent}`} aria-valuemin="0"></div>
+                            </div> : <div>enter in transaction data!</div>
+                            }
                         </div>
                         <div className="column col-12 text-left">
                             <form onSubmit={() => this.changeIncome()}>
@@ -73,7 +114,8 @@ class Income extends Component<Props>{
 
 function mapStateToProps(state){
     return {
-        income: state.income.filter(i => i.dateId === state.date.id)
+        income: state.income.filter(i => i.dateId === state.date.id),
+        transactions: state.transactions.filter(t => t.dateId === state.date.id)
     }
 }
 
