@@ -84,7 +84,7 @@ class Income extends Component<Props>{
                                 <React.Fragment></React.Fragment>
                             }</span>
                             &nbsp;
-                            <span className="label label-secondary">{this.getRemainingDays()} days left!</span>
+                            <span className="label label-secondary">{this.getRemainingDays() > 0 ? this.getRemainingDays() + " days left!" : "last day of the month!"}</span>
                         </div>
                         <div className={`column col-12 ${styles['some-mb']}`}>
                             {spent !== "0.00" ? 
