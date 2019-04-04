@@ -194,10 +194,11 @@ class TransactionCollection extends Component<Props> {
                     </div>
                 </div>
                 
-                {this.props.transactions.map((value, index, array) => 
-                    <Transaction key={index} {...value} delete={this.deleteTransaction}></Transaction>
-                )}
-                
+                <div className={`${styles['transaction-container']}`}>
+                    {this.props.transactions.map((value, index, array) => 
+                        <Transaction key={index} {...value} delete={this.deleteTransaction}></Transaction>
+                    )}
+                </div>                                
             </React.Fragment>
         );
     }

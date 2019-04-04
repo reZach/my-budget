@@ -14,10 +14,12 @@ class Category extends Component<Props> {
         this.state = {
             newItemName: "",
             newCategoryName: "",
-            renameActive: false
+            renameActive: false,
+            editActive: false
         }
 
         this.toggleRenameActive = this.toggleRenameActive.bind(this);
+        this.toggleEditActive = this.toggleEditActive.bind(this);
         this.renameCategory = this.renameCategory.bind(this);
         this.renameItem = this.renameItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
@@ -40,12 +42,24 @@ class Category extends Component<Props> {
         }
     }
 
-    renameCategory(event){
-        this.props.rename(this.props.id, this.state.newCategoryName);
+    toggleEditActive(event){
+        let newState = !this.state.editActive;
+
         this.setState({
-            renameActive: false,
-            newCategoryName: ""
+            editActive: newState
         });
+    }
+
+    renameCategory(event){
+
+        if (this.state.newCategoryName !== ""){
+            this.props.rename(this.props.id, this.state.newCategoryName);
+            this.setState({
+                renameActive: false,
+                editActive: false,
+                newCategoryName: ""
+            });
+        }     
     }
 
     renameItem(categoryId: string, id: string, newName: string){
@@ -98,6 +112,28 @@ class Category extends Component<Props> {
         }
     }
 
+    renderCompound(){
+        if (this.state.renameActive && this.state.editActive){
+            return (
+                <form onSubmit={() => this.renameCategory()}>
+                    <div className="input-group">
+                        <input className="form-input input-sm" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
+                        <button className="btn btn-sm btn-primary input-group-btn" type="submit">update</button>
+                        <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()}>cancel</button>
+                    </div>
+                </form>
+            );
+        } else if (this.state.editActive) {
+            return (
+                <div className="input-group float-right">                    
+                    <button className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.props.delete(this.props.id, this.props.name)}>delete</button>
+                    <button className="btn btn-sm btn-primary input-group-btn" onClick={this.toggleRenameActive}>rename</button>                    
+                    <button className="btn btn-sm input-group-btn" onClick={this.toggleEditActive}>cancel</button>
+                </div>
+            );            
+        }
+    }
+
     render () {
         return (
             <React.Fragment>
@@ -106,20 +142,12 @@ class Category extends Component<Props> {
                         <h3>{this.props.name}</h3>                        
                     </div>
                     <div className="column col-5">
-                        {this.state.renameActive ? 
-                        <form onSubmit={() => this.renameCategory()}>
-                            <div className="input-group">
-                                <input className="form-input input-sm" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
-                                <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()}>cancel</button>
-                                <button className="btn btn-sm btn-primary input-group-btn" type="submit">update</button>
-                            </div>                            
-                        </form>
-                         : 
-                         <div className="input-group float-right">
-                            <button className="btn btn-sm input-group-btn" onClick={this.toggleRenameActive}>rename</button>
-                            <button className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.props.delete(this.props.id, this.props.name)}>delete</button>
-                         </div>                        
+                        {!this.state.editActive &&
+                        <div className="input-group float-right">
+                            <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleEditActive()}>edit</button>
+                        </div>
                         }
+                        {this.renderCompound()}
                     </div>
                 </div>                
                 <div className="columns">

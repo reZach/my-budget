@@ -14,7 +14,7 @@ export function save(){
     return (dispatch: Dispatch, store: Store) => {
         fs.writeFile("./file.json", JSON.stringify(store()), "utf-8", (error, data) => {
             if (error){
-                console.error("Could not write file: " + error.message);
+                alert("Could not write file: " + error.message);
                 return;
             }
             console.log("saved data");

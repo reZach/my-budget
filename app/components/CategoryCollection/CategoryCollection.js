@@ -28,7 +28,7 @@ class CategoryCollection extends Component<Props> {
         });
     }
 
-    createNewCategory(event) {
+    createNewCategory(event) {        
         if (this.state.newCategoryName !== "") {
 
             // Don't create duplicate categories
@@ -85,15 +85,15 @@ class CategoryCollection extends Component<Props> {
                         <h2>categories</h2>                        
                     </div>                    
                     <div className={`column col-8 text-left ${styles['category-input']}`}>      
-                        <form onSubmit={() => this.createNewCategory()}>                            
+                        <form onSubmit={() => this.createNewCategory()}>
                             <div className="input-group">
                                 <input className="form-input input-lg" type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
                                 <button className="btn btn-primary btn-lg input-group-btn" type="submit">add new</button>
-                            </div>                                                        
+                            </div>
                         </form>
                     </div>                    
                 </div>
-                <div className="columns">
+                <div className={`columns ${styles['category-container']}`}>
                 {this.props.categories.sort((a, b) => a.name > b.name).map((value, index, array) => {
                     return value.dateId === this.props.date.id ?
                         <div className={`column col-8 text-left ${styles.category}`} key={this.props.date.id + "-" + value.id}>

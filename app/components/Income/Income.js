@@ -38,14 +38,16 @@ class Income extends Component<Props>{
     }
 
     changeIncome(event){
-        this.props.saveIncome(this.state.amount);
-        this.setState({
-            amount: ""
-        });
+        if (this.state.amount.length > 0){
+            this.props.saveIncome(this.state.amount);
+            this.setState({
+                amount: ""
+            });
+        }        
     }
 
     getPercentSpent(data){
-        if (data.amount === 0){
+        if (data.amount === 0 || data.amount === ""){
             return "0.00";
         }
         
@@ -90,7 +92,7 @@ class Income extends Component<Props>{
                             {spent !== "0.00" ? 
                             <div className="bar">
                                 <div className={`bar-item ${spent <= 33 ? styles["bar-good"] : spent <= 66 ? styles["bar-okay"] : styles["bar-bad"]}`} role="progressbar" style={{width: spent + "%"}} aria-valuenow={`${spent}`} aria-valuemin="0"></div>
-                            </div> : <div>enter in transaction data!</div>
+                            </div> : <div>enter in your transactions/income for the month!</div>
                             }
                         </div>
                         <div className="column col-12 text-left">
