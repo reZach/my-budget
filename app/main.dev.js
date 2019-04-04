@@ -65,7 +65,7 @@ app.on('ready', async () => {
     process.env.DEBUG_PROD === 'true'
   ) {
     await installExtensions();
-  }
+  }  
 
   mainWindow = new BrowserWindow({
     show: false,

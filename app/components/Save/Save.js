@@ -14,7 +14,12 @@ export class Save extends Component<Props>{
     render(){
         return (
             <React.Fragment>
-                <input className="btn btn-primary" type="button" value="save" onClick={() => this.props.save()}></input>
+                <div className="columns">
+                    <div className="column col-12">
+                        <h2>data</h2>
+                        <input className="btn btn-primary" type="button" value="save" onClick={() => this.props.save()}></input>
+                    </div>
+                </div>                
             </React.Fragment>
         );
     }

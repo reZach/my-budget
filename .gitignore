@@ -47,5 +47,8 @@ dll
 main.js
 main.js.map
 
+my-budget*/
+file.json
+
 .idea
 npm-debug.log.*

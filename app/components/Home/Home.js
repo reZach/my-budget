@@ -18,7 +18,10 @@ export default class Home extends Component<Props> {
     return (
       <div className={`container ${styles['app-container']}`}>
         <div className={`columns text-center ${styles['column-mb']}`}>
-          <div className="column col-8 col-mx-auto">
+          <div className="column col-2">
+            <Save/>
+          </div>
+          <div className="column col-6 col-mx-auto">
             <Date />
           </div>
           <div className="column col-4">
@@ -31,8 +34,7 @@ export default class Home extends Component<Props> {
           </div>
           <div className="column col-4">
             <TransactionCollection />
-          </div>                    
-          <Save/>
+          </div>          
         </div>
         {/* <Link to={routes.COUNTER}>to Counter</Link> */}
       </div>
