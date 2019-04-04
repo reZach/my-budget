@@ -68,17 +68,17 @@ export default class Item extends Component<Props> {
                 <form onSubmit={() => this.renameItem()}>
                     <div className="input-group">
                         <input className="form-input input-sm" type="text" autoFocus value={this.state.newItemName} onChange={this.newItemName}></input>
-                        <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()}>cancel</button>
                         <button className="btn btn-sm btn-primary input-group-btn" type="submit">update</button>
+                        <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()}>cancel</button>                        
                     </div>                            
                 </form>
             );
         } else if (this.state.editActive){
             return (
                 <div className="input-group float-right">
-                    <button className="btn btn-sm input-group-btn" onClick={this.toggleEditActive}>cancel</button>
+                    <button className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.deleteItem()}>delete</button>                    
                     <button className="btn btn-sm btn-primary input-group-btn" onClick={this.toggleRenameActive}>rename</button>
-                    <button className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.deleteItem()}>delete</button>
+                    <button className="btn btn-sm input-group-btn" onClick={this.toggleEditActive}>cancel</button>
                 </div>
             );
         }
