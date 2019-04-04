@@ -47,7 +47,7 @@ class Income extends Component<Props>{
     }
 
     getPercentSpent(data){
-        if (data.amount === 0 || data.amount === ""){
+        if (data.amount === "0" || data.amount === ""){
             return "0.00";
         }
         
