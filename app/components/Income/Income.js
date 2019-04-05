@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as IncomeActions from "../../actions/income";
+import * as ModifyActions from "../../actions/modify";
 import styles from "./Income.css";
 
 class Income extends Component<Props>{
@@ -40,6 +41,7 @@ class Income extends Component<Props>{
     changeIncome(event){
         if (this.state.amount.length > 0){
             this.props.saveIncome(this.state.amount);
+            this.props.trueModify();
             this.setState({
                 amount: ""
             });
@@ -125,7 +127,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        ...IncomeActions
+        ...IncomeActions,
+        ...ModifyActions
     }, dispatch);
 }
 

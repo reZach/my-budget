@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 const {dialog} = require('electron').remote;
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ItemCollectionActions from "../../actions/itemCollection";
+import * as ModifyActions from "../../actions/modify";
 import styles from "./CategoryCollection.css";
 import Category from "../Category/Category";
 
@@ -35,6 +36,7 @@ class CategoryCollection extends Component<Props> {
             if (typeof this.props.categories.find(c => c.dateId === this.props.date.id &&
                     c.name === this.state.newCategoryName) === "undefined") {
                 this.props.addCategory(this.state.newCategoryName);
+                this.props.trueModify();
 
                 this.setState({
                     newCategoryName: ""
@@ -49,6 +51,7 @@ class CategoryCollection extends Component<Props> {
 
         if (typeof categories.find(c => c.name === newName) === "undefined"){
             this.props.renameCategory(id, newName);
+            this.props.trueModify();
         }        
     }
 
@@ -73,6 +76,7 @@ class CategoryCollection extends Component<Props> {
                         this.props.removeItem(id, items[i].id);
                     }
                 }
+                this.props.trueModify();
             }
         });        
     }
@@ -119,7 +123,10 @@ function mapStateToProps(state){
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({...CategoryCollectionActions, ...ItemCollectionActions}, dispatch);
+    return bindActionCreators(
+        {...CategoryCollectionActions, 
+        ...ItemCollectionActions,
+        ...ModifyActions}, dispatch);
 }
 
 export default connect(
