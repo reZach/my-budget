@@ -18,6 +18,7 @@ catch (error)
 }
 
 export const initialStore = {
+    modified: false,
     income: success ? fileContents.income : [{
         id: "1",
         dateId: `${month}-${year}`,

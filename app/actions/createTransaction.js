@@ -74,7 +74,7 @@ export function createNewTransaction(categoryId: string, itemId: string, day: nu
     return (dispatch: Dispatch, store: Store) => {
         addTransaction(
             store().date.id, categoryId, itemId, day, amount, note);
-        dispatch(reset_create_new_transaction());
+        dispatch(reset_create_new_transaction());        
     }
 }
 export function resetCreateNewTransaction(){

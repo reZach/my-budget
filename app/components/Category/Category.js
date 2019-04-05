@@ -3,6 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 const {dialog} = require('electron').remote;
 import * as ItemCollectionActions from "../../actions/itemCollection";
+import * as ModifyActions from "../../actions/modify";
 import styles from "./Category.css";
 import Item from "../Item/Item";
 
@@ -54,6 +55,7 @@ class Category extends Component<Props> {
 
         if (this.state.newCategoryName !== ""){
             this.props.rename(this.props.id, this.state.newCategoryName);
+            this.props.trueModify();
             this.setState({
                 renameActive: false,
                 editActive: false,
@@ -67,6 +69,7 @@ class Category extends Component<Props> {
 
         if (typeof items.find(i => i.name === newName) === "undefined"){
             this.props.renameItem(categoryId, id, newName);
+            this.props.trueModify();
         }        
     }
 
@@ -82,6 +85,7 @@ class Category extends Component<Props> {
             // Yes
             if (i === 0){
                 this.props.removeItem(categoryId, id);
+                this.props.trueModify();
             }
         });        
     }
@@ -104,6 +108,7 @@ class Category extends Component<Props> {
             // Don't create duplicate items
             if (typeof this.props.items.find(i => i.name === this.state.newItemName) === "undefined"){
                 this.props.addItem(this.props.id, this.state.newItemName);
+                this.props.trueModify();
 
                 this.setState({
                     newItemName: ""
@@ -180,7 +185,9 @@ function mapStateToProps(state, props){
 }
 
 function mapDispatchToProps(dispatch){
-    return bindActionCreators(ItemCollectionActions, dispatch);
+    return bindActionCreators(
+        {...ItemCollectionActions,
+        ...ModifyActions}, dispatch);
 }
 
 export default connect(

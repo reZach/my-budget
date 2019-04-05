@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 const {dialog} = require('electron').remote;
 import * as TransactionActions from "../../actions/transactionCollection";
 import * as CreateTransaction from "../../actions/createTransaction";
+import * as ModifyActions from "../../actions/modify";
 import styles from "./TransactionCollection.css";
 import Transaction from "../Transaction/Transaction";
 
@@ -88,6 +89,7 @@ class TransactionCollection extends Component<Props> {
             this.props.createTransaction.selectedItemId, this.props.createTransaction.day, this.props.createTransaction.amount, this.props.createTransaction.note);
 
         this.props.resetCreateNewTransaction();
+        this.props.trueModify();
     }
 
     deleteTransaction(categoryId: string, itemId: string, transactionId: string, amount: number){
@@ -102,6 +104,7 @@ class TransactionCollection extends Component<Props> {
             // Yes
             if (i === 0){
                 this.props.removeTransaction(categoryId, itemId, transactionId);
+                this.props.trueModify();
             }
         });        
     }
@@ -117,6 +120,7 @@ class TransactionCollection extends Component<Props> {
             // Yes
             if (i === 0){
                 this.props.removeAllTransactions();
+                this.props.trueModify();
             }
         });
     }
@@ -220,7 +224,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
         ...TransactionActions,
-        ...CreateTransaction
+        ...CreateTransaction,
+        ...ModifyActions
     }, dispatch);
 }
 

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import * as ModifyActions from "../../actions/modify";
 
-export default class Item extends Component<Props> {
+class Item extends Component<Props> {
     props: Props;
 
     constructor(){
@@ -22,6 +23,7 @@ export default class Item extends Component<Props> {
 
     renameItem(event){
         this.props.rename(this.props.categoryId, this.props.id, this.state.newItemName);
+        this.props.trueModify();
         this.setState({
             renameActive: false,
             editActive: false,
@@ -37,6 +39,7 @@ export default class Item extends Component<Props> {
 
     deleteItem(event){
         this.props.delete(this.props.categoryId, this.props.id, this.props.name);
+        this.props.trueModify();
     }
 
     toggleRenameActive(event){
@@ -104,3 +107,20 @@ export default class Item extends Component<Props> {
         );
     }
 }
+
+function mapStateToProps(state){
+    return {
+        nope: false
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return bindActionCreators({
+        ...ModifyActions
+    }, dispatch);
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Item);

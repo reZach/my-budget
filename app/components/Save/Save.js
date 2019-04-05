@@ -2,13 +2,21 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as SaveActions from "../../actions/save";
+import * as ModifyActions from "../../actions/modify";
 import styles from "./Save.css";
 
-export class Save extends Component<Props>{
+class Save extends Component<Props>{
     props: Props;
 
     constructor(){
         super();
+
+        this.multi = this.multi.bind(this);
+    }
+
+    multi(event){
+        this.props.save();
+        this.props.falseModify();
     }
 
     render(){
@@ -17,7 +25,7 @@ export class Save extends Component<Props>{
                 <div className="columns">
                     <div className="column col-12">
                         <h2>data</h2>
-                        <input className="btn btn-primary" type="button" value="save" onClick={() => this.props.save()}></input>
+                        <input className="btn btn-primary" type="button" value="save" disabled={!this.props.modified} onClick={() => this.multi()}></input>
                     </div>
                 </div>                
             </React.Fragment>
@@ -27,15 +35,16 @@ export class Save extends Component<Props>{
 
 
 
-function mapStateToProps(state){
+function mapStateToProps(state){    
     return {
-        no: {},
+        modified: state.modified
     }
 }
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        ...SaveActions
+        ...SaveActions,
+        ...ModifyActions
     }, dispatch);
 }
 

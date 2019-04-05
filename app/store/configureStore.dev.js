@@ -11,6 +11,7 @@ import * as categoryCollectionActions from "../actions/categoryCollection";
 import * as itemCollectionActions from "../actions/itemCollection";
 import * as transactionCollectionActions from "../actions/transactionCollection";
 import * as saveActions from "../actions/save";
+import * as modifyActions from "../actions/modify";
 import category from '../reducers/category';
 
 const history = createHashHistory();
@@ -49,6 +50,7 @@ const configureStore = (initialState?: any) => {
     ...itemCollectionActions,
     ...transactionCollectionActions,
     ...saveActions,
+    ...modifyActions,
     ...routerActions
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
