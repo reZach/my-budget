@@ -15,8 +15,8 @@ class Save extends Component<Props>{
     }
 
     multi(event){
-        this.props.save();
         this.props.falseModify();
+        this.props.save();        
     }
 
     render(){

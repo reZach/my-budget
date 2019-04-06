@@ -1,5 +1,6 @@
 import { CREATE_NEW_TRANSACTION_INITIAL_STATE } from "../actions/createTransaction";
 let fs = require("fs");
+import * as crypto from "../crypto/code";
 
 var date: Date = (new Date());
 var month: string = date.getMonth() + 1;
@@ -9,8 +10,17 @@ var success = false;
 var fileContents;
 try
 {
-    fileContents = JSON.parse(fs.readFileSync("./file.json", "utf-8"));
-    success = true;
+    fileContents = fs.readFileSync("./file.json", "utf-8");
+
+    if (crypto.cryptoAvailable()){
+        var decrypted = crypto.decrypt(fileContents);
+
+        success = true;
+        fileContents = JSON.parse(decrypted);
+    } else {
+        success = true;
+        fileContents = JSON.parse(fileContents);
+    }
 }
 catch (error)
 {
@@ -18,7 +28,7 @@ catch (error)
 }
 
 export const initialStore = {
-    modified: false,
+    modified: success ? fileContents.modified : false,
     income: success ? fileContents.income : [{
         id: "1",
         dateId: `${month}-${year}`,
@@ -28,6 +38,7 @@ export const initialStore = {
     items: success ? fileContents.items : [],
     transactions: success ? fileContents.transactions : [],
     createTransaction: CREATE_NEW_TRANSACTION_INITIAL_STATE,
+    //templates: [],
     //   income: [{
     //       id: "",
     //       dateId: "",
