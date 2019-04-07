@@ -96,7 +96,7 @@ class TransactionCollection extends Component<Props> {
 
         dialog.showMessageBox({
             title: "delete transaction",
-            type: "question",
+            type: "warning",
             buttons: ["Yes", "No"],
             message: `are you sure you want to delete this transaction of $${amount}?`
         }, (i) => {
@@ -112,7 +112,7 @@ class TransactionCollection extends Component<Props> {
     deleteAllTransactions(){
         dialog.showMessageBox({
             title: "delete all transactions",
-            type: "question",
+            type: "warning",
             buttons: ["Yes", "No"],
             message: `are you sure you want to delete all transactions for this month?`
         }, (i) => {

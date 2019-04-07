@@ -42,7 +42,7 @@ export function encrypt(text){
     if (!cryptoAvailable()){
         return text;
     }
-    
+
     let key = readFromFile(keypath);
     let iv = readFromFile(ivpath);
     let cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
