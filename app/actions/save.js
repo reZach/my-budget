@@ -15,7 +15,14 @@ var _save = function(){
 export function save(){
     return (dispatch: Dispatch, store: Store) => {
         
-        let encrypted = crypto.encrypt(JSON.stringify(store()));
+        let encrypted = "";
+
+        if (store().passphrase !== ""){
+            encrypted = crypto.encrypt(JSON.stringify(store()));
+        } else {
+            encrypted = JSON.stringify(store());
+        }
+        
         fs.writeFile("./file.json", encrypted, "utf-8", (error, data) => {
             if (error){
                 alert("Could not write file: " + error.message);
