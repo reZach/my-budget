@@ -47,7 +47,7 @@ class Entry extends Component<Props>{
             fileContents = fs.readFileSync("./file.json", "utf-8");
 
             if (fileContents !== ""){
-                if (crypto.cryptoAvailable()){
+                if (crypto.cryptoAvailable() && this.state.passphrase !== ""){
                     var decrypted = crypto.decrypt(fileContents);
     
                     success = true;
@@ -101,7 +101,7 @@ class Entry extends Component<Props>{
         }
         catch (error)
         {
-
+            console.error(error);
         }
     }
 
