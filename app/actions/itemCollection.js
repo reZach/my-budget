@@ -4,6 +4,7 @@ import { Store, Dispatch } from "../reducers/types";
 export const ADD_ITEM = "ADD_ITEM";
 export const REMOVE_ITEM = "REMOVE_ITEM";
 export const RENAME_ITEM = "RENAME_ITEM";
+export const ENTRY_ITEMS = "ENTRY_ITEMS";
 
 export const ITEM_COLLECTION_INITIAL_STATE = [
     ITEM_INITIAL_STATE
@@ -40,6 +41,14 @@ var rename_item = function(dateId: string, categoryId: string, id: string, newNa
         }        
     };
 }
+var entry_items = function(items: any){
+    return {
+        type: ENTRY_ITEMS,
+        payload: {
+            items: items
+        }
+    };
+}
 
 export function addItem(categoryId: string, name: string){
     return (dispatch: Dispatch, store: Store) => {
@@ -56,5 +65,10 @@ export function removeItem(categoryId: string, id: string){
 export function renameItem(categoryId: string, id: string, newName: string) {
     return (dispatch: Dispatch, store: Store) => {
         dispatch(rename_item(store().date.id, categoryId, id, newName));
+    }
+}
+export function entryItems(items: any){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(entry_items(items));
     }
 }

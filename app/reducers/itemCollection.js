@@ -2,6 +2,7 @@ import {
     ADD_ITEM,
     REMOVE_ITEM,
     RENAME_ITEM,
+    ENTRY_ITEMS,
     ITEM_COLLECTION_INITIAL_STATE
 } from "../actions/itemCollection";
 import {
@@ -54,6 +55,8 @@ export default function itemCollection(state: any = ITEM_COLLECTION_INITIAL_STAT
                     return i;
                 })
             );
+        case ENTRY_ITEMS:
+            return update([], action.payload.items);
         default:
             return state;
     }

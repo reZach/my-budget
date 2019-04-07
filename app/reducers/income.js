@@ -1,4 +1,4 @@
-import { SAVE_INCOME, INCOME_INITIAL_STATE } from "../actions/income";
+import { SAVE_INCOME, ENTRY_INCOME, INCOME_INITIAL_STATE } from "../actions/income";
 import { Action, update } from "./types";
 
 export default function income(state: any = {}, action: Action){
@@ -40,6 +40,8 @@ export default function income(state: any = {}, action: Action){
                     })
                 );
             }
+        case ENTRY_INCOME:
+            return update([], action.payload.income);
         default:
             return state;
     }

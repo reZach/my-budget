@@ -14,10 +14,6 @@ var _save = function(){
 
 export function save(){
     return (dispatch: Dispatch, store: Store) => {
-
-        // reset key + iv
-        crypto.writeNewIv();
-        crypto.writeNewKey();
         
         let encrypted = crypto.encrypt(JSON.stringify(store()));
         fs.writeFile("./file.json", encrypted, "utf-8", (error, data) => {

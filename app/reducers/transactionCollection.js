@@ -1,7 +1,8 @@
 import {
     ADD_TRANSACTION,
     REMOVE_TRANSACTION,
-    REMOVE_ALL_TRANSACTION
+    REMOVE_ALL_TRANSACTION,
+    ENTRY_TRANSACTIONS
 } from "../actions/transactionCollection";
 import {
     Action,
@@ -49,6 +50,8 @@ export default function transactionCollection(state: any = {}, action: Action){
             return update([], state.filter(t => t.dateId === action.payload.dateId && t.categoryId === action.payload.categoryId && t.itemId === action.payload.itemId && t.id !== action.payload.transactionId));
         case REMOVE_ALL_TRANSACTION:
             return update([], state.filter(t => t.dateId !== action.payload.dateId));
+        case ENTRY_TRANSACTIONS:
+            return update([], action.payload.transactions);
         default:
             return state;
     }

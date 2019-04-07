@@ -4,6 +4,7 @@ import { connectRouter } from 'connected-react-router';
 import counter from './counter';
 import date from "./date";
 //import category from "./category";
+import passphrase from "./passphrase";
 import categoryCollection from "./categoryCollection";
 import itemCollection from "./itemCollection";
 import transactionCollection from "./transactionCollection";
@@ -17,6 +18,7 @@ export default function createRootReducer(history: History) {
     router: connectRouter(history),
     income: income,
     date: date,
+    passphrase: passphrase,
     categories: categoryCollection,
     items: itemCollection,
     transactions: transactionCollection,
