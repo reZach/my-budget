@@ -2,7 +2,8 @@ import {
     ADD_CATEGORY,
     REMOVE_CATEGORY,
     RENAME_CATEGORY,
-    CATEGORY_COLLECTION_INITIAL_STATE
+    CATEGORY_COLLECTION_INITIAL_STATE,
+    ENTRY_CATEGORIES
 } from "../actions/categoryCollection";
 import {
     Action,
@@ -54,6 +55,8 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
                     return c;
                 })
             );
+        case ENTRY_CATEGORIES:
+            return update([], action.payload.categories);
         default:
             return state;
     }

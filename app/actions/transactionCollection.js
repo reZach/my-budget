@@ -4,6 +4,7 @@ import { Dispatch } from "../reducers/types";
 export const ADD_TRANSACTION = "ADD_TRANSACTION";
 export const REMOVE_TRANSACTION = "REMOVE_TRANSACTION";
 export const REMOVE_ALL_TRANSACTION = "REMOVE_ALL_TRANSACTION";
+export const ENTRY_TRANSACTIONS = "ENTRY_TRANSACTIONS";
 
 export const TRANSACTION_COLLECTION_INITIAL_STATE = [
     TRANSACTION_INITIAL_STATE
@@ -41,6 +42,14 @@ var remove_all_transactions = function(dateId: string){
         }
     }
 }
+var entry_transactions = function(transactions: any){
+    return {
+        type: ENTRY_TRANSACTIONS,
+        payload: {
+            transactions: transactions
+        }
+    };
+}
 
 export function addTransaction(categoryId: string, itemId: string, day: string, amount: string, note: string){
     return (dispatch: Dispatch, store: Store) => {
@@ -56,5 +65,10 @@ export function removeTransaction(categoryId: string, itemId: string, transactio
 export function removeAllTransactions(){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(remove_all_transactions(store().date.id));
+    }
+}
+export function entryTransactions(transactions: any){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(entry_transactions(transactions));
     }
 }

@@ -51,12 +51,12 @@ export function encrypt(text){
     return encrypted.toString("hex");
 }
 
-export function decrypt(text){
+export function decrypt(text, key){
     if (!cryptoAvailable()){
         return text;
     }
 
-    let key = readFromFile(keypath);
+    //let key = readFromFile(keypath);
     let iv = readFromFile(ivpath);
     let encryptedText = Buffer.from(text, "hex");
     let decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), iv);
