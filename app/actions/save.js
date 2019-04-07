@@ -30,3 +30,17 @@ export function save(){
         });
     }
 }
+
+export function deleteAll(){
+    return (dispatch: Dispatch, store: Store) => {
+        fs.writeFile("./file.json", "", "utf-8", (error, data) => {
+            if (error){
+                alert("Could not delete data: " + error.message);
+                return;
+            } else {
+                console.log("deleted all data");
+                alert("deleted all data, please close and re-open this app.");
+            }            
+        })
+    }
+}

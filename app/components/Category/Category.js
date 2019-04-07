@@ -77,7 +77,7 @@ class Category extends Component<Props> {
                 
         dialog.showMessageBox({
             title: "delete sub-category",
-            type: "question",
+            type: "warning",
             buttons: ["Yes", "No"],
             message: `are you sure you want to delete '${name}'?`
         }, (i) => {
