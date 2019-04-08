@@ -52,6 +52,7 @@ file.json
 release
 release.zip
 release/*
+win-release.zip
 
 .idea
 npm-debug.log.*
