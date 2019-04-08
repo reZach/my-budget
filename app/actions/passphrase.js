@@ -15,7 +15,11 @@ var set_passphrase = function(passphrase: string){
 export function setPassphrase(passphrase: string){
     return (dispatch: Dispatch, store: Store) => {
 
-        let hash = crypto.createHash("sha256").update(passphrase, "utf8").digest();
+        let hash = "";
+
+        if (passphrase !== ""){
+            hash = crypto.createHash("sha256").update(passphrase, "utf8").digest();
+        }        
 
         dispatch(set_passphrase(hash));
     }
