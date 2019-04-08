@@ -49,6 +49,8 @@ main.js.map
 
 my-budget*/
 file.json
+release
+release/*
 
 .idea
 npm-debug.log.*
