@@ -12,6 +12,7 @@
  */
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
+const path = require("path");
 import log from 'electron-log';
 import MenuBuilder from './menu';
 
@@ -70,7 +71,8 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
-    height: 728
+    height: 728,
+    icon: path.join(__dirname, "assets/icons/png/64x64.png")
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
