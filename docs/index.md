@@ -5,6 +5,7 @@ Take control of your budget, download it today. It is free - forever.
 - Completely offline - we are not saving any information of yours, it remains on your computer.
 - Simple - only contains what you need to budget.
 - Passphrase protected - protect your data by providing a passphrase to encrypt your data (this is optional).
+- Built with [Electron](https://electronjs.org/) - supported on Linux, MacOS and Windows.
 
 # Download
 You can download the application [here](https://github.com/reZach/my-budget/releases). The application is still in beta, so please be aware there may be breaking changes until we have stabilized for the first major release.
