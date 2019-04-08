@@ -56,14 +56,15 @@
   },
   "main": "./app/main.prod.js",
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "MyBudget",
+    "appId": "org.develar.MyBudget",
     "files": [
       "app/dist/",
       "app/app.html",
       "app/main.prod.js",
       "app/main.prod.js.map",
-      "package.json"
+      "package.json",
+      "file.json"
     ],
     "dmg": {
       "contents": [
