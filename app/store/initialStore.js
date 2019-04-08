@@ -1,42 +1,42 @@
 import { CREATE_NEW_TRANSACTION_INITIAL_STATE } from "../actions/createTransaction";
-let fs = require("fs");
-import * as crypto from "../crypto/code";
+// let fs = require("fs");
+// import * as crypto from "../crypto/code";
 
 var date: Date = (new Date());
 var month: string = date.getMonth() + 1;
 var year: string = date.getFullYear();
 
-var success = false;
-var fileContents;
-try
-{
-    fileContents = fs.readFileSync("./file.json", "utf-8");
+// var success = false;
+// var fileContents;
+// try
+// {
+//     fileContents = fs.readFileSync("./file.json", "utf-8");
 
-    if (crypto.cryptoAvailable()){
-        var decrypted = crypto.decrypt(fileContents);
+//     if (crypto.cryptoAvailable()){
+//         var decrypted = crypto.decrypt(fileContents);
 
-        success = true;
-        fileContents = JSON.parse(decrypted);
-    } else {
-        success = true;
-        fileContents = JSON.parse(fileContents);
-    }
-}
-catch (error)
-{
-
-}
+//         success = true;
+//         fileContents = JSON.parse(decrypted);
+//     } else {
+//         success = true;
+//         fileContents = JSON.parse(fileContents);
+//     }
+// }
+// catch (error)
+// {
+//     console.error(error);
+// }
 
 export const initialStore = {
-    modified: success ? fileContents.modified : false,
-    income: success ? fileContents.income : [{
+    modified: /*success ? fileContents.modified :*/ false,
+    income: /*success ? fileContents.income :*/ [{
         id: "1",
         dateId: `${month}-${year}`,
         amount: 0
     }],
-    categories: success ? fileContents.categories : [],
-    items: success ? fileContents.items : [],
-    transactions: success ? fileContents.transactions : [],
+    categories: /*success ? fileContents.categories :*/ [],
+    items: /*success ? fileContents.items :*/ [],
+    transactions: /*success ? fileContents.transactions :*/ [],
     createTransaction: CREATE_NEW_TRANSACTION_INITIAL_STATE,
     //templates: [],
     //   income: [{

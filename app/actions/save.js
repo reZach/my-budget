@@ -18,7 +18,7 @@ export function save(){
         let encrypted = "";
 
         if (store().passphrase !== ""){
-            encrypted = crypto.encrypt(JSON.stringify(store()));
+            encrypted = crypto.encrypt(JSON.stringify(store()), store().passphrase);
         } else {
             encrypted = JSON.stringify(store());
         }

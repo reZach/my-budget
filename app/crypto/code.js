@@ -1,6 +1,6 @@
 let fs = require("fs");
 let algorithm = "aes-256-cbc";
-const keypath = "./app/crypto/key.txt";
+//const keypath = "./app/crypto/key.txt";
 const ivpath = "./app/crypto/iv.txt";
 let crypto = null;
 
@@ -8,6 +8,10 @@ export function cryptoAvailable(){
     try {
         if (crypto === null){
             crypto = require("crypto");
+
+            if (readFromFile(ivpath) === ""){
+                writeNewIv();
+            }
         }        
     }
     catch (error){
@@ -38,12 +42,12 @@ export function writeNewIv(){
     });
 }
 
-export function encrypt(text){
-    if (!cryptoAvailable()){
+export function encrypt(text, key){
+    if (!cryptoAvailable() || key === ""){
         return text;
     }
 
-    let key = readFromFile(keypath);
+    //let key = readFromFile(keypath);
     let iv = readFromFile(ivpath);
     let cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
     let encrypted = cipher.update(text);
@@ -52,7 +56,7 @@ export function encrypt(text){
 }
 
 export function decrypt(text, key){
-    if (!cryptoAvailable()){
+    if (!cryptoAvailable() || key === ""){
         return text;
     }
 

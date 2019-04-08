@@ -3,6 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import styles from "./Entry.css";
 import { Redirect } from "react-router";
+const {dialog} = require('electron').remote;
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ItemCollectionActions from "../../actions/itemCollection";
 import * as TransactionCollectionActions from "../../actions/transactionCollection";
@@ -25,6 +26,7 @@ class Entry extends Component<Props>{
 
         this.changePassphrase = this.changePassphrase.bind(this);
         this.go = this.go.bind(this);
+        this.fixBug = this.fixBug.bind(this);
     }
 
     changePassphrase(event){
@@ -44,6 +46,15 @@ class Entry extends Component<Props>{
         {
             this.props.setPassphrase(this.state.passphrase);
 
+            // Create file if not exist
+            if (!fs.existsSync("./file.json")){
+                fs.writeFileSync("./file.json", "", function(error){
+                    if (error){
+                        console.error("could not write new key");
+                    }
+                });
+            }
+            
             fileContents = fs.readFileSync("./file.json", "utf-8");
 
             if (fileContents !== ""){
@@ -102,7 +113,24 @@ class Entry extends Component<Props>{
         catch (error)
         {
             console.error(error);
+
+            dialog.showMessageBox({
+                title: "error loading data",
+                type: "warning",
+                buttons: ["Ok"],
+                message: `wrong passphrase, we could not load your data.`
+            }, (i) => {
+                    
+            });             
         }
+    }
+
+    componentDidMount(){
+        this.fixbuginput.click();
+    }
+
+    fixBug(){
+
     }
 
     render() {
@@ -120,12 +148,17 @@ class Entry extends Component<Props>{
                         </div>
                         <div className={`columns ${styles.less}`}>
                             <div className="column col-12">
-                                <div className="input-group">
-                                    <input className="form-input input-lg" type="text" placeholder="passphrase" autoFocus value={this.state.passphrase} onChange={this.changePassphrase}></input>
-                                    <button className="btn btn-lg btn-primary" onClick={() => this.go()}>go</button>
-                                </div>                                
+                                <form onSubmit={() => this.go()}>
+                                    <div className="input-group">
+                                        <input className="form-input input-lg" type="text" placeholder="passphrase" autoFocus value={this.state.passphrase} onChange={this.changePassphrase}></input>
+                                        <button className="btn btn-lg btn-primary" type="submit">go</button>
+                                    </div>
+                                </form>                                                                
                             </div>
                         </div>
+                        <form style={{display: "none"}} onSubmit={() => this.fixBug()}>
+                            <button ref={input => this.fixbuginput = input}  type="submit"></button>
+                        </form>
                     </div>
                 </div>
             </div>
