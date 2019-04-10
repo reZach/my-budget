@@ -11,6 +11,7 @@ import * as PassphraseActions from "../../actions/passphrase";
 import * as ModifyActions from "../../actions/modify";
 import * as IncomeActions from "../../actions/income";
 const fs = require("fs");
+import filehelper from "../../utils/filehelper";
 import * as crypto from "../../crypto/code";
 
 class Entry extends Component<Props>{
@@ -47,15 +48,16 @@ class Entry extends Component<Props>{
             this.props.setPassphrase(this.state.passphrase);
 
             // Create file if not exist
-            if (!fs.existsSync("./file.json")){
-                fs.writeFileSync("./file.json", "", function(error){
+            if (!filehelper.exists()){
+
+                filehelper.setSync("", function(error){
                     if (error){
                         console.error("could not write new key");
                     }
                 });
             }
             
-            fileContents = fs.readFileSync("./file.json", "utf-8");
+            fileContents = filehelper.get();
 
             if (fileContents !== ""){
                 if (crypto.cryptoAvailable() && this.state.passphrase !== ""){
@@ -118,7 +120,7 @@ class Entry extends Component<Props>{
                 title: "error loading data",
                 type: "warning",
                 buttons: ["Ok"],
-                message: `wrong passphrase, we could not load your data.`
+                message: `wrong passphrase, we could not load your data. please delete this your data file found here '${filehelper.path()}' and restart this app.`
             }, (i) => {
                     
             });             

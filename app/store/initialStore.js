@@ -10,7 +10,7 @@ var year: string = date.getFullYear();
 // var fileContents;
 // try
 // {
-//     fileContents = fs.readFileSync("./file.json", "utf-8");
+//     fileContents = fs.readFileSync("file.json", "utf-8");
 
 //     if (crypto.cryptoAvailable()){
 //         var decrypted = crypto.decrypt(fileContents);
