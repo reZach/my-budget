@@ -12,7 +12,7 @@ class Store {
     this.path = path.join(userDataPath, opts.configName + '.json');
   }
 
-  path(){
+  localpath(){
     return this.path;
   }
 
