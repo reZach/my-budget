@@ -19,6 +19,7 @@
     "package": "yarn build && electron-builder build --publish never",
     "package-all": "yarn build && electron-builder build -mwl",
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
+    "package-mac": "yarn build && electron-builder build --mac",
     "package-linux": "yarn build && electron-builder build --linux",
     "package-win": "yarn build && electron-builder build --win --x64",
     "postinstall": "yarn flow-typed && electron-builder install-app-deps package.json && yarn build-dll && opencollective-postinstall",
@@ -57,14 +58,13 @@
   "main": "./app/main.prod.js",
   "build": {
     "productName": "MyBudget",
-    "appId": "org.develar.MyBudget",
+    "appId": "org.zachary.MyBudget",
     "files": [
       "app/dist/",
       "app/app.html",
       "app/main.prod.js",
       "app/main.prod.js.map",
-      "package.json",
-      "file.json"
+      "package.json"
     ],
     "dmg": {
       "contents": [
