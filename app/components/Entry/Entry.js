@@ -43,6 +43,7 @@ class Entry extends Component<Props>{
 
         var success = false;
         var fileContents;
+        var localpath = filehelper.localpath();
         try
         {
             this.props.setPassphrase(this.state.passphrase);
@@ -60,8 +61,8 @@ class Entry extends Component<Props>{
             fileContents = filehelper.get();
 
             if (fileContents !== ""){
-                if (crypto.cryptoAvailable() && this.state.passphrase !== ""){
-                    var decrypted = crypto.decrypt(fileContents);
+                if (crypto.cryptoAvailable() && this.props.passphrase !== ""){
+                    var decrypted = crypto.decrypt(fileContents, this.props.passphrase);
     
                     success = true;
                     fileContents = JSON.parse(decrypted);
@@ -120,7 +121,7 @@ class Entry extends Component<Props>{
                 title: "error loading data",
                 type: "warning",
                 buttons: ["Ok"],
-                message: `wrong passphrase, we could not load your data. please delete this your data file found here '${filehelper.path()}' and restart this app.`
+                message: `wrong passphrase, we could not load your data. please delete this your data file found here '${localpath}' and restart this app.`
             }, (i) => {
                     
             });             
