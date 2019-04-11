@@ -47,7 +47,7 @@ export default function transactionCollection(state: any = {}, action: Action){
                 );
             }
         case REMOVE_TRANSACTION:
-            return update([], state.filter(t => t.dateId === action.payload.dateId && t.categoryId === action.payload.categoryId && t.itemId === action.payload.itemId && t.id !== action.payload.transactionId));
+            return update([], state.filter(t => !(t.dateId === action.payload.dateId && t.categoryId === action.payload.categoryId && t.itemId === action.payload.itemId && t.id === action.payload.transactionId)));
         case REMOVE_ALL_TRANSACTION:
             return update([], state.filter(t => t.dateId !== action.payload.dateId));
         case ENTRY_TRANSACTIONS:

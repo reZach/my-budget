@@ -153,7 +153,7 @@ class Entry extends Component<Props>{
                             <div className="column col-12">
                                 <form onSubmit={() => this.go()}>
                                     <div className="input-group">
-                                        <input className="form-input input-lg" type="text" placeholder="passphrase" autoFocus value={this.state.passphrase} onChange={this.changePassphrase}></input>
+                                        <input className="form-input input-lg" type="password" placeholder="passphrase" autoFocus value={this.state.passphrase} onChange={this.changePassphrase}></input>
                                         <button className="btn btn-lg btn-primary" type="submit">go</button>
                                     </div>
                                 </form>                                                                
