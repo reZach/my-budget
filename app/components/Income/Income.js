@@ -61,7 +61,7 @@ class Income extends Component<Props>{
             runningTotal = runningTotal + parseFloat(this.props.transactions[i].amount);
         }
         
-        return ((runningTotal / parseFloat(data.amount)) * 100).toFixed(2);
+        return ((runningTotal / parseFloat(data.amount)) * 100).toFixed(0);
     }
 
     getRemainingDays(){
