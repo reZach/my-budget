@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'Ubuntu-16.04'
+  vmImage: 'windows-2019'
 
 steps:
 - task: NodeTool@0
@@ -17,5 +17,5 @@ steps:
 
 - script: |
     npm install
-    npm run build
+    npm run package-win
   displayName: 'npm install and build'
