@@ -19,6 +19,10 @@ steps:
   inputs:
     command: 'install'
 
+- powershell:
+  env:
+    GH_PAGES: $(GH_PAGES)
+
 - task: Npm@1
   inputs:
     command: 'custom'
