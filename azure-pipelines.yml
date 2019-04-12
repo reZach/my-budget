@@ -10,12 +10,13 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
-- task: NodeTool@0
+- task: Npm@0
   inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+    command: 'install'
+  displayName: 'npm install'
 
-- script: |
-    npm install
-    npm run package-win
-  displayName: 'npm install and build'
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    customCommand: 'run package-win'
+  displayName: 'npm run package-win'
