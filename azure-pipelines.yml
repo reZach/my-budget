@@ -10,20 +10,13 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
-- task: Npm@1
+- task: Npm@0
   inputs:
     command: 'install'
-
-- powershell:
-  env:
-    GH_PAGES: $(GH_PAGES)
+  displayName: 'npm install'
 
 - task: Npm@1
   inputs:
     command: 'custom'
     customCommand: 'run package-win'
+  displayName: 'npm run package-win'
