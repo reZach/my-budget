@@ -148,27 +148,27 @@ export default class MenuBuilder {
         {
           label: 'Learn More',
           click() {
-            shell.openExternal('http://electron.atom.io');
+            shell.openExternal('https://github.com/reZach/my-budget/blob/master/README.md');
           }
         },
         {
           label: 'Documentation',
           click() {
             shell.openExternal(
-              'https://github.com/atom/electron/tree/master/docs#readme'
+              'https://github.com/reZach/my-budget'
             );
           }
         },
         {
           label: 'Community Discussions',
           click() {
-            shell.openExternal('https://discuss.atom.io/c/electron');
+            shell.openExternal('https://my-budget.slack.com');
           }
         },
         {
           label: 'Search Issues',
           click() {
-            shell.openExternal('https://github.com/atom/electron/issues');
+            shell.openExternal('https://github.com/reZach/my-budget/issues');
           }
         }
       ]
