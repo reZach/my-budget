@@ -101,7 +101,7 @@
     },
     "publish": {
       "provider": "github",
-      "owner": "zachary",
+      "owner": "reZach",
       "private": false
     }
   },
