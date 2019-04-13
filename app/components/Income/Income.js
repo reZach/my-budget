@@ -90,13 +90,13 @@ class Income extends Component<Props>{
                                 <React.Fragment></React.Fragment>
                             }</span>
                             &nbsp;
-                            <span className="label label-secondary">{this.getRemainingDays() > 0 ? this.getRemainingDays() + " days left!" : "last day of the month!"}</span>
+                            <span className="label label-secondary">{this.getRemainingDays() > 0 ? this.getRemainingDays() + " days left" : "last day of the month"}</span>
                         </div>
                         <div className={`column col-12 ${styles['some-mb']}`}>
                             {spent !== "0.00" ? 
                             <div className="bar">
                                 <div className={`bar-item ${spent <= 33 ? styles["bar-good"] : spent <= 66 ? styles["bar-okay"] : styles["bar-bad"]}`} role="progressbar" style={{width: spent + "%"}} aria-valuenow={`${spent}`} aria-valuemin="0"></div>
-                            </div> : <div>enter in your transactions/income for the month!</div>
+                            </div> : <div>enter in your transactions/income for the month</div>
                             }
                         </div>
                         <div className="column col-12 text-left">

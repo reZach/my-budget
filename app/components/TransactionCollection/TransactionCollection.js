@@ -175,9 +175,9 @@ class TransactionCollection extends Component<Props> {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <div className="col-3">day</div>
+                                <div className="col-3">date</div>
                                 <div className="col-9">
-                                    <input className="form-input" type="number" placeholder="day" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
+                                    <input className="form-input" type="number" placeholder="date" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
                                 </div>
                             </div>
                             <div className="form-group">
