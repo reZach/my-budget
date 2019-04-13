@@ -24,4 +24,4 @@ steps:
   inputs:
     command: 'custom'
     customCommand: 'run package-linux'
-  displayName: 'npm run package-linux
+  displayName: 'npm run package-linux'
