@@ -111,6 +111,7 @@
   },
   "author": {
     "name": "zachary",
+    "email": "npmcoder@gmail.com",
     "url": "https://electron-react-boilerplate.js.org"
   },
   "license": "MIT",
