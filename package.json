@@ -20,7 +20,7 @@
     "package-all": "yarn build && electron-builder build -mwl",
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
     "package-mac": "yarn build && electron-builder build --mac --publish onTagOrDraft",
-    "package-linux": "yarn build && electron-builder build --linux",
+    "package-linux": "yarn build && electron-builder build --linux --publish onTagOrDraft",
     "package-win": "yarn build && electron-builder build --win --x64 --publish onTagOrDraft",
     "postinstall": "yarn flow-typed && electron-builder install-app-deps package.json && yarn build-dll && opencollective-postinstall",
     "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{*{js,jsx,json},babelrc,eslintrc,prettierrc,stylelintrc}'",
