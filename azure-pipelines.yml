@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'macOS-10.14'
 
 steps:
 - task: Npm@0
@@ -18,5 +18,5 @@ steps:
 - task: Npm@1
   inputs:
     command: 'custom'
-    customCommand: 'run package-win'
-  displayName: 'npm run package-win'
+    customCommand: 'run package-mac'
+  displayName: 'npm run package-mac'
