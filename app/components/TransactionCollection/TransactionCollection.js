@@ -159,9 +159,9 @@ class TransactionCollection extends Component<Props> {
 
     render() {
         return (
-            <React.Fragment>
+            <div className="card">
                 <div className="columns">
-                    <div className="column col-12">
+                    <div className="column col-12 text-left">
                         <h2>transactions</h2>
                     </div>
                 </div>
@@ -217,11 +217,16 @@ class TransactionCollection extends Component<Props> {
                 </div>
                 
                 <div className={`${styles['transaction-container']}`}>
-                    {this.props.transactions.map((value, index, array) => 
+                    {this.props.transactions.sort(function(a, b){
+                        
+                        if (a.day > b.day) return 1;
+                        if (b.day > a.day) return -1;                        
+                        return 0;
+                    }).map((value, index, array) => 
                         <Transaction key={index} {...value} delete={this.deleteTransaction}></Transaction>
                     )}
                 </div>                                
-            </React.Fragment>
+            </div>
         );
     }
 }

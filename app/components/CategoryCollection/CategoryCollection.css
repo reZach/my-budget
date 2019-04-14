@@ -7,5 +7,6 @@
 }
 
 .category-container {
-
+    overflow-y:auto;
+    max-height:52vh;
 }

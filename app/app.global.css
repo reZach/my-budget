@@ -9,7 +9,7 @@ body {
   position: relative;
   color: #000000;
   height: 100vh;
-  background-color: #ffffff;
+  background-color: #eceaea;
   overflow-y:hidden; /*checkin*/
   /*background-image: linear-gradient(45deg, rgba(0, 216, 255, 0.5) 10%, rgba(0, 1, 127, 0.7)); */
   font-family: Arial, Helvetica, Helvetica Neue, serif;
@@ -27,9 +27,9 @@ h1,h2 {
   margin-bottom:10px;
 }
 
-* {
+/* * {
   overflow-wrap:break-word;
-}
+} */
 
 p {
   font-size: 24px;
@@ -53,4 +53,10 @@ a:hover {
 
 #root {
   height:100%;
+}
+
+/* spectre overrides */
+.card {
+  box-shadow: 0 0.25rem 1rem rgba(48,55,66,.15);
+  padding:10px;
 }

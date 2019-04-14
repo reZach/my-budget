@@ -94,7 +94,7 @@ export function modifyAmount(amount: number){
 }
 export function modifyDay(day: number){
     return (dispatch: Dispatch, store: Store) => {
-        dispatch(modify_day(day));
+        dispatch(modify_day(parseInt(day)));
     }
 }
 export function modifySelectedCategory(categoryId: string, categoryName: string){

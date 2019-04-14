@@ -159,6 +159,23 @@ class Entry extends Component<Props>{
                                 </form>                                                                
                             </div>
                         </div>
+                        <div className={`columns ${styles.smaller}`}>
+                            <div className="column col-12">
+                                <div className="popover popover-bottom">
+                                    <button className="btn">new user?</button>
+                                    <div className="popover-container">
+                                        <div className="card">
+                                            <div className="card-body">
+                                                If this is your first time using MyBudget, you can choose to encrypt your data with a passphrase. If you do so, you must enter in your passphrase every time you use this app. You cannot change your passphrase once it's been set!
+                                            </div>
+                                            <div className="card-footer" style={{fontStyle: "italic"}}>
+                                                If you don't choose a passphrase, your data will be saved unencrypted on your computer.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
                         <form style={{display: "none"}} onSubmit={() => this.fixBug()}>
                             <button ref={input => this.fixbuginput = input}  type="submit"></button>
                         </form>

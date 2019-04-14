@@ -21,6 +21,10 @@ class Save extends Component<Props>{
         this.props.save();        
     }
 
+    export(event){
+        dialog.showOpenDialog({ properties: ['openFile', 'openDirectory', 'multiSelections'] });
+    }
+
     deleteAll(event){
         
         dialog.showMessageBox({
@@ -41,10 +45,10 @@ class Save extends Component<Props>{
         return (
             <React.Fragment>
                 <div className="columns">
-                    <div className="column col-12">
-                        <h2>data</h2>
-                        <input className={`btn btn-primary ${styles['some-mr']}`} type="button" value="save" disabled={!this.props.modified} onClick={() => this.multi()}></input>
-                        <input className="btn btn-error" type="button" value="delete" onClick={() => this.deleteAll()}></input>
+                    <div className="column col-12">                        
+                        <button className={`btn btn-primary tooltip tooltip-bottom ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>save</button>
+                        {/* <button className="btn" type="button" value="export" onClick={() => return true;}></button> */}
+                        <button className="btn btn-error tooltip tooltip-bottom" type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>delete</button>
                     </div>
                 </div>                
             </React.Fragment>
