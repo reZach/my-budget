@@ -28,13 +28,13 @@ export default class Home extends Component<Props> {
             <Income />
           </div>
         </div>
-        <div className="columns">
-          <div className="column col-8">
+        <div className="columns" style={{height: "100%"}}>
+          <div className="column col-8" style={{overflowY: "auto"}}>
             <CategoryCollection />
           </div>
           <div className="column col-4">
             <TransactionCollection />
-          </div>          
+          </div>        
         </div>
         {/* <Link to={routes.COUNTER}>to Counter</Link> */}
       </div>

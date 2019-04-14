@@ -1,0 +1,19 @@
+.category {
+    background-color: #e2e3e4;
+    height:30px;
+}
+
+.icon {
+    cursor: pointer;
+    padding-top:3px;
+}
+.icon:hover{
+    background-color:#ABAAEC;
+}
+.icon-fix {
+    padding-top:6px;
+}
+
+.h30 {
+    height:30px;
+}

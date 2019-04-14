@@ -97,16 +97,22 @@ class CategoryCollection extends Component<Props> {
                         </form>
                     </div>                    
                 </div>
-                <div className={`columns ${styles['category-container']}`}>
-                {this.props.categories.sort((a, b) => a.name > b.name).map((value, index, array) => {
-                    return value.dateId === this.props.date.id ?
-                        <div className={`column col-8 text-left ${styles.category}`} key={this.props.date.id + "-" + value.id}>
-                            <Category {...value} dateId={this.props.date.id} rename={this.renameCategory} delete={this.deleteCategory}></Category>
-                        </div>
-                    :
-                        <React.Fragment key={index}></React.Fragment>
-                })}    
-                </div>                                                                
+                <div className={`columns ${styles['category-container']}`}>                
+                    {this.props.categories.sort(function(a, b){
+                        var a1 = a.name.toLowerCase();
+                        var b1 = b.name.toLowerCase();
+                        if (a1 > b1) return 1;
+                        if (a1 < b1) return -1;
+                        return 0;
+                    }).map((value, index, array) => {
+                        return value.dateId === this.props.date.id ?
+                            <div className={`column col-12 text-left ${styles.category}`} key={this.props.date.id + "-" + value.id}>
+                                <Category {...value} dateId={this.props.date.id} rename={this.renameCategory} delete={this.deleteCategory}></Category>
+                            </div>
+                        :
+                            <React.Fragment key={index}></React.Fragment>
+                    })}    
+                </div>                                                                               
             </React.Fragment>
         );
     }
