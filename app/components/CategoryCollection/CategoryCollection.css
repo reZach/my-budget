@@ -1,12 +1,11 @@
 .category-input {
-    margin-bottom:50px;
+    margin-bottom:20px;
 }
 
 .category {
-    margin-bottom:35px;
+
 }
 
 .category-container {
-    max-height:450px;
-    overflow-y: auto;
+
 }

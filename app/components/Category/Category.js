@@ -16,16 +16,28 @@ class Category extends Component<Props> {
             newItemName: "",
             newCategoryName: "",
             renameActive: false,
-            editActive: false
+            editActive: false,
+            addActive: false
         }
+
+        this.newSubcategoryInput;
 
         this.toggleRenameActive = this.toggleRenameActive.bind(this);
         this.toggleEditActive = this.toggleEditActive.bind(this);
+        this.toggleAddActive = this.toggleAddActive.bind(this);
         this.renameCategory = this.renameCategory.bind(this);
         this.renameItem = this.renameItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
         this.modifyNewItemName = this.modifyNewItemName.bind(this);
-        this.modifyNewCategoryName = this.modifyNewCategoryName.bind(this);        
+        this.modifyNewCategoryName = this.modifyNewCategoryName.bind(this);
+        this.handleEnterForCategory = this.handleEnterForCategory.bind(this);
+        this.handleEnterForSubcategory = this.handleEnterForSubcategory.bind(this);
+    }
+
+    componentDidUpdate(previousProps, previousState){
+        if (typeof this.newSubcategoryInput !== "undefined" && this.newSubcategoryInput !== null){
+            this.newSubcategoryInput.focus();
+        }        
     }
 
     toggleRenameActive(event){
@@ -48,6 +60,14 @@ class Category extends Component<Props> {
 
         this.setState({
             editActive: newState
+        });
+    }
+
+    toggleAddActive(event){
+        let newState = !this.state.addActive;
+
+        this.setState({
+            addActive: newState
         });
     }
 
@@ -96,10 +116,10 @@ class Category extends Component<Props> {
         });
     }
 
-    modifyNewCategoryName(event){
+    modifyNewCategoryName(event){        
         this.setState({
             newCategoryName: event.target.value
-        });
+        });  
     }
 
     createNewItem(event){
@@ -111,9 +131,24 @@ class Category extends Component<Props> {
                 this.props.trueModify();
 
                 this.setState({
-                    newItemName: ""
+                    newItemName: "",
+                    addActive: false
                 });
             }
+        }
+    }
+
+    handleEnterForCategory(event){
+        let code = event.keyCode || event.which;
+        if (code === 13){
+            this.renameCategory();
+        }
+    }
+
+    handleEnterForSubcategory(event){
+        let code = event.keyCode || event.which;
+        if (code === 13){
+            this.createNewItem();
         }
     }
 
@@ -139,37 +174,77 @@ class Category extends Component<Props> {
         }
     }
 
+    renderControls(){
+        if (this.state.renameActive){
+            return (
+                <div className={`column col-xs-auto text-center`}>
+                    <div className="columns">
+                        <input className="column col-8" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEnterForCategory} placeholder="new name"></input>
+                        <i className={`column col-2 fas fa-check ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.renameCategory()}></i>
+                        <i className={`column col-2 fas fa-ban ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()}></i>
+                    </div>
+                </div>                
+            );
+        } else {
+            return (
+                <React.Fragment>
+                    <div className={`column col-1 text-center ${styles['icon']}`} onClick={this.toggleRenameActive}>
+                        <i className="fas fa-edit"></i>
+                    </div>
+                        <div className={`column col-1 text-center ${styles['icon']}`} onClick={() => this.props.delete(this.props.id, this.props.name)}>
+                        <i className={`fas fa-trash-alt ${styles.icon}`}></i>
+                    </div>
+                </React.Fragment>                                
+            );            
+        }
+    }
+
+    renderNewSubcategory(){
+        if (!this.state.addActive){
+            return (
+                <div className={`column col-xs-auto text-center ${styles.h30} ${styles.icon}`} onClick={() => this.toggleAddActive()}>
+                    <i className={`fas fa-plus-square`}></i>
+                </div>
+            );
+        } else {
+            return (
+                <div className={`column col-xs-auto text-center ${styles.h30}`}>
+                    <div className="columns">
+                        <input ref={me => (this.newSubcategoryInput = me)} className="column col-10" type="text" placeholder="sub-category" value={this.state.newItemName} onChange={this.modifyNewItemName} onKeyUp={this.handleEnterForSubcategory}></input>
+                        <i className={`column col-1 fas fa-check ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.createNewItem()}></i>
+                        <i className={`column col-1 fas fa-ban ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.toggleAddActive()}></i>                                
+                    </div>
+                </div>
+            );
+        }
+    }
+
     render () {
         return (
             <React.Fragment>
                 <div className="columns">
-                    <div className="column col-7 text-left">
-                        <h3>{this.props.name}</h3>                        
-                    </div>
-                    <div className="column col-5">
-                        {!this.state.editActive &&
-                        <div className="input-group float-right">
-                            <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleEditActive()}>edit</button>
-                        </div>
-                        }
-                        {this.renderCompound()}
-                    </div>
-                </div>                
-                <div className="columns">
-                    <div className="column col-12 text-left">
-                        {/* <span>items</span> */}
-                        <form onSubmit={() => this.createNewItem()}>
-                            <div className="input-group">
-                                <input className="form-input" type="text" placeholder="sub-category" value={this.state.newItemName} onChange={this.modifyNewItemName}></input>
-                                <button className="btn btn-primary input-group-btn" type="submit">add new</button>
+                    <div className="column col-12">
+                        {/* HACK TABLE */}
+                        <div className={`columns ${styles.category}`}>
+                            <div className="column col-xs-auto" style={{fontWeight: "bold"}}>
+                                {this.props.name}
                             </div>
-                            
-                        </form>
-                        {this.props.items.sort((a, b) => a.name > b.name).map((value, index, array) => {
+                            {this.renderControls()}                            
+                        </div>
+                        {this.props.items.sort(function(a, b){
+                            var a1 = a.name.toLowerCase();
+                            var b1 = b.name.toLowerCase();
+                            if (a1 > b1) return 1;
+                            if (a1 < b1) return -1;
+                            return 0;
+                        }).map((value, index, array) => {
                             return <div key={index}>
                                 <Item {...value} categoryId={this.props.id} dateId={this.props.dateId} rename={this.renameItem} delete={this.deleteItem}></Item>
                             </div>;
                         })}
+                        <div className="columns">
+                            {this.renderNewSubcategory()}
+                        </div>
                     </div>
                 </div>
             </React.Fragment>

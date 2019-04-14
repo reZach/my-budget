@@ -61,7 +61,13 @@ class TransactionCollection extends Component<Props> {
         var item = "";
         var newItemId = "";
         if (this.props.items.length > 0){
-            var exists = this.props.items.sort((a, b) => a.name > b.name).find(i => i.categoryId === newCategoryId);
+            var exists = this.props.items.sort(function(a, b){
+                var a1 = a.name.toLowerCase();
+                var b1 = b.name.toLowerCase();
+                if (a1 > b1) return 1;
+                if (a1 < b1) return -1;
+                return 0;
+            }).find(i => i.categoryId === newCategoryId);
 
             if (typeof exists !== "undefined"){
                 item = exists.name;
@@ -127,14 +133,26 @@ class TransactionCollection extends Component<Props> {
 
     createCategoriesDropDown(){
         let categories = this.props.categories;
-        return categories.sort((a, b) => a.name > b.name).map((category) =>
+        return categories.sort(function(a, b){
+            var a1 = a.name.toLowerCase();
+            var b1 = b.name.toLowerCase();
+            if (a1 > b1) return 1;
+            if (a1 < b1) return -1;
+            return 0;            
+        }).map((category) =>
             <option key={`${category.dateId}.${category.id}.${category.name}`}>{category.name}</option>
         );
     }
 
     createItemsDropDown(){
         let items = this.props.items;
-        return items.filter(i => i.categoryId === this.props.createTransaction.selectedCategoryId).sort((a, b) => a.name > b.name).map((item) => 
+        return items.filter(i => i.categoryId === this.props.createTransaction.selectedCategoryId).sort(function(a, b){
+            var a1 = a.name.toLowerCase();
+            var b1 = b.name.toLowerCase();
+            if (a1 > b1) return 1;
+            if (a1 < b1) return -1;
+            return 0;
+        }).map((item) => 
             <option key={`${item.dateId}.${item.id}.${item.name}`}>{item.name}</option>
         );
     }

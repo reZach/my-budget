@@ -1,0 +1,16 @@
+.item {
+    height:30px;
+    border: 0.05rem solid #b5bbc1;
+    border-top:none;
+}
+
+.icon {
+    cursor: pointer;
+    padding-top:3px;
+}
+.icon:hover{
+    background-color:#ABAAEC;
+}
+.icon-fix {
+    padding-top:6px;
+}

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as ModifyActions from "../../actions/modify";
+import styles from "./Item.css";
 
 class Item extends Component<Props> {
     props: Props;
@@ -19,6 +20,7 @@ class Item extends Component<Props> {
         this.deleteItem = this.deleteItem.bind(this);
         this.toggleRenameActive = this.toggleRenameActive.bind(this);
         this.toggleEditActive = this.toggleEditActive.bind(this);
+        this.handleEnter = this.handleEnter.bind(this);
     }
 
     renameItem(event){
@@ -65,44 +67,47 @@ class Item extends Component<Props> {
         });
     }
 
-    renderCompound(){
-        if (this.state.renameActive && this.state.editActive){
+    handleEnter(event){
+        let code = event.keyCode || event.which;
+        if (code === 13){
+            this.renameItem();
+        }
+    }
+
+    renderControls(){
+        if (this.state.renameActive){
             return (
-                <form onSubmit={() => this.renameItem()}>
-                    <div className="input-group">
-                        <input className="form-input input-sm" type="text" autoFocus value={this.state.newItemName} onChange={this.newItemName}></input>
-                        <button className="btn btn-sm btn-primary input-group-btn" type="submit">update</button>
-                        <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()}>cancel</button>                        
-                    </div>                            
-                </form>
+                <div className={`column col-xs-auto text-center`}>
+                    <div className="columns">
+                        <input className="column col-8" type="text" autoFocus value={this.state.newItemName} onChange={this.newItemName} onKeyUp={this.handleEnter} placeholder="new name"></input>
+                        <i className={`column col-2 fas fa-check ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.renameItem()}></i>
+                        <i className={`column col-2 fas fa-ban ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()}></i>
+                    </div>
+                </div>                
             );
-        } else if (this.state.editActive){
+        } else {
             return (
-                <div className="input-group float-right">
-                    <button className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.deleteItem()}>delete</button>                    
-                    <button className="btn btn-sm btn-primary input-group-btn" onClick={this.toggleRenameActive}>rename</button>
-                    <button className="btn btn-sm input-group-btn" onClick={this.toggleEditActive}>cancel</button>
-                </div>
-            );
+                <React.Fragment>
+                    <div className={`column col-1 text-center ${styles['icon']}`} onClick={this.toggleRenameActive}>
+                        <i className="fas fa-edit"></i>
+                    </div>
+                    <div className={`column col-1 text-center ${styles['icon']}`} id={this.props.id} onClick={() => this.deleteItem()}>
+                        <i className={`fas fa-trash-alt ${styles.icon}`}></i>
+                    </div>
+                </React.Fragment>                                
+            );            
         }
     }
 
     render(){
         return (
             <React.Fragment>
-                <div className="columns">
-                    <div className="column col-7 text-left">
+                <div className={`columns ${styles.item}`}>
+                    <div className="column col-xs-auto">
                         {this.props.name}
                     </div>
-                    <div className="column col-5">
-                        {!this.state.editActive &&
-                        <div className="input-group float-right">
-                            <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleEditActive()}>edit</button>
-                        </div>
-                        }
-                        {this.renderCompound()}
-                    </div>
-                </div>                
+                    {this.renderControls()}
+                </div>
             </React.Fragment>
         );
     }
