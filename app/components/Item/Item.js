@@ -71,6 +71,9 @@ class Item extends Component<Props> {
         let code = event.keyCode || event.which;
         if (code === 13){
             this.renameItem();
+        } else if (code === 27){
+            event.target.blur();
+            this.toggleRenameActive();
         }
     }
 

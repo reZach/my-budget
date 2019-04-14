@@ -142,6 +142,9 @@ class Category extends Component<Props> {
         let code = event.keyCode || event.which;
         if (code === 13){
             this.renameCategory();
+        } else if (code === 27){
+            this.toggleRenameActive();
+            event.target.blur();
         }
     }
 
@@ -149,6 +152,9 @@ class Category extends Component<Props> {
         let code = event.keyCode || event.which;
         if (code === 13){
             this.createNewItem();
+        } else if (code === 27){
+            this.toggleAddActive();
+            event.target.blur();
         }
     }
 
@@ -191,7 +197,7 @@ class Category extends Component<Props> {
                     <div className={`column col-1 text-center ${styles['icon']}`} onClick={this.toggleRenameActive}>
                         <i className="fas fa-edit"></i>
                     </div>
-                        <div className={`column col-1 text-center ${styles['icon']}`} onClick={() => this.props.delete(this.props.id, this.props.name)}>
+                    <div className={`column col-1 text-center ${styles['icon']}`} onClick={() => this.props.delete(this.props.id, this.props.name)}>
                         <i className={`fas fa-trash-alt ${styles.icon}`}></i>
                     </div>
                 </React.Fragment>                                
@@ -202,8 +208,8 @@ class Category extends Component<Props> {
     renderNewSubcategory(){
         if (!this.state.addActive){
             return (
-                <div className={`column col-xs-auto text-center ${styles.h30} ${styles.icon}`} onClick={() => this.toggleAddActive()}>
-                    <i className={`fas fa-plus-square`}></i>
+                <div className={`column col-xs-auto text-left ${styles.h30} ${styles.icon}`} onClick={() => this.toggleAddActive()}>
+                    sub-category <i className={`fas fa-plus-square`}></i>
                 </div>
             );
         } else {
@@ -255,7 +261,8 @@ class Category extends Component<Props> {
 
 function mapStateToProps(state, props){
     return {                
-        items: state.items.filter(i => i.dateId === props.dateId && i.categoryId === props.id)
+        items: state.items.filter(i => i.dateId === props.dateId && i.categoryId === props.id),
+        transactions: state.transactions.filter(t => t.dateId === props.dateId && t.categoryId === props.id)
     }
 }
 

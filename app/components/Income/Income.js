@@ -80,7 +80,7 @@ class Income extends Component<Props>{
             let spent = this.getPercentSpent(data);
 
             return (
-                <React.Fragment>
+                <div className="card">
                     <div className="columns">
                         <div className={`column col-12 text-left ${styles['some-mb']}`}>
                             <h2>income</h2>
@@ -108,7 +108,7 @@ class Income extends Component<Props>{
                             </form>
                         </div>
                     </div>                    
-                </React.Fragment>
+                </div>
             );
         } else {
             return (

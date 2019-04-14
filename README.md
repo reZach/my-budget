@@ -1,6 +1,8 @@
 # Welcome
 Take control of your budget, download it today. It is free - forever.
 
+![MyBudget](images/readme.png)
+
 # Features
 - Completely offline - we are not saving any information of yours, it remains on your computer.
 - Simple - only contains what you need to budget.

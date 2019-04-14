@@ -1,0 +1,20 @@
+.transactionrow {
+    min-height: 30px;
+    border: 0.05rem solid #b5bbc1;
+    border-top: none;
+}
+
+.note {
+    overflow-x: auto;
+}
+
+.icon {
+    cursor: pointer;
+    padding-top:3px;
+}
+.icon:hover{
+    background-color:#ABAAEC;
+}
+.icon-fix {
+    padding-top:6px;
+}
