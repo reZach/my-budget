@@ -9,6 +9,7 @@ import categoryCollection from "./categoryCollection";
 import itemCollection from "./itemCollection";
 import transactionCollection from "./transactionCollection";
 import createTransaction from "./createTransaction";
+import bankSync from "./bankSync";
 import income from "./income";
 import modified from "./modified";
 
@@ -22,6 +23,7 @@ export default function createRootReducer(history: History) {
     categories: categoryCollection,
     items: itemCollection,
     transactions: transactionCollection,
-    createTransaction: createTransaction
+    createTransaction: createTransaction,
+    bankSync: bankSync
   });
 }
