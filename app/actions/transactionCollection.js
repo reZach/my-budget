@@ -57,6 +57,12 @@ export function addTransaction(categoryId: string, itemId: string, day: string, 
             store().date.id, categoryId, itemId, day, amount, note));
     }
 }
+export function addTransaction2(dateId: string, categoryId: string, itemId: string, day: string, amount: string, note: string){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(add_transaction(
+            dateId, categoryId, itemId, day, amount, note));
+    }
+}
 export function removeTransaction(categoryId: string, itemId: string, transactionId: string){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(remove_transaction(store().date.id, categoryId, itemId, transactionId));

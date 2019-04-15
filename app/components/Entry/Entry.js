@@ -10,6 +10,7 @@ import * as TransactionCollectionActions from "../../actions/transactionCollecti
 import * as PassphraseActions from "../../actions/passphrase";
 import * as ModifyActions from "../../actions/modify";
 import * as IncomeActions from "../../actions/income";
+import * as BankSyncActions from "../../actions/bankSync";
 const fs = require("fs");
 import filehelper from "../../utils/filehelper";
 import * as crypto from "../../crypto/code";
@@ -106,7 +107,17 @@ class Entry extends Component<Props>{
             if (success){
                 setTransactions = fileContents.transactions;
             }
-            this.props.entryTransactions(setTransactions);            
+            this.props.entryTransactions(setTransactions);
+            
+            let bankSync = {
+                clientId: "",
+                publicKey: "",
+                development: ""
+            };
+            if (success){
+                bankSync = fileContents.bankSync;
+            }
+            this.props.entryBankSyncKeys(bankSync.clientId, bankSync.publicKey, bankSync.development);
 
             // set redirect
             this.setState({
@@ -148,7 +159,7 @@ class Entry extends Component<Props>{
                         <h1>My Budget</h1>
                         <div>
                             let's start
-                        </div>
+                        </div>                        
                         <div className={`columns ${styles.less}`}>
                             <div className="column col-12">
                                 <form onSubmit={() => this.go()}>
@@ -200,6 +211,7 @@ function mapDispatchToProps(dispatch) {
         ...PassphraseActions,
         ...ModifyActions,
         ...IncomeActions,
+        ...BankSyncActions,
         ...TransactionCollectionActions
     }, dispatch);
 }

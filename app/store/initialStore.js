@@ -1,4 +1,6 @@
 import { CREATE_NEW_TRANSACTION_INITIAL_STATE } from "../actions/createTransaction";
+import { BANK_SYNC_INITIAL_STATE } from "../actions/bankSync";
+
 // let fs = require("fs");
 // import * as crypto from "../crypto/code";
 
@@ -38,6 +40,7 @@ export const initialStore = {
     items: /*success ? fileContents.items :*/ [],
     transactions: /*success ? fileContents.transactions :*/ [],
     createTransaction: CREATE_NEW_TRANSACTION_INITIAL_STATE,
+    bankSync: BANK_SYNC_INITIAL_STATE,
     //templates: [],
     //   income: [{
     //       id: "",
@@ -70,6 +73,11 @@ export const initialStore = {
     //       day: 1,
     //       amount: 0,
     //       note: ""
+    //   }
+    //   bankSync: {
+    //       clientId: "",
+    //       publicKey: "",
+    //       development: ""
     //   }
     date: /*success ? fileContents.date :*/ {
         id: `${month}-${year}`,
