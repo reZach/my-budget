@@ -231,8 +231,8 @@ class Category extends Component<Props> {
                 <div className="columns">
                     <div className="column col-12">
                         {/* HACK TABLE */}
-                        <div className={`columns ${styles.category}`}>
-                            <div className="column col-xs-auto" style={{fontWeight: "bold"}}>
+                        <div className={`columns ${styles.dark} ${styles.category}`}>
+                            <div className={`column col-xs-auto`} style={{fontWeight: "bold"}}>
                                 {this.props.name}
                             </div>
                             {this.renderControls()}                            

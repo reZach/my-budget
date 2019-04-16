@@ -1,9 +1,17 @@
 .some-mb {
-    margin-bottom:40px;
+    margin-bottom: 40px;
 }
 
 .transaction-container {
-    height:250px;
+    height: calc(100vh - 430px);
     overflow-x: hidden;
-    overflow-y:auto;
+    overflow-y: auto;
+}
+
+.h100 {
+    height: 100%;
+}
+
+.h350 {
+    height: 350px;
 }

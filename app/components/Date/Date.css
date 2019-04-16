@@ -1,7 +1,11 @@
-.red {
-  color: red;
+.white {
+  color: white;
 }
 
 .pt {
-  padding-top:6px;
+  padding-top:12px;
+}
+
+.btn-fix {
+  padding-top:5px;
 }

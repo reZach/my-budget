@@ -152,10 +152,10 @@ class Save extends Component<Props>{
         return (
             <React.Fragment>
                 <div className="columns">
-                    <div className="column col-12">                        
-                        <button className={`btn btn-primary tooltip tooltip-top ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>save</button>
-                        <button className={`btn btn-primary tooltip tooltip-top ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>sync</button>
-                        <button className="btn btn-error tooltip tooltip-top" type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>delete</button>
+                    <div className={`column col-12 ${styles['btn-fix']}`}>
+                        <button className={`btn btn-primary ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>save</button>
+                        {/* <button className={`btn btn-primary tooltip tooltip-top ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>sync</button> */}
+                        <button className={`btn btn-error`} type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>delete</button>
                     </div>
                 </div>
                 {this.renderBankSync()}                

@@ -11,3 +11,15 @@
 .bar-bad {
     background-color: #e85600 !important;
 }
+
+.h200 {
+    height:200px;
+}
+
+.label-padding {
+    padding-top:12px;
+}
+
+.form-padding {
+    padding-top:6px;
+}

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as IncomeActions from "../../actions/income";
 import * as ModifyActions from "../../actions/modify";
 import styles from "./Income.css";
+import { dateMatches } from "../../utils/readableDate";
 
 class Income extends Component<Props>{
     props: Props;
@@ -74,39 +75,58 @@ class Income extends Component<Props>{
         return days;
     }
 
+    renderRemainingDays(data){
+        let spent = this.getPercentSpent(this.props.income[0]);
+
+        if (dateMatches(this.props.date)){
+            return (
+                <div className="popover popover-bottom">
+                    <span className="label label-success">${data.amount}</span>
+                    <div className="popover-container">
+                        <div className="card">
+                            <div className="card-header">
+                                <span>{this.getRemainingDays() > 0 ? this.getRemainingDays() + " days left to budget" : "last day of the month"}</span>
+                            </div>
+                            {spent !== "0.00" ?
+                                <React.Fragment>
+                                    <div className="card-body">
+                                        {spent}% spent of total
+                                    </div>
+                                    <div className="card-footer">
+                                        <div className="bar">
+                                            <div className={`bar-item ${spent <= 33 ? styles["bar-good"] : spent <= 66 ? styles["bar-okay"] : styles["bar-bad"]}`} role="progressbar" style={{width: spent + "%"}} aria-valuenow={`${spent}`} aria-valuemin="0"></div>
+                                        </div>
+                                    </div>
+                                </React.Fragment> : <React.Fragment></React.Fragment>    
+                            }                            
+                        </div>
+                    </div>
+                </div>
+            );
+        } else {
+            return (
+                <span className="label label-success">${data.amount}</span>
+            );
+        }
+    }
+
     render(){        
         let data = this.props.income[0];        
         if (typeof data !== "undefined"){
             let spent = this.getPercentSpent(data);
 
             return (
-                <div className="card">
-                    <div className="columns">
-                        <div className={`column col-12 text-left ${styles['some-mb']}`}>
-                            <h2>income</h2>
-                            <span className="label label-success">${data.amount}</span>
-                            <span>&nbsp; {spent !== "0.00" ?
-                                <React.Fragment>{spent}% spent</React.Fragment> :
-                                <React.Fragment></React.Fragment>
-                            }</span>
-                            &nbsp;
-                            <span className="label label-secondary">{this.getRemainingDays() > 0 ? this.getRemainingDays() + " days left" : "last day of the month"}</span>
-                        </div>
-                        <div className={`column col-12 ${styles['some-mb']}`}>
-                            {spent !== "0.00" ? 
-                            <div className="bar">
-                                <div className={`bar-item ${spent <= 33 ? styles["bar-good"] : spent <= 66 ? styles["bar-okay"] : styles["bar-bad"]}`} role="progressbar" style={{width: spent + "%"}} aria-valuenow={`${spent}`} aria-valuemin="0"></div>
-                            </div> : <div>enter in your transactions/income for the month</div>
-                            }
-                        </div>
-                        <div className="column col-12 text-left">
-                            <form onSubmit={() => this.changeIncome()}>
-                                <div className="input-group">
-                                    <input className="form-input" type="text" placeholder="income" value={this.state.amount} onChange={this.changeAmount}></input>
-                                    <button className="btn btn-primary" type="submit">set</button>
-                                </div>                                
-                            </form>
-                        </div>
+                <div className="columns">
+                    <div className={`column col-4 text-center ${styles['label-padding']}`}>
+                        {this.renderRemainingDays(data)}                      
+                    </div>
+                    <div className={`column col-8 ${styles['form-padding']}`}>
+                        <form onSubmit={() => this.changeIncome()}>
+                            <div className="input-group">
+                                <input className="form-input" type="text" placeholder="income" value={this.state.amount} onChange={this.changeAmount}></input>
+                                <button className="btn btn-primary" type="submit">set</button>
+                            </div>                                
+                        </form>
                     </div>                    
                 </div>
             );
@@ -120,6 +140,7 @@ class Income extends Component<Props>{
 
 function mapStateToProps(state){
     return {
+        date: state.date,
         income: state.income.filter(i => i.dateId === state.date.id),
         transactions: state.transactions.filter(t => t.dateId === state.date.id)
     }

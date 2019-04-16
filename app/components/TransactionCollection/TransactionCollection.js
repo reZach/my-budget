@@ -159,63 +159,64 @@ class TransactionCollection extends Component<Props> {
 
     render() {
         return (
-            <div className="card">
-                <div className="columns">
-                    <div className="column col-12 text-left">
-                        <h2>transactions</h2>
+            <div className={`${styles.h100}`}>
+                <div className={`${styles.h350}`}>
+                    <div className="columns">
+                        <div className="column col-12 text-left">
+                            <h2>transactions</h2>
+                        </div>
                     </div>
-                </div>
-                <div className={`columns ${styles['some-mb']}`}>
-                    <div className="column col-12 text-left">
-                        <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>
-                            <div className="form-group">
-                                <div className="col-3">category</div>
-                                <div className="col-9">
-                                    <select className="form-select" value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
-                                        <option value="">---</option>
-                                        {this.createCategoriesDropDown()}
-                                    </select>
+                    <div className={`columns`}>
+                        <div className="column col-12 text-left">
+                            <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>
+                                <div className="form-group">
+                                    <div className="col-3">category</div>
+                                    <div className="col-9">
+                                        <select className="form-select" value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
+                                            <option value="">---</option>
+                                            {this.createCategoriesDropDown()}
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="form-group">
-                                <div className="col-3">sub-category</div>
-                                <div className="col-9">
-                                    <select className="form-select" value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
-                                        <option value="">---</option>
-                                        {this.createItemsDropDown()}  
-                                    </select>
+                                <div className="form-group">
+                                    <div className="col-3">sub-category</div>
+                                    <div className="col-9">
+                                        <select className="form-select" value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
+                                            <option value="">---</option>
+                                            {this.createItemsDropDown()}  
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="form-group">
-                                <div className="col-3">amount</div>
-                                <div className="col-9">
-                                    <input className="form-input" type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount}></input>
+                                <div className="form-group">
+                                    <div className="col-3">amount</div>
+                                    <div className="col-9">
+                                        <input className="form-input" type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount}></input>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="form-group">
-                                <div className="col-3">date</div>
-                                <div className="col-9">
-                                    <input className="form-input" type="number" placeholder="date" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
+                                <div className="form-group">
+                                    <div className="col-3">date</div>
+                                    <div className="col-9">
+                                        <input className="form-input" type="number" placeholder="date" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="form-group">
-                                <div className="col-3">note</div>
-                                <div className="col-9">
-                                    <input className="form-input" type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote}></input>
+                                <div className="form-group">
+                                    <div className="col-3">note</div>
+                                    <div className="col-9">
+                                        <input className="form-input" type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote}></input>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="column col-12">
-                                <div className="form-group float-left">
-                                    <input className="btn btn-lg btn-error" type="button" value="delete all" onClick={() => this.deleteAllTransactions()} disabled={this.props.transactions.length <= 0}></input>
+                                <div className="column col-12">
+                                    <div className="form-group float-left">
+                                        <input className="btn btn-lg btn-error" type="button" value="delete all" onClick={() => this.deleteAllTransactions()} disabled={this.props.transactions.length <= 0}></input>
+                                    </div>
+                                    <div className="form-group float-right">
+                                        <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="add new"></input>
+                                    </div>
                                 </div>
-                                <div className="form-group float-right">
-                                    <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="add new"></input>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                
+                </div>                
                 <div className={`${styles['transaction-container']}`}>
                     {this.props.transactions.sort(function(a, b){
                         

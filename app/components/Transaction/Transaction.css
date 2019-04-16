@@ -3,6 +3,9 @@
     border: 0.05rem solid #b5bbc1;
     border-top: none;
 }
+.transactionrow:nth-child(even){
+    background-color: white;
+}
 
 .note {
     overflow-x: auto;
