@@ -17,3 +17,11 @@
 .h30 {
     height:30px;
 }
+
+.dark {
+    background-color:#989898;
+    color:white;
+}
+.dark i{
+    color:black;
+}

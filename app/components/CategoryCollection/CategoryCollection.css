@@ -1,12 +1,18 @@
 .category-input {
-    margin-bottom:20px;
+    margin-bottom: 20px;
 }
 
-.category {
-
-}
+.category {}
 
 .category-container {
-    overflow-y:auto;
-    max-height:52vh;
+    overflow-y: auto;
+    height: calc(100vh - 200px);
+}
+
+.h100 {
+    height: 100%;
+}
+
+.h150 {
+    height: 150px;
 }

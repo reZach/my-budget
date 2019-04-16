@@ -1,3 +1,7 @@
 .some-mr {
-    margin-right:10px;
+    margin-right: 10px;
+}
+
+.btn-fix {
+    padding-top: 5px;
 }

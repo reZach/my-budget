@@ -185,7 +185,7 @@ class CategoryCollection extends Component<Props> {
         if (!this.state.copyPreviousCategoriesActive){
             return (
                 <div className="columns">
-                    <div className="column col-12 text-center">
+                    <div className="column col-12 text-left">
                         <form onSubmit={() => this.toggleCopyPreviousCategories()}>
                             <button className="btn btn-primary btn-lg" type="submit">copy previous categories</button>
                         </form>
@@ -195,16 +195,14 @@ class CategoryCollection extends Component<Props> {
         } else {
             return (
                 <div className="columns">
-                    <div className="column col-6 col-mx-auto col-auto text-center">
-                        <form onSubmit={() => this.copyPreviousCategories()}>
-                            <div className="input-group">
-                                <select className="form-select form-input" value={this.state.selectedPreviousDateForCategories} onChange={this.modifySelectedDateForCategories}>
-                                    <option value="">---</option>
-                                    {this.createPreviousCategoriesDropdown()}  
-                                </select>
-                                <button className="btn btn-primary input-group-btn" type="submit" disabled={this.state.selectedPreviousDateForCategories === ""}>copy</button>
-                            </div>                            
-                        </form>
+                    <div className="column col-6 col-mr-auto col-auto text-left">
+                        <div className="input-group">
+                            <select className="form-select form-input" value={this.state.selectedPreviousDateForCategories} onChange={this.modifySelectedDateForCategories}>
+                                <option value="">---</option>
+                                {this.createPreviousCategoriesDropdown()}  
+                            </select>
+                            <button className="btn btn-primary input-group-btn" type="button" onClick={() => this.copyPreviousCategories()} disabled={this.state.selectedPreviousDateForCategories === ""}>copy</button>
+                        </div>
                     </div>
                 </div>
             );
@@ -213,21 +211,23 @@ class CategoryCollection extends Component<Props> {
 
     render() {
         return (
-            <React.Fragment>
-                <div className="columns">
-                    <div className="column col-12 text-left">
-                        <h2>categories</h2>                        
-                    </div>                    
-                    <div className={`column col-8 text-left ${styles['category-input']}`}>      
-                        <form onSubmit={() => this.createNewCategory()}>
-                            <div className="input-group">
-                                <input className="form-input input-lg" type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEscapeKey}></input>
-                                <button className="btn btn-primary btn-lg input-group-btn" type="submit">add new</button>
-                            </div>
-                        </form>
-                    </div>                    
+            <div className={`columns`}>
+                <div className={`column col-12 text-left`}>
+                    <div className="columns">
+                        <div className="column col-12 text-left">
+                            <h2>categories</h2>                        
+                        </div>                    
+                        <div className={`column col-8 text-left ${styles['category-input']}`}>      
+                            <form onSubmit={() => this.createNewCategory()}>
+                                <div className="input-group">
+                                    <input className="form-input input-lg" type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEscapeKey}></input>
+                                    <button className="btn btn-primary btn-lg input-group-btn" type="submit">add new</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div className={`columns ${styles['category-container']}`}>
+                <div className={`column ${styles['category-container']}`}>
                     {this.props.categories.filter(c => c.dateId === this.props.date.id).sort(function(a, b){
                         var a1 = a.name.toLowerCase();
                         var b1 = b.name.toLowerCase();
@@ -239,10 +239,10 @@ class CategoryCollection extends Component<Props> {
                             <div className={`column col-12 text-left ${styles.category}`} key={this.props.date.id + "-" + value.id}>
                                 <Category {...value} dateId={this.props.date.id} rename={this.renameCategory} delete={this.deleteCategory}></Category>
                             </div>
-                    })}    
-                </div>
-                {this.props.categories.filter(c => c.dateId === this.props.date.id).length === 0 && this.renderCopyPreviousCategories()}                                                                              
-            </React.Fragment>
+                    })}
+                    {this.props.categories.filter(c => c.dateId === this.props.date.id).length === 0 && this.renderCopyPreviousCategories()}
+                </div>                
+            </div>
         );
     }
 }

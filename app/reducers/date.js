@@ -1,4 +1,4 @@
-import { INCREMENT_MONTH, DECREMENT_MONTH, RESET_MONTH_1, RESET_MONTH_12, INCREMENT_YEAR, DECREMENT_YEAR } from "../actions/date";
+import { INCREMENT_MONTH, DECREMENT_MONTH, RESET_MONTH_1, RESET_MONTH_12, INCREMENT_YEAR, DECREMENT_YEAR, SET_DATE } from "../actions/date";
 import { Action, update } from "./types";
 
 export default function date(state: any = {}, action: Action) {
@@ -32,6 +32,12 @@ export default function date(state: any = {}, action: Action) {
             return update(state, { 
                 id: `${state.month}-${state.year - 1}`, 
                 year: state.year - 1 
+            });
+        case SET_DATE:
+            return update(state, {
+                id: `${action.payload.month}-${action.payload.year}`, 
+                month: action.payload.month,
+                year: action.payload.year
             });
         default:
             return state;

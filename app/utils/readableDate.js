@@ -15,6 +15,16 @@ var split = function(dateId){
     }
 }
 
+export function dateMatches(dateId){
+    var data = split(dateId);
+
+    var today = (new Date());
+    var month = today.getMonth() + 1;
+    var year = today.getFullYear();
+
+    return data.month == month && data.year == year; 
+}
+
 export function dateToShort(dateId){
     var data = split(dateId);
     var month = data.month;
@@ -70,5 +80,5 @@ export function dateToReadble(dateId){
             break;
     }
 
-    return `${readableMonth} ${year}`;
+    return `${readableMonth} '${year.substring(2)}`;
 }

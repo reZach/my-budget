@@ -17,41 +17,27 @@ export default class Home extends Component<Props> {
   render() {
     return (
       <div className={`container ${styles['app-container']}`}>
-        <div className={`columns text-center ${styles['column-mb']}`}>
-          <div className="column col-7">
-            <div className="columns">
-              <div className="column col-12">
-                <div className="card" style={{flexDirection: "row", flex: "1"}}>
-                  <div className="column col-4">
-                    <Save/>
-                  </div>
-                  <div className="column col-8">
-                    <Date />
-                  </div>
-                </div>
-              </div>
-              <div className="column col-12">
-                <div className="card">
-                  <div className="column col-12" style={{overflowY: "auto"}}>
-                    <CategoryCollection />
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className={`columns ${styles.header} ${styles.h50}`}>
+          <div className={`column col-3`}>
+            <Save/>
           </div>
-          <div className="column col-5">
-            <div className="columns">
-              <div className="column col-12">
-                <Income />
-              </div>              
-            </div>
-            <div className="columns">
-              <div className="column col-12">
-                <TransactionCollection />
-              </div>              
-            </div>
+          <div className={`column col-4`}>
+            <Date />
+          </div>
+          <div className={`column col-5`}>
+            <Income />
           </div>
         </div>
+        <div className={`columns ${styles.h100}`}>
+          <div className={`column col-7 ${styles.h100}`}>
+            <CategoryCollection />
+          </div>
+          <div className={`column col-5 ${styles.h100}`}>
+            <TransactionCollection />
+          </div>
+        </div>
+        {/* 
+        <TransactionCollection />         */}
         {/* <Link to={routes.COUNTER}>to Counter</Link> */}
       </div>
     );
