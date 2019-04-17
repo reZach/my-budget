@@ -6,7 +6,7 @@ import * as SaveActions from "../../actions/save";
 import * as ModifyActions from "../../actions/modify";
 import * as BankSyncActions from "../../actions/bankSync";
 import styles from "./Save.css";
-import { syncBank } from "../../utils/banksync";
+import { bankSyncFetch } from "../../utils/banksync";
 
 class Save extends Component<Props>{
     props: Props;
@@ -34,19 +34,10 @@ class Save extends Component<Props>{
     multi(event){
         this.props.falseModify();
         this.props.save();        
-    }
+    }    
 
-    sync(){
-        if (this.props.bankSync.clientId === "" ||
-            this.props.bankSync.publicKey === "" ||
-            this.props.bankSync.development === ""){
-            
-            this.setState({
-                bankSyncAdd: true
-            });
-        } else {
-            syncBank(this.props.bankSync.clientId, this.props.bankSync.development, this.props.bankSync.publicKey);
-        }
+    async sync(){
+        await bankSyncFetch("discover", "", "");
     }
 
     export(event){
@@ -154,7 +145,7 @@ class Save extends Component<Props>{
                 <div className="columns">
                     <div className={`column col-12 ${styles['btn-fix']}`}>
                         <button className={`btn btn-primary ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>save</button>
-                        {/* <button className={`btn btn-primary tooltip tooltip-top ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>sync</button> */}
+                        <button className={`btn btn-primary tooltip tooltip-top ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>sync</button>
                         <button className={`btn btn-error`} type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>delete</button>
                     </div>
                 </div>
