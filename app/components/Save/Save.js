@@ -7,6 +7,7 @@ import * as ModifyActions from "../../actions/modify";
 import * as BankSyncActions from "../../actions/bankSync";
 import styles from "./Save.css";
 import { bankSyncFetch } from "../../utils/banksync";
+import ImportBank from "../ImportBank/ImportBank";
 
 class Save extends Component<Props>{
     props: Props;
@@ -32,7 +33,7 @@ class Save extends Component<Props>{
     }    
 
     async sync(){
-        var imported = await bankSyncFetch("discover", "", "");
+        var imported = await bankSyncFetch(this.props.categories, this.props.items, "discover", "", "");
         
         this.setState({
             importedData: imported,
@@ -85,8 +86,27 @@ class Save extends Component<Props>{
                         </div>
                         <div className="modal-body">
                             <div className="content">                            
-                                {this.state.importedData.map((value, index, array) => {
-                                    return <div key={index}>{value.note}</div>
+                                {this.state.importedData.sort(function(a, b){
+                        
+                                    var split1 = a.dateId.split('-');
+                                    var split2 = b.dateId.split('-');
+                                    var m1 = split1[0];
+                                    var y1 = split1[1];
+                                    var m2 = split2[0];
+                                    var y2 = split2[1];
+                        
+                                    if (y1 > y2){
+                                        return 1;
+                                    } else if (y2 > y1) {
+                                        return -1;
+                                    } else if (m1 > m2) {
+                                        return 1;
+                                    } else if (m2 > m1) {
+                                        return -1;
+                                    }
+                                    return 0;
+                                }).map((value, index, array) => {
+                                    return <ImportBank value={index} {...value} />
                                 })}
                             </div>
                         </div>
@@ -121,7 +141,9 @@ class Save extends Component<Props>{
 function mapStateToProps(state){    
     return {
         modified: state.modified,
-        bankSync: state.bankSync
+        bankSync: state.bankSync,
+        categories: state.categories,
+        items: state.items
     }
 }
 
