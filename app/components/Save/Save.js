@@ -16,9 +16,7 @@ class Save extends Component<Props>{
 
         this.state = {
             bankSyncAdd: false,
-            clientId: "",
-            development: "",
-            publicKey: ""
+            importedData: []
         };
 
         this.multi = this.multi.bind(this);
@@ -26,9 +24,6 @@ class Save extends Component<Props>{
         this.deleteAll = this.deleteAll.bind(this);
         this.toggleBankSyncAdd = this.toggleBankSyncAdd.bind(this);
         this.saveBankInfo = this.saveBankInfo.bind(this);
-        this.modifyClientId = this.modifyClientId.bind(this);
-        this.modifyDevelopment = this.modifyDevelopment.bind(this);
-        this.modifyPublicKey = this.modifyPublicKey.bind(this);
     }
 
     multi(event){
@@ -37,29 +32,16 @@ class Save extends Component<Props>{
     }    
 
     async sync(){
-        await bankSyncFetch("discover", "", "");
+        var imported = await bankSyncFetch("discover", "", "");
+        
+        this.setState({
+            importedData: imported,
+            bankSyncAdd: true
+        });
     }
 
     export(event){
         dialog.showOpenDialog({ properties: ['openFile', 'openDirectory', 'multiSelections'] });
-    }
-
-    modifyClientId(event){
-        this.setState({
-            clientId: event.target.value
-        });
-    }
-
-    modifyDevelopment(event){
-        this.setState({
-            development: event.target.value
-        });
-    }
-
-    modifyPublicKey(event){
-        this.setState({
-            publicKey: event.target.value
-        });
     }
 
     saveBankInfo(){
@@ -92,45 +74,24 @@ class Save extends Component<Props>{
     }
 
     renderBankSync(){
-        if (this.state.bankSyncAdd){
+        if (this.state.bankSyncAdd && this.state.importedData.length > 0){
             return (
                 <div className="modal active" id="modal-id">
                     <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
                     <div className="modal-container">
                         <div className="modal-header">
                             <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                            <div className="modal-title h5">Plaid information</div>
+                            <div className="modal-title h5">import transactions</div>
                         </div>
                         <div className="modal-body">
                             <div className="content">                            
-                                <div className="form-group">
-                                    <div className="columns">
-                                        <div className="column col-3">client id</div>
-                                        <div className="column col-9">
-                                            <input className="form-input" type="text" placeholder="client id" value={this.state.clientId} onChange={this.modifyClientId}></input>
-                                        </div>
-                                    </div>                                    
-                                </div>
-                                <div className="form-group">
-                                    <div className="columns">
-                                        <div className="column col-3">public key</div>
-                                        <div className="column col-9">
-                                            <input className="form-input" type="text" placeholder="public key" value={this.state.publicKey} onChange={this.modifyPublicKey}></input>
-                                        </div>
-                                    </div>                                    
-                                </div>
-                                <div className="form-group">
-                                    <div className="columns">
-                                        <div className="column col-3">development</div>
-                                        <div className="column col-9">
-                                            <input className="form-input" type="text" placeholder="development" value={this.state.development} onChange={this.modifyDevelopment}></input>
-                                        </div>
-                                    </div>                                    
-                                </div>
+                                {this.state.importedData.map((value, index, array) => {
+                                    return <div key={index}>{value.note}</div>
+                                })}
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button className="btn btn-primary" onClick={() => this.saveBankInfo()} disabled={this.state.clientId === "" || this.state.publicKey === "" || this.state.development === ""}>save</button>
+                            <button className="btn btn-primary">import</button>
                             <button className="btn" onClick={() => this.toggleBankSyncAdd()}>cancel</button>
                         </div>
                     </div>
