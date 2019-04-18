@@ -48,9 +48,13 @@ var parse = function(raw){
 
         var amount = raw[i].match(/<td class="amt">(\-?\$.+)<\/td>/);
         if (amount.length !== 2) continue;
+        if (amount[1].indexOf("-") >= 0){
+            console.warn(`found payment of: ${amount[1]}. skipping.`);
+            continue;
+        }
 
         // date
-        var split = date[1].split("/");
+        var split = date[1].split("/");        
 
         actualTransactions.push({
             day: split[1],

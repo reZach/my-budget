@@ -1,0 +1,12 @@
+.importrow {
+    min-height: 30px;
+    border: 0.05rem solid #b5bbc1;
+    border-top: none;
+}
+.importrow:nth-child(even){
+    background-color: #ECEAEA;
+}
+
+.note {
+    overflow-x: auto;
+}
