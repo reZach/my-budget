@@ -1,5 +1,5 @@
 import { addTransaction2 } from "../actions/transactionCollection";
-import { fetch as discover } from "../utils/banks/discover";
+import { navigate as discover } from "../utils/banks/discover";
 
 export async function bankSyncFetch(bankName, username, password){
 
@@ -18,4 +18,6 @@ export async function bankSyncFetch(bankName, username, password){
     // for (var i = 0; i < transactionLoad.length; i++){
         
     // }
+
+    return transactionLoad;
 }
