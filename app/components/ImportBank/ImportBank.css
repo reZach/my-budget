@@ -3,6 +3,9 @@
     border: 0.05rem solid #b5bbc1;
     border-top: none;
 }
+.importrow:first-of-type {
+    border-top: 0.05rem solid #b5bbc1;
+}
 .importrow:nth-child(even){
     background-color: #ECEAEA;
 }
