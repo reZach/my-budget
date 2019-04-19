@@ -5,6 +5,7 @@ const {dialog} = require('electron').remote;
 import * as SaveActions from "../../actions/save";
 import * as ModifyActions from "../../actions/modify";
 import * as BankSyncActions from "../../actions/bankSync";
+import * as TransactionCollectionActions from "../../actions/transactionCollection";
 import styles from "./Save.css";
 import { bankSyncFetch } from "../../utils/banksync";
 import ImportBank from "../ImportBank/ImportBank";
@@ -24,7 +25,8 @@ class Save extends Component<Props>{
         this.sync = this.sync.bind(this);
         this.deleteAll = this.deleteAll.bind(this);
         this.toggleBankSyncAdd = this.toggleBankSyncAdd.bind(this);
-        this.saveBankInfo = this.saveBankInfo.bind(this);
+        this.importTransactions = this.importTransactions.bind(this);
+        this.toggleImport = this.toggleImport.bind(this);
     }
 
     multi(event){
@@ -41,13 +43,30 @@ class Save extends Component<Props>{
         });
     }
 
+    toggleImport(id){
+        let importedData = this.state.importedData;
+
+        for (var i = 0; i < importedData.length; i++){
+            if (importedData[i].tempId === id){
+                importedData[i].import = !importedData[i].import;
+
+                this.setState({
+                    importedData: importedData
+                });
+                break;
+            }
+        }
+    }
+
     export(event){
         dialog.showOpenDialog({ properties: ['openFile', 'openDirectory', 'multiSelections'] });
     }
 
-    saveBankInfo(){
-        this.props.addBankSyncKeys(this.state.clientId, this.state.publicKey, this.state.development);
-        this.toggleBankSyncAdd();
+    importTransactions(){
+        
+        let toImport = this.state.importedData.filter(d => d.import === true);
+
+        this.props
     }
 
     toggleBankSyncAdd(event){
@@ -85,7 +104,28 @@ class Save extends Component<Props>{
                             <div className="modal-title h5">import transactions</div>
                         </div>
                         <div className="modal-body">
-                            <div className="content">                            
+                            <div className="content">
+                                {/* Header for the table */}
+                                <div className={`columns`}>
+                                    <div className="column col-1">
+                                        <div>import</div>
+                                    </div>                    
+                                    <div className="column col-2">
+                                        date
+                                    </div>
+                                    <div className="column col-2">
+                                        amount
+                                    </div>
+                                    <div className="column col-2">
+                                        category
+                                    </div>
+                                    <div className="column col-2">
+                                        sub-category
+                                    </div>
+                                    <div className={`column col-7`}>
+                                        note
+                                    </div>
+                                </div>                            
                                 {this.state.importedData.sort(function(a, b){
                         
                                     var split1 = a.dateId.split('-');
@@ -106,7 +146,7 @@ class Save extends Component<Props>{
                                     }
                                     return 0;
                                 }).map((value, index, array) => {
-                                    return <ImportBank value={index} {...value} />
+                                    return <ImportBank value={index} {...value} toggleImport={this.toggleImport} />
                                 })}
                             </div>
                         </div>
@@ -151,7 +191,8 @@ function mapDispatchToProps(dispatch){
     return bindActionCreators({
         ...SaveActions,
         ...ModifyActions,
-        ...BankSyncActions
+        ...BankSyncActions,
+        ...TransactionCollectionActions
     }, dispatch);
 }
 

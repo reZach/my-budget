@@ -1,4 +1,4 @@
-import { addTransaction2 } from "../actions/transactionCollection";
+const crypto = require("crypto");
 import { navigate as discover } from "../utils/banks/discover";
 
 export async function bankSyncFetch(categories, items, bankName, username, password){
@@ -24,6 +24,8 @@ var clean = function(transactions, categories, items){
 
     for (var i = 0; i < transactions.length; i++){        
         cleaned.push({
+            tempId: uuid(),
+            import: true,
             dateId: `${stripLeading0(transactions[i].month, false)}-${cleanYear(transactions[i].year)}`,
             categoryId: "",
             itemId: "",
@@ -42,7 +44,7 @@ var mapToCategory = function(transactions, categories){
     for (var i = 0; i < categories.length; i++){
         for (var j = 0; j < transactions.length; j++){
             if (categories[i].name === transactions[j].categoryName){
-                transactions[i].categoryId = categories[i].id;
+                transactions[j].categoryId = categories[i].id;
             }
         }                
     }
@@ -54,7 +56,7 @@ var mapToSubcategory = function(transactions, items){
         for (var j = 0; j < transactions.length; j++){
             if (items[i].name === transactions[j].itemName &&
                 items[i].categoryId === transactions[j].categoryId){
-                transactions[i].itemId = items[i].id;
+                transactions[j].itemId = items[i].id;
             }
         }                
     }
@@ -107,4 +109,14 @@ var cleanString = function(input){
 
 var cleanAmount = function(amount){
     return amount.replace("$", "");
+}
+
+//https://stackoverflow.com/a/55219682/1837080
+var uuid = function(){
+    let bytes = window.crypto.getRandomValues(new Uint8Array(32));
+    const randomBytes = () => (bytes = bytes.slice(1)) && bytes[0];
+
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c => 
+        (c ^ randomBytes() & 15 >> c / 4).toString(16)
+    );
 }
