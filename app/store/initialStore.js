@@ -40,6 +40,7 @@ export const initialStore = {
     items: /*success ? fileContents.items :*/ [],
     transactions: /*success ? fileContents.transactions :*/ [],
     createTransaction: CREATE_NEW_TRANSACTION_INITIAL_STATE,
+    pendingImport: [],
     bankSync: BANK_SYNC_INITIAL_STATE,
     //templates: [],
     //   income: [{
@@ -65,7 +66,8 @@ export const initialStore = {
     //     itemId: "",
     //     day: 0,
     //     amount: 0,
-    //     note: ""    
+    //     note: "",
+    //     fromBank: false    
     //   }],
     //   createTransaction: {
     //       selectedCategoryId: "",
@@ -74,11 +76,20 @@ export const initialStore = {
     //       amount: 0,
     //       note: ""
     //   }
-    //   bankSync: {
-    //       clientId: "",
-    //       publicKey: "",
-    //       development: ""
-    //   }
+    //   pendingImport: [{
+    //       tempId: "",
+    //       import: true,
+    //       dateId: "",
+    //       day: 0,
+    //       categoryId: "",
+    //       categoryName: "",
+    //       overwriteCategoryName: "",
+    //       itemId: "",
+    //       itemName: "",
+    //       overwriteItemName: "",
+    //       amount: "",
+    //       note: ""
+    //   }],
     date: /*success ? fileContents.date :*/ {
         id: `${month}-${year}`,
         month: month,

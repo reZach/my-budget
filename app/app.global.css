@@ -6,25 +6,27 @@
 @import "../styles/spectre.min.css";
 
 body {
-  position: relative;
-  color: #000000;
-  height: 100vh;
-  background-color: #eceaea;
-  overflow-y:hidden; /*checkin*/
-  /*background-image: linear-gradient(45deg, rgba(0, 216, 255, 0.5) 10%, rgba(0, 1, 127, 0.7)); */
-  font-family: Arial, Helvetica, Helvetica Neue, serif;
+    position: relative;
+    color: #000000;
+    height: 100vh;
+    background-color: #eceaea;
+    overflow-y: hidden;
+    /*checkin*/
+    /*background-image: linear-gradient(45deg, rgba(0, 216, 255, 0.5) 10%, rgba(0, 1, 127, 0.7)); */
+    font-family: Arial, Helvetica, Helvetica Neue, serif;
 }
 
 h2 {
-  margin: 0;
-  font-size: 2.25rem;
-  font-weight: bold;
-  letter-spacing: -0.025em;
-  color: #000000;
+    margin: 0;
+    font-size: 2.25rem;
+    font-weight: bold;
+    letter-spacing: -0.025em;
+    color: #000000;
 }
 
-h1,h2 {
-  margin-bottom:10px;
+h1,
+h2 {
+    margin-bottom: 10px;
 }
 
 /* * {
@@ -32,31 +34,36 @@ h1,h2 {
 } */
 
 p {
-  font-size: 24px;
+    font-size: 24px;
 }
 
 li {
-  list-style: none;
+    list-style: none;
 }
 
 a {
-  color: white;
-  opacity: 0.75;
-  text-decoration: none;
+    color: white;
+    opacity: 0.75;
+    text-decoration: none;
 }
 
 a:hover {
-  opacity: 1;
-  text-decoration: none;
-  cursor: pointer;
+    opacity: 1;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 #root {
-  height:100%;
+    height: 100%;
 }
 
 /* spectre overrides */
 .card {
-  box-shadow: 0 0.25rem 1rem rgba(48,55,66,.15);
-  padding:10px;
+    box-shadow: 0 0.25rem 1rem rgba(48, 55, 66, .15);
+    padding: 10px;
+}
+
+.modal-large {
+  max-height:95vh !important;
+  max-width:none !important;
 }

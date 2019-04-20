@@ -9,6 +9,9 @@ import * as dateActions from "../actions/date";
 import * as categoryActions from "../actions/category";
 import * as categoryCollectionActions from "../actions/categoryCollection";
 import * as itemCollectionActions from "../actions/itemCollection";
+import * as createTransactionActions from "../actions/createTransaction";
+import * as incomeActions from "../actions/income";
+import * as pendingImportActions from "../actions/pendingImport";
 import * as transactionCollectionActions from "../actions/transactionCollection";
 import * as saveActions from "../actions/save";
 import * as modifyActions from "../actions/modify";
@@ -51,6 +54,9 @@ const configureStore = (initialState?: any) => {
     ...transactionCollectionActions,
     ...saveActions,
     ...modifyActions,
+    ...createTransactionActions,
+    ...incomeActions,
+    ...pendingImportActions,
     ...routerActions
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose

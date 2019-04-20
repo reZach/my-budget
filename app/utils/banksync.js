@@ -25,19 +25,22 @@ var clean = function(transactions, categories, items){
     for (var i = 0; i < transactions.length; i++){        
         cleaned.push({
             tempId: uuid(),
-            import: true,
+            toImport: true,
             dateId: `${stripLeading0(transactions[i].month, false)}-${cleanYear(transactions[i].year)}`,
             categoryId: "",
             itemId: "",
             categoryName: cleanString(transactions[i].category),
             itemName: cleanString(transactions[i].subcategory),
+            overwriteCategoryName: "",
+            overwriteItemName: "",
+            overwriteNote: "",
             day: stripLeading0(transactions[i].day, true),
             amount: cleanAmount(transactions[i].amount),
             note: cleanString(transactions[i].note)
         });
     }
 
-    return mapToSubcategory(mapToCategory(cleaned, categories), items);
+    return cleaned;
 }
 
 var mapToCategory = function(transactions, categories){
