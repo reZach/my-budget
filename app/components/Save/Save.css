@@ -5,3 +5,16 @@
 .btn-fix {
     padding-top: 5px;
 }
+
+.h62 {
+    height:62px;
+}
+
+.h48 {
+    height:48px;
+}
+
+.hrest {
+    height:calc(95vh - 225px);
+    overflow-x:auto;
+}

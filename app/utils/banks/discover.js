@@ -36,7 +36,7 @@ var parse = function(raw){
     var actualTransactions = [];
 
     for (var i = 0; i < raw.length; i++){
-
+        
         var date = raw[i].match(/(\d{2}\/\d{2}\/\d{2})<\/td>/);
         if (date.length !== 2) continue;
 

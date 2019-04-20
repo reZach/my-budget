@@ -2,6 +2,7 @@
     min-height: 30px;
     border: 0.05rem solid #b5bbc1;
     border-top: none;
+    cursor: pointer;
 }
 .importrow:first-of-type {
     border-top: 0.05rem solid #b5bbc1;
@@ -9,7 +10,14 @@
 .importrow:nth-child(even){
     background-color: #ECEAEA;
 }
+.importrow:hover{
+    background-color:#ABAAEC;
+}
 
 .note {
     overflow-x: auto;
+}
+
+.edit-window {
+    background-color:#f3f3aa;
 }

@@ -6,6 +6,7 @@ import * as SaveActions from "../../actions/save";
 import * as ModifyActions from "../../actions/modify";
 import * as BankSyncActions from "../../actions/bankSync";
 import * as TransactionCollectionActions from "../../actions/transactionCollection";
+import * as PendingImportActions from "../../actions/pendingImport";
 import styles from "./Save.css";
 import { bankSyncFetch } from "../../utils/banksync";
 import ImportBank from "../ImportBank/ImportBank";
@@ -25,6 +26,7 @@ class Save extends Component<Props>{
         this.sync = this.sync.bind(this);
         this.deleteAll = this.deleteAll.bind(this);
         this.toggleBankSyncAdd = this.toggleBankSyncAdd.bind(this);
+        this.setNewCategory = this.setNewCategory.bind(this);
         this.importTransactions = this.importTransactions.bind(this);
         this.toggleImport = this.toggleImport.bind(this);
     }
@@ -37,8 +39,12 @@ class Save extends Component<Props>{
     async sync(){
         var imported = await bankSyncFetch(this.props.categories, this.props.items, "discover", "", "");
         
+        for (var i = 0; i < imported.length; i++){
+            this.props.addImportTransaction(imported[i].tempId, imported[i].toImport, imported[i].dateId, imported[i].categoryId, imported[i].categoryName, imported[i].itemId, imported[i].itemName, imported[i].day, imported[i].amount, imported[i].note, imported[i].overwriteCategoryName, imported[i].overwriteItemName, imported[i].overwriteNote);
+        }
+        this.props.sortImportTransactions();
+        
         this.setState({
-            importedData: imported,
             bankSyncAdd: true
         });
     }
@@ -56,6 +62,10 @@ class Save extends Component<Props>{
                 break;
             }
         }
+    }
+
+    setNewCategory(id, categoryName){
+        //let 
     }
 
     export(event){
@@ -94,26 +104,26 @@ class Save extends Component<Props>{
     }
 
     renderBankSync(){
-        if (this.state.bankSyncAdd && this.state.importedData.length > 0){
+        if (this.state.bankSyncAdd && this.props.pendingImport.length > 0){
             return (
                 <div className="modal active" id="modal-id">
                     <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                    <div className="modal-container">
-                        <div className="modal-header">
+                    <div className={`modal-container modal-large`}>
+                        <div className={`modal-header ${styles.h62}`}>
                             <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
                             <div className="modal-title h5">import transactions</div>
                         </div>
                         <div className="modal-body">
                             <div className="content">
                                 {/* Header for the table */}
-                                <div className={`columns`}>
+                                <div className={`columns ${styles.h48}`}>
                                     <div className="column col-1">
                                         <div>import</div>
                                     </div>                    
-                                    <div className="column col-2">
+                                    <div className="column col-1">
                                         date
                                     </div>
-                                    <div className="column col-2">
+                                    <div className="column col-1">
                                         amount
                                     </div>
                                     <div className="column col-2">
@@ -122,32 +132,15 @@ class Save extends Component<Props>{
                                     <div className="column col-2">
                                         sub-category
                                     </div>
-                                    <div className={`column col-7`}>
+                                    <div className={`column col-5`}>
                                         note
                                     </div>
-                                </div>                            
-                                {this.state.importedData.sort(function(a, b){
-                        
-                                    var split1 = a.dateId.split('-');
-                                    var split2 = b.dateId.split('-');
-                                    var m1 = split1[0];
-                                    var y1 = split1[1];
-                                    var m2 = split2[0];
-                                    var y2 = split2[1];
-                        
-                                    if (y1 > y2){
-                                        return 1;
-                                    } else if (y2 > y1) {
-                                        return -1;
-                                    } else if (m1 > m2) {
-                                        return 1;
-                                    } else if (m2 > m1) {
-                                        return -1;
-                                    }
-                                    return 0;
-                                }).map((value, index, array) => {
-                                    return <ImportBank value={index} {...value} toggleImport={this.toggleImport} />
+                                </div>
+                                <div className={`${styles.hrest}`}>
+                                {this.props.pendingImport.map((value, index, array) => {
+                                    return <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName} defaultItem={value.itemName} defaultNote={value.note} />
                                 })}
+                                </div>                                
                             </div>
                         </div>
                         <div className="modal-footer">
@@ -183,7 +176,8 @@ function mapStateToProps(state){
         modified: state.modified,
         bankSync: state.bankSync,
         categories: state.categories,
-        items: state.items
+        items: state.items,
+        pendingImport: state.pendingImport
     }
 }
 
@@ -192,7 +186,8 @@ function mapDispatchToProps(dispatch){
         ...SaveActions,
         ...ModifyActions,
         ...BankSyncActions,
-        ...TransactionCollectionActions
+        ...TransactionCollectionActions,
+        ...PendingImportActions
     }, dispatch);
 }
 
