@@ -1,11 +1,14 @@
 import {
     MODIFY_IMPORT_CHECKBOX,
+    MODIFY_ALL_IMPORT_CHECKBOX,
     ADD_IMPORT_TRANSACTION,
     REMOVE_ALL_IMPORT_TRANSACTIONS,
     SORT_IMPORT_TRANSACTIONS,
+    SET_CATEGORY_ID,
+    SET_ITEM_ID,
     SET_OVERWRITE_CATEGORY_NAME,
     SET_OVERWRITE_ITEM_NAME,
-    SET_OVERWRITE_NOTE
+    SET_OVERWRITE_NOTE    
 } from "../actions/pendingImport";
 import {
     Action,
@@ -43,6 +46,14 @@ export default function pendingImport(state: any = [], action: Action){
                     return t;
                 })
             );
+        case MODIFY_ALL_IMPORT_CHECKBOX:
+            return update([], 
+                state.map(t => {
+                    t.toImport = action.payload.value;
+
+                    return t;
+                })
+            );
         case SORT_IMPORT_TRANSACTIONS:
             return state.sort(function(a, b){
                                                         
@@ -70,11 +81,31 @@ export default function pendingImport(state: any = [], action: Action){
                 }
                 return 0;
             });
+        case SET_CATEGORY_ID:
+            return update([], 
+                state.map(t => {
+                    if (t.tempId === action.payload.id){
+                        t.categoryId = action.payload.categoryId;
+                    }
+
+                    return t;
+                })
+            );   
+        case SET_ITEM_ID:
+            return update([], 
+                state.map(t => {
+                    if (t.tempId === action.payload.id){
+                        t.itemId = action.payload.itemId;
+                    }
+
+                    return t;
+                })
+            );            
         case SET_OVERWRITE_CATEGORY_NAME:
             return update([], 
                 state.map(t => {
                     if (t.tempId === action.payload.id){
-                        t.overwriteCategoryName = action.payload.name;                        
+                        t.overwriteCategoryName = action.payload.name;
                     }
 
                     return t;
@@ -84,7 +115,7 @@ export default function pendingImport(state: any = [], action: Action){
             return update([], 
                 state.map(t => {
                     if (t.tempId === action.payload.id){
-                        t.overwriteItemName = action.payload.name;                        
+                        t.overwriteItemName = action.payload.name;
                     }
 
                     return t;
@@ -94,7 +125,7 @@ export default function pendingImport(state: any = [], action: Action){
             return update([], 
                 state.map(t => {
                     if (t.tempId === action.payload.id){
-                        t.overwriteNote = action.payload.note;                        
+                        t.overwriteNote = action.payload.note;
                     }
 
                     return t;

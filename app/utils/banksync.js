@@ -13,8 +13,6 @@ export async function bankSyncFetch(categories, items, bankName, username, passw
             break;
     }
 
-    console.warn(transactionLoad);
-
     return clean(transactionLoad, categories, items);
 }
 

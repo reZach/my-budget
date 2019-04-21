@@ -19,16 +19,16 @@ class Save extends Component<Props>{
 
         this.state = {
             bankSyncAdd: false,
-            importedData: []
+            importedData: [],
+            allImport: true
         };
 
         this.multi = this.multi.bind(this);
         this.sync = this.sync.bind(this);
         this.deleteAll = this.deleteAll.bind(this);
         this.toggleBankSyncAdd = this.toggleBankSyncAdd.bind(this);
-        this.setNewCategory = this.setNewCategory.bind(this);
-        this.importTransactions = this.importTransactions.bind(this);
-        this.toggleImport = this.toggleImport.bind(this);
+        this.toggleAllImport = this.toggleAllImport.bind(this);
+        this.importTransactions = this.importTransactions.bind(this);        
     }
 
     multi(event){
@@ -49,34 +49,20 @@ class Save extends Component<Props>{
         });
     }
 
-    toggleImport(id){
-        let importedData = this.state.importedData;
-
-        for (var i = 0; i < importedData.length; i++){
-            if (importedData[i].tempId === id){
-                importedData[i].import = !importedData[i].import;
-
-                this.setState({
-                    importedData: importedData
-                });
-                break;
-            }
-        }
-    }
-
-    setNewCategory(id, categoryName){
-        //let 
-    }
-
     export(event){
         dialog.showOpenDialog({ properties: ['openFile', 'openDirectory', 'multiSelections'] });
     }
 
-    importTransactions(){
-        
-        let toImport = this.state.importedData.filter(d => d.import === true);
+    importTransactions(){        
+        let toImport = this.props.pendingImport.filter(pi => pi.toImport);
 
-        this.props
+        for (var i = 0; i < toImport.length; i++){
+
+            if (toImport[i].categoryId === ""){
+
+            }
+            // this.props.addTransaction2(dateId: string, categoryId: string, itemId: string, day: string, amount: string, note: string)
+        }
     }
 
     toggleBankSyncAdd(event){
@@ -85,6 +71,14 @@ class Save extends Component<Props>{
         this.setState({
             bankSyncAdd: newState
         });
+    }
+
+    toggleAllImport(){
+        let current = this.state.allImport;
+        this.setState({
+            allImport: !current
+        });
+        this.props.modifyAllImportCheckbox(!current);
     }
 
     deleteAll(event){
@@ -144,8 +138,15 @@ class Save extends Component<Props>{
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button className="btn btn-primary">import</button>
-                            <button className="btn" onClick={() => this.toggleBankSyncAdd()}>cancel</button>
+                            <div className="column col-12">
+                                <div className="form-group float-left">
+                                    <input className="btn" type="button" value="toggle import all" onClick={() => this.toggleAllImport()}></input>
+                                </div>
+                                <div className="form-group float-right">
+                                    <button className="btn btn-primary">import</button>
+                                    <button className="btn" onClick={() => this.toggleBankSyncAdd()}>cancel</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
