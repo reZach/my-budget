@@ -6,6 +6,7 @@ export const MODIFY_IMPORT_CATEGORY = "MODIFY_IMPORT_CATEGORY";
 export const MODIFY_IMPORT_ITEM = "MODIFY_IMPORT_ITEM";
 export const SET_OVERWRITE_CATEGORY_NAME = "SET_OVERWRITE_CATEGORY_NAME";
 export const SET_OVERWRITE_ITEM_NAME = "SET_OVERWRITE_ITEM_NAME";
+export const SET_OVERWRITE_NOTE = "SET_OVERWRITE_NOTE";
 export const SORT_IMPORT_TRANSACTIONS = "SORT_IMPORT_TRANSACTIONS";
 export const ADD_IMPORT_TRANSACTION = "ADD_IMPORT_TRANSACTION";
 export const REMOVE_ALL_IMPORT_TRANSACTIONS = "REMOVE_ALL_IMPORT_TRANSACTIONS";
@@ -56,6 +57,16 @@ var set_overwrite_item_name = function(id: String, name: string){
         payload: {
             id: id,
             name: name
+        }
+    };
+}
+
+var set_overwrite_note = function(id: String, note: string){
+    return {
+        type: SET_OVERWRITE_NOTE,
+        payload: {
+            id: id,
+            note: note
         }
     };
 }
@@ -116,6 +127,12 @@ export function setOverwriteCategoryName(id: String, name: string){
 export function setOverwriteItemName(id: String, name: string){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(set_overwrite_item_name(id, name));
+    }
+}
+
+export function setOverwriteNote(id: String, note: string){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(set_overwrite_note(id, note));
     }
 }
 

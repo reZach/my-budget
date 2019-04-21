@@ -8,69 +8,102 @@ import * as PendingImportActions from "../../actions/pendingImport";
 class ImportBank extends Component<Props> {
     props: Props;
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
         this.state = {
-            selectedCategoryId: "",
             editPane: false,
+            savedCategory: props.categoryName,
+            savedItem: props.itemName === "" ? "default" : props.itemName,
+            savedNote: props.note,
+            editCategory: false,
+            editItem: false,
+            pendingCategory: props.categoryName,
+            pendingItem: props.itemName,
+            pendingNote: "",
+            newCategory: "",
+            newItem: "",
             createCategory: false,
             createItem: false,
+
+
             createCategoryName: "",
             createItemName: "",
+            createNote: props.defaultNote,
             optionNewCategory: "",
-            optionNewItem: ""
+            optionNewItem: "",
+            selectedCategoryDropDown: props.categoryName,
+            selectedItemDropDown: props.itemName
         };
         
+        this.undoPendingChanges = this.undoPendingChanges.bind(this);
+        this.saveAllPendingChanges = this.saveAllPendingChanges.bind(this);
         this.createCategoryDropDown = this.createCategoryDropDown.bind(this);
         this.createItemDropDown = this.createItemDropDown.bind(this);
         this.onCategoryChange = this.onCategoryChange.bind(this);
+        this.onItemChange = this.onItemChange.bind(this);
+        this.changeNewCategory = this.changeNewCategory.bind(this);
+        this.changeNewItem = this.changeNewItem.bind(this);
         this.submitNewCategoryName = this.submitNewCategoryName.bind(this);
         this.submitNewItemName = this.submitNewItemName.bind(this);
-        this.newCategoryNameKeyup = this.newCategoryNameKeyup.bind(this);
-        this.newItemNameKeyup = this.newItemNameKeyup.bind(this);
-        this.changeCreateCategoryName = this.changeCreateCategoryName.bind(this);
-        this.changeCreateItemName = this.changeCreateItemName.bind(this);
-        this.onItemChange = this.onItemChange.bind(this);
         this.trimNote = this.trimNote.bind(this);
         this.toggleEditPane = this.toggleEditPane.bind(this);
+
+
+        this.newCategoryNameKeyup = this.newCategoryNameKeyup.bind(this);
+        this.newItemNameKeyup = this.newItemNameKeyup.bind(this);
+        this.newNoteKeyup = this.newNoteKeyup.bind(this);
+        this.newItemNameKeyup = this.newItemNameKeyup.bind(this);        
+        this.changeCreateNote = this.changeCreateNote.bind(this);
+    }
+
+    undoPendingChanges(event){
+        
+        this.setState({
+            createCategory: false,
+            createItem: false,
+            createCategoryName: "",
+            optionNewCategory: "",
+            createItem: false,
+            createItemName: "",
+            optionNewItem: "",
+            createNote: this.props.defaultNote
+        });
+    }
+
+    saveAllPendingChanges(event){
+        if (this.state.pendingCategory !== this.state.savedCategory && this.state.newCategory !== ""){
+            this.props.setOverwriteCategoryName(this.props.tempId, this.state.newCategory);
+            this.submitNewCategoryName();            
+        }
+        
+        if (this.state.pendingItem !== this.state.savedItem && this.state.newItem !== ""){
+            this.props.setOverwriteItemName(this.props.tempId, this.state.newItem);
+            this.submitNewItemName();
+        }
+                
+        
+        if (this.state.createNote !== this.props.defaultNote){
+            this.submitNewNote();
+        }        
     }
     
     createCategoryDropDown(){
         let options = [];
         let index = 0;
 
-        if (this.state.optionNewCategory !== ""){
-            options.push((<option key={index} selected={true}>{this.state.optionNewCategory}</option>));
-            index++;
-        }
-
-        if (this.props.categoryName !== ""){
-
-            var matched = this.props.categories.filter(c => c.dateId === this.props.dateId && c.name === this.props.categoryName);
-            if (matched.length > 0){
-                options.push((<option key={index} value={matched[0].id}>{this.props.categoryName}</option>));
-                index++;
-            } else {
-                options.push((<option key={index}>{this.props.categoryName}</option>));
-                index++;
-            }
-            
+        if (this.props.defaultCategory !== ""){
+            options.push((<option key={index} value={this.props.defaultCategory}>{this.props.defaultCategory}</option>));
         } else {
+            options.push((<option key={index} selected={this.state.savedCategory === ""} value="default">default</option>));
+        }
+        index++;
 
-            // Pull categories of the current dateId
-            var filtered = this.props.categories.filter(c => c.dateId === this.props.dateId);
-            if (filtered.length > 0){
-                for (var i = 0; i < filtered.length; i++){
-                    options.push((<option key={index} value={filtered[i].id}>{filtered[i].name}</option>))
-                    index++;
-                }
-            }
-            
-            options.push((<option key={index} value="---">bank (default)</option>));
-            index++;
-        }        
-        options.push((<option key={index} value="">create new</option>));
+        if (this.state.savedCategory !== "" && this.state.savedCategory !== this.props.defaultCategory){
+            options.push((<option key={index} selected={this.state.savedCategory !== ""} value={this.state.savedCategory}>{this.state.savedCategory} (edit)</option>))
+        } else {
+            options.push((<option key={index} value="">create new</option>));
+        }
 
         return options;
     }
@@ -79,39 +112,18 @@ class ImportBank extends Component<Props> {
         let options = [];
         let index = 0;
 
-        if (this.state.optionNewItem !== ""){
-            options.push((<option selected={true} key={index}>{this.state.optionNewItem}</option>));
-            index++;
-        }
-
-        if (this.props.itemName !== ""){
-
-            var matched = this.props.items.filter(i => i.name === this.props.itemName && i.categoryId === this.props.categoryId && i.dateId === this.props.dateId);
-            if (matched.length > 0){
-                options.push((<option value={matched[0].id} key={index}>{this.props.itemName}</option>));
-                index++;
-            } else {
-                options.push((<option key={index}>{this.props.itemName}</option>));
-                index++;
-            }            
+        if (this.props.defaultItem !== ""){
+            options.push((<option key={index} value={this.props.defaultItem}>{this.props.defaultItem}</option>));
         } else {
-
-            // Pull related options if the category matches
-            if (this.props.categoryId !== ""){
-                let existingItems = this.props.items.filter(i => i.dateId === this.props.dateId);
-
-                for (var i = 0; i < existingItems.length; i++){
-                    if (existingItems[i].categoryId === this.props.categoryId){
-                        options.push((<option key={index} value={existingItems[i].id}>{existingItems[i].name}</option>));
-                        index++;
-                    }
-                }
-            }
-
-            options.push((<option key={index} value="---">bank (default)</option>));
-            index++;
+            options.push((<option key={index} selected={this.state.savedItem === ""} value="default">default</option>));
         }        
-        options.push((<option key={index} value="">create new</option>));
+        index++;
+
+        if (this.state.savedItem !== "" && this.state.savedItem !== this.props.defaultItem){
+            options.push((<option key={index} selected={this.state.savedItem !== ""} value={this.state.savedItem}>{this.state.savedItem} (edit)</option>))
+        } else {
+            options.push((<option key={index} value="">create new</option>));
+        }
 
         return options;
     }
@@ -142,102 +154,115 @@ class ImportBank extends Component<Props> {
         }
     }
 
+    newNoteKeyup(event){
+        let code = event.keyCode || event.which;
+        if (code === 27){
+            this.setState({
+                createNote: this.props.defaultNote
+            });
+            event.target.blur();
+        }
+    }
+
     toggleEditPane(event){
         let state = this.state.editPane;
 
         this.setState({
-            editPane: !state
+            editPane: !state,
+            pendingCategory: this.state.savedCategory,
+            pendingItem: this.state.savedItem,
+            editCategory: false,
+            editItem: false
+        });
+    }
+
+    changeNewCategory(event){
+        this.setState({
+            newCategory: event.target.value,
+            pendingCategory: event.target.value
+        });
+    }
+
+    changeNewItem(event){
+        this.setState({
+            newItem: event.target.value,
+            pendingItem: event.target.value
         });
     }
 
     onCategoryChange(event){
         let value = event.target.value;
 
-        // reset
-        if (value === this.props.defaultCategory){
-            this.props.setOverwriteCategoryName(this.props.tempId, "");
-        }
-
         this.setState({
-            createCategory: value === ""
+            editCategory: value === "" || value !== this.props.defaultCategory,
+            pendingCategory: value,
+            newCategory: value
         });
     }
 
     onItemChange(event){
         let value = event.target.value;
 
-        // reset
-        if (value === this.state.defaultItem){
-            this.props.setOverwriteItemName(this.props.tempId, "");
-        }
-        
         this.setState({
-            createItem: value === ""
+            editItem: value === "" || value !== "default",
+            pendingItem: value,
+            newItem: value
         });
     }
 
-    changeCreateCategoryName(event){
+    changeCreateNote(event){
         this.setState({
-            createCategoryName: event.target.value
-        });        
-    }
-
-    changeCreateItemName(event){
-        this.setState({
-            createItemName: event.target.value
-        });        
+            createNote: event.target.value
+        });
     }
 
     submitNewCategoryName(event){
-        var result = this.state.createCategoryName;
+        var newCategory = this.state.newCategory;
         this.setState({
-            createCategory: false,
-            createCategoryName: "",
-            optionNewCategory: result
+            savedCategory: newCategory,
+            editCategory: false,
+            newCategory: ""
         });
-        this.props.setOverwriteCategoryName(this.props.tempId, result);
     }
 
     submitNewItemName(event){
-        var result = this.state.createItemName;
+        var newItem = this.state.newItem;
         this.setState({
-            createItem: false,
-            createItemName: "",
-            optionNewItem: result
+            savedItem: newItem,
+            editItem: false,
+            newItem: ""
         });
-        this.props.setOverwriteItemName(this.props.tempId, result);
+    }
+
+    submitNewNote(event){
+        var result = this.state.createNote;
+        this.props.setOverwriteNote(this.props.tempId, result);
     }
     
     renderCreateNewCategory(){
-        if (this.state.createCategory){
+        if (this.state.editCategory){
             return (
                 <div className="form-horizontal">
                     <div className="form-group">
-                        <div className="col-3">category name</div>
-                        <div className="col-9">
-                            <input className="form-input" type="text" value={this.state.createCategoryName} onKeyUp={this.newCategoryNameKeyup} onChange={this.changeCreateCategoryName} placeholder="category name" />
+                        <div className="col-3">new category name</div>
+                        <div className="col-6">
+                            <input className="form-input" type="text" value={this.state.newCategory} onKeyUp={this.newCategoryNameKeyup} onChange={this.changeNewCategory} placeholder="new category name" />
                         </div>
                     </div>
-                    <div className="form-group float-right">
-                        <input className="btn btn-primary" type="button" onClick={() => this.submitNewCategoryName()} value="create"></input>
-                    </div>                    
                 </div>  
             );
         }        
     }
 
     renderCreateNewItem(){
-        if (this.state.createItem){
+        if (this.state.editItem){
             return (
                 <div className="form-horizontal">
                     <div className="form-group">
-                        <div className="col-3">item name</div>
-                        <div className="col-9">
-                            <input className="form-input" type="text" value={this.state.createItemName} onKeyUp={this.newItemNameKeyup} onChange={this.changeCreateItemName} placeholder="item name" />
+                        <div className="col-3">new item name</div>
+                        <div className="col-6">
+                            <input className="form-input" type="text" value={this.state.newItem} onKeyUp={this.newItemNameKeyup} onChange={this.changeNewItem} placeholder="new item name" />
                         </div>
-                    </div>
-                    <div className="form-group float-right">
-                        <input className="btn btn-primary" type="button" onClick={() => this.submitNewItemName()} value="create"></input>
                     </div>
                 </div>  
             );
@@ -249,7 +274,7 @@ class ImportBank extends Component<Props> {
             return (
                 <div className="columns">
                     <div className={`column col-12 ${styles["edit-window"]}`}>
-                        <form className="form-horizontal">
+                        <form className="form-horizontal" onSubmit={() => this.saveAllPendingChanges()}>
                             <div className="form-group">                                
                                 <div className="col-3">category</div>
                                 <div className="col-6">
@@ -271,10 +296,19 @@ class ImportBank extends Component<Props> {
                             <div className="form-group">
                                 <div className="col-3">note</div>
                                 <div className="col-6">
-                                    <input className="form-input" type="text" defaultValue={this.props.defaultNote} placeholder="note" />
+                                    <input className="form-input" type="text" value={this.state.createNote} onChange={this.changeCreateNote} onKeyUp={this.newNoteKeyup} placeholder="note" />
                                 </div>
                             </div>
-                            {/* {this.renderCreateNewItem()} */}
+                            <div className="column col-12">
+                                <div className="form-group float-left">
+                                    <input className="btn btn-error" type="button" value="undo all" disabled={this.state.createCategoryName === this.props.defaultCategory && this.state.createItemName === this.props.defaultItem && this.state.createNote === this.props.defaultNote} onClick={() => this.undoPendingChanges()}></input>
+                                </div>
+                                <div className="form-group float-right">
+                                    <input className="btn btn-primary" type="submit" disabled={!((this.props.overwriteCategoryName === "" ? (this.state.pendingCategory !== this.state.savedCategory && this.state.newCategory !== "") : (this.state.newCategory !== "" ? this.props.overwriteCategoryName !== this.state.newCategory : this.state.pendingCategory !== this.props.overwriteCategoryName)) 
+                                    ||
+                                    (this.props.overwriteItemName === "" ? (this.state.pendingItem !== this.state.savedItem && this.state.newItem !== "") : (this.state.newItem !== "" ? this.props.overwriteItemName !== this.state.newItem : this.state.pendingItem !== this.props.overwriteItemName)))} value="update"></input>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -291,7 +325,7 @@ class ImportBank extends Component<Props> {
     }
 
     overwriteCategory(){
-        if (this.props.overwriteCategoryName !== ""){
+        if (this.props.overwriteCategoryName !== "" && this.props.overwriteCategoryName !== this.props.defaultCategory){
             return (
                 <span style={{fontWeight: "bold"}}>
                     {this.props.overwriteCategoryName}
@@ -307,7 +341,7 @@ class ImportBank extends Component<Props> {
     }
 
     overwriteItem(){
-        if (this.props.overwriteItemName !== ""){
+        if (this.props.overwriteItemName !== "" && this.props.overwriteItemName !== this.props.defaultItem && this.props.overwriteItemName !== "default"){
             return (
                 <span style={{fontWeight: "bold"}}>
                     {this.props.overwriteItemName}
@@ -323,9 +357,9 @@ class ImportBank extends Component<Props> {
     }
 
     overwriteNote(){
-        if (this.props.overwriteNote !== ""){
+        if (this.props.overwriteNote !== "" && this.props.overwriteNote !== this.props.defaultNote){
             return (
-                <span>
+                <span style={{fontWeight: "bold"}}>
                     {this.trimNote(this.props.overwriteNote)}
                 </span>
             );
