@@ -13,25 +13,26 @@ class ImportBank extends Component<Props> {
 
         this.state = {
             editPane: false,
-            savedCategory: props.categoryName,
+            savedCategory: props.categoryName === "" ? "default" : props.categoryName,
             savedItem: props.itemName === "" ? "default" : props.itemName,
             savedNote: props.note,
+            savedCategoryId: props.categoryId,
+            savedItemId: props.itemId,
             editCategory: false,
             editItem: false,
             pendingCategory: props.categoryName,
             pendingItem: props.itemName,
-            pendingNote: "",
+            pendingNote: props.note,
             newCategory: "",
             newItem: "",
+            newNote: props.note,
+
+
             createCategory: false,
             createItem: false,
-
-
             createCategoryName: "",
             createItemName: "",
-            createNote: props.defaultNote,
-            optionNewCategory: "",
-            optionNewItem: "",
+            createNote: props.defaultNote,            
             selectedCategoryDropDown: props.categoryName,
             selectedItemDropDown: props.itemName
         };
@@ -41,11 +42,13 @@ class ImportBank extends Component<Props> {
         this.createCategoryDropDown = this.createCategoryDropDown.bind(this);
         this.createItemDropDown = this.createItemDropDown.bind(this);
         this.onCategoryChange = this.onCategoryChange.bind(this);
-        this.onItemChange = this.onItemChange.bind(this);
+        this.onItemChange = this.onItemChange.bind(this);        
         this.changeNewCategory = this.changeNewCategory.bind(this);
         this.changeNewItem = this.changeNewItem.bind(this);
+        this.changeNewNote = this.changeNewNote.bind(this);
         this.submitNewCategoryName = this.submitNewCategoryName.bind(this);
         this.submitNewItemName = this.submitNewItemName.bind(this);
+        this.submitNewNote = this.submitNewNote.bind(this);
         this.trimNote = this.trimNote.bind(this);
         this.toggleEditPane = this.toggleEditPane.bind(this);
 
@@ -53,37 +56,45 @@ class ImportBank extends Component<Props> {
         this.newCategoryNameKeyup = this.newCategoryNameKeyup.bind(this);
         this.newItemNameKeyup = this.newItemNameKeyup.bind(this);
         this.newNoteKeyup = this.newNoteKeyup.bind(this);
-        this.newItemNameKeyup = this.newItemNameKeyup.bind(this);        
-        this.changeCreateNote = this.changeCreateNote.bind(this);
+        this.newItemNameKeyup = this.newItemNameKeyup.bind(this);
     }
 
-    undoPendingChanges(event){
-        
+    undoPendingChanges(event){        
+        this.props.setOverwriteCategoryName(this.props.tempId, "");
+        this.props.setOverwriteItemName(this.props.tempId, "");
+        this.props.setOverwriteNote(this.props.tempId, "");
         this.setState({
-            createCategory: false,
-            createItem: false,
-            createCategoryName: "",
-            optionNewCategory: "",
-            createItem: false,
-            createItemName: "",
-            optionNewItem: "",
-            createNote: this.props.defaultNote
+            savedCategoryId: "",
+            savedItemId: "",
+            savedCategory: this.props.defaultCategory,
+            savedItem: this.props.defaultItem,
+            savedNote: this.props.defaultNote,
+            pendingCategory: this.props.categoryName,
+            pendingItem: this.props.itemName,
+            pendingNote: this.props.note,
+            newCategory: "",
+            newItem: "",
+            newNote: this.props.note,
+            editCategory: false,
+            editItem: false
         });
     }
 
     saveAllPendingChanges(event){
         if (this.state.pendingCategory !== this.state.savedCategory && this.state.newCategory !== ""){
             this.props.setOverwriteCategoryName(this.props.tempId, this.state.newCategory);
+            this.props.setCategoryId(this.props.tempId, this.state.savedCategoryId);
             this.submitNewCategoryName();            
         }
         
         if (this.state.pendingItem !== this.state.savedItem && this.state.newItem !== ""){
             this.props.setOverwriteItemName(this.props.tempId, this.state.newItem);
+            this.props.setItemId(this.props.tempId, this.state.savedItemId);
             this.submitNewItemName();
         }
-                
         
-        if (this.state.createNote !== this.props.defaultNote){
+        if (this.state.pendingNote !== this.state.savedNote){
+            this.props.setOverwriteNote(this.props.tempId, this.state.newNote);
             this.submitNewNote();
         }        
     }
@@ -93,17 +104,43 @@ class ImportBank extends Component<Props> {
         let index = 0;
 
         if (this.props.defaultCategory !== ""){
-            options.push((<option key={index} value={this.props.defaultCategory}>{this.props.defaultCategory}</option>));
+            options.push((<option key={index} value={this.props.defaultCategory}>{this.props.defaultCategory} (bank)</option>));
         } else {
-            options.push((<option key={index} selected={this.state.savedCategory === ""} value="default">default</option>));
+            options.push((<option key={index} selected={this.state.savedCategory === "" && this.state.savedCategoryId === ""} value="default" label="default"></option>));
         }
         index++;
 
-        if (this.state.savedCategory !== "" && this.state.savedCategory !== this.props.defaultCategory){
-            options.push((<option key={index} selected={this.state.savedCategory !== ""} value={this.state.savedCategory}>{this.state.savedCategory} (edit)</option>))
+        if (this.state.savedCategoryId === ""){
+            // Add categories from the given dateId
+            for (var i = 0; i < this.props.categories.length; i++){
+                if (this.props.categories[i].dateId === this.props.dateId){
+                    options.push((<option key={index} data-categoryid={this.props.categories[i].id} value={this.props.categories[i].name}>{this.props.categories[i].name} (found)</option>));
+                    index++;
+                }            
+            }
+
+            if (this.state.savedCategory !== "" && this.state.savedCategory !== this.props.defaultCategory){
+                options.push((<option key={index} selected={this.state.savedCategory !== ""} value={this.state.savedCategory}>{this.state.savedCategory} (edit)</option>))
+            } else {
+                options.push((<option key={index} value="">create new</option>));
+            }
         } else {
-            options.push((<option key={index} value="">create new</option>));
+
+            // Add categories from the given dateId
+            for (var i = 0; i < this.props.categories.length; i++){
+                if (this.props.categories[i].dateId === this.props.dateId){
+                    options.push((<option key={index} data-categoryid={this.props.categories[i].id} value={this.props.categories[i].name} selected={this.props.categories[i].id === this.state.savedCategoryId}>{this.props.categories[i].name} {this.props.categories[i].id === this.props.categoryId ? "(selected)" : "(found)"}</option>));
+                    index++;
+                }            
+            }
+
+            if (this.state.savedCategory !== "" && this.state.savedCategory !== this.props.defaultCategory){
+                options.push((<option key={index} selected={this.state.savedCategory !== ""} value={this.state.savedCategory}>{this.state.savedCategory} (edit)</option>))
+            } else {
+                options.push((<option key={index} value="">create new</option>));
+            }
         }
+        
 
         return options;
     }
@@ -113,17 +150,36 @@ class ImportBank extends Component<Props> {
         let index = 0;
 
         if (this.props.defaultItem !== ""){
-            options.push((<option key={index} value={this.props.defaultItem}>{this.props.defaultItem}</option>));
+            options.push((<option key={index} value={this.props.defaultItem}>{this.props.defaultItem} (bank)</option>));
         } else {
-            options.push((<option key={index} selected={this.state.savedItem === ""} value="default">default</option>));
+            options.push((<option key={index} selected={this.state.savedItem === ""} value="default" label="default"></option>));
         }        
         index++;
 
-        if (this.state.savedItem !== "" && this.state.savedItem !== this.props.defaultItem){
-            options.push((<option key={index} selected={this.state.savedItem !== ""} value={this.state.savedItem}>{this.state.savedItem} (edit)</option>))
+        if (this.state.savedCategoryId === ""){
+            
+            if (this.state.savedItem !== "" && this.state.savedItem !== this.props.defaultItem){
+                options.push((<option key={index} selected={this.state.savedItem !== ""} value={this.state.savedItem}>{this.state.savedItem} (edit)</option>))
+            } else {
+                options.push((<option key={index} value="">create new</option>));
+            }
         } else {
-            options.push((<option key={index} value="">create new</option>));
+
+            // Add items from the given categoryId
+            for (var i = 0; i < this.props.items.length; i++){
+                if (this.props.items[i].dateId === this.props.dateId && this.props.items[i].categoryId === this.state.savedCategoryId){
+                    options.push((<option key={index} data-itemid={this.props.items[i].id} value={this.props.items[i].name} selected={this.props.items[i].id === this.state.savedItemId}>{this.props.items[i].name} {this.props.items[i].id === this.props.itemId ? "(selected)" : "(found)"}</option>));
+                    index++;
+                }            
+            }
+
+            if (this.state.savedItem !== "" && this.state.savedItem !== this.props.defaultItem && this.state.savedItemId === ""){
+                options.push((<option key={index} selected={this.state.savedItem !== ""} value={this.state.savedItem}>{this.state.savedItem} (edit)</option>))
+            } else {
+                options.push((<option key={index} value="">create new</option>));
+            }
         }
+        
 
         return options;
     }
@@ -171,6 +227,7 @@ class ImportBank extends Component<Props> {
             editPane: !state,
             pendingCategory: this.state.savedCategory,
             pendingItem: this.state.savedItem,
+            pendingNote: this.state.savedNote,
             editCategory: false,
             editItem: false
         });
@@ -190,11 +247,29 @@ class ImportBank extends Component<Props> {
         });
     }
 
+    changeNewNote(event){
+        this.setState({
+            newNote: event.target.value,
+            pendingNote: event.target.value
+        });
+    }
+
     onCategoryChange(event){
         let value = event.target.value;
+        let matched = "";
+
+        // Check if <option> was found from existing categories
+        for (var i = 0; i < event.target.children.length; i++){
+            if (event.target.children[i].value === value){
+                matched = event.target.children[i].getAttribute("data-categoryid");
+                if (matched === null) matched = "";
+                break;
+            }
+        }        
 
         this.setState({
-            editCategory: value === "" || value !== this.props.defaultCategory,
+            savedCategoryId: matched,
+            editCategory: value === "" || (value !== this.props.defaultCategory && matched === ""),
             pendingCategory: value,
             newCategory: value
         });
@@ -202,17 +277,22 @@ class ImportBank extends Component<Props> {
 
     onItemChange(event){
         let value = event.target.value;
+        let matched = "";
+
+        // Check if <option> was found from existing items
+        for (var i = 0; i < event.target.children.length; i++){
+            if (event.target.children[i].value === value){
+                matched = event.target.children[i].getAttribute("data-itemid");
+                if (matched === null) matched = "";
+                break;
+            }
+        }   
 
         this.setState({
-            editItem: value === "" || value !== "default",
+            savedItemId: matched,
+            editItem: value === "" || (value !== this.props.defaultItem && matched === ""),
             pendingItem: value,
             newItem: value
-        });
-    }
-
-    changeCreateNote(event){
-        this.setState({
-            createNote: event.target.value
         });
     }
 
@@ -235,8 +315,11 @@ class ImportBank extends Component<Props> {
     }
 
     submitNewNote(event){
-        var result = this.state.createNote;
-        this.props.setOverwriteNote(this.props.tempId, result);
+        var newNote = this.state.newNote;
+        this.setState({
+            savedNote: newNote,
+            newNote: newNote
+        });        
     }
     
     renderCreateNewCategory(){
@@ -296,17 +379,19 @@ class ImportBank extends Component<Props> {
                             <div className="form-group">
                                 <div className="col-3">note</div>
                                 <div className="col-6">
-                                    <input className="form-input" type="text" value={this.state.createNote} onChange={this.changeCreateNote} onKeyUp={this.newNoteKeyup} placeholder="note" />
+                                    <input className="form-input" type="text" value={this.state.newNote} onChange={this.changeNewNote} onKeyUp={this.newNoteKeyup} placeholder="note" />
                                 </div>
                             </div>
                             <div className="column col-12">
                                 <div className="form-group float-left">
-                                    <input className="btn btn-error" type="button" value="undo all" disabled={this.state.createCategoryName === this.props.defaultCategory && this.state.createItemName === this.props.defaultItem && this.state.createNote === this.props.defaultNote} onClick={() => this.undoPendingChanges()}></input>
+                                    <input className="btn btn-error" type="button" value="undo all" disabled={!(this.state.savedCategory !== this.props.defaultCategory || this.state.savedItem !== this.props.defaultitem || this.state.savedNote !== this.props.defaultNote)} onClick={() => this.undoPendingChanges()}></input>
                                 </div>
                                 <div className="form-group float-right">
                                     <input className="btn btn-primary" type="submit" disabled={!((this.props.overwriteCategoryName === "" ? (this.state.pendingCategory !== this.state.savedCategory && this.state.newCategory !== "") : (this.state.newCategory !== "" ? this.props.overwriteCategoryName !== this.state.newCategory : this.state.pendingCategory !== this.props.overwriteCategoryName)) 
                                     ||
-                                    (this.props.overwriteItemName === "" ? (this.state.pendingItem !== this.state.savedItem && this.state.newItem !== "") : (this.state.newItem !== "" ? this.props.overwriteItemName !== this.state.newItem : this.state.pendingItem !== this.props.overwriteItemName)))} value="update"></input>
+                                    (this.props.overwriteItemName === "" ? (this.state.pendingItem !== this.state.savedItem && this.state.newItem !== "") : (this.state.newItem !== "" ? this.props.overwriteItemName !== this.state.newItem : this.state.pendingItem !== this.props.overwriteItemName))
+                                    ||
+                                    (this.state.newNote !== this.state.savedNote))} value="update"></input>
                                 </div>
                             </div>
                         </form>
@@ -325,7 +410,7 @@ class ImportBank extends Component<Props> {
     }
 
     overwriteCategory(){
-        if (this.props.overwriteCategoryName !== "" && this.props.overwriteCategoryName !== this.props.defaultCategory){
+        if (this.props.overwriteCategoryName !== "" && this.props.overwriteCategoryName !== this.props.defaultCategory && this.props.overwriteCategoryName !== "default"){
             return (
                 <span style={{fontWeight: "bold"}}>
                     {this.props.overwriteCategoryName}
@@ -377,7 +462,7 @@ class ImportBank extends Component<Props> {
             <React.Fragment>
                 <div className={`columns ${styles.importrow}`} onClick={() => this.toggleEditPane()}>
                     <div className="column col-1">
-                        <input type="checkbox" value="import" defaultChecked={this.props.toImport} onClick={() => this.props.modifyImportCheckbox(this.props.tempId, !this.props.toImport)}></input>
+                        <input type="checkbox" value="import" value={this.props.toImport} checked={this.props.toImport} onClick={() => this.props.modifyImportCheckbox(this.props.tempId, !this.props.toImport)}></input>
                     </div>                    
                     <div className="column col-1">
                         {`${this.props.dateId}`}

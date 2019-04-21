@@ -2,8 +2,11 @@ import { Store, Dispatch } from "../reducers/types";
 
 
 export const MODIFY_IMPORT_CHECKBOX = "MODIFY_IMPORT_CHECKBOX";
+export const MODIFY_ALL_IMPORT_CHECKBOX = "MODIFY_ALL_IMPORT_CHECKBOX";
 export const MODIFY_IMPORT_CATEGORY = "MODIFY_IMPORT_CATEGORY";
 export const MODIFY_IMPORT_ITEM = "MODIFY_IMPORT_ITEM";
+export const SET_CATEGORY_ID = "SET_CATEGORY_ID";
+export const SET_ITEM_ID = "SET_ITEM_ID";
 export const SET_OVERWRITE_CATEGORY_NAME = "SET_OVERWRITE_CATEGORY_NAME";
 export const SET_OVERWRITE_ITEM_NAME = "SET_OVERWRITE_ITEM_NAME";
 export const SET_OVERWRITE_NOTE = "SET_OVERWRITE_NOTE";
@@ -16,6 +19,15 @@ var modify_import_checkbox = function(id: string, value: boolean){
         type: MODIFY_IMPORT_CHECKBOX,
         payload: {
             id: id,
+            value: value
+        }
+    };
+}
+
+var modify_all_import_checkbox = function(value: boolean){
+    return {
+        type: MODIFY_ALL_IMPORT_CHECKBOX,
+        payload: {
             value: value
         }
     };
@@ -37,6 +49,26 @@ var modify_import_item = function(id: string, item: string){
         payload: {
             id: id,
             item: item
+        }
+    };
+}
+
+var set_category_id = function(id: String, categoryId: string){
+    return {
+        type: SET_CATEGORY_ID,
+        payload: {
+            id: id,
+            categoryId: categoryId
+        }
+    };
+}
+
+var set_item_id = function(id: String, itemId: string){
+    return {
+        type: SET_ITEM_ID,
+        payload: {
+            id: id,
+            itemId: itemId
         }
     };
 }
@@ -112,9 +144,27 @@ export function modifyImportCheckbox(id: String, value: boolean){
     }
 }
 
+export function modifyAllImportCheckbox(value: boolean){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(modify_all_import_checkbox(value));
+    }
+}
+
 export function sortImportTransactions(){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(sort_import_transactions());
+    }
+}
+
+export function setCategoryId(id: String, categoryId: string){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(set_category_id(id, categoryId));
+    }
+}
+
+export function setItemId(id: String, itemId: string){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(set_item_id(id, itemId));
     }
 }
 
