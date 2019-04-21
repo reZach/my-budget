@@ -4,7 +4,8 @@ import {
     REMOVE_ALL_IMPORT_TRANSACTIONS,
     SORT_IMPORT_TRANSACTIONS,
     SET_OVERWRITE_CATEGORY_NAME,
-    SET_OVERWRITE_ITEM_NAME
+    SET_OVERWRITE_ITEM_NAME,
+    SET_OVERWRITE_NOTE
 } from "../actions/pendingImport";
 import {
     Action,
@@ -84,6 +85,16 @@ export default function pendingImport(state: any = [], action: Action){
                 state.map(t => {
                     if (t.tempId === action.payload.id){
                         t.overwriteItemName = action.payload.name;                        
+                    }
+
+                    return t;
+                })
+            );
+        case SET_OVERWRITE_NOTE:
+            return update([], 
+                state.map(t => {
+                    if (t.tempId === action.payload.id){
+                        t.overwriteNote = action.payload.note;                        
                     }
 
                     return t;

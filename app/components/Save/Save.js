@@ -138,7 +138,7 @@ class Save extends Component<Props>{
                                 </div>
                                 <div className={`${styles.hrest}`}>
                                 {this.props.pendingImport.map((value, index, array) => {
-                                    return <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName} defaultItem={value.itemName} defaultNote={value.note} />
+                                    return <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName !== "" ? value.categoryName : "default"} defaultItem={value.itemName !== "" ? value.itemName : "default"} defaultNote={value.note} />
                                 })}
                                 </div>                                
                             </div>
