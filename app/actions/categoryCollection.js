@@ -54,6 +54,12 @@ export function addCategory(name: string) {
     }
 }
 
+export function addCategory2(dateId: String, name: string) {
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(add_category(dateId, name));
+    }
+}
+
 export function removeCategory(categoryId: string) {
     return (dispatch: Dispatch, store: Store) => {
         dispatch(remove_category(

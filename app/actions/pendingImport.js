@@ -7,6 +7,7 @@ export const MODIFY_IMPORT_CATEGORY = "MODIFY_IMPORT_CATEGORY";
 export const MODIFY_IMPORT_ITEM = "MODIFY_IMPORT_ITEM";
 export const SET_CATEGORY_ID = "SET_CATEGORY_ID";
 export const SET_ITEM_ID = "SET_ITEM_ID";
+export const SET_NOTE = "SET_NOTE";
 export const SET_OVERWRITE_CATEGORY_NAME = "SET_OVERWRITE_CATEGORY_NAME";
 export const SET_OVERWRITE_ITEM_NAME = "SET_OVERWRITE_ITEM_NAME";
 export const SET_OVERWRITE_NOTE = "SET_OVERWRITE_NOTE";
@@ -69,6 +70,16 @@ var set_item_id = function(id: String, itemId: string){
         payload: {
             id: id,
             itemId: itemId
+        }
+    };
+}
+
+var set_note = function(id: String, note: string) {
+    return {
+        type: SET_NOTE,
+        payload: {
+            id: id,
+            note: note
         }
     };
 }
@@ -165,6 +176,12 @@ export function setCategoryId(id: String, categoryId: string){
 export function setItemId(id: String, itemId: string){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(set_item_id(id, itemId));
+    }
+}
+
+export function setNote(id: String, note: string){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(set_note(id, note));
     }
 }
 

@@ -95,6 +95,7 @@ class ImportBank extends Component<Props> {
         
         if (this.state.pendingNote !== this.state.savedNote){
             this.props.setOverwriteNote(this.props.tempId, this.state.newNote);
+            this.props.setNote(this.props.tempId, this.state.savedNote);
             this.submitNewNote();
         }        
     }
@@ -129,7 +130,7 @@ class ImportBank extends Component<Props> {
             // Add categories from the given dateId
             for (var i = 0; i < this.props.categories.length; i++){
                 if (this.props.categories[i].dateId === this.props.dateId){
-                    options.push((<option key={index} data-categoryid={this.props.categories[i].id} value={this.props.categories[i].name} selected={this.props.categories[i].id === this.state.savedCategoryId}>{this.props.categories[i].name} {this.props.categories[i].id === this.props.categoryId ? "(selected)" : "(found)"}</option>));
+                    options.push((<option key={index} data-categoryid={this.props.categories[i].id} value={this.props.categories[i].name} defaultValue={this.props.categories[i].id === this.state.savedCategoryId}>{this.props.categories[i].name} {this.props.categories[i].id === this.props.categoryId ? "(selected)" : "(found)"}</option>));
                     index++;
                 }            
             }
@@ -221,6 +222,8 @@ class ImportBank extends Component<Props> {
     }
 
     toggleEditPane(event){
+        // Don't toggle it if we clicked the import checkbox
+        if (event.target.localName === "input") return;
         let state = this.state.editPane;
 
         this.setState({
@@ -460,9 +463,9 @@ class ImportBank extends Component<Props> {
     render () {
         return (
             <React.Fragment>
-                <div className={`columns ${styles.importrow}`} onClick={() => this.toggleEditPane()}>
+                <div className={`columns ${styles.importrow}`} onClick={this.toggleEditPane}>
                     <div className="column col-1">
-                        <input type="checkbox" value="import" value={this.props.toImport} checked={this.props.toImport} onClick={() => this.props.modifyImportCheckbox(this.props.tempId, !this.props.toImport)}></input>
+                        <input type="checkbox" value="import" value={this.props.toImport} defaultChecked={this.props.toImport} onClick={() => this.props.modifyImportCheckbox(this.props.tempId, !this.props.toImport)}></input>
                     </div>                    
                     <div className="column col-1">
                         {`${this.props.dateId}`}
