@@ -25,20 +25,24 @@ class Save extends Component<Props>{
             importedData: [],
             allImport: true
         };
-
         this.lock = false;
+        this.lockAddItemIds = false;
+        this.lockSetItemIds = false;
+        this.lockAddTransactions = false;
 
         this.multi = this.multi.bind(this);
         this.sync = this.sync.bind(this);
         this.deleteAll = this.deleteAll.bind(this);
         this.toggleBankSyncAdd = this.toggleBankSyncAdd.bind(this);
         this.toggleAllImport = this.toggleAllImport.bind(this);
-        this.importTransactions = this.importTransactions.bind(this);        
+        this.importTransactions = this.importTransactions.bind(this);
+        this.thewaytheframeworkworks = this.thewaytheframeworkworks.bind(this);        
     }
 
-    componentDidUpdate(previousProps, previousState, snapshot){
+    thewaytheframeworkworks(){
         if (this.props.importTransactionsOptions.readyToSetCategoryIds && !this.lock){
             this.lock = true;
+            console.log("A");
 
             let toImport = this.props.pendingImport.filter(pi => pi.toImport);
 
@@ -60,8 +64,10 @@ class Save extends Component<Props>{
 
             this.props.setReadyToCreateItems(true);
         }
-        else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.lock){
-            
+        else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.lock && !this.lockAddItemIds){
+            this.lockAddItemIds = true;
+
+            console.log("B");
             let toImport = this.props.pendingImport.filter(pi => pi.toImport);
             let itemsToAdd = [];
 
@@ -102,8 +108,11 @@ class Save extends Component<Props>{
             }
 
             this.props.setReadyToSetItemIds(true);
-        } else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.props.importTransactionsOptions.readyToSetItemIds && this.lock){
+        } else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.props.importTransactionsOptions.readyToSetItemIds && this.lock && this.lockAddItemIds && !this.lockSetItemIds){
+            this.lockSetItemIds = true;
+
             let toImport = this.props.pendingImport.filter(pi => pi.toImport);
+            console.log("C");
 
             // Set -sub-categories
             for (var i = 0; i < toImport.length; i++){
@@ -125,8 +134,10 @@ class Save extends Component<Props>{
             }
 
             this.props.setReadyToImport(true); 
-        } else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.props.importTransactionsOptions.readyToSetItemIds && this.props.importTransactionsOptions.readyToImport && this.lock){                        
-            let toImport = this.props.pendingImport.filter(pi => pi.toImport);            
+        } else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.props.importTransactionsOptions.readyToSetItemIds && this.props.importTransactionsOptions.readyToImport && this.lock && this.lockAddItemIds && this.lockSetItemIds && !this.lockAddTransactions){                          
+            this.lockAddTransactions = true;
+            let toImport = this.props.pendingImport.filter(pi => pi.toImport);    
+            console.log("D");        
 
             // Add transactions
             for (var i = 0; i < toImport.length; i++){
@@ -142,9 +153,13 @@ class Save extends Component<Props>{
             this.props.setReadyToCreateItems(false);
             this.props.setReadyToSetItemIds(false);
             this.props.setReadyToImport(false); 
-        } else if (!this.props.importTransactionsOptions.readyToSetCategoryIds &&!this.props.importTransactionsOptions.readyToCreateItems && !this.props.importTransactionsOptions.readyToSetItemIds && !this.props.importTransactionsOptions.readyToImport && this.lock){
-            // reset lock process
+        } else if (!this.props.importTransactionsOptions.readyToSetCategoryIds &&!this.props.importTransactionsOptions.readyToCreateItems && !this.props.importTransactionsOptions.readyToSetItemIds && !this.props.importTransactionsOptions.readyToImport && this.lock && this.lockAddItemIds && this.lockSetItemIds && this.lockAddTransactions){                        
             this.lock = false;
+            this.lockAddItemIds = false;
+            this.lockSetItemIds = false;
+            this.lockAddTransactions = false;
+
+            console.log("E");
         }
     }
 
@@ -304,6 +319,7 @@ class Save extends Component<Props>{
                             </div>
                         </div>
                     </div>
+                    {this.thewaytheframeworkworks()}
                 </div>
             );
         }
