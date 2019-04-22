@@ -1,4 +1,5 @@
 import { CREATE_NEW_TRANSACTION_INITIAL_STATE } from "../actions/createTransaction";
+import { IMPORT_TRANSACTIONS_OPTIONS_INITIAL_STATE } from "../actions/importTransactionsOptions";
 import { BANK_SYNC_INITIAL_STATE } from "../actions/bankSync";
 
 // let fs = require("fs");
@@ -41,6 +42,7 @@ export const initialStore = {
     transactions: /*success ? fileContents.transactions :*/ [],
     createTransaction: CREATE_NEW_TRANSACTION_INITIAL_STATE,
     pendingImport: [],
+    importTransactionsOptions: IMPORT_TRANSACTIONS_OPTIONS_INITIAL_STATE,
     bankSync: BANK_SYNC_INITIAL_STATE,
     //templates: [],
     //   income: [{

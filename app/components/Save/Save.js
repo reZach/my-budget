@@ -5,8 +5,11 @@ const {dialog} = require('electron').remote;
 import * as SaveActions from "../../actions/save";
 import * as ModifyActions from "../../actions/modify";
 import * as BankSyncActions from "../../actions/bankSync";
+import * as CategoryCollectionActions from "../../actions/categoryCollection";
+import * as ItemCollectionActions from "../../actions/itemCollection";
 import * as TransactionCollectionActions from "../../actions/transactionCollection";
 import * as PendingImportActions from "../../actions/pendingImport";
+import * as ImportTransactionsOptionsActions from "../../actions/importTransactionsOptions";
 import styles from "./Save.css";
 import { bankSyncFetch } from "../../utils/banksync";
 import ImportBank from "../ImportBank/ImportBank";
@@ -23,12 +26,126 @@ class Save extends Component<Props>{
             allImport: true
         };
 
+        this.lock = false;
+
         this.multi = this.multi.bind(this);
         this.sync = this.sync.bind(this);
         this.deleteAll = this.deleteAll.bind(this);
         this.toggleBankSyncAdd = this.toggleBankSyncAdd.bind(this);
         this.toggleAllImport = this.toggleAllImport.bind(this);
         this.importTransactions = this.importTransactions.bind(this);        
+    }
+
+    componentDidUpdate(previousProps, previousState, snapshot){
+        if (this.props.importTransactionsOptions.readyToSetCategoryIds && !this.lock){
+            this.lock = true;
+
+            let toImport = this.props.pendingImport.filter(pi => pi.toImport);
+
+            // Set [sub]categories
+            for (var i = 0; i < toImport.length; i++){
+
+                // default; matches ImportBank.js
+                if (toImport[i].categoryName === ""){
+                    toImport[i].categoryName = "default";
+                }
+
+                if (toImport[i].categoryId === ""){
+                    var matched = this.props.categories.filter(c => c.dateId === toImport[i].dateId && c.name === toImport[i].categoryName);
+
+                    toImport[i].categoryId = matched[0].id;
+                    this.props.setCategoryId(toImport[i].tempId, toImport[i].categoryId);
+                }
+            }
+
+            this.props.setReadyToCreateItems(true);
+        }
+        else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.lock){
+            
+            let toImport = this.props.pendingImport.filter(pi => pi.toImport);
+            let itemsToAdd = [];
+
+            for (var i = 0; i < toImport.length; i++){
+
+                // default; matches ImportBank.js
+                if (toImport[i].itemName === ""){
+                    toImport[i].itemName = "default";
+                }
+
+                // Assign/create item
+                if (toImport[i].itemId === ""){
+                    var matching = this.props.items.filter(j => j.dateId === toImport[i].dateId && j.categoryId === toImport[i].categoryId && j.name === toImport[i].itemName);
+
+                    if (matching.length === 0){
+
+                        if (itemsToAdd.length === 0){
+                            itemsToAdd.push({
+                                dateId: toImport[i].dateId,
+                                categoryId: toImport[i].categoryId,
+                                itemName: toImport[i].itemName
+                            });
+                        } else {
+                            if (itemsToAdd.filter(j => j.dateId === toImport[i].dateId && j.categoryId === toImport[i].categoryId && j.itemName === toImport[i].itemName).length === 0){
+                                itemsToAdd.push({
+                                    dateId: toImport[i].dateId,
+                                    categoryId: toImport[i].categoryId,
+                                    itemName: toImport[i].itemName
+                                });
+                            } 
+                        }
+                    }
+                }
+            }
+
+            for (var i = 0; i < itemsToAdd.length; i++){            
+                this.props.addItem2(itemsToAdd[i].dateId, itemsToAdd[i].categoryId, itemsToAdd[i].itemName);
+            }
+
+            this.props.setReadyToSetItemIds(true);
+        } else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.props.importTransactionsOptions.readyToSetItemIds && this.lock){
+            let toImport = this.props.pendingImport.filter(pi => pi.toImport);
+
+            // Set -sub-categories
+            for (var i = 0; i < toImport.length; i++){
+
+                // default; matches ImportBank.js
+                if (toImport[i].itemName === ""){
+                    toImport[i].itemName = "default";
+                }
+
+                if (toImport[i].itemId === ""){
+                    var matched = this.props.items.filter(j => j.dateId === toImport[i].dateId && j.categoryId === toImport[i].categoryId && j.name === toImport[i].itemName);
+
+                    if (matched.length === 0){
+                        debugger;
+                    }
+                    toImport[i].itemId = matched[0].id;
+                    this.props.setItemId(toImport[i].tempId, toImport[i].itemId);
+                }
+            }
+
+            this.props.setReadyToImport(true); 
+        } else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.props.importTransactionsOptions.readyToSetItemIds && this.props.importTransactionsOptions.readyToImport && this.lock){                        
+            let toImport = this.props.pendingImport.filter(pi => pi.toImport);            
+
+            // Add transactions
+            for (var i = 0; i < toImport.length; i++){
+
+                this.props.addTransaction2(toImport[i].dateId, toImport[i].categoryId, toImport[i].itemId, toImport[i].day, toImport[i].amount, toImport[i].note);
+            }
+
+            // Empty pending import collection
+            this.props.removeAllImportTransactions();
+            this.toggleBankSyncAdd();
+
+            this.props.setReadyToSetCategoryIds(false);
+            this.props.setReadyToCreateItems(false);
+            this.props.setReadyToSetItemIds(false);
+            this.props.setReadyToImport(false); 
+        } else if (!this.props.importTransactionsOptions.readyToSetCategoryIds &&!this.props.importTransactionsOptions.readyToCreateItems && !this.props.importTransactionsOptions.readyToSetItemIds && !this.props.importTransactionsOptions.readyToImport && this.lock){
+            // reset lock process
+            this.lock = false;
+        }
     }
 
     multi(event){
@@ -56,13 +173,51 @@ class Save extends Component<Props>{
     importTransactions(){        
         let toImport = this.props.pendingImport.filter(pi => pi.toImport);
 
+        let categoriesToAdd = [];
+        
+        let toCreate = [];
+
         for (var i = 0; i < toImport.length; i++){
 
-            if (toImport[i].categoryId === ""){
-
+            // default; matches ImportBank.js
+            if (toImport[i].categoryName === ""){
+                toImport[i].categoryName = "default";
             }
-            // this.props.addTransaction2(dateId: string, categoryId: string, itemId: string, day: string, amount: string, note: string)
+
+            // Assign/create category 
+            if (toImport[i].categoryId === ""){
+                var matching = this.props.categories.filter(c => c.dateId === toImport[i].dateId && c.name === toImport[i].categoryName);
+
+                if (matching.length === 0){
+                    
+                    if (categoriesToAdd.length === 0){
+                        categoriesToAdd.push({
+                            dateId: toImport[i].dateId,
+                            categoryName: toImport[i].categoryName
+                        });
+                    } else {
+                        if (categoriesToAdd.filter(c => c.dateId === toImport[i].dateId && c.categoryName === toImport[i].categoryName).length === 0){
+                            categoriesToAdd.push({
+                                dateId: toImport[i].dateId,
+                                categoryName: toImport[i].categoryName
+                            });
+                        }
+                    }                                        
+                }
+            }                      
         }
+
+        // Bulk add categories
+        for (var i = 0; i < categoriesToAdd.length; i++){            
+            this.props.addCategory2(categoriesToAdd[i].dateId, categoriesToAdd[i].categoryName);
+        }
+
+        // Since redux updates the store sync, but react updates
+        // the component async, we can't guarantee that our component
+        // has the updates we made above.
+        // So we also update a temp value in the redux store, and continue
+        // with our logic in the componentDidUpdate() method
+        this.props.setReadyToSetCategoryIds(true);
     }
 
     toggleBankSyncAdd(event){
@@ -143,7 +298,7 @@ class Save extends Component<Props>{
                                     <input className="btn" type="button" value="toggle import all" onClick={() => this.toggleAllImport()}></input>
                                 </div>
                                 <div className="form-group float-right">
-                                    <button className="btn btn-primary">import</button>
+                                    <button className="btn btn-primary" onClick={() => this.importTransactions()}>import</button>
                                     <button className="btn" onClick={() => this.toggleBankSyncAdd()}>cancel</button>
                                 </div>
                             </div>
@@ -178,7 +333,8 @@ function mapStateToProps(state){
         bankSync: state.bankSync,
         categories: state.categories,
         items: state.items,
-        pendingImport: state.pendingImport
+        pendingImport: state.pendingImport,
+        importTransactionsOptions: state.importTransactionsOptions
     }
 }
 
@@ -187,8 +343,11 @@ function mapDispatchToProps(dispatch){
         ...SaveActions,
         ...ModifyActions,
         ...BankSyncActions,
+        ...CategoryCollectionActions,
+        ...ItemCollectionActions,
         ...TransactionCollectionActions,
-        ...PendingImportActions
+        ...PendingImportActions,
+        ...ImportTransactionsOptionsActions
     }, dispatch);
 }
 

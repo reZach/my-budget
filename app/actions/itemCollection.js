@@ -56,6 +56,11 @@ export function addItem(categoryId: string, name: string){
             store().date.id, categoryId, name));
     }
 }
+export function addItem2(dateId: String, categoryId: String, name: string){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(add_item(dateId, categoryId, name));
+    }
+}
 export function removeItem(categoryId: string, id: string){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(remove_item(

@@ -6,6 +6,7 @@ import {
     SORT_IMPORT_TRANSACTIONS,
     SET_CATEGORY_ID,
     SET_ITEM_ID,
+    SET_NOTE,
     SET_OVERWRITE_CATEGORY_NAME,
     SET_OVERWRITE_ITEM_NAME,
     SET_OVERWRITE_NOTE    
@@ -96,6 +97,16 @@ export default function pendingImport(state: any = [], action: Action){
                 state.map(t => {
                     if (t.tempId === action.payload.id){
                         t.itemId = action.payload.itemId;
+                    }
+
+                    return t;
+                })
+            );
+        case SET_NOTE:
+            return update([], 
+                state.map(t => {
+                    if (t.tempId === action.payload.id){
+                        t.note = action.payload.note;
                     }
 
                     return t;

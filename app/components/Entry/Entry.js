@@ -114,6 +114,10 @@ class Entry extends Component<Props>{
                 pendingImport = fileContents.pendingImport;
             }
             
+            let importTransactionsOptions = {};
+            if (success){
+                importTransactionsOptions = fileContents.importTransactionsOptions;
+            }
             
             let bankSync = {
                 clientId: "",
