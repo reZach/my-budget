@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 const {dialog} = require('electron').remote;
+import Fuse from "fuse.js";
 import * as SaveActions from "../../actions/save";
 import * as ModifyActions from "../../actions/modify";
 import * as BankSyncActions from "../../actions/bankSync";
@@ -22,6 +23,21 @@ class Save extends Component<Props>{
 
         this.state = {
             bankSyncAdd: false,
+            step1: true,
+            step2: false,
+            step3: false,
+            step4: false,
+            username: "",
+            password: "",
+            validBanks: [
+                {
+                    name: "discover",
+                    url: "www.discover.com"
+                }
+            ],
+            fuzzyResults: [],
+            searchBank: "",
+            selectedBank: "",
             importedData: [],
             allImport: true
         };
@@ -29,20 +45,49 @@ class Save extends Component<Props>{
         this.lockAddItemIds = false;
         this.lockSetItemIds = false;
         this.lockAddTransactions = false;
+        this.puppeteerLock = false;
+
+        this.fuzzyOptions = {
+            shouldSort: true,
+            threshold: 0.6,
+            location: 0,
+            distance: 100,
+            maxPatternLength: 32,
+            minMatchCharLength: 1,
+            keys: [
+                "name",
+                "url"
+            ]
+        }
 
         this.multi = this.multi.bind(this);
         this.sync = this.sync.bind(this);
         this.deleteAll = this.deleteAll.bind(this);
         this.toggleBankSyncAdd = this.toggleBankSyncAdd.bind(this);
+        this.moveToStep = this.moveToStep.bind(this);
         this.toggleAllImport = this.toggleAllImport.bind(this);
         this.importTransactions = this.importTransactions.bind(this);
+        this.changeUsername = this.changeUsername.bind(this);
+        this.changePassword = this.changePassword.bind(this);
+        this.onFuzzyChange = this.onFuzzyChange.bind(this);
+        this.handleFuzzySearch = this.handleFuzzySearch.bind(this);
+        this.fuzzySelectChange = this.fuzzySelectChange.bind(this);
+        this.dothemagic = this.dothemagic.bind(this);
         this.thewaytheframeworkworks = this.thewaytheframeworkworks.bind(this);        
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot){
+        if (this.state.step3 && !this.puppeteerLock){
+            this.dothemagic();
+        }
+        if (this.state.step4 && this.puppeteerLock){
+            this.puppeteerLock = false;
+        }
     }
 
     thewaytheframeworkworks(){
         if (this.props.importTransactionsOptions.readyToSetCategoryIds && !this.lock){
-            this.lock = true;
-            console.log("A");
+            this.lock = true;            
 
             let toImport = this.props.pendingImport.filter(pi => pi.toImport);
 
@@ -66,8 +111,7 @@ class Save extends Component<Props>{
         }
         else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.lock && !this.lockAddItemIds){
             this.lockAddItemIds = true;
-
-            console.log("B");
+            
             let toImport = this.props.pendingImport.filter(pi => pi.toImport);
             let itemsToAdd = [];
 
@@ -111,8 +155,7 @@ class Save extends Component<Props>{
         } else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.props.importTransactionsOptions.readyToSetItemIds && this.lock && this.lockAddItemIds && !this.lockSetItemIds){
             this.lockSetItemIds = true;
 
-            let toImport = this.props.pendingImport.filter(pi => pi.toImport);
-            console.log("C");
+            let toImport = this.props.pendingImport.filter(pi => pi.toImport);            
 
             // Set -sub-categories
             for (var i = 0; i < toImport.length; i++){
@@ -137,7 +180,6 @@ class Save extends Component<Props>{
         } else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.props.importTransactionsOptions.readyToSetItemIds && this.props.importTransactionsOptions.readyToImport && this.lock && this.lockAddItemIds && this.lockSetItemIds && !this.lockAddTransactions){                          
             this.lockAddTransactions = true;
             let toImport = this.props.pendingImport.filter(pi => pi.toImport);    
-            console.log("D");        
 
             // Add transactions
             for (var i = 0; i < toImport.length; i++){
@@ -158,8 +200,6 @@ class Save extends Component<Props>{
             this.lockAddItemIds = false;
             this.lockSetItemIds = false;
             this.lockAddTransactions = false;
-
-            console.log("E");
         }
     }
 
@@ -168,21 +208,74 @@ class Save extends Component<Props>{
         this.props.save();        
     }    
 
-    async sync(){
-        var imported = await bankSyncFetch(this.props.categories, this.props.items, "discover", "", "");
-        
-        for (var i = 0; i < imported.length; i++){
-            this.props.addImportTransaction(imported[i].tempId, imported[i].toImport, imported[i].dateId, imported[i].categoryId, imported[i].categoryName, imported[i].itemId, imported[i].itemName, imported[i].day, imported[i].amount, imported[i].note, imported[i].overwriteCategoryName, imported[i].overwriteItemName, imported[i].overwriteNote);
-        }
-        this.props.sortImportTransactions();
-        
+    sync(){
         this.setState({
             bankSyncAdd: true
+        });                        
+    }
+
+    async dothemagic(){
+
+        if (!this.puppeteerLock){
+            this.puppeteerLock = true;
+            var imported = await bankSyncFetch(this.props.categories, this.props.items, this.state.selectedBank, this.state.username, this.state.password);
+                    
+            for (var i = 0; i < imported.length; i++){
+                this.props.addImportTransaction(imported[i].tempId, imported[i].toImport, imported[i].dateId, imported[i].categoryId, imported[i].categoryName, imported[i].itemId, imported[i].itemName, imported[i].day, imported[i].amount, imported[i].note, imported[i].overwriteCategoryName, imported[i].overwriteItemName, imported[i].overwriteNote);
+            }
+            this.props.sortImportTransactions();
+            this.setState({
+                step3: false,
+                step4: true
+            });
+        }        
+    }
+
+    moveToStep(step){        
+        this.setState({
+            step1: step === 1,
+            step2: step === 2,
+            step3: step === 3,
+            step4: step === 4
         });
+    }
+
+    onFuzzyChange(event){
+        this.setState({
+            searchBank: event.target.value
+        }, () => {
+            this.handleFuzzySearch(this.state.searchBank)
+        });
+    }
+
+    handleFuzzySearch(value){
+        const fuse = new Fuse(this.state.validBanks, this.fuzzyOptions);
+        this.setState({
+            fuzzyResults: fuse.search(value)
+        });
+    }
+
+    fuzzySelectChange(event){        
+        var value = event.target.selectedOptions[0].getAttribute("id");
+        this.setState({
+            selectedBank: value
+        });        
     }
 
     export(event){
         dialog.showOpenDialog({ properties: ['openFile', 'openDirectory', 'multiSelections'] });
+    }
+
+    changeUsername(event){
+        this.setState({
+            username: event.target.value
+        });
+    }
+
+    changePassword(event){
+        this.setState({
+            password: event.target.value
+        });
     }
 
     importTransactions(){        
@@ -239,7 +332,7 @@ class Save extends Component<Props>{
         let newState = !this.state.bankSyncAdd;
 
         this.setState({
-            bankSyncAdd: newState
+            bankSyncAdd: newState            
         });
     }
 
@@ -268,60 +361,191 @@ class Save extends Component<Props>{
     }
 
     renderBankSync(){
-        if (this.state.bankSyncAdd && this.props.pendingImport.length > 0){
-            return (
-                <div className="modal active" id="modal-id">
-                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                    <div className={`modal-container modal-large`}>
-                        <div className={`modal-header ${styles.h62}`}>
-                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                            <div className="modal-title h5">import transactions</div>
-                        </div>
-                        <div className="modal-body">
-                            <div className="content">
-                                {/* Header for the table */}
-                                <div className={`columns ${styles.h48}`}>
-                                    <div className="column col-1">
-                                        <div>import</div>
-                                    </div>                    
-                                    <div className="column col-1">
-                                        date
-                                    </div>
-                                    <div className="column col-1">
-                                        amount
-                                    </div>
-                                    <div className="column col-2">
-                                        category
-                                    </div>
-                                    <div className="column col-2">
-                                        sub-category
-                                    </div>
-                                    <div className={`column col-5`}>
-                                        note
-                                    </div>
+        if (this.state.bankSyncAdd){
+            if (this.state.step1){
+                return (
+                    <div className="modal active" id="modal-id">
+                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                        <div className={`modal-container`}>
+                            <div className={`modal-header ${styles.h62}`}>
+                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                                <div className="modal-title h4">select a bank</div>
+                            </div>
+                            <div className="modal-body">
+                                <div className="content">
+                                    <div className={`${styles.mb}`}>import transactions from your bank</div>
+                                    <div className="columns">
+                                        <div className="column col-12 col-mr-auto">
+                                            <div className="form-group">
+                                                <input type="text" className="form-input" placeholder="search" onChange={this.onFuzzyChange} value={this.state.searchBank}></input>
+                                                <select className="form-select" onChange={this.fuzzySelectChange}>
+                                                    <option id="" key="">---</option>
+                                                    {this.state.fuzzyResults.map((result) => <option id={result.name} key={result.url} selected={this.state.selectedBank === result.name}>{result.name} - ({result.url})</option>)}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>                                    
                                 </div>
-                                <div className={`${styles.hrest}`}>
-                                {this.props.pendingImport.map((value, index, array) => {
-                                    return <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName !== "" ? value.categoryName : "default"} defaultItem={value.itemName !== "" ? value.itemName : "default"} defaultNote={value.note} />
-                                })}
+                            </div>
+                            <div className="modal-footer">
+                                <div className="columns">
+                                    <div className="column col-12">
+                                        <div className="form-group float-right">
+                                            {this.state.selectedBank !== "" ?
+                                                <React.Fragment>
+                                                    <input className="btn btn-primary" value="next" onClick={() => this.moveToStep(2)}></input>
+                                                </React.Fragment> : <React.Fragment></React.Fragment>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>                                
                             </div>
                         </div>
-                        <div className="modal-footer">
-                            <div className="column col-12">
-                                <div className="form-group float-left">
-                                    <input className="btn" type="button" value="toggle import all" onClick={() => this.toggleAllImport()}></input>
+                    </div>
+                );
+            } else if (this.state.step2){
+                return (
+                    <div className="modal active" id="modal-id">
+                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                        <div className={`modal-container`}>
+                            <div className={`modal-header ${styles.h62}`}>
+                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                                <div className="modal-title h5">enter credentials</div>
+                            </div>
+                            <div className="modal-body">
+                                <div className="content">
+                                    <div className="columns">
+                                        <div className="column col-12">
+                                            <div className="columns">
+                                                <form className="form-horizontal" style={{width: "100%"}}>
+                                                    <div className="form-group">
+                                                        <div className="column col-3">
+                                                            username
+                                                        </div>
+                                                        <div className="column col-9">
+                                                            <input className="form-input" type="text" value={this.state.username} onChange={this.changeUsername} placeholder="username"></input>
+                                                        </div>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <div className="column col-3">
+                                                            password
+                                                        </div>
+                                                        <div className="column col-9">
+                                                            <input className="form-input" type="password" value={this.state.password} onChange={this.changePassword} placeholder="password"></input>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>                                    
                                 </div>
-                                <div className="form-group float-right">
-                                    <button className="btn btn-primary" onClick={() => this.importTransactions()}>import</button>
-                                    <button className="btn" onClick={() => this.toggleBankSyncAdd()}>cancel</button>
-                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <div className="columns">
+                                    <div className="column col-12">                                        
+                                        <div className="form-group float-left">
+                                            <input type="button" className="btn" value="back" onClick={() => this.moveToStep(1)}></input>
+                                        </div>
+                                        <div className="form-group float-right">
+                                            {this.state.username !== "" && this.state.password !== "" ?
+                                                <React.Fragment>
+                                                    <input className="btn btn-primary" type="submit" value="next" onClick={() => this.moveToStep(3)}></input>
+                                                </React.Fragment> : <React.Fragment></React.Fragment>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>                                
                             </div>
                         </div>
                     </div>
-                    {this.thewaytheframeworkworks()}
-                </div>
-            );
+                );
+            } else if (this.state.step3){
+                return (
+                    <div className="modal active" id="modal-id">
+                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                        <div className={`modal-container`}>
+                            <div className={`modal-header ${styles.h62}`}>
+                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                                <div className="modal-title h5">loading transactions</div>
+                            </div>
+                            <div className="modal-body">
+                                <div className="content">
+                                    <div className="columns">
+                                        <div className="column col-12 text-center">
+                                            <div className="loading loading-lg"></div>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <div className="columns">
+                                    <div className="column col-12">                                        
+                                        <div className="form-group float-left">
+                                            <input type="button" className="btn" value="back" onClick={() => this.moveToStep(1)}></input>
+                                        </div>
+                                        <div className="form-group float-right">                                            
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                );                
+            } else if (this.state.step4 && this.props.pendingImport.length > 0){
+                return (
+                    <div className="modal active" id="modal-id">
+                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                        <div className={`modal-container modal-large`}>
+                            <div className={`modal-header ${styles.h62}`}>
+                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                                <div className="modal-title h5">import transactions</div>
+                            </div>
+                            <div className="modal-body">
+                                <div className="content">
+                                    {/* Header for the table */}
+                                    <div className={`columns ${styles.h48}`}>
+                                        <div className="column col-1">
+                                            <div>import</div>
+                                        </div>                    
+                                        <div className="column col-1">
+                                            date
+                                        </div>
+                                        <div className="column col-1">
+                                            amount
+                                        </div>
+                                        <div className="column col-2">
+                                            category
+                                        </div>
+                                        <div className="column col-2">
+                                            sub-category
+                                        </div>
+                                        <div className={`column col-5`}>
+                                            note
+                                        </div>
+                                    </div>
+                                    <div className={`${styles.hrest}`}>
+                                    {this.props.pendingImport.map((value, index, array) => {
+                                        return <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName !== "" ? value.categoryName : "default"} defaultItem={value.itemName !== "" ? value.itemName : "default"} defaultNote={value.note} />
+                                    })}
+                                    </div>                                
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <div className="column col-12">
+                                    <div className="form-group float-left">
+                                        <input className="btn" type="button" value="toggle import all" onClick={() => this.toggleAllImport()}></input>
+                                    </div>
+                                    <div className="form-group float-right">
+                                        <button className="btn btn-primary" onClick={() => this.importTransactions()}>import</button>
+                                        <button className="btn" onClick={() => this.toggleBankSyncAdd()}>cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {this.thewaytheframeworkworks()}
+                    </div>
+                );
+            }
         }
     }
 

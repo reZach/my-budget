@@ -41,29 +41,6 @@ var clean = function(transactions, categories, items){
     return cleaned;
 }
 
-var mapToCategory = function(transactions, categories){
-    for (var i = 0; i < categories.length; i++){
-        for (var j = 0; j < transactions.length; j++){
-            if (categories[i].name === transactions[j].categoryName){
-                transactions[j].categoryId = categories[i].id;
-            }
-        }                
-    }
-    return transactions;
-}
-
-var mapToSubcategory = function(transactions, items){
-    for (var i = 0; i < items.length; i++){
-        for (var j = 0; j < transactions.length; j++){
-            if (items[i].name === transactions[j].itemName &&
-                items[i].categoryId === transactions[j].categoryId){
-                transactions[j].itemId = items[i].id;
-            }
-        }                
-    }
-    return transactions;
-}
-
 var stripLeading0 = function(input, toNumber){
     if (input.length <= 0) return input;
 
