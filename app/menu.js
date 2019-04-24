@@ -155,7 +155,7 @@ export default class MenuBuilder {
           label: 'Documentation',
           click() {
             shell.openExternal(
-              'https://github.com/reZach/my-budget'
+              'https://github.com/reZach/my-budget/wiki'
             );
           }
         },
@@ -252,7 +252,7 @@ export default class MenuBuilder {
             label: 'Documentation',
             click() {
               shell.openExternal(
-                'https://github.com/reZach/my-budget'
+                'https://github.com/reZach/my-budget/wiki'
               );
             }
           },
