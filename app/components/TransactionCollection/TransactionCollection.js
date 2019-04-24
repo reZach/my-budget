@@ -140,7 +140,7 @@ class TransactionCollection extends Component<Props> {
             if (a1 < b1) return -1;
             return 0;            
         }).map((category) =>
-            <option key={`${category.dateId}.${category.id}.${category.name}`} value={`${category.dateId}.${category.id}.${category.name}`}>{category.name}</option>
+            <option key={`${category.dateId}.${category.id}.${category.name}`} value={category.name}>{category.name}</option>
         );
     }
 
@@ -153,7 +153,7 @@ class TransactionCollection extends Component<Props> {
             if (a1 < b1) return -1;
             return 0;
         }).map((item) => 
-            <option key={`${item.dateId}.${item.id}.${item.name}`} value={`${item.dateId}.${item.id}.${item.name}`}>{item.name}</option>
+            <option key={`${item.dateId}.${item.id}.${item.name}`} value={item.name}>{item.name}</option>
         );
     }
 
