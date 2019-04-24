@@ -379,7 +379,7 @@ class Save extends Component<Props>{
                                             <div className="form-group">
                                                 <input type="text" className="form-input" placeholder="search" onChange={this.onFuzzyChange} value={this.state.searchBank}></input>
                                                 <select className="form-select" onChange={this.fuzzySelectChange}>
-                                                    <option id="" key="">---</option>
+                                                    {this.state.fuzzyResults.length == 0 ? <option id="" key="" style={{color: "gray"}}>---</option> : <option id="" key="" style={{color: "gray"}}>(found result/s)</option>}
                                                     {this.state.fuzzyResults.map((result) => <option id={result.name} key={result.url} selected={this.state.selectedBank === result.name}>{result.name} - ({result.url})</option>)}
                                                 </select>
                                             </div>
@@ -388,16 +388,12 @@ class Save extends Component<Props>{
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <div className="columns">
-                                    <div className="column col-12">
-                                        <div className="form-group float-right">
-                                            {this.state.selectedBank !== "" ?
-                                                <React.Fragment>
-                                                    <input className="btn btn-primary" value="next" onClick={() => this.moveToStep(2)}></input>
-                                                </React.Fragment> : <React.Fragment></React.Fragment>
-                                            }
-                                        </div>
-                                    </div>
+                                <div className="float-right text-right">
+                                    {this.state.selectedBank !== ""  ?
+                                        <React.Fragment>
+                                            <input type="button" className="btn btn-primary" value="next" onClick={() => this.moveToStep(2)}></input>
+                                        </React.Fragment> : <React.Fragment></React.Fragment>
+                                    }
                                 </div>                                
                             </div>
                         </div>
@@ -441,19 +437,15 @@ class Save extends Component<Props>{
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <div className="columns">
-                                    <div className="column col-12">                                        
-                                        <div className="form-group float-left">
-                                            <input type="button" className="btn" value="back" onClick={() => this.moveToStep(1)}></input>
-                                        </div>
-                                        <div className="form-group float-right">
-                                            {this.state.username !== "" && this.state.password !== "" ?
-                                                <React.Fragment>
-                                                    <input className="btn btn-primary" type="submit" value="next" onClick={() => this.moveToStep(3)}></input>
-                                                </React.Fragment> : <React.Fragment></React.Fragment>
-                                            }
-                                        </div>
-                                    </div>
+                                <div className="float-left text-left">                                        
+                                    <input type="button" className="btn" value="back" onClick={() => this.moveToStep(1)}></input>
+                                </div>
+                                <div className="float-right text-right">
+                                    {this.state.username !== "" && this.state.password !== "" ?
+                                        <React.Fragment>
+                                            <input className="btn btn-primary" type="submit" value="next" onClick={() => this.moveToStep(3)}></input>
+                                        </React.Fragment> : <React.Fragment></React.Fragment>
+                                    }
                                 </div>                                
                             </div>
                         </div>
@@ -478,14 +470,8 @@ class Save extends Component<Props>{
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <div className="columns">
-                                    <div className="column col-12">                                        
-                                        <div className="form-group float-left">
-                                            <input type="button" className="btn" value="back" onClick={() => this.moveToStep(1)}></input>
-                                        </div>
-                                        <div className="form-group float-right">                                            
-                                        </div>
-                                    </div>
+                                <div className="float-left text-left">
+                                    <input type="button" className="btn" value="back" onClick={() => this.moveToStep(1)}></input>
                                 </div>                                
                             </div>
                         </div>
