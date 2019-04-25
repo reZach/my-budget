@@ -7,7 +7,8 @@ export const REMOVE_CATEGORY_ITEM = "REMOVE_CATEGORY_ITEM";
 export const CATEGORY_INITIAL_STATE = {
     id: "",
     dateId: "",
-    name: ""
+    name: "",
+    collapse: false
 };
 
 

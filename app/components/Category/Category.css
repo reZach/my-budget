@@ -18,6 +18,14 @@
     height:30px;
 }
 
+.category-header {    
+    font-weight: bold;
+}
+.category-header:hover {
+    background-color: #ABAAEC;
+    cursor: pointer;
+}
+
 .dark {
     background-color:#989898;
     color:white;

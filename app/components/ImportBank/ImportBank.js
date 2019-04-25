@@ -465,7 +465,7 @@ class ImportBank extends Component<Props> {
             <React.Fragment>
                 <div className={`columns ${styles.importrow}`} onClick={this.toggleEditPane}>
                     <div className="column col-1">
-                        <input type="checkbox" value="import" value={this.props.toImport} defaultChecked={this.props.toImport} onClick={() => this.props.modifyImportCheckbox(this.props.tempId, !this.props.toImport)}></input>
+                        <input type="checkbox" value="import" checked={this.props.toImport} onClick={() => this.props.modifyImportCheckbox(this.props.tempId, !this.props.toImport)}></input>
                     </div>                    
                     <div className="column col-1">
                         {`${this.props.dateId}`}

@@ -2,6 +2,8 @@ import {
     ADD_CATEGORY,
     REMOVE_CATEGORY,
     RENAME_CATEGORY,
+    SET_COLLAPSE_CATEGORY,
+    SET_COLLAPSE_CATEGORY_ALL,
     CATEGORY_COLLECTION_INITIAL_STATE,
     ENTRY_CATEGORIES
 } from "../actions/categoryCollection";
@@ -18,7 +20,8 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
                     [{
                         id: "1",
                         dateId: action.payload.dateId,
-                        name: action.payload.name
+                        name: action.payload.name,
+                        collapse: action.payload.collapse
                     }]
                 );
             } else {
@@ -52,6 +55,27 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
                         c.name = action.payload.newName;
                     }
 
+                    return c;
+                })
+            );
+        case SET_COLLAPSE_CATEGORY:
+            return update([], 
+                state.map(c => {
+                    if (c.dateId === action.payload.dateId &&
+                        c.id === action.payload.categoryId){
+                        c.collapse = action.payload.collapse;
+                    }
+
+                    return c;
+                })
+            );
+        case SET_COLLAPSE_CATEGORY_ALL:
+            return update([], 
+                state.map(c => {
+                    if (c.dateId === action.payload.dateId){
+                        c.collapse = action.payload.collapse;
+                    }
+                    
                     return c;
                 })
             );

@@ -3,6 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 const {dialog} = require('electron').remote;
 import * as ItemCollectionActions from "../../actions/itemCollection";
+import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ModifyActions from "../../actions/modify";
 import styles from "./Category.css";
 import Item from "../Item/Item";
@@ -10,14 +11,16 @@ import Item from "../Item/Item";
 class Category extends Component<Props> {
     props: Props;
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
+
         this.state = {
             newItemName: "",
             newCategoryName: "",
             renameActive: false,
             editActive: false,
-            addActive: false
+            addActive: false,
+            collapsed: props.collapsed
         }
 
         this.newSubcategoryInput;
@@ -25,6 +28,7 @@ class Category extends Component<Props> {
         this.toggleRenameActive = this.toggleRenameActive.bind(this);
         this.toggleEditActive = this.toggleEditActive.bind(this);
         this.toggleAddActive = this.toggleAddActive.bind(this);
+        this.toggleCollapse = this.toggleCollapse.bind(this);
         this.renameCategory = this.renameCategory.bind(this);
         this.renameItem = this.renameItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
@@ -37,7 +41,7 @@ class Category extends Component<Props> {
     componentDidUpdate(previousProps, previousState){
         if (typeof this.newSubcategoryInput !== "undefined" && this.newSubcategoryInput !== null){
             this.newSubcategoryInput.focus();
-        }        
+        }
     }
 
     toggleRenameActive(event){
@@ -53,6 +57,11 @@ class Category extends Component<Props> {
                 newCategoryName: ""
             });
         }
+    }
+
+    toggleCollapse(event){
+        var state = this.props.collapse;
+        this.props.setCollapseCategory(this.props.id, !state);
     }
 
     toggleEditActive(event){
@@ -232,25 +241,28 @@ class Category extends Component<Props> {
                     <div className="column col-12">
                         {/* HACK TABLE */}
                         <div className={`columns ${styles.dark} ${styles.category}`}>
-                            <div className={`column col-xs-auto`} style={{fontWeight: "bold"}}>
-                                {this.props.name}
+                            <div className={`column col-xs-auto ${styles["category-header"]}`} onClick={this.toggleCollapse}>
+                                {this.props.collapse ? <i className="fas fa-caret-right"></i> : <i className="fas fa-caret-down"></i>} {this.props.name}
                             </div>
                             {this.renderControls()}                            
                         </div>
-                        {this.props.items.sort(function(a, b){
-                            var a1 = a.name.toLowerCase();
-                            var b1 = b.name.toLowerCase();
-                            if (a1 > b1) return 1;
-                            if (a1 < b1) return -1;
-                            return 0;
-                        }).map((value, index, array) => {
-                            return <div key={index}>
-                                <Item {...value} categoryId={this.props.id} dateId={this.props.dateId} rename={this.renameItem} delete={this.deleteItem}></Item>
-                            </div>;
-                        })}
-                        <div className="columns">
-                            {this.renderNewSubcategory()}
-                        </div>
+                        {this.props.collapse ? <React.Fragment></React.Fragment> :
+                        <React.Fragment>
+                            {this.props.items.sort(function(a, b){
+                                var a1 = a.name.toLowerCase();
+                                var b1 = b.name.toLowerCase();
+                                if (a1 > b1) return 1;
+                                if (a1 < b1) return -1;
+                                return 0;
+                            }).map((value, index, array) => {
+                                return <div key={index}>
+                                    <Item {...value} categoryId={this.props.id} dateId={this.props.dateId} rename={this.renameItem} delete={this.deleteItem}></Item>
+                                </div>;
+                            })}
+                            <div className="columns">
+                                {this.renderNewSubcategory()}
+                            </div>
+                        </React.Fragment>}
                     </div>
                 </div>
             </React.Fragment>
@@ -269,7 +281,8 @@ function mapStateToProps(state, props){
 function mapDispatchToProps(dispatch){
     return bindActionCreators(
         {...ItemCollectionActions,
-        ...ModifyActions}, dispatch);
+        ...ModifyActions,
+        ...CategoryCollectionActions}, dispatch);
 }
 
 export default connect(
