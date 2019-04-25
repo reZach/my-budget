@@ -317,7 +317,7 @@ class Save extends Component<Props>{
 
         // Bulk add categories
         for (var i = 0; i < categoriesToAdd.length; i++){            
-            this.props.addCategory2(categoriesToAdd[i].dateId, categoriesToAdd[i].categoryName);
+            this.props.addCategory2(categoriesToAdd[i].dateId, categoriesToAdd[i].categoryName, false);
         }
 
         // Since redux updates the store sync, but react updates
@@ -541,7 +541,7 @@ class Save extends Component<Props>{
                 <div className="columns">
                     <div className={`column col-12 ${styles['btn-fix']}`}>
                         <button className={`btn btn-primary ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>save</button>
-                        <button className={`btn btn-primary tooltip tooltip-top ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>sync</button>
+                        <button className={`btn btn-primary tooltip tooltip-top ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>bank</button>
                         <button className={`btn btn-error`} type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>delete</button>
                     </div>
                 </div>

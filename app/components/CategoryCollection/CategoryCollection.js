@@ -18,13 +18,15 @@ class CategoryCollection extends Component<Props> {
             newCategoryName: "",
             copyPreviousCategoriesActive: false,
             previousCategoryDates: [],
-            selectedPreviousDateForCategories: ""
+            selectedPreviousDateForCategories: "",
+            collapseState: false
         };
 
         this.modifyNewCategoryName = this.modifyNewCategoryName.bind(this);
         this.createNewCategory = this.createNewCategory.bind(this);
         this.renameCategory = this.renameCategory.bind(this);
         this.deleteCategory = this.deleteCategory.bind(this);
+        this.toggleAllCategoryState = this.toggleAllCategoryState.bind(this);
         this.prepPreviousCategories = this.prepPreviousCategories.bind(this);
         this.modifySelectedDateForCategories = this.modifySelectedDateForCategories.bind(this);
         this.toggleCopyPreviousCategories = this.toggleCopyPreviousCategories.bind(this);
@@ -43,7 +45,7 @@ class CategoryCollection extends Component<Props> {
 
             // Don't create duplicate categories
             if (typeof this.props.categories.filter(c => c.dateId === this.props.date.id).find(c => c.name === this.state.newCategoryName) === "undefined") {
-                this.props.addCategory(this.state.newCategoryName);
+                this.props.addCategory(this.state.newCategoryName, false);
                 this.props.trueModify();
 
                 this.setState({
@@ -61,6 +63,13 @@ class CategoryCollection extends Component<Props> {
             this.props.renameCategory(id, newName);
             this.props.trueModify();
         }        
+    }
+
+    toggleAllCategoryState(value){
+        this.props.setCollapseCategoryAll(value)
+        this.setState({
+            collapseState: value
+        });
     }
 
     deleteCategory(id, name){
@@ -126,7 +135,7 @@ class CategoryCollection extends Component<Props> {
         // copy all categories
         for (var i = 0; i < this.props.categories.length; i++){
             if (this.props.categories[i].dateId === target){
-                this.props.addCategory(this.props.categories[i].name);
+                this.props.addCategory(this.props.categories[i].name, false);
             }            
         }
 
@@ -213,7 +222,7 @@ class CategoryCollection extends Component<Props> {
         return (
             <div className={`columns`}>
                 <div className={`column col-12 text-left`}>
-                    <div className="columns">
+                    <div className="columns col-gapless">
                         <div className="column col-12 text-left">
                             <h2>categories</h2>                        
                         </div>                    
@@ -225,6 +234,13 @@ class CategoryCollection extends Component<Props> {
                                 </div>
                             </form>
                         </div>
+                        <div className="column col-2"></div>
+                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="collapses all categories" onClick={() => this.toggleAllCategoryState(true)}>
+                            <i className={`fas fa-compress ${styles.control}`}></i>
+                        </div>
+                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="expands all categories" onClick={() => this.toggleAllCategoryState(false)}>
+                        <i className={`fas fa-expand ${styles.control}`}></i>
+                        </div>                         
                     </div>
                 </div>
                 <div className={`column ${styles['category-container']}`}>

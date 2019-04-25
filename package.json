@@ -1,7 +1,7 @@
 {
   "name": "my-budget",
   "productName": "MyBudget",
-  "version": "2.0.1-beta",
+  "version": "2.1.0-beta",
   "description": "Free, open source offline cross-platform budgeting solution built with Electron.",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
@@ -239,6 +239,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.5.0",
+    "banking": "^1.2.0",
     "devtron": "^1.4.0",
     "electron-debug": "^2.0.0",
     "electron-log": "^2.2.17",

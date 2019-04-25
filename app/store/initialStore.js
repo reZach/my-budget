@@ -53,7 +53,8 @@ export const initialStore = {
     //   categories: [{
     //     id: "",
     //     dateId: "",
-    //     name: ""
+    //     name: "",
+    //     collapse: false
     //   }],
     //   items: [{
     //     id: "",

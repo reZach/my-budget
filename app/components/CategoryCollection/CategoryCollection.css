@@ -16,3 +16,16 @@
 .h150 {
     height: 150px;
 }
+
+.control {
+    padding-top: 12px;
+    width: 30px;
+}
+
+.control-parent {
+    max-height:40px;
+}
+.control-parent:hover {
+    cursor:pointer;
+    background-color: #ABAAEC;
+}
