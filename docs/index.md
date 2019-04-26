@@ -5,7 +5,7 @@ layout: default
 # Welcome
 Take control of your budget, download it today. It is free - forever.
 
-![MyBudget](../images/readme.png)
+![MyBudget](https://raw.githubusercontent.com/reZach/my-budget/master/images/readme.png)
 
 # Features
 - Completely offline - we are not saving any information of yours, it remains on your computer.
