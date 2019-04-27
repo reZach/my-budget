@@ -513,7 +513,7 @@ class Save extends Component<Props>{
                                     {this.props.pendingImport.map((value, index, array) => {
                                         return <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName !== "" ? value.categoryName : "default"} defaultItem={value.itemName !== "" ? value.itemName : "default"} defaultNote={value.note} />
                                     })}
-                                    </div>                                
+                                    </div>
                                 </div>
                             </div>
                             <div className="modal-footer">

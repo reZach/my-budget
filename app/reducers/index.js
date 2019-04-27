@@ -10,6 +10,7 @@ import itemCollection from "./itemCollection";
 import transactionCollection from "./transactionCollection";
 import createTransaction from "./createTransaction";
 import bankSync from "./bankSync";
+import incomeRecords from "./incomeRecords";
 import importTransactionsOptions from "./importTransactionsOptions";
 import pendingImport from "./pendingImport";
 import income from "./income";
@@ -20,6 +21,7 @@ export default function createRootReducer(history: History) {
     modified: modified,
     router: connectRouter(history),
     income: income,
+    incomeRecords: incomeRecords,
     date: date,
     passphrase: passphrase,
     categories: categoryCollection,

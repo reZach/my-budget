@@ -1,5 +1,6 @@
 import { CREATE_NEW_TRANSACTION_INITIAL_STATE } from "../actions/createTransaction";
 import { IMPORT_TRANSACTIONS_OPTIONS_INITIAL_STATE } from "../actions/importTransactionsOptions";
+import { INCOME_RECORDS_INITIAL_STATE } from "../actions/incomeRecords";
 import { BANK_SYNC_INITIAL_STATE } from "../actions/bankSync";
 
 // let fs = require("fs");
@@ -37,6 +38,7 @@ export const initialStore = {
         dateId: `${month}-${year}`,
         amount: 0
     }],
+    incomeRecords: [],
     categories: /*success ? fileContents.categories :*/ [],
     items: /*success ? fileContents.items :*/ [],
     transactions: /*success ? fileContents.transactions :*/ [],
