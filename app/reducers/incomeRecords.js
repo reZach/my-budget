@@ -1,0 +1,124 @@
+import { ADD_INCOME_RECORD,
+    MODIFY_INCOME_RECORD_START_DAY,
+    MODIFY_INCOME_RECORD_START_MONTH,
+    MODIFY_INCOME_RECORD_START_YEAR,
+    MODIFY_INCOME_RECORD_INCOME,
+    MODIFY_INCOME_RECORD_FREQUENCY,
+    MODIFY_INCOME_RECORD_NOTE,
+    REMOVE_INCOME_RECORD,
+    INCOME_RECORDS_INITIAL_STATE } from "../actions/incomeRecords";
+import { Action, update } from "./types";
+
+export default function incomeRecords(state: any = [], action: Action){
+    switch(action.type){
+        case ADD_INCOME_RECORD:
+            if (state.length === 0){
+                return update(state,
+                    [{
+                        id: "1",
+                        startDay: action.payload.startDay,
+                        startMonth: action.payload.startMonth,
+                        startYear: action.payload.startYear,
+                        income: action.payload.income,
+                        frequency: action.payload.frequency,
+                        note: action.payload.note
+                    }]
+                );
+            } else {
+                return update(state,
+                    [{
+                        id: (state.filter(i => i.id === action.payload.id).reduce((accumulator, current) => {
+                            var id = parseInt(current.id);
+
+                            if (id > accumulator) {
+                                return id;
+                            }
+
+                            // Should never get into this, but still
+                            return accumulator;
+                        }, 0) + 1).toString(),
+                        startDay: action.payload.startDay,
+                        startMonth: action.payload.startMonth,
+                        startYear: action.payload.startYear,
+                        income: action.payload.income,
+                        frequency: action.payload.frequency,
+                        note: action.payload.note
+                    }]
+                );
+            }
+        case MODIFY_INCOME_RECORD_START_DAY:
+            return update([], 
+                state.map(i => {
+                    if (i.id === action.payload.id){
+                        i.startDay = action.payload.startDay;
+                    }
+
+                    return i;
+                })
+            );
+        case MODIFY_INCOME_RECORD_START_MONTH:
+            return update([], 
+                state.map(i => {
+                    if (i.id === action.payload.id){
+                        i.startMonth = action.payload.startMonth;
+                    }
+
+                    return i;
+                })
+            );
+        case MODIFY_INCOME_RECORD_START_YEAR:
+            return update([], 
+                state.map(i => {
+                    if (i.id === action.payload.id){
+                        i.startYear = action.payload.startYear;
+                    }
+
+                    return i;
+                })
+            );    
+        case MODIFY_INCOME_RECORD_START_YEAR:
+            return update([], 
+                state.map(i => {
+                    if (i.id === action.payload.id){
+                        i.startYear = action.payload.startYear;
+                    }
+
+                    return i;
+                })
+            );  
+        case MODIFY_INCOME_RECORD_INCOME:
+            return update([], 
+                state.map(i => {
+                    if (i.id === action.payload.id){
+                        i.income = action.payload.income;
+                    }
+
+                    return i;
+                })
+            );
+        case MODIFY_INCOME_RECORD_FREQUENCY:
+            return update([], 
+                state.map(i => {
+                    if (i.id === action.payload.id){
+                        i.frequency = action.payload.frequency;
+                    }
+
+                    return i;
+                })
+            ); 
+        case MODIFY_INCOME_RECORD_NOTE:
+            return update([], 
+                state.map(i => {
+                    if (i.id === action.payload.id){
+                        i.note = action.payload.note;
+                    }
+
+                    return i;
+                })
+            );    
+        case REMOVE_INCOME_RECORD:        
+            return update([], state.filter(i => !(i.dateId === action.payload.id)));
+        default:
+            return state;
+    }
+}
