@@ -6,7 +6,8 @@ import { ADD_INCOME_RECORD,
     MODIFY_INCOME_RECORD_FREQUENCY,
     MODIFY_INCOME_RECORD_NOTE,
     REMOVE_INCOME_RECORD,
-    INCOME_RECORDS_INITIAL_STATE } from "../actions/incomeRecords";
+    INCOME_RECORDS_INITIAL_STATE,
+    INCOME_RECORDS_FREQUENCY_MAP } from "../actions/incomeRecords";
 import { Action, update } from "./types";
 
 export default function incomeRecords(state: any = [], action: Action){
@@ -21,13 +22,14 @@ export default function incomeRecords(state: any = [], action: Action){
                         startYear: action.payload.startYear,
                         income: action.payload.income,
                         frequency: action.payload.frequency,
+                        frequencyName: INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency],
                         note: action.payload.note
                     }]
                 );
             } else {
                 return update(state,
                     [{
-                        id: (state.filter(i => i.id === action.payload.id).reduce((accumulator, current) => {
+                        id: (state.reduce((accumulator, current) => {
                             var id = parseInt(current.id);
 
                             if (id > accumulator) {
@@ -42,6 +44,7 @@ export default function incomeRecords(state: any = [], action: Action){
                         startYear: action.payload.startYear,
                         income: action.payload.income,
                         frequency: action.payload.frequency,
+                        frequencyName: INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency],
                         note: action.payload.note
                     }]
                 );
@@ -101,6 +104,7 @@ export default function incomeRecords(state: any = [], action: Action){
                 state.map(i => {
                     if (i.id === action.payload.id){
                         i.frequency = action.payload.frequency;
+                        i.frequencyName = INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency];
                     }
 
                     return i;
@@ -117,7 +121,7 @@ export default function incomeRecords(state: any = [], action: Action){
                 })
             );    
         case REMOVE_INCOME_RECORD:        
-            return update([], state.filter(i => !(i.dateId === action.payload.id)));
+            return update([], state.filter(i => i.id !== action.payload.id));
         default:
             return state;
     }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import styles from "./IncomeRecord.css";
+import { dateToMMDDYYYY } from "../../utils/readableDate";
 
 class IncomeRecord extends Component<Props> {
     props: Props;
@@ -72,15 +73,12 @@ class IncomeRecord extends Component<Props> {
                         <i className={`column col-2 fas fa-check ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.renameCategory()}></i>
                         <i className={`column col-2 fas fa-ban ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()}></i>
                     </div>
-                </div>                
+                </div>    
             );
         } else {
             return (
                 <React.Fragment>
-                    <div className={`column col-1 text-center ${styles['icon']}`} onClick={this.toggleRenameActive}>
-                        <i className="fas fa-edit"></i>
-                    </div>
-                    <div className={`column col-1 text-center ${styles['icon']}`} onClick={() => this.props.delete(this.props.id, this.props.name)}>
+                    <div className={`column col-1 text-center ${styles['icon']}`} onClick={() => this.props.delete(this.props.id)}>
                         <i className={`fas fa-trash-alt ${styles.icon}`}></i>
                     </div>
                 </React.Fragment>                                
@@ -95,9 +93,18 @@ class IncomeRecord extends Component<Props> {
                     <div className="column col-12">
                         {/* HACK TABLE */}
                         <div className={`columns ${styles.dark} ${styles.category}`}>
-                            <div className={`column col-xs-auto`}>
-                                {this.props.income}
+                            <div className={`column col-2`}>
+                                {dateToMMDDYYYY(this.props.startMonth, this.props.startDay, this.props.startYear)}
                             </div>
+                            <div className={`column col-3`}>
+                                {this.props.frequencyName}
+                            </div>
+                            <div className={`column col-xs-auto`}>
+                                {this.props.note}
+                            </div>
+                            <div className={`column col-2`}>
+                                {this.props.income}
+                            </div>                            
                             {this.renderControls()}                            
                         </div>                        
                     </div>
@@ -109,7 +116,7 @@ class IncomeRecord extends Component<Props> {
 
 function mapStateToProps(state){    
     return {
-        
+        incomeRecords: state.incomeRecords
     }
 }
 
