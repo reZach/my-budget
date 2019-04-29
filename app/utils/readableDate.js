@@ -33,6 +33,10 @@ export function dateToShort(dateId){
     return `${month}/${year.substring(0,1)}`;
 }
 
+export function dateToMMDDYYYY(month, day, year){
+    return `${month}/${day}/${year}`;
+}
+
 export function dateToReadble(dateId){
     var data = split(dateId);
     var month = data.month;

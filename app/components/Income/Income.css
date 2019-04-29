@@ -23,3 +23,17 @@
 .form-padding {
     padding-top:6px;
 }
+
+.header-fix {
+    padding-top:5px;
+    float:right;
+    margin-right: 0px !important;
+}
+
+.label-fix {
+    padding-top:8px !important;
+}
+
+.center-this-text {
+    text-align: center !important;
+}

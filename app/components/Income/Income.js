@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+const {dialog} = require('electron').remote;
 import * as IncomeActions from "../../actions/income";
 import * as ModifyActions from "../../actions/modify";
 import * as IncomeRecordActions from "../../actions/incomeRecords";
@@ -33,6 +34,8 @@ class Income extends Component<Props>{
         this.addNewIncomeRecord = this.addNewIncomeRecord.bind(this);
         this.addIncomeRecordIsValid = this.addIncomeRecordIsValid.bind(this);
         this.selectIncomeInput = this.selectIncomeInput.bind(this);
+        this.deleteIncomeRecord = this.deleteIncomeRecord.bind(this);
+        this.getCurrentCashFlow = this.getCurrentCashFlow.bind(this);
         
         this.getPercentSpent = this.getPercentSpent.bind(this);
         this.getRemainingDays = this.getRemainingDays.bind(this);
@@ -58,6 +61,7 @@ class Income extends Component<Props>{
     changeDate(event){
         let split = event.target.value.split("-");
         this.setState({
+            date: event.target.value,
             day: split[2],
             month: split[1],
             year: split[0]
@@ -85,12 +89,34 @@ class Income extends Component<Props>{
     //         });
     //     }        
     // }
+
+    deleteIncomeRecord(id){
+        dialog.showMessageBox({
+            title: "delete income",
+            type: "warning",
+            buttons: ["Yes", "No"],
+            message: "are you sure you want to delete this income record?"
+        }, (i) => {
+
+            // Yes
+            if (i === 0){
+                this.props.removeIncomeRecord(id);
+            }
+        });
+        
+    }
     
     addNewIncomeRecord(event){
         this.props.addIncomeRecord(this.state.day, this.state.month, this.state.year, this.state.income, this.state.frequency, this.state.note);
 
         this.setState({
-
+            day: 0,
+            month: 0,
+            year: 0,
+            income: 0,
+            date: "",
+            frequency: "0",
+            note: ""
         });
     }
 
@@ -138,6 +164,99 @@ class Income extends Component<Props>{
         this.setState({
             modalActive: !current
         });
+    }
+
+    getCurrentCashFlow(){
+
+        // calculate transactions up to today
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        var year = today.getFullYear();
+
+        let validIncomeRecords = this.props.incomeRecords.filter(function(fr){
+            if (fr.startYear < year){
+                return true;
+            } else if (fr.startYear > year){
+                return false;
+            } else if (fr.startMonth < month){
+                return true;
+            } else if (fr.startMonth > month) {
+                return false;
+            } else if (fr.startDay <= day){
+                return true;
+            } else if (fr.startDay > day){
+                return false;
+            }
+            return false;
+        });
+
+        var cash = 0;        
+        // bump income records until we are in the correct month
+        for (var i = 0; i < validIncomeRecords.length; i++){
+            var startDate = new Date(validIncomeRecords[i].startYear, validIncomeRecords[i].startMonth, validIncomeRecords[i].startDay);
+            
+            switch(validIncomeRecords[i].frequency){
+                case "0":
+
+                    if (startDate.getFullYear() === year &&
+                        (startDate.getMonth() + 1) === month &&
+                        startDate.getDate() <= day){
+                            inflowForMonth += validIncomeRecords[i].income;
+                        }                    
+                    break;
+                case "1":
+                    // every week
+
+                    var stillOk = true;
+
+                    while(stillOk){
+                        startDate = startDate.setDate(startDate.getDate() + 7);
+
+                        // re-evaluate
+
+                    }
+
+                    break;
+                case "2":
+                    // every 2 weeks
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        console.warn("cash: " + cash);
+
+        // Get transactions for the current month
+        let validTransactions = this.props.transactions.filter(function(t){
+            if (t.day <= day){
+                return true;
+            }
+            return false;
+        });
+
+        let outbound = validTransactions.reduce(function(accumulator, currentValue){
+            return accumulator + parseFloat(currentValue.amount);
+        }, 0);
+
+        console.warn("outbound: " + outbound);
+
+        let result = cash - outbound;
+        
+        if (result > 0){
+            return (
+                <span className={`label label-success ${styles["label-fix"]}`}>${result}</span>
+            );
+        } else if (result < 0){
+            return (
+                <span className={`label label-error ${styles["label-fix"]}`}>${result}</span>
+            );
+        } else {
+            return (
+                <span className={`label label-warning ${styles["label-fix"]}`}>${result}</span>
+            );
+        }
     }
 
     renderRemainingDays(data){
@@ -199,53 +318,39 @@ class Income extends Component<Props>{
     }
 
     incomeTable(){
-        return (
-            <div className="content">
-                {/* Header for the table */}
-                <div className={`columns ${styles.dark} ${styles.category}`}>
-                    <div className={`column col-xs-auto ${styles["category-header"]}`} onClick={this.toggleCollapse}>
-                        {this.props.collapse ? <i className="fas fa-caret-right"></i> : <i className="fas fa-caret-down"></i>} {this.props.name}
-                    </div>
-                    <div className={`column col-xs-auto text-center`}>
-                        <div className="columns">
-                            <input className="column col-8" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEnterForCategory} placeholder="new name"></input>
-                            <i className={`column col-2 fas fa-check ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.renameCategory()}></i>
-                            <i className={`column col-2 fas fa-ban ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()}></i>
-                        </div>
+        if (this.props.incomeRecords.length > 0){
+            return (
+                <div className="content">
+                    <div className={`${styles.hrest}`}>
+                    {this.props.incomeRecords
+                        .sort(function(a, b){
+                            if (a.startYear > b.startYear){
+                                return 1;
+                            } else if (b.startYear > a.startYear) {
+                                return -1;
+                            } else if (a.startMonth > b.startMonth) {
+                                return 1;
+                            } else if (b.startMonth > b.startMonth) {
+                                return -1;
+                            } else if (a.startDay > b.startDay) {
+                                return 1;
+                            } else if (b.startDay > a.startDay) {
+                                return -1;
+                            }
+                            return 0;
+                        }).map((value, index, array) => {
+                            return <IncomeRecord key={index} {...value} delete={this.deleteIncomeRecord} />
+                        })}
                     </div>
                 </div>
-                <div className={`${styles.hrest}`}>
-                {this.props.incomeRecords
-                    .sort(function(a, b){
-                        var split1 = a.dateId.split('-');
-                        var split2 = b.dateId.split('-');
-                        var m1 = split1[0];
-                        var d1 = a.day;
-                        var y1 = split1[1];
-                        var m2 = split2[0];
-                        var d2 = b.day
-                        var y2 = split2[1];
-            
-                        if (y1 > y2){
-                            return 1;
-                        } else if (y2 > y1) {
-                            return -1;
-                        } else if (m1 > m2) {
-                            return 1;
-                        } else if (m2 > m1) {
-                            return -1;
-                        } else if (d1 > d2) {
-                            return 1;
-                        } else if (d2 > d1) {
-                            return -1;
-                        }
-                        return 0;
-                    }).map((value, index, array) => {
-                        return <IncomeRecord key={index} {...value} />
-                    })}
+            );
+        } else {
+            return (
+                <div className="content">
+                    please enter in your income data
                 </div>
-            </div>
-        );
+            );
+        }        
     }
 
     modal(){
@@ -307,7 +412,7 @@ class Income extends Component<Props>{
                                 </div>
                             </div>
                         </div>
-                        <div className="modal-footer">
+                        <div className={`modal-footer text-center ${styles["center-this-text"]}`}>
                             {this.incomeTable()}
                         </div>
                     </div>
@@ -318,8 +423,9 @@ class Income extends Component<Props>{
 
     render(){ 
         return (
-            <div className="columns">
-                <button className="btn btn-primary" onClick={this.toggleModal}>abc</button>
+            <div className={`columns ${styles["header-fix"]}`}>
+                {this.getCurrentCashFlow()}
+                <button className="btn btn-primary" onClick={this.toggleModal}>income</button>
                 {this.modal()}
             </div>
         );    
