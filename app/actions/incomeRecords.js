@@ -25,7 +25,9 @@ export const INCOME_RECORDS_INITIAL_STATE = [
 export const INCOME_RECORDS_FREQUENCY_MAP = {
     "0": "one time",
     "1": "every week",
-    "2": "every 2 weeks"
+    "2": "every 2 weeks",
+    //"3": "first business day of month",
+    //"4": "last business day of month"
 }
 
 var add_income_record = function(day: Number, month: Number, year: Number, income: Number, frequency: String, note: string){

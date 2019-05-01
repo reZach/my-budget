@@ -175,51 +175,57 @@ class Income extends Component<Props>{
         var year = today.getFullYear();
 
         let validIncomeRecords = this.props.incomeRecords.filter(function(fr){
-            if (fr.startYear < year){
+            var date = new Date(fr.startYear, fr.startMonth-1, fr.startDay);
+            console.log("d: " + date);
+            if (date <= today){
                 return true;
-            } else if (fr.startYear > year){
-                return false;
-            } else if (fr.startMonth < month){
-                return true;
-            } else if (fr.startMonth > month) {
-                return false;
-            } else if (fr.startDay <= day){
-                return true;
-            } else if (fr.startDay > day){
-                return false;
             }
             return false;
         });
 
+        console.error("valid income: " + validIncomeRecords);
+
         var cash = 0;        
-        // bump income records until we are in the correct month
+        // sum income records to the current month
         for (var i = 0; i < validIncomeRecords.length; i++){
-            var startDate = new Date(validIncomeRecords[i].startYear, validIncomeRecords[i].startMonth, validIncomeRecords[i].startDay);
+            var startDate = new Date(parseInt(validIncomeRecords[i].startYear), parseInt(validIncomeRecords[i].startMonth)-1, parseInt(validIncomeRecords[i].startDay));
             
             switch(validIncomeRecords[i].frequency){
                 case "0":
 
-                    if (startDate.getFullYear() === year &&
-                        (startDate.getMonth() + 1) === month &&
-                        startDate.getDate() <= day){
-                            inflowForMonth += validIncomeRecords[i].income;
-                        }                    
+                    cash += validIncomeRecords[i].income;                  
                     break;
                 case "1":
                     // every week
 
                     var stillOk = true;
-
                     while(stillOk){
-                        startDate = startDate.setDate(startDate.getDate() + 7);
 
-                        // re-evaluate
+                        if (startDate <= today){
+                            cash += validIncomeRecords[i].income;
 
+                            startDate = startDate.setDate(startDate.getDate() + 7);
+                        } else {
+                            break;
+                        }
                     }
-
                     break;
                 case "2":
                     // every 2 weeks
+
+                    var stillOk = true;
+                    while (stillOk){
+
+                        if (startDate <= today){
+                            cash += validIncomeRecords[i].income;
+
+                            startDate = startDate.setDate(startDate.getDate() + 14);
+                        }
+                    }
+                    break;
+                case "3":
+                    // first business day of every month
+
                     break;
                 default:
                     break;
@@ -230,6 +236,10 @@ class Income extends Component<Props>{
 
         // Get transactions for the current month
         let validTransactions = this.props.transactions.filter(function(t){
+            var split = t.dateId.split("-");
+
+            var tDate = new Date(parseInt(split[1]), parseInt(split[0])-1, t.day);
+
             if (t.day <= day){
                 return true;
             }
@@ -460,7 +470,7 @@ function mapStateToProps(state){
     return {
         date: state.date,
         income: state.income.filter(i => i.dateId === state.date.id),
-        transactions: state.transactions.filter(t => t.dateId === state.date.id),
+        transactions: state.transactions,
         incomeRecords: state.incomeRecords
     }
 }
