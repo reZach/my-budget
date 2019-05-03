@@ -176,14 +176,13 @@ class Income extends Component<Props>{
 
         let validIncomeRecords = this.props.incomeRecords.filter(function(fr){
             var date = new Date(fr.startYear, fr.startMonth-1, fr.startDay);
-            console.log("d: " + date);
+            
             if (date <= today){
                 return true;
             }
             return false;
         });
 
-        console.error("valid income: " + validIncomeRecords);
 
         var cash = 0;        
         // sum income records to the current month
@@ -193,34 +192,32 @@ class Income extends Component<Props>{
             switch(validIncomeRecords[i].frequency){
                 case "0":
 
-                    cash += validIncomeRecords[i].income;                  
+                    cash += parseFloat(validIncomeRecords[i].income);
                     break;
                 case "1":
-                    // every week
-
-                    var stillOk = true;
-                    while(stillOk){
+                    // every week                    
+                    while(true){
 
                         if (startDate <= today){
-                            cash += validIncomeRecords[i].income;
+                            cash += parseFloat(validIncomeRecords[i].income);
 
-                            startDate = startDate.setDate(startDate.getDate() + 7);
+                            startDate.setDate(startDate.getDate() + 7);
                         } else {
                             break;
                         }
                     }
                     break;
                 case "2":
-                    // every 2 weeks
-
-                    var stillOk = true;
-                    while (stillOk){
+                    // every 2 weeks                    
+                    while (true){
 
                         if (startDate <= today){
-                            cash += validIncomeRecords[i].income;
+                            cash += parseFloat(validIncomeRecords[i].income);
 
-                            startDate = startDate.setDate(startDate.getDate() + 14);
-                        }
+                            startDate.setDate(startDate.getDate() + 14);
+                        } else {
+                            break;
+                        }                        
                     }
                     break;
                 case "3":
@@ -230,9 +227,7 @@ class Income extends Component<Props>{
                 default:
                     break;
             }
-        }
-
-        console.warn("cash: " + cash);
+        }        
 
         // Get transactions for the current month
         let validTransactions = this.props.transactions.filter(function(t){
@@ -249,8 +244,7 @@ class Income extends Component<Props>{
         let outbound = validTransactions.reduce(function(accumulator, currentValue){
             return accumulator + parseFloat(currentValue.amount);
         }, 0);
-
-        console.warn("outbound: " + outbound);
+    
 
         let result = cash - outbound;
         
@@ -375,6 +369,7 @@ class Income extends Component<Props>{
                         </div>
                         <div className="modal-body">
                             <div className="content">
+                            <div className={`${styles.mb}`}>enter in your sources of income</div>
                                 <div className="columns">
                                     <div className="column col-12">
                                         <div className="columns">

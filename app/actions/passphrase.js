@@ -22,5 +22,6 @@ export function setPassphrase(passphrase: string){
         }        
 
         dispatch(set_passphrase(hash));
+        return hash;
     }
 }

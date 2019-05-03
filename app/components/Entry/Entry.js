@@ -10,6 +10,7 @@ import * as TransactionCollectionActions from "../../actions/transactionCollecti
 import * as PassphraseActions from "../../actions/passphrase";
 import * as ModifyActions from "../../actions/modify";
 import * as IncomeActions from "../../actions/income";
+import * as SaveActions from "../../actions/save";
 import * as BankSyncActions from "../../actions/bankSync";
 const fs = require("fs");
 import filehelper from "../../utils/filehelper";
@@ -28,6 +29,7 @@ class Entry extends Component<Props>{
 
         this.changePassphrase = this.changePassphrase.bind(this);
         this.go = this.go.bind(this);
+        this.resetData = this.resetData.bind(this);
         this.fixBug = this.fixBug.bind(this);
     }
 
@@ -35,6 +37,26 @@ class Entry extends Component<Props>{
         this.setState({
             passphrase: event.target.value
         });        
+    }
+
+    resetData(event){
+        dialog.showMessageBox({
+            title: "reset data",
+            type: "warning",
+            buttons: ["Yes", "No"],
+            message: "are you sure you want to reset all data?"
+        }, (i) => {
+
+            // Yes
+            if (i === 0){
+                this.props.deleteAll(true);
+                this.setState({
+                    passphrase: ""
+                });
+
+                alert("reset all data");                
+            }
+        });
     }
 
     go(event){
@@ -47,7 +69,7 @@ class Entry extends Component<Props>{
         var localpath = filehelper.localpath();
         try
         {
-            this.props.setPassphrase(this.state.passphrase);
+            var hash = this.props.setPassphrase(this.state.passphrase);
 
             // Create file if not exist
             if (!filehelper.exists()){
@@ -62,8 +84,8 @@ class Entry extends Component<Props>{
             fileContents = filehelper.get();
 
             if (fileContents !== ""){
-                if (crypto.cryptoAvailable() && this.props.passphrase !== ""){
-                    var decrypted = crypto.decrypt(fileContents, this.props.passphrase);
+                if (crypto.cryptoAvailable() && hash !== ""){
+                    var decrypted = crypto.decrypt(fileContents, hash);
     
                     success = true;
                     fileContents = JSON.parse(decrypted);
@@ -142,7 +164,7 @@ class Entry extends Component<Props>{
                 title: "error loading data",
                 type: "warning",
                 buttons: ["Ok"],
-                message: `wrong passphrase, we could not load your data. please delete this your data file found here '${localpath}' and restart this app.`
+                message: `wrong passphrase, if you cannot remember your passphrase, reset your data by clicking the button below. you may set a new passphrase after resetting your data.`
             }, (i) => {
                     
             });             
@@ -182,7 +204,7 @@ class Entry extends Component<Props>{
                         </div>
                         <div className={`columns ${styles.smaller}`}>
                             <div className="column col-12">
-                                <div className="popover popover-bottom">
+                                <div className="popover popover-top">
                                     <button className="btn">new user?</button>
                                     <div className="popover-container">
                                         <div className="card">
@@ -194,7 +216,8 @@ class Entry extends Component<Props>{
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div> 
+                                <button onClick={this.resetData} className={`btn btn-error ${styles["ml"]}`}>reset data</button>                               
                             </div>
                         </div>
                         <form style={{display: "none"}} onSubmit={() => this.fixBug()}>
@@ -221,6 +244,7 @@ function mapDispatchToProps(dispatch) {
         ...PassphraseActions,
         ...ModifyActions,
         ...IncomeActions,
+        ...SaveActions,
         ...BankSyncActions,
         ...TransactionCollectionActions
     }, dispatch);

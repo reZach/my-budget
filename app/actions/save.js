@@ -35,16 +35,22 @@ export function save(){
     }
 }
 
-export function deleteAll(){
+export function deleteAll(suppress = false){
     return (dispatch: Dispatch, store: Store) => {
 
         filehelper.set("", (error, data) => {
             if (error){
-                alert("Could not delete data: " + error.message);
+                if (!suppress){
+                    alert("Could not delete data: " + error.message);
+                }
+                
                 return;
             } else {
                 console.log("deleted all data");
-                alert("deleted all data, please close and re-open this app.");
+
+                if (!suppress){
+                    alert("deleted all data, please close and re-open this app.");
+                }                
             }
         });
     }

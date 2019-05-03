@@ -14,6 +14,9 @@ import * as ImportTransactionsOptionsActions from "../../actions/importTransacti
 import styles from "./Save.css";
 import { bankSyncFetch } from "../../utils/banksync";
 import ImportBank from "../ImportBank/ImportBank";
+const fs = require("fs");
+import filehelper from "../../utils/filehelper";
+import * as crypto from "../../crypto/code";
 
 class Save extends Component<Props>{
     props: Props;
@@ -62,6 +65,7 @@ class Save extends Component<Props>{
 
         this.multi = this.multi.bind(this);
         this.sync = this.sync.bind(this);
+        this.export = this.export.bind(this);
         this.deleteAll = this.deleteAll.bind(this);
         this.toggleBankSyncAdd = this.toggleBankSyncAdd.bind(this);
         this.moveToStep = this.moveToStep.bind(this);
@@ -263,7 +267,36 @@ class Save extends Component<Props>{
     }
 
     export(event){
-        dialog.showOpenDialog({ properties: ['openFile', 'openDirectory', 'multiSelections'] });
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        var year = today.getFullYear();
+
+        dialog.showSaveDialog(
+            { 
+                title: "export data",
+                defaultPath: `mybudgetdata_${year}${month}${day}.json`
+            },
+            function(filename, bookmark){
+                if (typeof filename !== "undefined"){
+
+                    fileContents = filehelper.get();
+
+                    if (fileContents !== ""){
+                        if (crypto.cryptoAvailable() && this.props.passphrase.data !== ""){
+                            var decrypted = crypto.decrypt(fileContents, this.props.passphrase.data);
+            
+                            success = true;
+                            fileContents = JSON.parse(decrypted);
+                        } else {
+                            success = true;
+                            fileContents = JSON.parse(fileContents);
+                        }
+                    }    
+                    console.warn(filename);
+                }
+            }
+        );
     }
 
     changeUsername(event){
@@ -541,7 +574,8 @@ class Save extends Component<Props>{
                 <div className="columns">
                     <div className={`column col-12 ${styles['btn-fix']}`}>
                         <button className={`btn btn-primary ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>save</button>
-                        <button className={`btn btn-primary tooltip tooltip-top ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>bank</button>
+                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>bank</button>
+                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.export()}>export</button>
                         <button className={`btn btn-error`} type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>delete</button>
                     </div>
                 </div>
@@ -560,6 +594,7 @@ function mapStateToProps(state){
         categories: state.categories,
         items: state.items,
         pendingImport: state.pendingImport,
+        passphrase: state.passphrase,
         importTransactionsOptions: state.importTransactionsOptions
     }
 }
