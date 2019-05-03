@@ -29,6 +29,13 @@ h2 {
     margin-bottom: 10px;
 }
 
+@media (max-width:768px){
+    .h5, h5 {
+        font-size:0.7rem;
+    }
+}
+
+
 /* * {
   overflow-wrap:break-word;
 } */

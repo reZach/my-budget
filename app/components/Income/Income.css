@@ -30,6 +30,10 @@
     margin-right: 0px !important;
 }
 
+.mb {
+    margin-bottom:15px;
+}
+
 .label-fix {
     padding-top:8px !important;
 }
