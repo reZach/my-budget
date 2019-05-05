@@ -272,30 +272,42 @@ class Save extends Component<Props>{
         var day = today.getDate();
         var year = today.getFullYear();
 
+        var callback = function(filename, bookmark){
+            if (typeof filename !== "undefined"){
+
+                try
+                {
+                    var fileContents = filehelper.get();
+
+                    if (fileContents !== ""){
+                        if (crypto.cryptoAvailable() && this.props.passphrase !== ""){
+                            var decrypted = crypto.decrypt(fileContents, this.props.passphrase);
+            
+                            fileContents = JSON.parse(decrypted);
+                        } else {
+                            fileContents = JSON.parse(fileContents);
+                        }
+                    }
+                    
+                    if (fileContents !== ""){
+                        fs.writeFile(filename, JSON.stringify(fileContents), "utf-8", function(){
+                            alert("exported data successfully");
+                        });                        
+                    }   
+                }
+                catch (exception){
+                    alert("could not export data.")
+                }                                 
+            }
+        };
+        var boundCallback = callback.bind(this);
+
         dialog.showSaveDialog(
             { 
                 title: "export data",
                 defaultPath: `mybudgetdata_${year}${month}${day}.json`
             },
-            function(filename, bookmark){
-                if (typeof filename !== "undefined"){
-
-                    fileContents = filehelper.get();
-
-                    if (fileContents !== ""){
-                        if (crypto.cryptoAvailable() && this.props.passphrase.data !== ""){
-                            var decrypted = crypto.decrypt(fileContents, this.props.passphrase.data);
-            
-                            success = true;
-                            fileContents = JSON.parse(decrypted);
-                        } else {
-                            success = true;
-                            fileContents = JSON.parse(fileContents);
-                        }
-                    }    
-                    console.warn(filename);
-                }
-            }
+            boundCallback
         );
     }
 

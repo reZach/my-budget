@@ -101,6 +101,7 @@ class Income extends Component<Props>{
             // Yes
             if (i === 0){
                 this.props.removeIncomeRecord(id);
+                this.props.trueModify();
             }
         });
         
@@ -118,6 +119,7 @@ class Income extends Component<Props>{
             frequency: "0",
             note: ""
         });
+        this.props.trueModify();
     }
 
     getPercentSpent(data){
