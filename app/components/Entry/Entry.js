@@ -24,11 +24,15 @@ class Entry extends Component<Props>{
 
         this.state = {
             passphrase: "",
+            dataImported: false,
+            dataToImport: "",
             goHome: false
         };
 
         this.changePassphrase = this.changePassphrase.bind(this);
         this.go = this.go.bind(this);
+        this.importData = this.importData.bind(this);
+        this.emptyImport = this.emptyImport.bind(this);
         this.resetData = this.resetData.bind(this);
         this.fixBug = this.fixBug.bind(this);
     }
@@ -41,10 +45,10 @@ class Entry extends Component<Props>{
 
     resetData(event){
         dialog.showMessageBox({
-            title: "reset data",
+            title: "delete data",
             type: "warning",
             buttons: ["Yes", "No"],
-            message: "are you sure you want to reset all data?"
+            message: "are you sure you want to delete all data?"
         }, (i) => {
 
             // Yes
@@ -54,7 +58,7 @@ class Entry extends Component<Props>{
                     passphrase: ""
                 });
 
-                alert("reset all data");                
+                alert("deleted all data");                
             }
         });
     }
@@ -81,19 +85,25 @@ class Entry extends Component<Props>{
                 });
             }
             
-            fileContents = filehelper.get();
+            if (!this.state.dataImported){
+                fileContents = filehelper.get();
 
-            if (fileContents !== ""){
-                if (crypto.cryptoAvailable() && hash !== ""){
-                    var decrypted = crypto.decrypt(fileContents, hash);
-    
-                    success = true;
-                    fileContents = JSON.parse(decrypted);
-                } else {
-                    success = true;
-                    fileContents = JSON.parse(fileContents);
-                }
-            }            
+                if (fileContents !== ""){
+                    if (crypto.cryptoAvailable() && hash !== ""){
+                        var decrypted = crypto.decrypt(fileContents, hash);
+        
+                        success = true;
+                        fileContents = JSON.parse(decrypted);
+                    } else {
+                        success = true;
+                        fileContents = JSON.parse(fileContents);
+                    }
+                } 
+            } else {
+                fileContents = JSON.parse(this.state.dataToImport);            
+                success = true;
+            }
+                       
 
             // set everything in the store
             let setModify = success && fileContents.modified;
@@ -151,6 +161,11 @@ class Entry extends Component<Props>{
             }
             this.props.entryBankSyncKeys(bankSync.clientId, bankSync.publicKey, bankSync.development);
 
+            // Lets us save when we navigate to the main screen
+            if (this.state.dataImported && success){
+                this.props.trueModify();
+            }
+
             // set redirect
             this.setState({
                 goHome: true
@@ -171,6 +186,43 @@ class Entry extends Component<Props>{
         }
     }
 
+    importData(event){
+        var callback = function(filePaths, bookmark){
+            if (typeof filePaths !== "undefined"){
+
+                try
+                {
+                    let file = fs.readFileSync(filePaths[0], "utf-8");
+                    
+                    this.setState({
+                        dataToImport: file,
+                        dataImported: true
+                    });
+                    alert("data imported.");
+                }
+                catch (exception){
+                    alert("could not import data.")
+                }                                 
+            }
+        };
+        var boundCallback = callback.bind(this);
+
+        dialog.showOpenDialog(
+            { 
+                title: "import data",
+                properties: ["openFile"]
+            },
+            boundCallback
+        );
+    }
+
+    emptyImport(event){
+        this.setState({
+            dataImported: false,
+            dataToImport: "",
+        });
+    }
+
     componentDidMount(){
         this.fixbuginput.click();
     }
@@ -185,8 +237,17 @@ class Entry extends Component<Props>{
         }
 
         return (
-            <div className={`container ${styles.top}`}>
-                <div className={`columns text-center`}>
+            <div className={`container ${styles.h100}`}>
+                <div className={`columns ${styles.header} ${styles.h50}`}>
+                    <div className={`column col-8 ${styles["btn-fix"]}`}>
+                        <button onClick={this.importData} className={`btn btn-primary`}>import data</button>
+                        <button onClick={this.emptyImport} disabled={!this.state.dataImported && this.state.dataToImport === ""} className={`btn ${styles["ml"]}`}>clear imported data</button>
+                    </div>
+                    <div className={`column col-4 text-right ${styles["btn-fix"]}`}>
+                        <button onClick={this.resetData} className={`btn btn-error ${styles["ml"]}`}>delete data</button>
+                    </div>                    
+                </div>
+                <div className={`columns text-center ${styles.top}`}>
                     <div className="column col-4 col-mx-auto">
                         <h1>My Budget</h1>
                         <div>
@@ -216,8 +277,7 @@ class Entry extends Component<Props>{
                                             </div>
                                         </div>
                                     </div>
-                                </div> 
-                                <button onClick={this.resetData} className={`btn btn-error ${styles["ml"]}`}>reset data</button>                               
+                                </div>                             
                             </div>
                         </div>
                         <form style={{display: "none"}} onSubmit={() => this.fixBug()}>
