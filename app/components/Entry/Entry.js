@@ -8,6 +8,7 @@ import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ItemCollectionActions from "../../actions/itemCollection";
 import * as TransactionCollectionActions from "../../actions/transactionCollection";
 import * as PassphraseActions from "../../actions/passphrase";
+import * as IncomeRecordActions from "../../actions/incomeRecords";
 import * as ModifyActions from "../../actions/modify";
 import * as IncomeActions from "../../actions/income";
 import * as SaveActions from "../../actions/save";
@@ -20,21 +21,24 @@ class Entry extends Component<Props>{
     props: Props;
 
     constructor(){
-        super();
+        super();        
 
         this.state = {
             passphrase: "",
             dataImported: false,
             dataToImport: "",
-            goHome: false
+            goHome: false,
+            importedModal: false
         };
 
         this.changePassphrase = this.changePassphrase.bind(this);
         this.go = this.go.bind(this);
         this.importData = this.importData.bind(this);
         this.emptyImport = this.emptyImport.bind(this);
+        this.closeImportModal = this.closeImportModal.bind(this);
         this.resetData = this.resetData.bind(this);
         this.fixBug = this.fixBug.bind(this);
+        this.changePassphraseModal = this.changePassphraseModal.bind(this);
     }
 
     changePassphrase(event){
@@ -60,6 +64,12 @@ class Entry extends Component<Props>{
 
                 alert("deleted all data");                
             }
+        });
+    }
+
+    closeImportModal(){
+        this.setState({
+            importedModal: false
         });
     }
 
@@ -113,15 +123,24 @@ class Entry extends Component<Props>{
                 this.props.falseModify();
             }
 
+            // OLD income object
             let setIncome = [{
                 id: "1",
                 dateId: `${month}-${year}`,
                 amount: 0
             }];
             if (success){
-                setIncome = fileContents.income
+                setIncome = fileContents.income;
             }
             this.props.entryIncome(setIncome);
+
+
+            // NEW income object
+            let setNewIncome = [];
+            if (success){
+                setNewIncome = fileContents.incomeRecords;
+            }
+            this.props.entryIncomeRecords(setNewIncome);
 
             let setCategories = [];
             if (success){
@@ -192,16 +211,20 @@ class Entry extends Component<Props>{
 
                 try
                 {
+                    if (filePaths[0].match(/.+\.json$/) === null)
+                        throw "error";
+
                     let file = fs.readFileSync(filePaths[0], "utf-8");
                     
                     this.setState({
                         dataToImport: file,
-                        dataImported: true
+                        dataImported: true,
+                        importedModal: true
                     });
-                    alert("data imported.");
+                    this.onetimemodal = true;
                 }
                 catch (exception){
-                    alert("could not import data.")
+                    alert("could not import data")
                 }                                 
             }
         };
@@ -231,6 +254,35 @@ class Entry extends Component<Props>{
 
     }
 
+    changePassphraseModal(){
+
+        if (this.state.importedModal){
+            return (
+                <div className="modal active" id="modal-id">
+                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.closeImportModal()}></a>
+                    <div className={`modal-container`}>
+                        <div className={`modal-header ${styles.h62}`}>
+                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.closeImportModal()}></a>
+                            <div className="modal-title h4">import successful</div>
+                        </div>
+                        <div className="modal-body">
+                            <div className="content">
+                                <div>
+                                    by continuing to use My Budget with your imported data, your passphrase will be reset to the new passphrase you provide. the passphrase is optional if you do not want to set a passphrase.
+                                </div>                                
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <div className="text-center">
+                                if you decide not to import existing data, please click the "clear loaded data" button and continue to use My Budget as you have.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }        
+    }
+
     render() {
         if (this.state.goHome){
             return <Redirect to="/Home"></Redirect>
@@ -241,7 +293,7 @@ class Entry extends Component<Props>{
                 <div className={`columns ${styles.header} ${styles.h50}`}>
                     <div className={`column col-8 ${styles["btn-fix"]}`}>
                         <button onClick={this.importData} className={`btn btn-primary`}>import data</button>
-                        <button onClick={this.emptyImport} disabled={!this.state.dataImported && this.state.dataToImport === ""} className={`btn ${styles["ml"]}`}>clear imported data</button>
+                        <button onClick={this.emptyImport} disabled={!this.state.dataImported && this.state.dataToImport === ""} className={`btn ${styles["ml"]}`}>clear loaded data</button>
                     </div>
                     <div className={`column col-4 text-right ${styles["btn-fix"]}`}>
                         <button onClick={this.resetData} className={`btn btn-error ${styles["ml"]}`}>delete data</button>
@@ -283,6 +335,7 @@ class Entry extends Component<Props>{
                         <form style={{display: "none"}} onSubmit={() => this.fixBug()}>
                             <button ref={input => this.fixbuginput = input}  type="submit"></button>
                         </form>
+                        {this.changePassphraseModal()}
                     </div>
                 </div>
             </div>
@@ -305,6 +358,7 @@ function mapDispatchToProps(dispatch) {
         ...ModifyActions,
         ...IncomeActions,
         ...SaveActions,
+        ...IncomeRecordActions,
         ...BankSyncActions,
         ...TransactionCollectionActions
     }, dispatch);
