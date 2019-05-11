@@ -282,18 +282,21 @@ class Save extends Component<Props>{
                     if (fileContents !== ""){
                         if (crypto.cryptoAvailable() && this.props.passphrase !== ""){
                             var decrypted = crypto.decrypt(fileContents, this.props.passphrase);
-            
+                                                        
                             fileContents = JSON.parse(decrypted);
                         } else {
                             fileContents = JSON.parse(fileContents);
                         }
-                    }
-                    
-                    if (fileContents !== ""){
+
+                        // reset passphrase
+                        fileContents.passphrase = "";
+
                         fs.writeFile(filename, JSON.stringify(fileContents), "utf-8", function(){
                             alert("exported data successfully");
-                        });                        
-                    }   
+                        });
+                    } else {
+                        alert("no data is saved, try saving and export again");
+                    }  
                 }
                 catch (exception){
                     alert("could not export data.")
@@ -395,7 +398,7 @@ class Save extends Component<Props>{
             title: "delete data",
             type: "warning",
             buttons: ["Yes", "No"],
-            message: "are you sure you want to delete everything? we can't recover it if you do."
+            message: "are you sure you want to delete everything? we can't recover it if you do. (this does not delete exported data)."
         }, (i) => {
 
             // Yes

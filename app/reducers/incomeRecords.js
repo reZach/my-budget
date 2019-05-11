@@ -6,6 +6,7 @@ import { ADD_INCOME_RECORD,
     MODIFY_INCOME_RECORD_FREQUENCY,
     MODIFY_INCOME_RECORD_NOTE,
     REMOVE_INCOME_RECORD,
+    ENTRY_INCOME_RECORDS,
     INCOME_RECORDS_INITIAL_STATE,
     INCOME_RECORDS_FREQUENCY_MAP } from "../actions/incomeRecords";
 import { Action, update } from "./types";
@@ -122,6 +123,8 @@ export default function incomeRecords(state: any = [], action: Action){
             );    
         case REMOVE_INCOME_RECORD:        
             return update([], state.filter(i => i.id !== action.payload.id));
+        case ENTRY_INCOME_RECORDS:        
+            return update([], action.payload.incomeRecords);
         default:
             return state;
     }

@@ -8,6 +8,7 @@ export const MODIFY_INCOME_RECORD_INCOME = "MODIFY_INCOME_RECORD_INCOME";
 export const MODIFY_INCOME_RECORD_FREQUENCY = "MODIFY_INCOME_RECORD_FREQUENCY";
 export const MODIFY_INCOME_RECORD_NOTE = "MODIFY_INCOME_RECORD_NOTE";
 export const REMOVE_INCOME_RECORD = "REMOVE_INCOME_RECORD";
+export const ENTRY_INCOME_RECORDS = "ENTRY_INCOME_RECORDS";
 
 export const INCOME_RECORD_INITIAL_STATE = {
     id: "",
@@ -112,6 +113,14 @@ var remove_income_record = function(id: string){
         }
     };
 }
+var entry_income_records = function(incomeRecords: any){
+    return {
+        type: ENTRY_INCOME_RECORDS,
+        payload: {
+            incomeRecords: incomeRecords
+        }
+    };
+}
 
 export function addIncomeRecord(day: Number, month: Number, year: Number, income: Number, frequency: String, note: string){
     return (dispatch: Dispatch, store: Store) => {
@@ -158,5 +167,11 @@ export function modifyIncomeRecordNote(id: String, note: string) {
 export function removeIncomeRecord(id: string){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(remove_income_record(id));
+    }
+}
+
+export function entryIncomeRecords(incomeRecords: any){
+    return (dispatch: Dispatch, store: Store) => {
+        dispatch(entry_income_records(incomeRecords));
     }
 }

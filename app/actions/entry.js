@@ -2,6 +2,7 @@ import { Dispatch, Store } from "../reducers/types";
 
 export const ENTRY_MODIFIED = "ENTRY_MODIFIED";
 export const ENTRY_INCOME = "ENTRY_INCOME";
+export const ENTRY_INCOME_RECORDS = "ENTRY_INCOME_RECORDS";
 export const ENTRY_CATEGORIES = "ENTRY_CATEGORIES";
 export const ENTRY_ITEMS = "ENTRY_ITEMS";
 export const ENTRY_TRANSACTIONS = "ENTRY_TRANSACTIONS";
