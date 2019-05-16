@@ -18,18 +18,18 @@ export default class Home extends Component<Props> {
     return (
       <div className={`container ${styles['app-container']}`}>
         <div className={`columns ${styles.header} ${styles.h50}`}>
-          <div className={`column col-4`}>
+          <div className={`column col-5`}>
             <Save/>
           </div>
           <div className={`column col-3`}>
             <Date />
           </div>
-          <div className={`column col-5`}>
+          <div className={`column col-4`}>
             <Income />
           </div>
         </div>
         <div className={`columns ${styles.h100}`}>
-          <div className={`column col-7 ${styles.h100}`}>
+          <div className={`column col-7 ${styles.h100} ${styles["middle-separator"]}`}>
             <CategoryCollection />
           </div>
           <div className={`column col-5 ${styles.h100}`}>

@@ -248,7 +248,7 @@ class Income extends Component<Props>{
         }, 0);
     
 
-        let result = cash - outbound;
+        let result = (cash - outbound).toFixed(2);
         
         if (result > 0){
             return (
@@ -353,7 +353,7 @@ class Income extends Component<Props>{
         } else {
             return (
                 <div className="content">
-                    please enter in your income data
+                    Please enter in your income data.
                 </div>
             );
         }        
@@ -367,18 +367,18 @@ class Income extends Component<Props>{
                     <div className="modal-container">
                         <div className="modal-header">
                             <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={this.toggleModal}></a>
-                            <div className="modal-title h5">income</div>
+                            <div className="modal-title h4">Income</div>
                         </div>
                         <div className="modal-body">
                             <div className="content">
-                            <div className={`${styles.mb}`}>enter in your sources of income</div>
+                            <div className={`${styles.mb}`}>Enter in your sources of income.</div>
                                 <div className="columns">
                                     <div className="column col-12">
                                         <div className="columns">
                                             <form className="form-horizontal" style={{width: "100%"}} onSubmit={this.addNewIncomeRecord}>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        income
+                                                        <label className="form-label">Income</label>
                                                     </div>
                                                     <div className="column col-9">
                                                         <input className="form-input" type="text" value={this.state.income} onSelect={this.selectIncomeInput} onChange={this.changeIncome} placeholder="income"></input>
@@ -386,7 +386,7 @@ class Income extends Component<Props>{
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        date
+                                                        <label className="form-label">Date</label>
                                                     </div>
                                                     <div className="column col-9">
                                                         <input className="form-input" type="date" value={this.state.date} onChange={this.changeDate} placeholder="date"></input>
@@ -394,7 +394,7 @@ class Income extends Component<Props>{
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        frequency
+                                                        <label className="form-label">Frequency</label>
                                                     </div>
                                                     <div className="column col-9">
                                                         <select className="form-input" value={this.state.frequency} onChange={this.changeFrequency}>
@@ -404,14 +404,14 @@ class Income extends Component<Props>{
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        note
+                                                        <label className="form-label">Note</label>
                                                     </div>
                                                     <div className="column col-9">
                                                         <input className="form-input" type="text" value={this.state.note} onChange={this.changeNote} placeholder="note"></input>
                                                     </div>
                                                 </div>
                                                 <div className="float-right text-right">
-                                                    <input className="btn btn-primary" type="submit" disabled={!this.addIncomeRecordIsValid()} value="add"></input>
+                                                    <input className="btn btn-primary" type="submit" disabled={!this.addIncomeRecordIsValid()} value="Add"></input>
                                                 </div>
                                             </form>                                            
                                         </div>
@@ -432,7 +432,7 @@ class Income extends Component<Props>{
         return (
             <div className={`columns ${styles["header-fix"]}`}>
                 {this.getCurrentCashFlow()}
-                <button className="btn btn-primary" onClick={this.toggleModal}>income</button>
+                <button className="btn btn-primary" onClick={this.toggleModal}>Income</button>
                 {this.modal()}
             </div>
         );    

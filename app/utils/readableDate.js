@@ -45,40 +45,40 @@ export function dateToReadble(dateId){
     var readableMonth = "";
     switch(month){
         case "1":
-            readableMonth = "january";
+            readableMonth = "January";
             break;
         case "2":
-            readableMonth = "february";
+            readableMonth = "February";
             break;
         case "3":
-            readableMonth = "march";
+            readableMonth = "March";
             break;
         case "4":
-            readableMonth = "april";
+            readableMonth = "April";
             break;
         case "5":
-            readableMonth = "may";
+            readableMonth = "May";
             break;
         case "6":
-            readableMonth = "june";
+            readableMonth = "June";
             break;
         case "7":
-            readableMonth = "july";
+            readableMonth = "July";
             break;
         case "8":
-            readableMonth = "august";
+            readableMonth = "August";
             break;
         case "9":
-            readableMonth = "september";
+            readableMonth = "September";
             break;
         case "10":
-            readableMonth = "october";
+            readableMonth = "October";
             break;
         case "11":
-            readableMonth = "november";
+            readableMonth = "November";
             break;
         case "12":
-            readableMonth = "december";
+            readableMonth = "December";
             break;
         default:
             break;

@@ -75,10 +75,10 @@ class CategoryCollection extends Component<Props> {
     deleteCategory(id, name){
 
         dialog.showMessageBox({
-            title: "delete category",
+            title: "Delete category",
             type: "warning",
             buttons: ["Yes", "No"],
-            message: `are you sure you want to delete '${name}'?`
+            message: `Are you sure you want to delete '${name}'?`
         }, (i) => {
 
             // Yes
@@ -196,7 +196,7 @@ class CategoryCollection extends Component<Props> {
                 <div className="columns">
                     <div className="column col-12 text-left">
                         <form onSubmit={() => this.toggleCopyPreviousCategories()}>
-                            <button className="btn btn-primary btn-lg" type="submit">copy previous categories</button>
+                            <button className="btn btn-primary btn-lg" type="submit">Copy previous categories</button>
                         </form>
                     </div>
                 </div>
@@ -210,7 +210,7 @@ class CategoryCollection extends Component<Props> {
                                 <option value="">---</option>
                                 {this.createPreviousCategoriesDropdown()}  
                             </select>
-                            <button className="btn btn-primary input-group-btn" type="button" onClick={() => this.copyPreviousCategories()} disabled={this.state.selectedPreviousDateForCategories === ""}>copy</button>
+                            <button className="btn btn-primary input-group-btn" type="button" onClick={() => this.copyPreviousCategories()} disabled={this.state.selectedPreviousDateForCategories === ""}>Copy</button>
                         </div>
                     </div>
                 </div>
@@ -224,21 +224,21 @@ class CategoryCollection extends Component<Props> {
                 <div className={`column col-12 text-left`}>
                     <div className="columns col-gapless">
                         <div className="column col-12 text-left">
-                            <h2>categories</h2>                        
+                            <h2>Categories</h2>                        
                         </div>                    
                         <div className={`column col-8 text-left ${styles['category-input']}`}>      
                             <form onSubmit={() => this.createNewCategory()}>
                                 <div className="input-group">
                                     <input className="form-input input-lg" type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEscapeKey}></input>
-                                    <button className="btn btn-primary btn-lg input-group-btn" type="submit">add new</button>
+                                    <button className="btn btn-primary btn-lg input-group-btn" type="submit">Add new</button>
                                 </div>
                             </form>
                         </div>
                         <div className="column col-2"></div>
-                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="collapses all categories" onClick={() => this.toggleAllCategoryState(true)}>
+                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Collapses all categories" onClick={() => this.toggleAllCategoryState(true)}>
                             <i className={`fas fa-compress ${styles.control}`}></i>
                         </div>
-                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="expands all categories" onClick={() => this.toggleAllCategoryState(false)}>
+                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Expands all categories" onClick={() => this.toggleAllCategoryState(false)}>
                         <i className={`fas fa-expand ${styles.control}`}></i>
                         </div>                         
                     </div>

@@ -30,3 +30,7 @@
 .h50 {
   height: 50px;
 }
+
+.middle-separator {
+  border-right:8px solid #2b2b2b;
+}

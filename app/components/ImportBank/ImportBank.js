@@ -330,7 +330,9 @@ class ImportBank extends Component<Props> {
             return (
                 <div className="form-horizontal">
                     <div className="form-group">
-                        <div className="col-3">new category name</div>
+                        <div className="col-3">
+                            <label className="form-label">New category name</label>
+                        </div>
                         <div className="col-6">
                             <input className="form-input" type="text" value={this.state.newCategory} onKeyUp={this.newCategoryNameKeyup} onChange={this.changeNewCategory} placeholder="new category name" />
                         </div>
@@ -345,9 +347,11 @@ class ImportBank extends Component<Props> {
             return (
                 <div className="form-horizontal">
                     <div className="form-group">
-                        <div className="col-3">new item name</div>
+                        <div className="col-3">
+                            <label className="form-label">New sub-category name</label>
+                        </div>
                         <div className="col-6">
-                            <input className="form-input" type="text" value={this.state.newItem} onKeyUp={this.newItemNameKeyup} onChange={this.changeNewItem} placeholder="new item name" />
+                            <input className="form-input" type="text" value={this.state.newItem} onKeyUp={this.newItemNameKeyup} onChange={this.changeNewItem} placeholder="new sub-category name" />
                         </div>
                     </div>
                 </div>  
@@ -362,7 +366,9 @@ class ImportBank extends Component<Props> {
                     <div className={`column col-12 ${styles["edit-window"]}`}>
                         <form className="form-horizontal" onSubmit={() => this.saveAllPendingChanges()}>
                             <div className="form-group">                                
-                                <div className="col-3">category</div>
+                                <div className="col-3">
+                                    <label className="form-label">Category</label>
+                                </div>
                                 <div className="col-6">
                                     <select className="form-select" onChange={this.onCategoryChange}>
                                         {this.createCategoryDropDown()}
@@ -371,7 +377,9 @@ class ImportBank extends Component<Props> {
                             </div>
                             {this.renderCreateNewCategory()}
                             <div className="form-group">                                
-                                <div className="col-3">sub-category</div>
+                                <div className="col-3">
+                                    <label className="form-label">Sub-category</label>
+                                </div>
                                 <div className="col-6">
                                     <select className="form-select" onChange={this.onItemChange}>
                                         {this.createItemDropDown()}
@@ -380,21 +388,23 @@ class ImportBank extends Component<Props> {
                             </div>
                             {this.renderCreateNewItem()}
                             <div className="form-group">
-                                <div className="col-3">note</div>
+                                <div className="col-3">
+                                    <label className="form-label">Note</label>
+                                </div>
                                 <div className="col-6">
                                     <input className="form-input" type="text" value={this.state.newNote} onChange={this.changeNewNote} onKeyUp={this.newNoteKeyup} placeholder="note" />
                                 </div>
                             </div>
                             <div className="column col-12">
                                 <div className="form-group float-left">
-                                    <input className="btn btn-error" type="button" value="undo all" disabled={!(this.state.savedCategory !== this.props.defaultCategory || this.state.savedItem !== this.props.defaultitem || this.state.savedNote !== this.props.defaultNote)} onClick={() => this.undoPendingChanges()}></input>
+                                    <input className="btn btn-error" type="button" value="Undo all" disabled={!(this.state.savedCategory !== this.props.defaultCategory || this.state.savedItem !== this.props.defaultitem || this.state.savedNote !== this.props.defaultNote)} onClick={() => this.undoPendingChanges()}></input>
                                 </div>
                                 <div className="form-group float-right">
                                     <input className="btn btn-primary" type="submit" disabled={!((this.props.overwriteCategoryName === "" ? (this.state.pendingCategory !== this.state.savedCategory && this.state.newCategory !== "") : (this.state.newCategory !== "" ? this.props.overwriteCategoryName !== this.state.newCategory : this.state.pendingCategory !== this.props.overwriteCategoryName)) 
                                     ||
                                     (this.props.overwriteItemName === "" ? (this.state.pendingItem !== this.state.savedItem && this.state.newItem !== "") : (this.state.newItem !== "" ? this.props.overwriteItemName !== this.state.newItem : this.state.pendingItem !== this.props.overwriteItemName))
                                     ||
-                                    (this.state.newNote !== this.state.savedNote))} value="update"></input>
+                                    (this.state.newNote !== this.state.savedNote))} value="Update"></input>
                                 </div>
                             </div>
                         </form>

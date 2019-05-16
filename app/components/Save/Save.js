@@ -292,14 +292,14 @@ class Save extends Component<Props>{
                         fileContents.passphrase = "";
 
                         fs.writeFile(filename, JSON.stringify(fileContents), "utf-8", function(){
-                            alert("exported data successfully");
+                            alert("Exported data successfully.");
                         });
                     } else {
-                        alert("no data is saved, try saving and export again");
+                        alert("No data is saved, try saving and export again.");
                     }  
                 }
                 catch (exception){
-                    alert("could not export data.")
+                    alert("Could not export data.")
                 }                                 
             }
         };
@@ -307,7 +307,7 @@ class Save extends Component<Props>{
 
         dialog.showSaveDialog(
             { 
-                title: "export data",
+                title: "Export data",
                 defaultPath: `mybudgetdata_${year}${month}${day}.json`
             },
             boundCallback
@@ -395,10 +395,10 @@ class Save extends Component<Props>{
     deleteAll(event){
         
         dialog.showMessageBox({
-            title: "delete data",
+            title: "Delete data",
             type: "warning",
             buttons: ["Yes", "No"],
-            message: "are you sure you want to delete everything? we can't recover it if you do. (this does not delete exported data)."
+            message: "Are you sure you want to delete everything? We can't recover it if you do. (this does not delete exported data)."
         }, (i) => {
 
             // Yes
@@ -417,11 +417,14 @@ class Save extends Component<Props>{
                         <div className={`modal-container`}>
                             <div className={`modal-header ${styles.h62}`}>
                                 <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                                <div className="modal-title h4">select a bank</div>
+                                <div className="modal-title h4">Select a bank</div>
                             </div>
                             <div className="modal-body">
                                 <div className="content">
-                                    <div className={`${styles.mb}`}>import transactions from your bank</div>
+                                    <div className={`${styles.mb}`}>
+                                        Import transactions from your bank.<br />
+                                        Bank not found and you are good with code? Consider <a target="_blank" href={"https://github.com/reZach/my-budget/wiki/Creating-a-new-connector"}>writing a connector</a>.
+                                    </div>
                                     <div className="columns">
                                         <div className="column col-12 col-mr-auto">
                                             <div className="form-group">
@@ -439,7 +442,7 @@ class Save extends Component<Props>{
                                 <div className="float-right text-right">
                                     {this.state.selectedBank !== ""  ?
                                         <React.Fragment>
-                                            <input type="button" className="btn btn-primary" value="next" onClick={() => this.moveToStep(2)}></input>
+                                            <input type="button" className="btn btn-primary" value="Next" onClick={() => this.moveToStep(2)}></input>
                                         </React.Fragment> : <React.Fragment></React.Fragment>
                                     }
                                 </div>                                
@@ -454,7 +457,7 @@ class Save extends Component<Props>{
                         <div className={`modal-container`}>
                             <div className={`modal-header ${styles.h62}`}>
                                 <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                                <div className="modal-title h5">enter credentials</div>
+                                <div className="modal-title h5">Enter credentials</div>
                             </div>
                             <div className="modal-body">
                                 <div className="content">
@@ -464,7 +467,7 @@ class Save extends Component<Props>{
                                                 <form className="form-horizontal" style={{width: "100%"}}>
                                                     <div className="form-group">
                                                         <div className="column col-3">
-                                                            username
+                                                            <label className="form-label">Username</label>
                                                         </div>
                                                         <div className="column col-9">
                                                             <input className="form-input" type="text" value={this.state.username} onChange={this.changeUsername} placeholder="username"></input>
@@ -472,7 +475,7 @@ class Save extends Component<Props>{
                                                     </div>
                                                     <div className="form-group">
                                                         <div className="column col-3">
-                                                            password
+                                                            <label className="form-label">Password</label>
                                                         </div>
                                                         <div className="column col-9">
                                                             <input className="form-input" type="password" value={this.state.password} onChange={this.changePassword} placeholder="password"></input>
@@ -486,12 +489,12 @@ class Save extends Component<Props>{
                             </div>
                             <div className="modal-footer">
                                 <div className="float-left text-left">                                        
-                                    <input type="button" className="btn" value="back" onClick={() => this.moveToStep(1)}></input>
+                                    <input type="button" className="btn" value="Back" onClick={() => this.moveToStep(1)}></input>
                                 </div>
                                 <div className="float-right text-right">
                                     {this.state.username !== "" && this.state.password !== "" ?
                                         <React.Fragment>
-                                            <input className="btn btn-primary" type="submit" value="next" onClick={() => this.moveToStep(3)}></input>
+                                            <input className="btn btn-primary" type="submit" value="Next" onClick={() => this.moveToStep(3)}></input>
                                         </React.Fragment> : <React.Fragment></React.Fragment>
                                     }
                                 </div>                                
@@ -506,7 +509,7 @@ class Save extends Component<Props>{
                         <div className={`modal-container`}>
                             <div className={`modal-header ${styles.h62}`}>
                                 <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                                <div className="modal-title h5">loading transactions</div>
+                                <div className="modal-title h5">Loading transactions</div>
                             </div>
                             <div className="modal-body">
                                 <div className="content">
@@ -519,7 +522,7 @@ class Save extends Component<Props>{
                             </div>
                             <div className="modal-footer">
                                 <div className="float-left text-left">
-                                    <input type="button" className="btn" value="back" onClick={() => this.moveToStep(1)}></input>
+                                    <input type="button" className="btn" value="Back" onClick={() => this.moveToStep(1)}></input>
                                 </div>                                
                             </div>
                         </div>
@@ -532,29 +535,29 @@ class Save extends Component<Props>{
                         <div className={`modal-container modal-large`}>
                             <div className={`modal-header ${styles.h62}`}>
                                 <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                                <div className="modal-title h5">import transactions</div>
+                                <div className="modal-title h5">Import transactions</div>
                             </div>
                             <div className="modal-body">
                                 <div className="content">
                                     {/* Header for the table */}
                                     <div className={`columns ${styles.h48}`}>
                                         <div className="column col-1">
-                                            <div>import</div>
+                                            <div>Import</div>
                                         </div>                    
                                         <div className="column col-1">
-                                            date
+                                            Date
                                         </div>
                                         <div className="column col-1">
-                                            amount
+                                            Amount
                                         </div>
                                         <div className="column col-2">
-                                            category
+                                            Category
                                         </div>
                                         <div className="column col-2">
-                                            sub-category
+                                            Sub-category
                                         </div>
                                         <div className={`column col-5`}>
-                                            note
+                                            Note
                                         </div>
                                     </div>
                                     <div className={`${styles.hrest}`}>
@@ -567,11 +570,11 @@ class Save extends Component<Props>{
                             <div className="modal-footer">
                                 <div className="column col-12">
                                     <div className="form-group float-left">
-                                        <input className="btn" type="button" value="toggle import all" onClick={() => this.toggleAllImport()}></input>
+                                        <input className="btn" type="button" value="Toggle import all" onClick={() => this.toggleAllImport()}></input>
                                     </div>
                                     <div className="form-group float-right">
-                                        <button className="btn btn-primary" onClick={() => this.importTransactions()}>import</button>
-                                        <button className="btn" onClick={() => this.toggleBankSyncAdd()}>cancel</button>
+                                        <button className="btn btn-primary" onClick={() => this.importTransactions()}>Import</button>
+                                        <button className="btn" onClick={() => this.toggleBankSyncAdd()}>Cancel</button>
                                     </div>
                                 </div>
                             </div>
@@ -588,10 +591,10 @@ class Save extends Component<Props>{
             <React.Fragment>
                 <div className="columns">
                     <div className={`column col-12 ${styles['btn-fix']}`}>
-                        <button className={`btn btn-primary ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>save</button>
-                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>bank</button>
-                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.export()}>export</button>
-                        <button className={`btn btn-error`} type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>delete</button>
+                        <button className={`btn btn-primary ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>Save</button>
+                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>Bank</button>
+                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.export()}>Export</button>
+                        <button className={`btn btn-error`} type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>Delete</button>
                     </div>
                 </div>
                 {this.renderBankSync()}                
