@@ -15,3 +15,11 @@
 .h350 {
     height: 350px;
 }
+
+.delete-all-btn {
+    margin-left:-8px;
+}
+
+.add-new-btn {
+    margin-right:-8px;
+}

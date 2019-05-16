@@ -101,10 +101,10 @@ class TransactionCollection extends Component<Props> {
     deleteTransaction(categoryId: string, itemId: string, transactionId: string, amount: number){
 
         dialog.showMessageBox({
-            title: "delete transaction",
+            title: "Delete transaction",
             type: "warning",
             buttons: ["Yes", "No"],
-            message: `are you sure you want to delete this transaction of $${amount}?`
+            message: `Are you sure you want to delete this transaction of $${amount}?`
         }, (i) => {
 
             // Yes
@@ -117,10 +117,10 @@ class TransactionCollection extends Component<Props> {
 
     deleteAllTransactions(){
         dialog.showMessageBox({
-            title: "delete all transactions",
+            title: "Delete all transactions",
             type: "warning",
             buttons: ["Yes", "No"],
-            message: `are you sure you want to delete all transactions for this month?`
+            message: `Are you sure you want to delete all transactions for this month?`
         }, (i) => {
 
             // Yes
@@ -163,15 +163,17 @@ class TransactionCollection extends Component<Props> {
                 <div className={`${styles.h350}`}>
                     <div className="columns">
                         <div className="column col-12 text-left">
-                            <h2>transactions</h2>
+                            <h2>Transactions</h2>
                         </div>
                     </div>
                     <div className={`columns`}>
                         <div className="column col-12 text-left">
                             <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>
                                 <div className="form-group">
-                                    <div className="col-3">category</div>
-                                    <div className="col-9">
+                                    <div className="col-4">
+                                        <label className="form-label">Category</label>
+                                    </div>
+                                    <div className="col-8">
                                         <select className="form-select" value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
                                             <option value="">---</option>
                                             {this.createCategoriesDropDown()}
@@ -179,8 +181,10 @@ class TransactionCollection extends Component<Props> {
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <div className="col-3">sub-category</div>
-                                    <div className="col-9">
+                                    <div className="col-4">
+                                        <label className="form-label">Sub-category</label>
+                                    </div>
+                                    <div className="col-8">
                                         <select className="form-select" value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
                                             <option value="">---</option>
                                             {this.createItemsDropDown()}  
@@ -188,29 +192,35 @@ class TransactionCollection extends Component<Props> {
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <div className="col-3">amount</div>
-                                    <div className="col-9">
+                                    <div className="col-4">
+                                        <label className="form-label">Amount</label>
+                                    </div>
+                                    <div className="col-8">
                                         <input className="form-input" type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount}></input>
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <div className="col-3">date</div>
-                                    <div className="col-9">
+                                    <div className="col-4">
+                                        <label className="form-label">Date</label>
+                                    </div>
+                                    <div className="col-8">
                                         <input className="form-input" type="number" placeholder="date" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <div className="col-3">note</div>
-                                    <div className="col-9">
+                                    <div className="col-4">
+                                        <label className="form-label">Note</label>
+                                    </div>
+                                    <div className="col-8">
                                         <input className="form-input" type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote}></input>
                                     </div>
                                 </div>
                                 <div className="column col-12">
-                                    <div className="form-group float-left">
-                                        <input className="btn btn-lg btn-error" type="button" value="delete all" onClick={() => this.deleteAllTransactions()} disabled={this.props.transactions.length <= 0}></input>
+                                    <div className={`form-group float-left ${styles["delete-all-btn"]}`}>
+                                        <input className="btn btn-lg btn-error" type="button" value="Delete all" onClick={() => this.deleteAllTransactions()} disabled={this.props.transactions.length <= 0}></input>
                                     </div>
-                                    <div className="form-group float-right">
-                                        <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="add new"></input>
+                                    <div className={`form-group float-right ${styles["add-new-btn"]}`}>
+                                        <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="Add new"></input>
                                     </div>
                                 </div>
                             </form>

@@ -23,7 +23,7 @@ class Date extends Component<Props> {
                                     <div className="popover-container">
                                         <div className="card">
                                             <div className="card-header" style={{color: "black"}}>
-                                                quickly jump to another month
+                                                Quickly jump to another month.
                                             </div>
                                             <div className="card-body">
                                                 <div className="columns">
@@ -34,7 +34,7 @@ class Date extends Component<Props> {
                                                         <button className="btn btn-primary" onClick={() => this.props.decrement6()}>-6</button>
                                                     </div>
                                                     <div className="column col-4">
-                                                        <button className="btn" onClick={() => this.props.now()}>now</button>
+                                                        <button className="btn" onClick={() => this.props.now()}>Now</button>
                                                     </div>
                                                     <div className="column col-2">
                                                         <button className="btn btn-primary" onClick={() => this.props.increment6()}>+6</button>

@@ -149,6 +149,12 @@ export default class MenuBuilder {
       label: 'Help',
       submenu: [
         {
+          label: 'New user\'s guide',
+          click() {
+            shell.openExternal('https://github.com/reZach/my-budget/wiki/New-user\'s-guide');
+          }
+        },
+        {
           label: 'Learn More',
           click() {
             shell.openExternal('https://github.com/reZach/my-budget/blob/master/README.md');
@@ -247,6 +253,12 @@ export default class MenuBuilder {
       {
         label: 'Help',
         submenu: [
+          {
+            label: 'New user\'s guide',
+            click() {
+              shell.openExternal('https://github.com/reZach/my-budget/wiki/New-user\'s-guide');
+            }
+          },
           {
             label: 'Learn More',
             click() {

@@ -49,10 +49,10 @@ class Entry extends Component<Props>{
 
     resetData(event){
         dialog.showMessageBox({
-            title: "delete data",
+            title: "Delete data",
             type: "warning",
             buttons: ["Yes", "No"],
-            message: "are you sure you want to delete all data?"
+            message: "Are you sure you want to delete all data?"
         }, (i) => {
 
             // Yes
@@ -62,7 +62,7 @@ class Entry extends Component<Props>{
                     passphrase: ""
                 });
 
-                alert("deleted all data");                
+                alert("Deleted all data.");                
             }
         });
     }
@@ -195,10 +195,10 @@ class Entry extends Component<Props>{
             console.error(error);
 
             dialog.showMessageBox({
-                title: "error loading data",
+                title: "Error loading data",
                 type: "warning",
                 buttons: ["Ok"],
-                message: `wrong passphrase, if you cannot remember your passphrase, reset your data by clicking the button below. you may set a new passphrase after resetting your data.`
+                message: `Wrong passphrase, if you cannot remember your passphrase, reset your data by clicking the delete button above. You may set a new passphrase after resetting your data.`
             }, (i) => {
                     
             });             
@@ -224,7 +224,7 @@ class Entry extends Component<Props>{
                     this.onetimemodal = true;
                 }
                 catch (exception){
-                    alert("could not import data")
+                    alert("Could not import data.")
                 }                                 
             }
         };
@@ -232,7 +232,7 @@ class Entry extends Component<Props>{
 
         dialog.showOpenDialog(
             { 
-                title: "import data",
+                title: "Import data",
                 properties: ["openFile"]
             },
             boundCallback
@@ -263,18 +263,18 @@ class Entry extends Component<Props>{
                     <div className={`modal-container`}>
                         <div className={`modal-header ${styles.h62}`}>
                             <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.closeImportModal()}></a>
-                            <div className="modal-title h4">import successful</div>
+                            <div className="modal-title h4">Import successful</div>
                         </div>
                         <div className="modal-body">
                             <div className="content">
                                 <div>
-                                    by continuing to use My Budget with your imported data, your passphrase will be reset to the new passphrase you provide. the passphrase is optional if you do not want to set a passphrase.
+                                    By continuing to use My Budget with your imported data, your passphrase will be reset to the new passphrase you provide. the passphrase is optional if you do not want to set a passphrase.
                                 </div>                                
                             </div>
                         </div>
                         <div className="modal-footer">
                             <div className="text-center">
-                                if you decide not to import existing data, please click the "clear loaded data" button and continue to use My Budget as you have.
+                                If you decide not to import existing data, please click the "clear loaded data" button and continue to use My Budget as you have.
                             </div>
                         </div>
                     </div>
@@ -292,25 +292,25 @@ class Entry extends Component<Props>{
             <div className={`container ${styles.h100}`}>
                 <div className={`columns ${styles.header} ${styles.h50}`}>
                     <div className={`column col-8 ${styles["btn-fix"]}`}>
-                        <button onClick={this.importData} className={`btn btn-primary`}>import data</button>
-                        <button onClick={this.emptyImport} disabled={!this.state.dataImported && this.state.dataToImport === ""} className={`btn ${styles["ml"]}`}>clear loaded data</button>
+                        <button onClick={this.importData} className={`btn btn-primary`}>Import data</button>
+                        <button onClick={this.emptyImport} disabled={!this.state.dataImported && this.state.dataToImport === ""} className={`btn ${styles["ml"]}`}>Clear loaded data</button>
                     </div>
                     <div className={`column col-4 text-right ${styles["btn-fix"]}`}>
-                        <button onClick={this.resetData} className={`btn btn-error ${styles["ml"]}`}>delete data</button>
+                        <button onClick={this.resetData} className={`btn btn-error ${styles["ml"]}`}>Delete data</button>
                     </div>                    
                 </div>
                 <div className={`columns text-center ${styles.top}`}>
                     <div className="column col-4 col-mx-auto">
                         <h1>My Budget</h1>
                         <div>
-                            let's start
+                            Let's start
                         </div>                        
                         <div className={`columns ${styles.less}`}>
                             <div className="column col-12">
                                 <form onSubmit={() => this.go()}>
                                     <div className="input-group">
                                         <input className="form-input input-lg" type="password" placeholder="passphrase" autoFocus value={this.state.passphrase} onChange={this.changePassphrase}></input>
-                                        <button className="btn btn-lg btn-primary" type="submit">go</button>
+                                        <button className="btn btn-lg btn-primary" type="submit">Go</button>
                                     </div>
                                 </form>                                                                
                             </div>
@@ -318,14 +318,14 @@ class Entry extends Component<Props>{
                         <div className={`columns ${styles.smaller}`}>
                             <div className="column col-12">
                                 <div className="popover popover-top">
-                                    <button className="btn">new user?</button>
+                                    <button className="btn">New user?</button>
                                     <div className="popover-container">
                                         <div className="card">
-                                            <div className="card-body">
-                                                If this is your first time using MyBudget, you can choose to encrypt your data with a passphrase. If you do so, you must enter in your passphrase every time you use this app. You cannot change your passphrase once it's been set!
-                                            </div>
+                                            {/* <div className="card-body">
+                                                If this is your first time using MyBudget, you can choose to encrypt your data with a passphrase. If you do so, you must enter in your passphrase every time you use this app. You cannot change your passphrase once it's been set! If you don't choose a passphrase, your data will be saved unencrypted on your computer.
+                                            </div> */}
                                             <div className="card-footer" style={{fontStyle: "italic"}}>
-                                                If you don't choose a passphrase, your data will be saved unencrypted on your computer.
+                                                Please visit the <a target="_blank" href={"https://github.com/reZach/my-budget/wiki/First-time-user-guide"}>new user's guide</a> if you'd like a walkthrough how to use My Budget.
                                             </div>
                                         </div>
                                     </div>

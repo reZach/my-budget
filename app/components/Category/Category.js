@@ -105,10 +105,10 @@ class Category extends Component<Props> {
     deleteItem(categoryId: string, id: string, name: string){
                 
         dialog.showMessageBox({
-            title: "delete sub-category",
+            title: "Delete sub-category",
             type: "warning",
             buttons: ["Yes", "No"],
-            message: `are you sure you want to delete '${name}'?`
+            message: `Are you sure you want to delete '${name}'?`
         }, (i) => {
 
             // Yes
