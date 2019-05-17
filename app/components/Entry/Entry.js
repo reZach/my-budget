@@ -112,6 +112,11 @@ class Entry extends Component<Props>{
             } else {
                 fileContents = JSON.parse(this.state.dataToImport);            
                 success = true;
+
+                // create new IV if we have a new passphrase
+                if (hash !== ""){
+                    crypto.writeNewIv();
+                }
             }
                        
 
