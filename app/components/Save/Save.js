@@ -42,7 +42,8 @@ class Save extends Component<Props>{
             searchBank: "",
             selectedBank: "",
             importedData: [],
-            allImport: true
+            allImport: true,
+            exportModalActive: false
         };
         this.lock = false;
         this.lockAddItemIds = false;
@@ -68,6 +69,7 @@ class Save extends Component<Props>{
         this.export = this.export.bind(this);
         this.deleteAll = this.deleteAll.bind(this);
         this.toggleBankSyncAdd = this.toggleBankSyncAdd.bind(this);
+        this.toggleExportModal = this.toggleExportModal.bind(this);
         this.moveToStep = this.moveToStep.bind(this);
         this.toggleAllImport = this.toggleAllImport.bind(this);
         this.importTransactions = this.importTransactions.bind(this);
@@ -77,6 +79,7 @@ class Save extends Component<Props>{
         this.handleFuzzySearch = this.handleFuzzySearch.bind(this);
         this.fuzzySelectChange = this.fuzzySelectChange.bind(this);
         this.dothemagic = this.dothemagic.bind(this);
+        this.exportCSV = this.exportCSV.bind(this);
         this.thewaytheframeworkworks = this.thewaytheframeworkworks.bind(this);        
     }
 
@@ -276,7 +279,8 @@ class Save extends Component<Props>{
             if (typeof filename !== "undefined"){
 
                 try
-                {
+                {                    
+
                     var fileContents = filehelper.get();
 
                     if (fileContents !== ""){
@@ -291,14 +295,17 @@ class Save extends Component<Props>{
                         // reset passphrase
                         fileContents.passphrase = "";
 
+                        this.toggleExportModal();
                         fs.writeFile(filename, JSON.stringify(fileContents), "utf-8", function(){
                             alert("Exported data successfully.");
                         });
                     } else {
+                        this.toggleExportModal();
                         alert("No data is saved, try saving and export again.");
                     }  
                 }
                 catch (exception){
+                    this.toggleExportModal();
                     alert("Could not export data.")
                 }                                 
             }
@@ -312,6 +319,10 @@ class Save extends Component<Props>{
             },
             boundCallback
         );
+    }
+
+    exportCSV(){
+
     }
 
     changeUsername(event){
@@ -381,6 +392,14 @@ class Save extends Component<Props>{
 
         this.setState({
             bankSyncAdd: newState            
+        });
+    }
+
+    toggleExportModal(event){
+        let newState = !this.state.exportModalActive;
+
+        this.setState({
+            exportModalActive: newState            
         });
     }
 
@@ -586,6 +605,31 @@ class Save extends Component<Props>{
         }
     }
 
+    renderExportModal(){
+        if (this.state.exportModalActive){
+            return (
+                <div className="modal active" id="modal-id">
+                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleExportModal()}></a>
+                    <div className={`modal-container`}>
+                        <div className={`modal-header ${styles.h62}`}>
+                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleExportModal()}></a>
+                            <div className="modal-title h4">Export your data</div>
+                        </div>
+                        <div className="modal-body">
+                            <div className="float-left text-left">                                        
+                                <input type="button" className="btn btn-primary" value="Application data" onClick={() => this.export()}></input>
+                            </div>
+                            <div className="float-right text-right">
+                                <input type="button" className="btn btn-primary" value="CSV" onClick={() => this.exportCSV()}></input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+    }
+
+
     render(){
         return (
             <React.Fragment>
@@ -593,11 +637,12 @@ class Save extends Component<Props>{
                     <div className={`column col-12 ${styles['btn-fix']}`}>
                         <button className={`btn btn-primary ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>Save</button>
                         <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>Bank</button>
-                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.export()}>Export</button>
+                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.toggleExportModal()}>Export</button>
                         <button className={`btn btn-error`} type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>Delete</button>
                     </div>
                 </div>
-                {this.renderBankSync()}                
+                {this.renderBankSync()}  
+                {this.renderExportModal()}              
             </React.Fragment>
         );
     }
@@ -613,7 +658,8 @@ function mapStateToProps(state){
         items: state.items,
         pendingImport: state.pendingImport,
         passphrase: state.passphrase,
-        importTransactionsOptions: state.importTransactionsOptions
+        importTransactionsOptions: state.importTransactionsOptions,
+        transactions: state.transactions
     }
 }
 
