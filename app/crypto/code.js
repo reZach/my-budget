@@ -10,7 +10,7 @@ export function cryptoAvailable() {
         if (crypto === null) {
             crypto = require("crypto");
 
-            if (readFromFile(ivpath) === "") {
+            if (fs.existsSync(ivpath) && readFromFile(ivpath) === "") {
                 writeNewIv();
             }
         }
