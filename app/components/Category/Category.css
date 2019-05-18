@@ -20,6 +20,7 @@
 
 .category-header {    
     font-weight: bold;
+    padding-top:3px;
 }
 .category-header:hover {
     background-color: #ABAAEC;
