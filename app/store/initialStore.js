@@ -10,26 +10,6 @@ var date: Date = (new Date());
 var month: string = date.getMonth() + 1;
 var year: string = date.getFullYear();
 
-// var success = false;
-// var fileContents;
-// try
-// {
-//     fileContents = fs.readFileSync("file.json", "utf-8");
-
-//     if (crypto.cryptoAvailable()){
-//         var decrypted = crypto.decrypt(fileContents);
-
-//         success = true;
-//         fileContents = JSON.parse(decrypted);
-//     } else {
-//         success = true;
-//         fileContents = JSON.parse(fileContents);
-//     }
-// }
-// catch (error)
-// {
-//     console.error(error);
-// }
 
 export const initialStore = {
     modified: /*success ? fileContents.modified :*/ false,

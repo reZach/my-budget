@@ -186,9 +186,19 @@ export default class MenuBuilder {
     const subMenuView =
       process.env.NODE_ENV === 'development' ? subMenuViewDev : subMenuViewProd;
 
-    return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp, {
-      label: `v${appVersion}`
-    }];
+    return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp, 
+      {
+        label: `v${appVersion}`,
+        submenu: [
+          {
+            label: 'Changelog',
+            click() {
+              shell.openExternal('https://github.com/reZach/my-budget/releases');
+            }
+          }
+        ]
+      }
+    ];
   }
 
   buildDefaultTemplate() {
@@ -288,7 +298,15 @@ export default class MenuBuilder {
         ]
       },
       {
-        label: `v${appVersion}`
+        label: `v${appVersion}`,
+        submenu: [
+          {
+            label: 'Changelog',
+            click() {
+              shell.openExternal('https://github.com/reZach/my-budget/releases');
+            }
+          }
+        ]
       }
     ];
 

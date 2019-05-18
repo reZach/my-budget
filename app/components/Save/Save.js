@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 const {dialog} = require('electron').remote;
+const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 import Fuse from "fuse.js";
 import * as SaveActions from "../../actions/save";
 import * as ModifyActions from "../../actions/modify";
@@ -17,6 +18,7 @@ import ImportBank from "../ImportBank/ImportBank";
 const fs = require("fs");
 import filehelper from "../../utils/filehelper";
 import * as crypto from "../../crypto/code";
+import { dateToMMDDYYYY } from "../../utils/readableDate";
 
 class Save extends Component<Props>{
     props: Props;
@@ -322,7 +324,108 @@ class Save extends Component<Props>{
     }
 
     exportCSV(){
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        var year = today.getFullYear();
 
+        var callback = function(filename, bookmark){
+            if (typeof filename !== "undefined"){
+
+                try
+                {                    
+                    let csvWriter = createCsvWriter({
+                        path: filename,
+                        header: [
+                            {id: "date", title: "Date"},
+                            {id: "category", title: "Category"},
+                            {id: "subcategory", title: "Subcategory"},
+                            {id: "amount", title: "Amount"},
+                            {id: "note", title: "Note"}
+                        ]
+                    });
+            
+                    let csvRecords = [];
+            
+                    for (var i = 0; i < this.props.transactions.length; i++){
+                        var category = "";
+                        var subcategory = "";
+            
+                        for (var j = 0; j < this.props.categories.length; j++){
+                            if (this.props.transactions[i].dateId === this.props.categories[j].dateId &&
+                                this.props.transactions[i].categoryId === this.props.categories[j].id){
+                                    category = this.props.categories[j].name;
+                                    break;
+                                }
+                        }
+                        for (var j = 0; j < this.props.items.length; j++){
+                            if (this.props.transactions[i].dateId === this.props.items[j].dateId &&
+                                this.props.transactions[i].categoryId === this.props.items[j].categoryId &&
+                                this.props.transactions[i].itemId === this.props.items[j].id){
+                                    subcategory = this.props.items[j].name;
+                                    break;
+                                }
+                        }
+            
+                        var split = this.props.transactions[i].dateId.split("-");
+            
+                        csvRecords.push({
+                            date: dateToMMDDYYYY(split[0], this.props.transactions[i].day, split[1]),
+                            category: category,
+                            subcategory: subcategory,
+                            amount: parseFloat(this.props.transactions[i].amount),
+                            note: this.props.transactions[i].note
+                        });
+                    }
+            
+                    csvRecords.sort(function(a, b){
+                                                                    
+                        var split1 = a.date.split('/');
+                        var split2 = b.date.split('/');
+                        var m1 = split1[0];
+                        var d1 = split1[1];
+                        var y1 = split1[2];
+                        var m2 = split2[0];
+                        var d2 = split2[1];
+                        var y2 = split2[2];
+            
+                        if (y1 > y2){
+                            return 1;
+                        } else if (y2 > y1) {
+                            return -1;
+                        } else if (m1 > m2) {
+                            return 1;
+                        } else if (m2 > m1) {
+                            return -1;
+                        } else if (d1 > d2) {
+                            return 1;
+                        } else if (d2 > d1) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+            
+                    csvWriter.writeRecords(csvRecords)
+                        .then(() => {
+                            this.toggleExportModal();
+                            alert("Exported data as CSV successfully.");
+                        });
+                }
+                catch (exception){
+                    this.toggleExportModal();
+                    alert("Could not export CSV data.")
+                }                                 
+            }
+        };
+        var boundCallback = callback.bind(this);
+
+        dialog.showSaveDialog(
+            { 
+                title: "Export data as CSV",
+                defaultPath: `mybudgetcsv_${year}${month}${day}.csv`
+            },
+            boundCallback
+        );        
     }
 
     changeUsername(event){

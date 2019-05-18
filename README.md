@@ -7,6 +7,7 @@ Take control of your budget, download it today. It is free - forever.
 - Completely offline - we are not saving any information of yours, it remains on your computer.
 - Simple - only contains what you need to budget.
 - Passphrase-protected - protect your data by providing a passphrase to encrypt your data (this is optional).
+- Export your transaction data to CSV format.
 - Limited* support to sync transactions with your bank. [See here](https://github.com/reZach/my-budget/wiki/Creating-a-new-connector) for more details.
 - Built with [Electron](https://electronjs.org/) - supported on Linux, MacOS and Windows.
 
