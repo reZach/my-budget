@@ -33,6 +33,7 @@ class Category extends Component<Props> {
         this.renameItem = this.renameItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
         this.modifyNewItemName = this.modifyNewItemName.bind(this);
+        this.getPercentageSpent = this.getPercentageSpent.bind(this);
         this.modifyNewCategoryName = this.modifyNewCategoryName.bind(this);
         this.handleEnterForCategory = this.handleEnterForCategory.bind(this);
         this.handleEnterForSubcategory = this.handleEnterForSubcategory.bind(this);
@@ -129,6 +130,41 @@ class Category extends Component<Props> {
         this.setState({
             newCategoryName: event.target.value
         });  
+    }
+
+    getPercentageSpent(){
+        let total = 0;
+        let part = 0;
+
+        for (var i = 0; i < this.props.transactions.length; i++){
+            total += parseFloat(this.props.transactions[i].amount);
+
+            if (this.props.transactions[i].categoryId === this.props.id){
+                part += parseFloat(this.props.transactions[i].amount);
+            }
+        }
+
+        if (total === 0){
+            return (
+                <span className="label label-success">0 %</span>
+            );
+        } else {
+            var calculated = ((part / total) * 100).toFixed(2);
+
+            if (calculated < 10){
+                return (
+                    <span className="label label-success">{calculated} %</span>
+                );
+            } else if (calculated < 30){
+                return (
+                    <span className="label label-warning">{calculated} %</span>
+                );
+            } else {
+                return (
+                    <span className="label label-error">{calculated} %</span>
+                );
+            }
+        }
     }
 
     createNewItem(event){
@@ -242,7 +278,7 @@ class Category extends Component<Props> {
                         {/* HACK TABLE */}
                         <div className={`columns ${styles.dark} ${styles.category}`}>
                             <div className={`column col-xs-auto ${styles["category-header"]}`} onClick={this.toggleCollapse}>
-                                {this.props.collapse ? <i className="fas fa-caret-right"></i> : <i className="fas fa-caret-down"></i>} {this.props.name}
+                                {this.props.collapse ? <i className="fas fa-caret-right"></i> : <i className="fas fa-caret-down"></i>} {this.props.name} {this.getPercentageSpent()}
                             </div>
                             {this.renderControls()}                            
                         </div>
@@ -274,7 +310,7 @@ class Category extends Component<Props> {
 function mapStateToProps(state, props){
     return {                
         items: state.items.filter(i => i.dateId === props.dateId && i.categoryId === props.id),
-        transactions: state.transactions.filter(t => t.dateId === props.dateId && t.categoryId === props.id)
+        transactions: state.transactions.filter(t => t.dateId === props.dateId)
     }
 }
 
