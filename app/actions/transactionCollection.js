@@ -1,5 +1,6 @@
 import { TRANSACTION_INITIAL_STATE } from "./transaction";
 import { Dispatch } from "../reducers/types";
+import { recalculateCategorySpent } from "./categoryCollection";
 
 export const ADD_TRANSACTION = "ADD_TRANSACTION";
 export const REMOVE_TRANSACTION = "REMOVE_TRANSACTION";
@@ -9,6 +10,8 @@ export const ENTRY_TRANSACTIONS = "ENTRY_TRANSACTIONS";
 export const TRANSACTION_COLLECTION_INITIAL_STATE = [
     TRANSACTION_INITIAL_STATE
 ];
+
+
 
 var add_transaction = function(dateId: string, categoryId: string, itemId: string, day: string, amount: string, note: string){
     return {
@@ -54,18 +57,21 @@ var entry_transactions = function(transactions: any){
 export function addTransaction(categoryId: string, itemId: string, day: string, amount: string, note: string){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(add_transaction(
-            store().date.id, categoryId, itemId, day, amount, note));
+            store().date.id, categoryId, itemId, day, amount, note));            
+        recalculateCategorySpent(store().date.id, categoryId);
     }
 }
 export function addTransaction2(dateId: string, categoryId: string, itemId: string, day: string, amount: string, note: string){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(add_transaction(
             dateId, categoryId, itemId, day, amount, note));
+        recalculateCategorySpent(dateId, categoryId);
     }
 }
 export function removeTransaction(categoryId: string, itemId: string, transactionId: string){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(remove_transaction(store().date.id, categoryId, itemId, transactionId));
+        recalculateCategorySpent(store().date.id, categoryId);
     }
 }
 export function removeAllTransactions(){
@@ -76,5 +82,9 @@ export function removeAllTransactions(){
 export function entryTransactions(transactions: any){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(entry_transactions(transactions));
+
+        for(var i = 0; i < transactions.length; i++){
+            recalculateCategorySpent(transactions[i].dateId, transactions[i].categoryId);
+        }
     }
 }

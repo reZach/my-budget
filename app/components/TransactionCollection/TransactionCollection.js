@@ -5,6 +5,7 @@ const {dialog} = require('electron').remote;
 import * as TransactionActions from "../../actions/transactionCollection";
 import * as CreateTransaction from "../../actions/createTransaction";
 import * as ModifyActions from "../../actions/modify";
+import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import styles from "./TransactionCollection.css";
 import Transaction from "../Transaction/Transaction";
 
@@ -93,6 +94,7 @@ class TransactionCollection extends Component<Props> {
     createNewTransaction(event){
         this.props.addTransaction(this.props.createTransaction.selectedCategoryId, 
             this.props.createTransaction.selectedItemId, this.props.createTransaction.day, this.props.createTransaction.amount, this.props.createTransaction.note);
+        this.props.recalculateCategorySpent(this.props.date.id, this.props.createTransaction.selectedCategoryId);
 
         this.props.resetCreateNewTransaction();
         this.props.trueModify();
@@ -259,7 +261,8 @@ function mapDispatchToProps(dispatch){
     return bindActionCreators({
         ...TransactionActions,
         ...CreateTransaction,
-        ...ModifyActions
+        ...ModifyActions,
+        ...CategoryCollectionActions
     }, dispatch);
 }
 

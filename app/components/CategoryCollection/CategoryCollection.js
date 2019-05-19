@@ -28,6 +28,10 @@ class CategoryCollection extends Component<Props> {
         this.deleteCategory = this.deleteCategory.bind(this);
         this.toggleAllCategoryState = this.toggleAllCategoryState.bind(this);
         this.prepPreviousCategories = this.prepPreviousCategories.bind(this);
+        this.sortAlpha = this.sortAlpha.bind(this);
+        this.sortReverseAlpha = this.sortReverseAlpha.bind(this);
+        this.sortSpendDescending = this.sortSpendDescending.bind(this);
+        this.sortSpendAscending = this.sortSpendAscending.bind(this);
         this.modifySelectedDateForCategories = this.modifySelectedDateForCategories.bind(this);
         this.toggleCopyPreviousCategories = this.toggleCopyPreviousCategories.bind(this);
         this.copyPreviousCategories = this.copyPreviousCategories.bind(this);
@@ -110,6 +114,22 @@ class CategoryCollection extends Component<Props> {
         this.setState({
             previousCategoryDates: dates
         });
+    }
+
+    sortAlpha(event){
+        this.props.sortAlphabetically(this.props.date.id);
+    }
+
+    sortReverseAlpha(event){
+        this.props.sortReverseAlphabetically(this.props.date.id);
+    }
+
+    sortSpendDescending(event){
+        this.props.sortSpentDescending(this.props.date.id);
+    }
+
+    sortSpendAscending(event){
+        this.props.sortSpentAscending(this.props.date.id);
     }
 
     modifySelectedDateForCategories(event){
@@ -226,7 +246,7 @@ class CategoryCollection extends Component<Props> {
                         <div className="column col-12 text-left">
                             <h2>Categories</h2>                        
                         </div>                    
-                        <div className={`column col-8 text-left ${styles['category-input']}`}>      
+                        <div className={`column col-6 text-left ${styles['category-input']}`}>      
                             <form onSubmit={() => this.createNewCategory()}>
                                 <div className="input-group">
                                     <input className="form-input input-lg" type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEscapeKey}></input>
@@ -234,7 +254,18 @@ class CategoryCollection extends Component<Props> {
                                 </div>
                             </form>
                         </div>
-                        <div className="column col-2"></div>
+                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort alphabetically" onClick={() => this.sortAlpha()}>
+                            <i className={`fas fa-sort-alpha-down ${styles.control}`}></i>
+                        </div>
+                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort reverse-alphabetically" onClick={() => this.sortReverseAlpha()}>
+                            <i className={`fas fa-sort-alpha-up ${styles.control}`}></i>
+                        </div>
+                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent descending" onClick={() => this.sortSpendDescending()}>
+                            <i className={`fas fa-sort-amount-down ${styles.control}`}></i>
+                        </div>
+                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent ascending" onClick={() => this.sortSpendAscending()}>
+                            <i className={`fas fa-sort-amount-up ${styles.control}`}></i>
+                        </div>                        
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Collapses all categories" onClick={() => this.toggleAllCategoryState(true)}>
                             <i className={`fas fa-compress ${styles.control}`}></i>
                         </div>
@@ -245,8 +276,8 @@ class CategoryCollection extends Component<Props> {
                 </div>
                 <div className={`column ${styles['category-container']}`}>
                     {this.props.categories.filter(c => c.dateId === this.props.date.id).sort(function(a, b){
-                        var a1 = a.name.toLowerCase();
-                        var b1 = b.name.toLowerCase();
+                        var a1 = a.order;
+                        var b1 = b.order;
                         if (a1 > b1) return 1;
                         if (a1 < b1) return -1;
                         return 0;
