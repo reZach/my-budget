@@ -13,11 +13,11 @@ class Date extends Component<Props> {
             <React.Fragment>                
                 <div className={`columns ${styles.white}`}>
                     <div className="column col-12 col-mx-auto">
-                        <div className="columns">
-                            <div className={`column col-auto ${styles['btn-fix']}`}>
+                        <div className="columns col-gapless">
+                            <div className={`column col-auto col-ml-auto ${styles['btn-fix']}`}>
                                 <button className="btn btn-primary btn-lg" onClick={this.props.decrement} type="button">&lt;</button>
                             </div>
-                            <div className="column col-xs-auto text-center">
+                            <div className={`column col-auto text-center ${styles["middle"]}`}>
                                 <div className="popover popover-bottom">
                                     <h5 className={`${styles.pt}`}>{dateToReadble(this.props.date)}</h5>
                                     <div className="popover-container">
@@ -48,7 +48,7 @@ class Date extends Component<Props> {
                                     </div>
                                 </div>                                
                             </div>
-                            <div className={`column col-auto ${styles['btn-fix']}`}>
+                            <div className={`column col-auto col-mr-auto ${styles['btn-fix']}`}>
                                 <button className="btn btn-primary btn-lg" onClick={this.props.increment} type="button">&gt;</button>
                             </div>
                         </div>                                                                        

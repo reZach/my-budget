@@ -144,12 +144,17 @@ class Category extends Component<Props> {
             }
         }
 
+        if (typeof this.props.spent === "undefined"){
+            this.props.recalculateCategorySpent(this.props.dateId, this.props.id);
+            return;
+        }
+
         if (total === 0){
             return (
-                <span className="label label-success">0 %</span>
+                <span className="label label-success">{this.props.spent} %</span>
             );
         } else {
-            var calculated = ((part / total) * 100).toFixed(2);
+            var calculated = this.props.spent;
 
             if (calculated < 10){
                 return (

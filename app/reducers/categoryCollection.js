@@ -2,9 +2,14 @@ import {
     ADD_CATEGORY,
     REMOVE_CATEGORY,
     RENAME_CATEGORY,
+    SET_CATEGORY_SPENT,
     SET_COLLAPSE_CATEGORY,
     SET_COLLAPSE_CATEGORY_ALL,
     CATEGORY_COLLECTION_INITIAL_STATE,
+    SORT_CATEGORIES_ALPHABETICALLY,
+    SORT_CATEGORIES_REVERSE_ALPHABETICALLY,
+    SORT_CATEGORIES_SPENT_DESCENDING,
+    SORT_CATEGORIES_SPENT_ASCENDING,
     ENTRY_CATEGORIES
 } from "../actions/categoryCollection";
 import {
@@ -21,7 +26,9 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
                         id: "1",
                         dateId: action.payload.dateId,
                         name: action.payload.name,
-                        collapse: action.payload.collapse
+                        collapse: action.payload.collapse,
+                        order: 1,
+                        spent: 0
                     }]
                 );
             } else {
@@ -40,7 +47,10 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
                                 return accumulator;
                             }, 0) + 1).toString(),
                         dateId: action.payload.dateId,
-                        name: action.payload.name
+                        name: action.payload.name,
+                        collapse: action.payload.collapse,
+                        order: action.payload.order,
+                        spent: action.payload.spent
                     }]
                 );
             }
@@ -52,7 +62,18 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
                 state.map(c => {
                     if (c.dateId === action.payload.dateId &&
                         c.id === action.payload.categoryId){
-                        c.name = action.payload.newName;
+                            c.name = action.payload.newName;
+                    }
+
+                    return c;
+                })
+            );
+        case SET_CATEGORY_SPENT:            
+            return update([],
+                state.map(c => {
+                    if (c.dateId === action.payload.dateId &&
+                        c.id === action.payload.categoryId){
+                            c.spent = action.payload.spent;
                     }
 
                     return c;
@@ -63,7 +84,7 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
                 state.map(c => {
                     if (c.dateId === action.payload.dateId &&
                         c.id === action.payload.categoryId){
-                        c.collapse = action.payload.collapse;
+                            c.collapse = action.payload.collapse;
                     }
 
                     return c;
@@ -76,6 +97,80 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
                         c.collapse = action.payload.collapse;
                     }
                     
+                    return c;
+                })
+            );
+        case SORT_CATEGORIES_ALPHABETICALLY:
+            return update([],
+                state.sort(function(a, b){
+                    if (a.name > b.name){
+                        return 1;
+                    } else if (b.name > a.name){
+                        return -1;
+                    }
+                    return 0;
+                })
+                .map((c, index) => {
+                    if (c.dateId === action.payload.dateId){
+                        c.order = (index + 1);
+                    }
+                    return c;
+                })
+            );
+        case SORT_CATEGORIES_REVERSE_ALPHABETICALLY:
+            return update([],
+                state.sort(function(a, b){
+                    if (a.name > b.name){
+                        return -1;
+                    } else if (b.name > a.name){
+                        return 1;
+                    }
+                    return 0;
+                })
+                .map((c, index) => {
+                    if (c.dateId === action.payload.dateId){
+                        c.order = (index + 1);
+                    }
+                    return c;
+                })
+            );
+        case SORT_CATEGORIES_SPENT_DESCENDING:
+            return update([],
+                state.sort(function(a, b){
+                    var a1 = parseFloat(a.spent);
+                    var b1 = parseFloat(b.spent);
+
+                    if (a1 > b1){
+                        return -1;
+                    } else if (b1 > a1){
+                        return 1;
+                    }
+                    return 0;
+                })
+                .map((c, index) => {
+                    if (c.dateId === action.payload.dateId){
+                        c.order = (index + 1);
+                    }
+                    return c;
+                })
+            );
+        case SORT_CATEGORIES_SPENT_ASCENDING:
+            return update([],
+                state.sort(function(a, b){
+                    var a1 = parseFloat(a.spent);
+                    var b1 = parseFloat(b.spent);
+
+                    if (a1 > b1){
+                        return 1;
+                    } else if (b1 > a1){
+                        return -1;
+                    }
+                    return 0;
+                })
+                .map((c, index) => {
+                    if (c.dateId === action.payload.dateId){
+                        c.order = (index + 1);
+                    }                    
                     return c;
                 })
             );
