@@ -118,18 +118,22 @@ class CategoryCollection extends Component<Props> {
 
     sortAlpha(event){
         this.props.sortAlphabetically(this.props.date.id);
+        this.props.trueModify();
     }
 
     sortReverseAlpha(event){
         this.props.sortReverseAlphabetically(this.props.date.id);
+        this.props.trueModify();
     }
 
     sortSpendDescending(event){
         this.props.sortSpentDescending(this.props.date.id);
+        this.props.trueModify();
     }
 
     sortSpendAscending(event){
         this.props.sortSpentAscending(this.props.date.id);
+        this.props.trueModify();
     }
 
     modifySelectedDateForCategories(event){
