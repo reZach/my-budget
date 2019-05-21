@@ -104,14 +104,14 @@ class Item extends Component<Props> {
 
     render(){
         return (
-            <div data-a="asdf">
+            <React.Fragment>
                 <div className={`columns ${styles.item}`}>
                     <div className="column col-xs-auto">
                         {this.props.name}
                     </div>
                     {this.renderControls()}
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

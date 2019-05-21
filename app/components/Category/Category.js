@@ -7,7 +7,6 @@ import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ModifyActions from "../../actions/modify";
 import styles from "./Category.css";
 import Item from "../Item/Item";
-import Sortable from "react-sortablejs";
 
 class Category extends Component<Props> {
     props: Props;
@@ -289,12 +288,7 @@ class Category extends Component<Props> {
                             {this.renderControls()}                            
                         </div>
                         {this.props.collapse ? <React.Fragment></React.Fragment> :
-                        <Sortable options={{group: "shared", filter: ".sortablejs-nofilter", onSort: function(evt){
-                            console.warn(evt.item);
-                            console.error(evt.from);
-                            console.error(evt.to);
-                            
-                        }}}>
+                        <React.Fragment>
                             {this.props.items.sort(function(a, b){
                                 var a1 = a.name.toLowerCase();
                                 var b1 = b.name.toLowerCase();
@@ -306,10 +300,10 @@ class Category extends Component<Props> {
                                     <Item {...value} categoryId={this.props.id} dateId={this.props.dateId} rename={this.renameItem} delete={this.deleteItem}></Item>
                                 </div>;
                             })}
-                        </Sortable>}
-                        <div className="columns">
-                            {this.renderNewSubcategory()}
-                        </div>
+                            <div className="columns">
+                                {this.renderNewSubcategory()}
+                            </div>
+                        </React.Fragment>}
                     </div>
                 </div>
             </React.Fragment>
