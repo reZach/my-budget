@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-const {dialog} = require('electron').remote;
 import * as ItemCollectionActions from "../../actions/itemCollection";
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ModifyActions from "../../actions/modify";
 import styles from "./Category.css";
 import Item from "../Item/Item";
+
+const {dialog} = require('electron').remote;
 
 class Category extends Component<Props> {
     props: Props;
@@ -46,7 +47,7 @@ class Category extends Component<Props> {
     }
 
     toggleRenameActive(event){
-        let newState = !this.state.renameActive;
+        const newState = !this.state.renameActive;
 
         if (newState){
             this.setState({
@@ -61,12 +62,12 @@ class Category extends Component<Props> {
     }
 
     toggleCollapse(event){
-        var state = this.props.collapse;
+        const state = this.props.collapse;
         this.props.setCollapseCategory(this.props.id, !state);
     }
 
     toggleEditActive(event){
-        let newState = !this.state.editActive;
+        const newState = !this.state.editActive;
 
         this.setState({
             editActive: newState
@@ -74,7 +75,7 @@ class Category extends Component<Props> {
     }
 
     toggleAddActive(event){
-        let newState = !this.state.addActive;
+        const newState = !this.state.addActive;
 
         this.setState({
             addActive: newState
@@ -95,7 +96,7 @@ class Category extends Component<Props> {
     }
 
     renameItem(categoryId: string, id: string, newName: string){
-        let items = this.props.items;
+        const {items} = this.props;
 
         if (typeof items.find(i => i.name === newName) === "undefined"){
             this.props.renameItem(categoryId, id, newName);
@@ -136,7 +137,7 @@ class Category extends Component<Props> {
         let total = 0;
         let part = 0;
 
-        for (var i = 0; i < this.props.transactions.length; i++){
+        for (let i = 0; i < this.props.transactions.length; i++){
             total += parseFloat(this.props.transactions[i].amount);
 
             if (this.props.transactions[i].categoryId === this.props.id){
@@ -153,23 +154,23 @@ class Category extends Component<Props> {
             return (
                 <span className="label label-success">{this.props.spent} %</span>
             );
-        } else {
-            var calculated = this.props.spent;
+        } 
+            const calculated = this.props.spent;
 
             if (calculated < 10){
                 return (
                     <span className="label label-success">{calculated} %</span>
                 );
-            } else if (calculated < 30){
+            } if (calculated < 30){
                 return (
                     <span className="label label-warning">{calculated} %</span>
                 );
-            } else {
+            } 
                 return (
                     <span className="label label-error">{calculated} %</span>
                 );
-            }
-        }
+            
+        
     }
 
     createNewItem(event){
@@ -189,7 +190,7 @@ class Category extends Component<Props> {
     }
 
     handleEnterForCategory(event){
-        let code = event.keyCode || event.which;
+        const code = event.keyCode || event.which;
         if (code === 13){
             this.renameCategory();
         } else if (code === 27){
@@ -199,7 +200,7 @@ class Category extends Component<Props> {
     }
 
     handleEnterForSubcategory(event){
-        let code = event.keyCode || event.which;
+        const code = event.keyCode || event.which;
         if (code === 13){
             this.createNewItem();
         } else if (code === 27){
@@ -213,13 +214,13 @@ class Category extends Component<Props> {
             return (
                 <form onSubmit={() => this.renameCategory()}>
                     <div className="input-group">
-                        <input className="form-input input-sm" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName}></input>
+                        <input className="form-input input-sm" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} />
                         <button className="btn btn-sm btn-primary input-group-btn" type="submit">update</button>
                         <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()}>cancel</button>
                     </div>
                 </form>
             );
-        } else if (this.state.editActive) {
+        } if (this.state.editActive) {
             return (
                 <div className="input-group float-right">                    
                     <button className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.props.delete(this.props.id, this.props.name)}>delete</button>
@@ -233,46 +234,46 @@ class Category extends Component<Props> {
     renderControls(){
         if (this.state.renameActive){
             return (
-                <div className={`column col-xs-auto text-center`}>
+                <div className="column col-xs-auto text-center">
                     <div className="columns">
-                        <input className="column col-8" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEnterForCategory} placeholder="new name"></input>
-                        <i className={`column col-2 fas fa-check ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.renameCategory()}></i>
-                        <i className={`column col-2 fas fa-ban ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()}></i>
+                        <input className="column col-8" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEnterForCategory} placeholder="new name" />
+                        <i className={`column col-2 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.renameCategory()} />
+                        <i className={`column col-2 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()} />
                     </div>
                 </div>                
             );
-        } else {
+        } 
             return (
                 <React.Fragment>
-                    <div className={`column col-1 text-center ${styles['icon']}`} onClick={this.toggleRenameActive}>
-                        <i className="fas fa-edit"></i>
+                    <div className={`column col-1 text-center ${styles.icon}`} onClick={this.toggleRenameActive}>
+                        <i className="fas fa-edit" />
                     </div>
-                    <div className={`column col-1 text-center ${styles['icon']}`} onClick={() => this.props.delete(this.props.id, this.props.name)}>
-                        <i className={`fas fa-trash-alt ${styles.icon}`}></i>
+                    <div className={`column col-1 text-center ${styles.icon}`} onClick={() => this.props.delete(this.props.id, this.props.name)}>
+                        <i className={`fas fa-trash-alt ${styles.icon}`} />
                     </div>
                 </React.Fragment>                                
             );            
-        }
+        
     }
 
     renderNewSubcategory(){
         if (!this.state.addActive){
             return (
                 <div className={`column col-xs-auto text-left ${styles.h30} ${styles.icon}`} onClick={() => this.toggleAddActive()}>
-                    sub-category <i className={`fas fa-plus-square`}></i>
+                    sub-category <i className="fas fa-plus-square" />
                 </div>
             );
-        } else {
+        } 
             return (
                 <div className={`column col-xs-auto text-center ${styles.h30}`}>
                     <div className="columns">
-                        <input ref={me => (this.newSubcategoryInput = me)} className="column col-10" type="text" placeholder="sub-category" value={this.state.newItemName} onChange={this.modifyNewItemName} onKeyUp={this.handleEnterForSubcategory}></input>
-                        <i className={`column col-1 fas fa-check ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.createNewItem()}></i>
-                        <i className={`column col-1 fas fa-ban ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.toggleAddActive()}></i>                                
+                        <input ref={me => (this.newSubcategoryInput = me)} className="column col-10" type="text" placeholder="sub-category" value={this.state.newItemName} onChange={this.modifyNewItemName} onKeyUp={this.handleEnterForSubcategory} />
+                        <i className={`column col-1 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.createNewItem()} />
+                        <i className={`column col-1 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleAddActive()} />                                
                     </div>
                 </div>
             );
-        }
+        
     }
 
     render () {
@@ -283,23 +284,21 @@ class Category extends Component<Props> {
                         {/* HACK TABLE */}
                         <div className={`columns ${styles.dark} ${styles.category}`}>
                             <div className={`column col-xs-auto ${styles["category-header"]}`} onClick={this.toggleCollapse}>
-                                {this.props.collapse ? <i className="fas fa-caret-right"></i> : <i className="fas fa-caret-down"></i>} {this.props.name} {this.getPercentageSpent()}
+                                {this.props.collapse ? <i className="fas fa-caret-right" /> : <i className="fas fa-caret-down" />} {this.props.name} {this.getPercentageSpent()}
                             </div>
                             {this.renderControls()}                            
                         </div>
                         {this.props.collapse ? <React.Fragment></React.Fragment> :
                         <React.Fragment>
-                            {this.props.items.sort(function(a, b){
-                                var a1 = a.name.toLowerCase();
-                                var b1 = b.name.toLowerCase();
+                            {this.props.items.sort((a, b) => {
+                                const a1 = a.name.toLowerCase();
+                                const b1 = b.name.toLowerCase();
                                 if (a1 > b1) return 1;
                                 if (a1 < b1) return -1;
                                 return 0;
-                            }).map((value, index, array) => {
-                                return <div key={index}>
-                                    <Item {...value} categoryId={this.props.id} dateId={this.props.dateId} rename={this.renameItem} delete={this.deleteItem}></Item>
-                                </div>;
-                            })}
+                            }).map((value, index, array) => <div key={index}>
+                                    <Item {...value} categoryId={this.props.id} dateId={this.props.dateId} rename={this.renameItem} delete={this.deleteItem} />
+                                </div>)}
                             <div className="columns">
                                 {this.renderNewSubcategory()}
                             </div>

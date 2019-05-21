@@ -12,21 +12,21 @@ export const CATEGORY_INITIAL_STATE = {
 };
 
 
-var add_category_item = function(categoryName: string, name: string){
+const addCategoryItemPrivate = function addCategoryItemPrivate(categoryName: string, name: string){
     return {
         type: ADD_CATEGORY_ITEM,
         payload: {
-            categoryName: categoryName,
-            name: name
+            categoryName,
+            name
         }        
     };
 }
-var remove_category_item = function(categoryName: string, name: string){
+const removeCategoryItemPrivate = function removeCategoryItemPrivate(categoryName: string, name: string){
     return {
         type: REMOVE_CATEGORY_ITEM,
         payload: {
-            categoryName: categoryName,
-            name: name
+            categoryName,
+            name
         }        
     };
 }
@@ -35,13 +35,13 @@ var remove_category_item = function(categoryName: string, name: string){
 
 export function addCategoryItem(categoryName: string, name: string) {
     return (dispatch: Dispatch) => {
-        dispatch(add_category_item(categoryName, name));
+        dispatch(addCategoryItemPrivate(categoryName, name));
     }
 }
 
 export function removeCategoryItem(categoryName: string, name: string) {
     return (dispatch: Dispatch) => {
-        dispatch(remove_category_item(categoryName, name));
+        dispatch(removeCategoryItemPrivate(categoryName, name));
     }
 }
 

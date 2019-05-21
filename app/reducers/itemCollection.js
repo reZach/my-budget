@@ -22,11 +22,11 @@ export default function itemCollection(state: any = ITEM_COLLECTION_INITIAL_STAT
                         name: action.payload.name
                     }]
                 );
-            } else {
+            } 
                 return update(state,
                     [{
                         id: (state.filter(i => i.dateId === action.payload.dateId && i.categoryId === action.payload.categoryId).reduce((accumulator, current) => {
-                            var id = parseInt(current.id);
+                            const id = parseInt(current.id);
 
                             if (id > accumulator) {
                                 return id;
@@ -40,7 +40,7 @@ export default function itemCollection(state: any = ITEM_COLLECTION_INITIAL_STAT
                         name: action.payload.name
                     }]
                 );
-            }
+            
         case REMOVE_ITEM:
             return update([], state.filter(i => !(i.dateId === action.payload.dateId && i.categoryId === action.payload.categoryId && i.id === action.payload.id)));
         case RENAME_ITEM:

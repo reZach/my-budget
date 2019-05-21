@@ -37,8 +37,8 @@ export async function navigate(username, password){
             await page.waitForNavigation();
         */
     
-        var transactions = await page.evaluate(function(){
-            var raw = [];
+        const transactions = await page.evaluate(() => {
+            const raw = [];
 
             // Here we are querying all <tr> elements with an id
             // that begins with "transaction-". We save all of the
@@ -47,7 +47,7 @@ export async function navigate(username, password){
             // It is very likely that this css selector will not
             // work for your use case and will need to be modified!
             document.querySelectorAll("tr[id^=transaction-]")
-                .forEach(function(current, index, list){
+                .forEach((current, index, list) => {
                     raw.push(current.innerHTML);
                 }
             );
@@ -64,19 +64,19 @@ export async function navigate(username, password){
 
 var parse = function(raw){
     
-    var actualTransactions = [];
+    const actualTransactions = [];
 
-    var day = "";
-    var month = "";
-    var year = "";    
-    var category = "";
-    var subcategory = "";
-    var amount = "";
-    var note = "";
+    const day = "";
+    const month = "";
+    const year = "";    
+    const category = "";
+    const subcategory = "";
+    const amount = "";
+    const note = "";
 
     // It is in this loop that we pull out each individual elements
     // from the HTML (using RegExp).
-    for (var i = 0; i < raw.length; i++){
+    for (let i = 0; i < raw.length; i++){
         
         // We save each transaction in the 'actualTransactions' array,
         // and return it.

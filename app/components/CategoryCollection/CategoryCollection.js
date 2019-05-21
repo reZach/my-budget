@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-const {dialog} = require('electron').remote;
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ItemCollectionActions from "../../actions/itemCollection";
 import * as ModifyActions from "../../actions/modify";
 import styles from "./CategoryCollection.css";
 import Category from "../Category/Category";
 import { dateToReadble } from "../../utils/readableDate";
+
+const {dialog} = require('electron').remote;
 
 class CategoryCollection extends Component<Props> {
     props: Props;
@@ -61,7 +62,7 @@ class CategoryCollection extends Component<Props> {
     }
 
     renameCategory(id, newName){
-        let categories = this.props.categories.filter(c => c.dateId === this.props.date.id);
+        const categories = this.props.categories.filter(c => c.dateId === this.props.date.id);
 
         if (typeof categories.find(c => c.name === newName) === "undefined"){
             this.props.renameCategory(id, newName);
@@ -89,7 +90,7 @@ class CategoryCollection extends Component<Props> {
             if (i === 0){
                 this.props.removeCategory(id);
 
-                let items = this.props.items.filter(i => i.categoryId === id && i.dateId === this.props.date.id);
+                const items = this.props.items.filter(i => i.categoryId === id && i.dateId === this.props.date.id);
         
                 // delete items
                 if (items.length > 0){
@@ -103,9 +104,9 @@ class CategoryCollection extends Component<Props> {
     }
 
     prepPreviousCategories(){
-        var dates = [];
+        const dates = [];
 
-        for (var i = 0; i < this.props.categories.length; i++){
+        for (let i = 0; i < this.props.categories.length; i++){
             if (dates.indexOf(this.props.categories[i].dateId) < 0){
                 dates.push(this.props.categories[i].dateId);
             }
@@ -139,7 +140,7 @@ class CategoryCollection extends Component<Props> {
     }
 
     toggleCopyPreviousCategories(event){
-        let newState = !this.state.copyPreviousCategoriesActive;
+        const newState = !this.state.copyPreviousCategoriesActive;
         if (newState){
             this.prepPreviousCategories();
         }
@@ -150,7 +151,7 @@ class CategoryCollection extends Component<Props> {
     }
 
     copyPreviousCategories(event){
-        let target = this.state.selectedPreviousDateForCategories;
+        const target = this.state.selectedPreviousDateForCategories;
 
         // copy all categories
         for (var i = 0; i < this.props.categories.length; i++){
@@ -175,7 +176,7 @@ class CategoryCollection extends Component<Props> {
     }
 
     handleEscapeKey(event){
-        let code = event.keyCode || event.which;
+        const code = event.keyCode || event.which;
         if (code === 27){
             event.target.blur();
             this.setState({
@@ -185,23 +186,23 @@ class CategoryCollection extends Component<Props> {
     }
 
     createPreviousCategoriesDropdown(){
-        let dates = this.state.previousCategoryDates;
+        const dates = this.state.previousCategoryDates;
 
-        return dates.sort(function(a, b){
-            var split1 = a.split('-');
-            var split2 = b.split('-');
-            var m1 = split1[0];
-            var y1 = split1[1];
-            var m2 = split2[0];
-            var y2 = split2[1];
+        return dates.sort((a, b) => {
+            const split1 = a.split('-');
+            const split2 = b.split('-');
+            const m1 = split1[0];
+            const y1 = split1[1];
+            const m2 = split2[0];
+            const y2 = split2[1];
 
             if (y1 > y2){
                 return 1;
-            } else if (y2 > y1) {
+            } if (y2 > y1) {
                 return -1;
-            } else if (m1 > m2) {
+            } if (m1 > m2) {
                 return 1;
-            } else if (m2 > m1) {
+            } if (m2 > m1) {
                 return -1;
             }
             return 0;
@@ -221,7 +222,7 @@ class CategoryCollection extends Component<Props> {
                     </div>
                 </div>
             );
-        } else {
+        } 
             return (
                 <div className="columns">
                     <div className="column col-6 col-mr-auto col-auto text-left">
@@ -235,13 +236,13 @@ class CategoryCollection extends Component<Props> {
                     </div>
                 </div>
             );
-        }
+        
     }
 
     render() {
         return (
-            <div className={`columns`}>
-                <div className={`column col-12 text-left`}>
+            <div className="columns">
+                <div className="column col-12 text-left">
                     <div className="columns col-gapless">
                         <div className="column col-12 text-left">
                             <h2>Categories</h2>                        
@@ -249,44 +250,42 @@ class CategoryCollection extends Component<Props> {
                         <div className={`column col-6 text-left ${styles['category-input']}`}>      
                             <form onSubmit={() => this.createNewCategory()}>
                                 <div className="input-group">
-                                    <input className="form-input input-lg" type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEscapeKey}></input>
+                                    <input className="form-input input-lg" type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEscapeKey} />
                                     <button className="btn btn-primary btn-lg input-group-btn" type="submit">Add new</button>
                                 </div>
                             </form>
                         </div>
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort alphabetically" onClick={() => this.sortAlpha()}>
-                            <i className={`fas fa-sort-alpha-down ${styles.control}`}></i>
+                            <i className={`fas fa-sort-alpha-down ${styles.control}`} />
                         </div>
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort reverse-alphabetically" onClick={() => this.sortReverseAlpha()}>
-                            <i className={`fas fa-sort-alpha-up ${styles.control}`}></i>
+                            <i className={`fas fa-sort-alpha-up ${styles.control}`} />
                         </div>
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent descending" onClick={() => this.sortSpendDescending()}>
-                            <i className={`fas fa-sort-amount-down ${styles.control}`}></i>
+                            <i className={`fas fa-sort-amount-down ${styles.control}`} />
                         </div>
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent ascending" onClick={() => this.sortSpendAscending()}>
-                            <i className={`fas fa-sort-amount-up ${styles.control}`}></i>
+                            <i className={`fas fa-sort-amount-up ${styles.control}`} />
                         </div>                        
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Collapses all categories" onClick={() => this.toggleAllCategoryState(true)}>
-                            <i className={`fas fa-compress ${styles.control}`}></i>
+                            <i className={`fas fa-compress ${styles.control}`} />
                         </div>
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Expands all categories" onClick={() => this.toggleAllCategoryState(false)}>
-                        <i className={`fas fa-expand ${styles.control}`}></i>
+                        <i className={`fas fa-expand ${styles.control}`} />
                         </div>                         
                     </div>
                 </div>
                 <div className={`column ${styles['category-container']}`}>
-                    {this.props.categories.filter(c => c.dateId === this.props.date.id).sort(function(a, b){
-                        var a1 = a.order;
-                        var b1 = b.order;
+                    {this.props.categories.filter(c => c.dateId === this.props.date.id).sort((a, b) => {
+                        const a1 = a.order;
+                        const b1 = b.order;
                         if (a1 > b1) return 1;
                         if (a1 < b1) return -1;
                         return 0;
-                    }).map((value, index, array) => {
-                        return value.dateId === this.props.date.id &&
-                            <div className={`column col-12 text-left ${styles.category}`} key={this.props.date.id + "-" + value.id}>
-                                <Category {...value} dateId={this.props.date.id} rename={this.renameCategory} delete={this.deleteCategory}></Category>
-                            </div>
-                    })}
+                    }).map((value, index, array) => value.dateId === this.props.date.id &&
+                            <div className={`column col-12 text-left ${styles.category}`} key={`${this.props.date.id  }-${  value.id}`}>
+                                <Category {...value} dateId={this.props.date.id} rename={this.renameCategory} delete={this.deleteCategory} />
+                            </div>)}
                     {this.props.categories.filter(c => c.dateId === this.props.date.id).length === 0 && this.renderCopyPreviousCategories()}
                 </div>                
             </div>

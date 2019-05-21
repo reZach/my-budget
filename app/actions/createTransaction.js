@@ -18,7 +18,7 @@ export const CREATE_NEW_TRANSACTION_INITIAL_STATE = {
     note: ""
 };
 
-var reset_create_new_transaction = function(){
+const reset_create_new_transaction = function(){
     return {
         type: RESET_CREATE_NEW_TRANSACTION,
         payload: {            
@@ -27,45 +27,45 @@ var reset_create_new_transaction = function(){
         }
     };
 }
-var modify_note = function(note: string){
+const modify_note = function(note: string){
     return {
         type: MODIFY_NOTE,
         payload: {
-            note: note
+            note
         }
     };
 }
-var modify_amount = function(amount: number){
+const modify_amount = function(amount: number){
     return {
         type: MODIFY_AMOUNT,
         payload: {
-            amount: amount
+            amount
         }
     };
 }
-var modify_day = function(day: number){
+const modify_day = function(day: number){
     return {
         type: MODIFY_DAY,
         payload: {
-            day: day
+            day
         }
     };
 }
-var modify_selected_category = function(categoryId: string, categoryName: string){
+const modify_selected_category = function(categoryId: string, categoryName: string){
     return {
         type: MODIFY_SELECTED_CATEGORY,
         payload: {
-            categoryId: categoryId,
-            categoryName: categoryName
+            categoryId,
+            categoryName
         }
     };
 }
-var modify_selected_item = function(itemId: string, itemName: string){
+const modify_selected_item = function(itemId: string, itemName: string){
     return {
         type: MODIFY_SELECTED_ITEM,
         payload: {
-            itemId: itemId,
-            itemName: itemName
+            itemId,
+            itemName
         }
     };
 }

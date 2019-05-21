@@ -1,5 +1,5 @@
 /* eslint global-require: off */
- //test ci?
+ // test ci?
 const developmentEnvironments = ['development', 'test'];
 
 const developmentPlugins = [require('react-hot-loader/babel')];

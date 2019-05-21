@@ -1,9 +1,10 @@
+import { navigate as discover } from "./banks/discover";
+
 const crypto = require("crypto");
-import { navigate as discover } from "../utils/banks/discover";
 
 export async function bankSyncFetch(categories, items, bankName, username, password){
 
-    var transactionLoad = [];
+    let transactionLoad = [];
 
     switch (bankName){
         case "discover":
@@ -18,9 +19,9 @@ export async function bankSyncFetch(categories, items, bankName, username, passw
 
 // cleans the input from the individual banks
 var clean = function(transactions, categories, items){
-    var cleaned = [];
+    const cleaned = [];
 
-    for (var i = 0; i < transactions.length; i++){        
+    for (let i = 0; i < transactions.length; i++){        
         cleaned.push({
             tempId: uuid(),
             toImport: true,
@@ -45,33 +46,33 @@ var stripLeading0 = function(input, toNumber){
     if (input.length <= 0) return input;
 
     if (input[0] === "0"){
-        var modified = input.substring(1);
+        const modified = input.substring(1);
 
         if (toNumber){
             return parseInt(modified);
-        } else {
+        } 
             return modified;
-        }
-    } else {
+        
+    } 
         if (toNumber){
             return parseInt(input);
-        } else {
+        } 
             return input;
-        }
-    }
+        
+    
 }
 
 var cleanYear = function(year){
     if (typeof year === "string"){
         if (year.length === 2){
             return (new Date()).getFullYear().toString().substring(0, 2) + year;
-        } else if (year.length === 4){
+        } if (year.length === 4){
             return year;
         }
     } else if (typeof year === "number"){
         if (year < 100){
             return Math.floor(((new Date()).getFullYear() / 100)).toString() + year;
-        } else if (year > 999){
+        } if (year > 999){
             return year.toString();
         }
     }
@@ -89,7 +90,7 @@ var cleanAmount = function(amount){
     return amount.replace("$", "");
 }
 
-//https://stackoverflow.com/a/55219682/1837080
+// https://stackoverflow.com/a/55219682/1837080
 var uuid = function(){
     let bytes = window.crypto.getRandomValues(new Uint8Array(32));
     const randomBytes = () => (bytes = bytes.slice(1)) && bytes[0];

@@ -15,173 +15,173 @@ export const SORT_IMPORT_TRANSACTIONS = "SORT_IMPORT_TRANSACTIONS";
 export const ADD_IMPORT_TRANSACTION = "ADD_IMPORT_TRANSACTION";
 export const REMOVE_ALL_IMPORT_TRANSACTIONS = "REMOVE_ALL_IMPORT_TRANSACTIONS";
 
-var modify_import_checkbox = function(id: string, value: boolean){
+const modifyImportCheckboxPrivate = function modifyImportCheckboxPrivate(id: string, value: boolean){
     return {
         type: MODIFY_IMPORT_CHECKBOX,
         payload: {
-            id: id,
-            value: value
+            id,
+            value
         }
     };
 }
 
-var modify_all_import_checkbox = function(value: boolean){
+const modifyAllImportCheckboxPrivate = function modifyAllImportCheckboxPrivate(value: boolean){
     return {
         type: MODIFY_ALL_IMPORT_CHECKBOX,
         payload: {
-            value: value
+            value
         }
     };
 }
 
-var modify_import_category = function(id: string, category: string){
+const modifyImportCategoryPrivate = function modifyImportCategoryPrivate(id: string, category: string){
     return {
         type: MODIFY_IMPORT_CATEGORY,
         payload:{
-            id: id,
-            category: category
+            id,
+            category
         }
     };
 }
 
-var modify_import_item = function(id: string, item: string){
+const modifyImportItemPrivate = function modifyImportItemPrivate(id: string, item: string){
     return {
         type: MODIFY_IMPORT_ITEM,
         payload: {
-            id: id,
-            item: item
+            id,
+            item
         }
     };
 }
 
-var set_category_id = function(id: String, categoryId: string){
+const setCategoryIdPrivate = function setCategoryIdPrivate(id: String, categoryId: string){
     return {
         type: SET_CATEGORY_ID,
         payload: {
-            id: id,
-            categoryId: categoryId
+            id,
+            categoryId
         }
     };
 }
 
-var set_item_id = function(id: String, itemId: string){
+const setItemIdPrivate = function setItemIdPrivate(id: String, itemId: string){
     return {
         type: SET_ITEM_ID,
         payload: {
-            id: id,
-            itemId: itemId
+            id,
+            itemId
         }
     };
 }
 
-var set_note = function(id: String, note: string) {
+const setNotePrivate = function setNotePrivate(id: String, note: string) {
     return {
         type: SET_NOTE,
         payload: {
-            id: id,
-            note: note
+            id,
+            note
         }
     };
 }
 
-var set_overwrite_category_name = function(id: String, name: string){
+const set_overwrite_category_name = function(id: String, name: string){
     return {
         type: SET_OVERWRITE_CATEGORY_NAME,
         payload: {
-            id: id,
-            name: name
+            id,
+            name
         }
     };
 }
 
-var set_overwrite_item_name = function(id: String, name: string){
+const setOverwriteItemNamePrivate = function setOverwriteItemNamePrivate(id: String, name: string){
     return {
         type: SET_OVERWRITE_ITEM_NAME,
         payload: {
-            id: id,
-            name: name
+            id,
+            name
         }
     };
 }
 
-var set_overwrite_note = function(id: String, note: string){
+const setOverwriteNotePrivate = function setOverwriteNotePrivate(id: String, note: string){
     return {
         type: SET_OVERWRITE_NOTE,
         payload: {
-            id: id,
-            note: note
+            id,
+            note
         }
     };
 }
 
-var sort_import_transactions = function(){
+const sortImportTransactionsPrivate = function sortImportTransactionsPrivate(){
     return {
         type: SORT_IMPORT_TRANSACTIONS,
         payload: {}
     };
 }
 
-var remove_all_import_transactions = function(){
+const removeAllImportTransactionsPrivate = function removeAllImportTransactionsPrivate(){
     return {
         type: REMOVE_ALL_IMPORT_TRANSACTIONS,
         payload: {}
     };
 }
 
-var add_import_transaction = function(id: string, toImport: boolean, dateId: string, categoryId: string, categoryName: string, itemId: string, itemName: string, day: number, amount: string, note: string, overwriteCategoryName: String, overwriteItemName: string, overwriteNote: string){
+const addImportTransactionPrivate = function addImportTransactionPrivate(id: string, toImport: boolean, dateId: string, categoryId: string, categoryName: string, itemId: string, itemName: string, day: number, amount: string, note: string, overwriteCategoryName: String, overwriteItemName: string, overwriteNote: string){
     return {
         type: ADD_IMPORT_TRANSACTION,
         payload: {
-            id: id,
-            toImport: toImport,
-            dateId: dateId,
-            categoryId: categoryId,
-            categoryName: categoryName,
-            itemId: itemId,
-            itemName: itemName,
-            day: day,
-            amount: amount,
-            note: note,
-            overwriteCategoryName: overwriteCategoryName,
-            overwriteItemName: overwriteItemName,
-            overwriteNote: overwriteNote
+            id,
+            toImport,
+            dateId,
+            categoryId,
+            categoryName,
+            itemId,
+            itemName,
+            day,
+            amount,
+            note,
+            overwriteCategoryName,
+            overwriteItemName,
+            overwriteNote
         }
     };
 }
 
 export function modifyImportCheckbox(id: String, value: boolean){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(modify_import_checkbox(id, value));
+    return (dispatch: Dispatch) => {
+        dispatch(modifyImportCheckboxPrivate(id, value));
     }
 }
 
 export function modifyAllImportCheckbox(value: boolean){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(modify_all_import_checkbox(value));
+    return (dispatch: Dispatch) => {
+        dispatch(modifyAllImportCheckboxPrivate(value));
     }
 }
 
 export function sortImportTransactions(){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(sort_import_transactions());
+    return (dispatch: Dispatch) => {
+        dispatch(sortImportTransactionsPrivate());
     }
 }
 
 export function setCategoryId(id: String, categoryId: string){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(set_category_id(id, categoryId));
+    return (dispatch: Dispatch) => {
+        dispatch(setCategoryIdPrivate(id, categoryId));
     }
 }
 
 export function setItemId(id: String, itemId: string){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(set_item_id(id, itemId));
+    return (dispatch: Dispatch) => {
+        dispatch(setItemIdPrivate(id, itemId));
     }
 }
 
 export function setNote(id: String, note: string){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(set_note(id, note));
+    return (dispatch: Dispatch) => {
+        dispatch(setNotePrivate(id, note));
     }
 }
 
@@ -192,25 +192,25 @@ export function setOverwriteCategoryName(id: String, name: string){
 }
 
 export function setOverwriteItemName(id: String, name: string){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(set_overwrite_item_name(id, name));
+    return (dispatch: Dispatch) => {
+        dispatch(setOverwriteItemNamePrivate(id, name));
     }
 }
 
 export function setOverwriteNote(id: String, note: string){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(set_overwrite_note(id, note));
+    return (dispatch: Dispatch) => {
+        dispatch(setOverwriteNotePrivate(id, note));
     }
 }
 
 export function removeAllImportTransactions(){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(remove_all_import_transactions());
+    return (dispatch: Dispatch) => {
+        dispatch(removeAllImportTransactionsPrivate());
     }    
 }
 
 export function addImportTransaction(id: String, toImport: Boolean, dateId: String, categoryId: String, categoryName: String, itemId: String, itemName: String, day: Number, amount: String, note: string, overwriteCategoryName: String, overwriteItemName: string, overwriteNote: string){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(add_import_transaction(id, toImport, dateId, categoryId, categoryName, itemId, itemName, day, amount, note, overwriteCategoryName, overwriteItemName, overwriteNote));
+    return (dispatch: Dispatch) => {
+        dispatch(addImportTransactionPrivate(id, toImport, dateId, categoryId, categoryName, itemId, itemName, day, amount, note, overwriteCategoryName, overwriteItemName, overwriteNote));
     }
 }

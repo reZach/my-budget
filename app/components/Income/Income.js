@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-const {dialog} = require('electron').remote;
 import * as IncomeActions from "../../actions/income";
 import * as ModifyActions from "../../actions/modify";
 import * as IncomeRecordActions from "../../actions/incomeRecords";
 import styles from "./Income.css";
 import { dateMatches } from "../../utils/readableDate";
 import IncomeRecord from "../IncomeRecord/IncomeRecord";
+
+const {dialog} = require('electron').remote;
 
 class Income extends Component<Props>{
     props: Props;
@@ -42,14 +43,14 @@ class Income extends Component<Props>{
     }
 
     componentDidUpdate(previousProps){
-        let data = this.props.income[0];
+        const data = this.props.income[0];
         if (typeof data === "undefined"){
             this.props.saveIncome(0);
         }
     }
 
     changeIncome(event){
-        let updated = event.target.value;
+        const updated = event.target.value;
         if (updated.match(/^$/) !== null ||
             updated.match(/^\d+\.?\d?\d?$/) !== null){
             this.setState({
@@ -59,7 +60,7 @@ class Income extends Component<Props>{
     }
 
     changeDate(event){
-        let split = event.target.value.split("-");
+        const split = event.target.value.split("-");
         this.setState({
             date: event.target.value,
             day: split[2],
@@ -129,10 +130,10 @@ class Income extends Component<Props>{
             return "0.00";
         }
         
-        var runningTotal = 0;
+        let runningTotal = 0;
 
-        for(var i = 0; i < this.props.transactions.length; i++){
-            runningTotal = runningTotal + parseFloat(this.props.transactions[i].amount);
+        for(let i = 0; i < this.props.transactions.length; i++){
+            runningTotal += parseFloat(this.props.transactions[i].amount);
         }
         
         return ((runningTotal / parseFloat(data.amount)) * 100).toFixed(0);
@@ -140,11 +141,11 @@ class Income extends Component<Props>{
 
     getRemainingDays(){
         // http://embed.plnkr.co/FFUXhl/preview
-        var date = new Date();
-        var time = new Date(date.getTime());
+        const date = new Date();
+        const time = new Date(date.getTime());
         time.setMonth(date.getMonth() + 1);
         time.setDate(0);
-        var days = time.getDate() > date.getDate() ? time.getDate() - date.getDate() : 0;
+        const days = time.getDate() > date.getDate() ? time.getDate() - date.getDate() : 0;
         return days;
     }
 
@@ -162,7 +163,7 @@ class Income extends Component<Props>{
     }
 
     toggleModal(event){
-        let current = this.state.modalActive;
+        const current = this.state.modalActive;
         this.setState({
             modalActive: !current
         });
@@ -171,13 +172,13 @@ class Income extends Component<Props>{
     getCurrentCashFlow(){
 
         // calculate transactions up to today
-        var today = new Date();
-        var month = today.getMonth() + 1;
-        var day = today.getDate();
-        var year = today.getFullYear();
+        const today = new Date();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        const year = today.getFullYear();
 
-        let validIncomeRecords = this.props.incomeRecords.filter(function(fr){
-            var date = new Date(fr.startYear, fr.startMonth-1, fr.startDay);
+        const validIncomeRecords = this.props.incomeRecords.filter((fr) => {
+            const date = new Date(fr.startYear, fr.startMonth-1, fr.startDay);
             
             if (date <= today){
                 return true;
@@ -186,10 +187,10 @@ class Income extends Component<Props>{
         });
 
 
-        var cash = 0;        
+        let cash = 0;        
         // sum income records to the current month
-        for (var i = 0; i < validIncomeRecords.length; i++){
-            var startDate = new Date(parseInt(validIncomeRecords[i].startYear), parseInt(validIncomeRecords[i].startMonth)-1, parseInt(validIncomeRecords[i].startDay));
+        for (let i = 0; i < validIncomeRecords.length; i++){
+            const startDate = new Date(parseInt(validIncomeRecords[i].startYear), parseInt(validIncomeRecords[i].startMonth)-1, parseInt(validIncomeRecords[i].startDay));
             
             switch(validIncomeRecords[i].frequency){
                 case "0":
@@ -232,10 +233,10 @@ class Income extends Component<Props>{
         }        
 
         // Get transactions for the current month
-        let validTransactions = this.props.transactions.filter(function(t){
-            var split = t.dateId.split("-");
+        const validTransactions = this.props.transactions.filter((t) => {
+            const split = t.dateId.split("-");
 
-            var tDate = new Date(parseInt(split[1]), parseInt(split[0])-1, t.day);
+            const tDate = new Date(parseInt(split[1]), parseInt(split[0])-1, t.day);
 
             if (t.day <= day){
                 return true;
@@ -243,30 +244,28 @@ class Income extends Component<Props>{
             return false;
         });
 
-        let outbound = validTransactions.reduce(function(accumulator, currentValue){
-            return accumulator + parseFloat(currentValue.amount);
-        }, 0);
+        const outbound = validTransactions.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.amount), 0);
     
 
-        let result = (cash - outbound).toFixed(2);
+        const result = (cash - outbound).toFixed(2);
         
         if (result > 0){
             return (
                 <span className={`label label-success ${styles["label-fix"]}`}>${result}</span>
             );
-        } else if (result < 0){
+        } if (result < 0){
             return (
                 <span className={`label label-error ${styles["label-fix"]}`}>${result}</span>
             );
-        } else {
+        } 
             return (
                 <span className={`label label-warning ${styles["label-fix"]}`}>${result}</span>
             );
-        }
+        
     }
 
     renderRemainingDays(data){
-        let spent = this.getPercentSpent(this.props.income[0]);
+        const spent = this.getPercentSpent(this.props.income[0]);
 
         if (dateMatches(this.props.date)){
             return (
@@ -275,7 +274,7 @@ class Income extends Component<Props>{
                     <div className="popover-container">
                         <div className="card">
                             <div className="card-header">
-                                <span>{this.getRemainingDays() > 0 ? this.getRemainingDays() + " days left to budget" : "last day of the month"}</span>
+                                <span>{this.getRemainingDays() > 0 ? `${this.getRemainingDays()  } days left to budget` : "last day of the month"}</span>
                             </div>
                             {spent !== "0.00" ?
                                 <React.Fragment>
@@ -284,7 +283,7 @@ class Income extends Component<Props>{
                                     </div>
                                     <div className="card-footer">
                                         <div className="bar">
-                                            <div className={`bar-item ${spent <= 33 ? styles["bar-good"] : spent <= 66 ? styles["bar-okay"] : styles["bar-bad"]}`} role="progressbar" style={{width: spent + "%"}} aria-valuenow={`${spent}`} aria-valuemin="0"></div>
+                                            <div className={`bar-item ${spent <= 33 ? styles["bar-good"] : spent <= 66 ? styles["bar-okay"] : styles["bar-bad"]}`} role="progressbar" style={{width: `${spent  }%`}} aria-valuenow={`${spent}`} aria-valuemin="0" />
                                         </div>
                                     </div>
                                 </React.Fragment> : <React.Fragment></React.Fragment>    
@@ -293,15 +292,15 @@ class Income extends Component<Props>{
                     </div>
                 </div>
             );
-        } else {
+        } 
             return (
                 <span className="label label-success">${data.amount}</span>
             );
-        }
+        
     }
 
     frequencyDropDown(){
-        let options = [
+        const options = [
             {
                 value: "0",
                 text: "one time"
@@ -316,7 +315,7 @@ class Income extends Component<Props>{
             }
         ];
 
-        let components = options.map((value, index, array) => 
+        const components = options.map((value, index, array) => 
             <option key={value.value} value={value.value}>{value.text}</option>
         );
         
@@ -329,44 +328,42 @@ class Income extends Component<Props>{
                 <div className="content">
                     <div className={`${styles.hrest}`}>
                     {this.props.incomeRecords
-                        .sort(function(a, b){
+                        .sort((a, b) => {
                             if (a.startYear > b.startYear){
                                 return 1;
-                            } else if (b.startYear > a.startYear) {
+                            } if (b.startYear > a.startYear) {
                                 return -1;
-                            } else if (a.startMonth > b.startMonth) {
+                            } if (a.startMonth > b.startMonth) {
                                 return 1;
-                            } else if (b.startMonth > b.startMonth) {
+                            } if (b.startMonth > b.startMonth) {
                                 return -1;
-                            } else if (a.startDay > b.startDay) {
+                            } if (a.startDay > b.startDay) {
                                 return 1;
-                            } else if (b.startDay > a.startDay) {
+                            } if (b.startDay > a.startDay) {
                                 return -1;
                             }
                             return 0;
-                        }).map((value, index, array) => {
-                            return <IncomeRecord key={index} {...value} delete={this.deleteIncomeRecord} />
-                        })}
+                        }).map((value, index, array) => <IncomeRecord key={index} {...value} delete={this.deleteIncomeRecord} />)}
                     </div>
                 </div>
             );
-        } else {
+        } 
             return (
                 <div className="content">
                     Please enter in your income data.
                 </div>
             );
-        }        
+                
     }
 
     modal(){
         if (this.state.modalActive){
             return (
                 <div className="modal active" id="modal-id">
-                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={this.toggleModal}></a>
+                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={this.toggleModal} />
                     <div className="modal-container">
                         <div className="modal-header">
-                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={this.toggleModal}></a>
+                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={this.toggleModal} />
                             <div className="modal-title h4">Income</div>
                         </div>
                         <div className="modal-body">
@@ -381,7 +378,7 @@ class Income extends Component<Props>{
                                                         <label className="form-label">Income</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <input className="form-input" type="text" value={this.state.income} onSelect={this.selectIncomeInput} onChange={this.changeIncome} placeholder="income"></input>
+                                                        <input className="form-input" type="text" value={this.state.income} onSelect={this.selectIncomeInput} onChange={this.changeIncome} placeholder="income" />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
@@ -389,7 +386,7 @@ class Income extends Component<Props>{
                                                         <label className="form-label">Date</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <input className="form-input" type="date" value={this.state.date} onChange={this.changeDate} placeholder="date"></input>
+                                                        <input className="form-input" type="date" value={this.state.date} onChange={this.changeDate} placeholder="date" />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
@@ -407,11 +404,11 @@ class Income extends Component<Props>{
                                                         <label className="form-label">Note</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <input className="form-input" type="text" value={this.state.note} onChange={this.changeNote} placeholder="note"></input>
+                                                        <input className="form-input" type="text" value={this.state.note} onChange={this.changeNote} placeholder="note" />
                                                     </div>
                                                 </div>
                                                 <div className="float-right text-right">
-                                                    <input className="btn btn-primary" type="submit" disabled={!this.addIncomeRecordIsValid()} value="Add"></input>
+                                                    <input className="btn btn-primary" type="submit" disabled={!this.addIncomeRecordIsValid()} value="Add" />
                                                 </div>
                                             </form>                                            
                                         </div>

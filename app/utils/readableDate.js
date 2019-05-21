@@ -1,8 +1,8 @@
-var split = function(dateId){
-    var split = "";
+const split = function(dateId){
+    let split = "";
 
     // if passing date object in
-    if (typeof dateId["id"] !== "undefined" && dateId["id"].length > 0){
+    if (typeof dateId.id !== "undefined" && dateId.id.length > 0){
         split = dateId.id.split("-");
     } else if (dateId.length > 0){
         // if passing in dateId string
@@ -16,19 +16,19 @@ var split = function(dateId){
 }
 
 export function dateMatches(dateId){
-    var data = split(dateId);
+    const data = split(dateId);
 
-    var today = (new Date());
-    var month = today.getMonth() + 1;
-    var year = today.getFullYear();
+    const today = (new Date());
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
 
-    return data.month == month && data.year == year; 
+    return data.month === month && data.year === year; 
 }
 
 export function dateToShort(dateId){
-    var data = split(dateId);
-    var month = data.month;
-    var year = data.year;
+    const data = split(dateId);
+    const {month} = data;
+    const {year} = data;
 
     return `${month}/${year.substring(0,1)}`;
 }
@@ -38,11 +38,11 @@ export function dateToMMDDYYYY(month, day, year){
 }
 
 export function dateToReadble(dateId){
-    var data = split(dateId);
-    var month = data.month;
-    var year = data.year;
+    const data = split(dateId);
+    const {month} = data;
+    const {year} = data;
 
-    var readableMonth = "";
+    let readableMonth = "";
     switch(month){
         case "1":
             readableMonth = "January";

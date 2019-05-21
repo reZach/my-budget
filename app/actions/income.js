@@ -9,31 +9,31 @@ export const INCOME_INITIAL_STATE = [{
     income: 0
 }];
 
-var save_income = function(dateId: string, amount: number){
+const saveIncomePrivate = function saveIncomePrivate(dateId: string, amount: number){
     return {
         type: SAVE_INCOME,
         payload: {
-            dateId: dateId,
-            amount: amount
+            dateId,
+            amount
         }
     }
 }
-var entry_income = function(income: any){
+const entryIncomePrivate = function entryIncomePrivate(income: any){
     return {
         type: ENTRY_INCOME,
         payload: {
-            income: income
+            income
         }
     };
 }
 
 export function saveIncome(amount: number){
     return (dispatch: Dispatch, store: Store) => {
-        dispatch(save_income(store().date.id, amount));
+        dispatch(saveIncomePrivate(store().date.id, amount));
     }
 }
 export function entryIncome(income: any){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(entry_income(income));
+    return (dispatch: Dispatch) => {
+        dispatch(entryIncomePrivate(income));
     }
 }

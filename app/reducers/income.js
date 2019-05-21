@@ -14,7 +14,7 @@ export default function income(state: any = {}, action: Action){
                         id: (state
                             .filter(i => i.dateId === action.payload.dateId)
                             .reduce((accumulator, current) => {
-                                var id = parseInt(current.id);
+                                const id = parseInt(current.id);
 
                                 if (id > accumulator) {
                                     return id;
@@ -27,7 +27,7 @@ export default function income(state: any = {}, action: Action){
                         amount: action.payload.amount
                     }]
                 );
-            } else {
+            } 
 
                 // Update existing
                 return update([], 
@@ -39,7 +39,7 @@ export default function income(state: any = {}, action: Action){
                         return i;
                     })
                 );
-            }
+            
         case ENTRY_INCOME:
             return update([], action.payload.income);
         default:

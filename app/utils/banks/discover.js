@@ -16,10 +16,10 @@ export async function navigate(username, password){
         await page.click("#submit-trigger");
         await page.waitForNavigation();
     
-        var transactions = await page.evaluate(function(){
-            var raw = [];
+        const transactions = await page.evaluate(() => {
+            const raw = [];
             document.querySelectorAll("tr[id^=transaction-]")
-                .forEach(function(current, index, list){
+                .forEach((current, index, list) => {
                     raw.push(current.innerHTML);
                 }
             );
@@ -33,20 +33,20 @@ export async function navigate(username, password){
 
 var parse = function(raw){
     
-    var actualTransactions = [];
+    const actualTransactions = [];
 
-    for (var i = 0; i < raw.length; i++){
+    for (let i = 0; i < raw.length; i++){
         
-        var date = raw[i].match(/(\d{2}\/\d{2}\/\d{2})<\/td>/);
+        const date = raw[i].match(/(\d{2}\/\d{2}\/\d{2})<\/td>/);
         if (date.length !== 2) continue;
 
-        var name = raw[i].match(/class="transaction-detail-toggler">([^<]+)/);
+        const name = raw[i].match(/class="transaction-detail-toggler">([^<]+)/);
         if (name.length !== 2) continue;
 
-        var category = raw[i].match(/<td class="ctg"[^>]+>(.+)<\/td>/);
+        const category = raw[i].match(/<td class="ctg"[^>]+>(.+)<\/td>/);
         if (category.length !== 2) continue;
 
-        var amount = raw[i].match(/<td class="amt">(\-?\$.+)<\/td>/);
+        const amount = raw[i].match(/<td class="amt">(\-?\$.+)<\/td>/);
         if (amount.length !== 2) continue;
         if (amount[1].indexOf("-") >= 0){
             console.warn(`found payment of: ${amount[1]}. skipping.`);
@@ -54,7 +54,7 @@ var parse = function(raw){
         }
 
         // date
-        var split = date[1].split("/");        
+        const split = date[1].split("/");        
 
         actualTransactions.push({
             day: split[1],

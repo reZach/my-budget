@@ -45,7 +45,7 @@ class Item extends Component<Props> {
     }
 
     toggleRenameActive(event){
-        let newState = !this.state.renameActive;
+        const newState = !this.state.renameActive;
 
         if (newState){
             this.setState({
@@ -60,7 +60,7 @@ class Item extends Component<Props> {
     }
 
     toggleEditActive(event){
-        let newState = !this.state.editActive;
+        const newState = !this.state.editActive;
 
         this.setState({
             editActive: newState
@@ -68,7 +68,7 @@ class Item extends Component<Props> {
     }
 
     handleEnter(event){
-        let code = event.keyCode || event.which;
+        const code = event.keyCode || event.which;
         if (code === 13){
             this.renameItem();
         } else if (code === 27){
@@ -80,26 +80,26 @@ class Item extends Component<Props> {
     renderControls(){
         if (this.state.renameActive){
             return (
-                <div className={`column col-xs-auto text-center`}>
+                <div className="column col-xs-auto text-center">
                     <div className="columns">
-                        <input className="column col-8" type="text" autoFocus value={this.state.newItemName} onChange={this.newItemName} onKeyUp={this.handleEnter} placeholder="new name"></input>
-                        <i className={`column col-2 fas fa-check ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.renameItem()}></i>
-                        <i className={`column col-2 fas fa-ban ${styles['icon']} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()}></i>
+                        <input className="column col-8" type="text" autoFocus value={this.state.newItemName} onChange={this.newItemName} onKeyUp={this.handleEnter} placeholder="new name" />
+                        <i className={`column col-2 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.renameItem()} />
+                        <i className={`column col-2 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()} />
                     </div>
                 </div>                
             );
-        } else {
+        } 
             return (
                 <React.Fragment>
-                    <div className={`column col-1 text-center ${styles['icon']}`} onClick={this.toggleRenameActive}>
-                        <i className="fas fa-edit"></i>
+                    <div className={`column col-1 text-center ${styles.icon}`} onClick={this.toggleRenameActive}>
+                        <i className="fas fa-edit" />
                     </div>
-                    <div className={`column col-1 text-center ${styles['icon']}`} id={this.props.id} onClick={() => this.deleteItem()}>
-                        <i className={`fas fa-trash-alt ${styles.icon}`}></i>
+                    <div className={`column col-1 text-center ${styles.icon}`} id={this.props.id} onClick={() => this.deleteItem()}>
+                        <i className={`fas fa-trash-alt ${styles.icon}`} />
                     </div>
                 </React.Fragment>                                
             );            
-        }
+        
     }
 
     render(){

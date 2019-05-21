@@ -31,13 +31,13 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
                         spent: 0
                     }]
                 );
-            } else {
+            } 
                 return update(state,
                     [{
                         id: (state
                             .filter(c => c.dateId === action.payload.dateId)
                             .reduce((accumulator, current) => {
-                                var id = parseInt(current.id);
+                                const id = parseInt(current.id);
 
                                 if (id > accumulator) {
                                     return id;
@@ -53,7 +53,7 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
                         spent: action.payload.spent
                     }]
                 );
-            }
+            
         case REMOVE_CATEGORY:
             return update([], state.filter(c => !(c.dateId === action.payload.dateId &&
                 c.id === action.payload.categoryId)));
@@ -102,10 +102,10 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
             );
         case SORT_CATEGORIES_ALPHABETICALLY:
             return update([],
-                state.sort(function(a, b){
+                state.sort((a, b) => {
                     if (a.name > b.name){
                         return 1;
-                    } else if (b.name > a.name){
+                    } if (b.name > a.name){
                         return -1;
                     }
                     return 0;
@@ -119,10 +119,10 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
             );
         case SORT_CATEGORIES_REVERSE_ALPHABETICALLY:
             return update([],
-                state.sort(function(a, b){
+                state.sort((a, b) => {
                     if (a.name > b.name){
                         return -1;
-                    } else if (b.name > a.name){
+                    } if (b.name > a.name){
                         return 1;
                     }
                     return 0;
@@ -136,30 +136,30 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
             );
         case SORT_CATEGORIES_SPENT_DESCENDING:
             return update([],
-                state.sort(function(a, b){
-                    var d1 = a.dateId;
-                    var d2 = b.dateId;
-                    var a1 = parseFloat(a.spent);
-                    var a2 = parseFloat(b.spent);
-                    var split1 = d1.split("-");
-                    var split2 = d2.split("-");
-                    var m1 = split1[0];
-                    var y1 = split1[1];
-                    var m2 = split2[0];
-                    var y2 = split2[1];
+                state.sort((a, b) => {
+                    const d1 = a.dateId;
+                    const d2 = b.dateId;
+                    const a1 = parseFloat(a.spent);
+                    const a2 = parseFloat(b.spent);
+                    const split1 = d1.split("-");
+                    const split2 = d2.split("-");
+                    const m1 = split1[0];
+                    const y1 = split1[1];
+                    const m2 = split2[0];
+                    const y2 = split2[1];
 
                     // sort by dateid first
                     if (y1 > y2){
                         return 1;
-                    } else if (y2 > y1){
+                    } if (y2 > y1){
                         return -1;
-                    } else if (m1 > m2) {
+                    } if (m1 > m2) {
                         return 1;
-                    } else if (m2 > m1) {
+                    } if (m2 > m1) {
                         return -1;
-                    } else if (a1 > a2) { // have same date id at this point
+                    } if (a1 > a2) { // have same date id at this point
                         return -1;
-                    } else if (a2 > a1) {
+                    } if (a2 > a1) {
                         return 1;
                     }
                     return 0;
@@ -171,30 +171,30 @@ export default function categoryCollection(state: any = CATEGORY_COLLECTION_INIT
             );
         case SORT_CATEGORIES_SPENT_ASCENDING:
             return update([],
-                state.sort(function(a, b){
-                    var d1 = a.dateId;
-                    var d2 = b.dateId;
-                    var a1 = parseFloat(a.spent);
-                    var a2 = parseFloat(b.spent);
-                    var split1 = d1.split("-");
-                    var split2 = d2.split("-");
-                    var m1 = split1[0];
-                    var y1 = split1[1];
-                    var m2 = split2[0];
-                    var y2 = split2[1];
+                state.sort((a, b) => {
+                    const d1 = a.dateId;
+                    const d2 = b.dateId;
+                    const a1 = parseFloat(a.spent);
+                    const a2 = parseFloat(b.spent);
+                    const split1 = d1.split("-");
+                    const split2 = d2.split("-");
+                    const m1 = split1[0];
+                    const y1 = split1[1];
+                    const m2 = split2[0];
+                    const y2 = split2[1];
 
                     // sort by dateid first
                     if (y1 > y2){
                         return 1;
-                    } else if (y2 > y1){
+                    } if (y2 > y1){
                         return -1;
-                    } else if (m1 > m2) {
+                    } if (m1 > m2) {
                         return 1;
-                    } else if (m2 > m1) {
+                    } if (m2 > m1) {
                         return -1;
-                    } else if (a1 > a2) { // have same date id at this point
+                    } if (a1 > a2) { // have same date id at this point
                         return 1;
-                    } else if (a2 > a1) {
+                    } if (a2 > a1) {
                         return -1;
                     }
                     return 0;

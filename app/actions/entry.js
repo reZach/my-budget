@@ -7,43 +7,43 @@ export const ENTRY_CATEGORIES = "ENTRY_CATEGORIES";
 export const ENTRY_ITEMS = "ENTRY_ITEMS";
 export const ENTRY_TRANSACTIONS = "ENTRY_TRANSACTIONS";
 
-var entry_modified = function(modified: any){
+const entry_modified = function(modified: any){
     return {
         type: ENTRY_MODIFIED,
         payload: {
-            modified: modified
+            modified
         }
     };
 }
-var entry_income = function(income: any){
+const entry_income = function(income: any){
     return {
         type: ENTRY_INCOME,
         payload: {
-            income: income
+            income
         }
     };
 }
-var entry_categories = function(categories: any){
+const entry_categories = function(categories: any){
     return {
         type: ENTRY_CATEGORIES,
         payload: {
-            categories: categories
+            categories
         }
     };
 }
-var entry_items = function(items: any){
+const entry_items = function(items: any){
     return {
         type: ENTRY_ITEMS,
         payload: {
-            items: items
+            items
         }
     };
 }
-var entry_transactions = function(transactions: any){
+const entry_transactions = function(transactions: any){
     return {
         type: ENTRY_TRANSACTIONS,
         payload: {
-            transactions: transactions
+            transactions
         }
     };
 }

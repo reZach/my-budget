@@ -18,139 +18,139 @@ export const CATEGORY_COLLECTION_INITIAL_STATE = [
     CATEGORY_INITIAL_STATE
 ];
 
-var add_category = function(dateId: string, name: string, collapse: boolean, order: number, spent: number){
+const addCategoryPrivate = function addCategoryPrivate(dateId: string, name: string, collapse: boolean, order: number, spent: number){
     return {
         type: ADD_CATEGORY,
         payload: {
-            dateId: dateId,
-            name: name,
-            collapse: collapse,
-            order: order,
-            spent: spent
+            dateId,
+            name,
+            collapse,
+            order,
+            spent
         }
     };
 }
-var remove_category = function(dateId: string, categoryId: string){
+const removeCategoryPrivate = function removeCategoryPrivate(dateId: string, categoryId: string){
     return {
         type: REMOVE_CATEGORY,
         payload: {
-            dateId: dateId,
-            categoryId: categoryId
+            dateId,
+            categoryId
         }
     };
 }
-var rename_category = function(dateId: string, categoryId: string, newName: string){
+const renameCategoryPrivate = function renameCategoryPrivate(dateId: string, categoryId: string, newName: string){
     return {
         type: RENAME_CATEGORY,
         payload: {
-            dateId: dateId,
-            categoryId: categoryId,
-            newName: newName
+            dateId,
+            categoryId,
+            newName
         }        
     };
 }
-var set_category_spent = function(dateId: String, categoryId: String, spent: string){    
+const set_category_spent = function(dateId: String, categoryId: String, spent: string){    
     return {
         type: SET_CATEGORY_SPENT,
         payload: {
-            dateId: dateId,
-            categoryId: categoryId,
-            spent: spent
+            dateId,
+            categoryId,
+            spent
         }
     };
 }
-var set_collapse_category = function(dateId: String, categoryId: String, collapse: boolean){
+const set_collapse_category = function(dateId: String, categoryId: String, collapse: boolean){
     return {
         type: SET_COLLAPSE_CATEGORY,
         payload: {
-            dateId: dateId,
-            categoryId: categoryId,
-            collapse: collapse
+            dateId,
+            categoryId,
+            collapse
         }
     };
 }
-var set_collapse_category_all = function(dateId: String, collapse: boolean){
+const set_collapse_category_all = function(dateId: String, collapse: boolean){
     return {
         type: SET_COLLAPSE_CATEGORY_ALL,
         payload: {
-            dateId: dateId,
-            collapse: collapse
+            dateId,
+            collapse
         }
     };
 }
-var sort_alphabetically = function(dateId: string){
+const sort_alphabetically = function(dateId: string){
     return {
         type: SORT_CATEGORIES_ALPHABETICALLY,
         payload: {
-            dateId: dateId
+            dateId
         }
     };
 }
-var sort_reverse_alphabetically = function(dateId: string){
+const sort_reverse_alphabetically = function(dateId: string){
     return {
         type: SORT_CATEGORIES_REVERSE_ALPHABETICALLY,
         payload: {
-            dateId: dateId
+            dateId
         }
     };
 }
-var sort_spent_descending = function(dateId: string){
+const sort_spent_descending = function(dateId: string){
     return {
         type: SORT_CATEGORIES_SPENT_DESCENDING,
         payload: {
-            dateId: dateId
+            dateId
         }
     };
 }
-var sort_spent_ascending = function(dateId: string){
+const sort_spent_ascending = function(dateId: string){
     return {
         type: SORT_CATEGORIES_SPENT_ASCENDING,
         payload: {
-            dateId: dateId
+            dateId
         }
     };
 }
-var recalculate_category_spent = function(dateId: String, categoryId: string){
+const recalculate_category_spent = function(dateId: String, categoryId: string){
     return {
         type: RECALCULATE_CATEGORY_SPENT,
         payload: {
-            dateId: dateId,
-            categoryId: categoryId
+            dateId,
+            categoryId
         }
     };
 }
-var entry_categories = function(categories: any){
+const entry_categories = function(categories: any){
     return {
         type: ENTRY_CATEGORIES,
         payload: {
-            categories: categories
+            categories
         }
     };
 }
 
 export function addCategory(name: string, collapse: boolean, order: number, spent: number) {
     return (dispatch: Dispatch, store: Store) => {
-        dispatch(add_category(
+        dispatch(addCategoryPrivate(
             store().date.id, name, collapse, order, spent));
     }
 }
 
 export function addCategory2(dateId: String, name: string, collapse: boolean, order: number, spent: number) {
     return (dispatch: Dispatch, store: Store) => {
-        dispatch(add_category(dateId, name, collapse, order, spent));
+        dispatch(addCategoryPrivate(dateId, name, collapse, order, spent));
     }
 }
 
 export function removeCategory(categoryId: string) {
     return (dispatch: Dispatch, store: Store) => {
-        dispatch(remove_category(
+        dispatch(removeCategoryPrivate(
             store().date.id, categoryId));
     }
 }
 
 export function renameCategory(categoryId: string, newName: string) {
     return (dispatch: Dispatch, store: Store) => {
-        dispatch(rename_category(
+        dispatch(renameCategoryPrivate(
             store().date.id, categoryId, newName));
     }
 }
@@ -200,11 +200,11 @@ export function sortSpentAscending(dateId: string){
 export function recalculateCategorySpent(dateId: String, categoryId: string){
     return (dispatch: Dispatch, store: Store) => {
         
-        var transactions = store().transactions.filter(t => t.dateId === dateId);
-        var total = 0;
-        var part = 0;
+        const transactions = store().transactions.filter(t => t.dateId === dateId);
+        let total = 0;
+        let part = 0;
         
-        for (var i = 0; i < transactions.length; i++){                        
+        for (let i = 0; i < transactions.length; i++){                        
             total += parseFloat(transactions[i].amount);
 
             if (transactions[i].categoryId === categoryId){
@@ -212,7 +212,7 @@ export function recalculateCategorySpent(dateId: String, categoryId: string){
             }
         }
 
-        var calculated = "0";
+        let calculated = "0";
         if (total !== 0){
             calculated = ((part / total) * 100).toFixed(2);
         }

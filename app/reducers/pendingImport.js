@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import {
     MODIFY_IMPORT_CHECKBOX,
     MODIFY_ALL_IMPORT_CHECKBOX,
@@ -15,7 +16,6 @@ import {
     Action,
     update
 } from "./types";
-import { stat } from "fs";
 
 export default function pendingImport(state: any = [], action: Action){
     switch (action.type){
@@ -56,28 +56,28 @@ export default function pendingImport(state: any = [], action: Action){
                 })
             );
         case SORT_IMPORT_TRANSACTIONS:
-            return state.sort(function(a, b){
+            return state.sort((a, b) => {
                                                         
-                var split1 = a.dateId.split('-');
-                var split2 = b.dateId.split('-');
-                var m1 = split1[0];
-                var d1 = a.day;
-                var y1 = split1[1];
-                var m2 = split2[0];
-                var d2 = b.day
-                var y2 = split2[1];
+                const split1 = a.dateId.split('-');
+                const split2 = b.dateId.split('-');
+                const m1 = split1[0];
+                const d1 = a.day;
+                const y1 = split1[1];
+                const m2 = split2[0];
+                const d2 = b.day
+                const y2 = split2[1];
     
                 if (y1 > y2){
                     return 1;
-                } else if (y2 > y1) {
+                } if (y2 > y1) {
                     return -1;
-                } else if (m1 > m2) {
+                } if (m1 > m2) {
                     return 1;
-                } else if (m2 > m1) {
+                } if (m2 > m1) {
                     return -1;
-                } else if (d1 > d2) {
+                } if (d1 > d2) {
                     return 1;
-                } else if (d2 > d1) {
+                } if (d2 > d1) {
                     return -1;
                 }
                 return 0;

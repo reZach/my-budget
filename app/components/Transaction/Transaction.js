@@ -3,19 +3,15 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as TransactionActions from "../../actions/transaction";
 import styles from "./Transaction.css";
-import { dateToShort } from "../../utils/readableDate";
+// import { dateToShort } from "../../utils/readableDate";
 
 class Transaction extends Component<Props> {
     props: Props;
 
-    constructor(){
-        super();        
-    }
-
     renderControls(){
         return (
             <div className={`column col-1 text-center ${styles.icon}`} onClick={() => this.props.delete(this.props.categoryId, this.props.itemId, this.props.id, this.props.amount)}>
-                <i className={`fas fa-trash-alt`}></i>
+                <i className="fas fa-trash-alt" />
             </div>                                
         );
     }
