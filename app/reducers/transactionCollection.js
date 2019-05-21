@@ -24,11 +24,11 @@ export default function transactionCollection(state: any = {}, action: Action){
                         note: action.payload.note
                     }]
                 );
-            } else {
+            } 
                 return update(state,
                     [{
                         id: (state.filter(t => t.dateId === action.payload.dateId && t.categoryId === action.payload.categoryId && t.itemId === action.payload.itemId).reduce((accumulator, current) => {
-                            var id = parseInt(current.id);
+                            const id = parseInt(current.id);
 
                             if (id > accumulator) {
                                 return id;
@@ -45,7 +45,7 @@ export default function transactionCollection(state: any = {}, action: Action){
                         note: action.payload.note
                     }]
                 );
-            }
+            
         case REMOVE_TRANSACTION:
             return update([], state.filter(t => !(t.dateId === action.payload.dateId && t.categoryId === action.payload.categoryId && t.itemId === action.payload.itemId && t.id === action.payload.transactionId)));
         case REMOVE_ALL_TRANSACTION:

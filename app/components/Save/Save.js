@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-const {dialog} = require('electron').remote;
-const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 import Fuse from "fuse.js";
 import * as SaveActions from "../../actions/save";
 import * as ModifyActions from "../../actions/modify";
@@ -15,10 +13,13 @@ import * as ImportTransactionsOptionsActions from "../../actions/importTransacti
 import styles from "./Save.css";
 import { bankSyncFetch } from "../../utils/banksync";
 import ImportBank from "../ImportBank/ImportBank";
-const fs = require("fs");
 import filehelper from "../../utils/filehelper";
 import * as crypto from "../../crypto/code";
 import { dateToMMDDYYYY } from "../../utils/readableDate";
+
+const {dialog} = require('electron').remote;
+const createCsvWriter = require("csv-writer").createObjectCsvWriter;
+const fs = require("fs");
 
 class Save extends Component<Props>{
     props: Props;
@@ -42,8 +43,7 @@ class Save extends Component<Props>{
             ],
             fuzzyResults: [],
             searchBank: "",
-            selectedBank: "",
-            importedData: [],
+            selectedBank: "",            
             allImport: true,
             exportModalActive: false
         };
@@ -85,7 +85,7 @@ class Save extends Component<Props>{
         this.thewaytheframeworkworks = this.thewaytheframeworkworks.bind(this);        
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot){
+    componentDidUpdate(){
         if (this.state.step3 && !this.puppeteerLock){
             this.dothemagic();
         }
@@ -98,10 +98,10 @@ class Save extends Component<Props>{
         if (this.props.importTransactionsOptions.readyToSetCategoryIds && !this.lock){
             this.lock = true;            
 
-            let toImport = this.props.pendingImport.filter(pi => pi.toImport);
+            const toImport = this.props.pendingImport.filter(pi => pi.toImport);
 
             // Set [sub]categories
-            for (var i = 0; i < toImport.length; i++){
+            for (let i = 0; i < toImport.length; i++){
 
                 // default; matches ImportBank.js
                 if (toImport[i].categoryName === ""){
@@ -109,7 +109,7 @@ class Save extends Component<Props>{
                 }
 
                 if (toImport[i].categoryId === ""){
-                    var matched = this.props.categories.filter(c => c.dateId === toImport[i].dateId && c.name === toImport[i].categoryName);
+                    const matched = this.props.categories.filter(c => c.dateId === toImport[i].dateId && c.name === toImport[i].categoryName);
 
                     toImport[i].categoryId = matched[0].id;
                     this.props.setCategoryId(toImport[i].tempId, toImport[i].categoryId);
@@ -121,10 +121,10 @@ class Save extends Component<Props>{
         else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.lock && !this.lockAddItemIds){
             this.lockAddItemIds = true;
             
-            let toImport = this.props.pendingImport.filter(pi => pi.toImport);
-            let itemsToAdd = [];
+            const toImport = this.props.pendingImport.filter(pi => pi.toImport);
+            const itemsToAdd = [];
 
-            for (var i = 0; i < toImport.length; i++){
+            for (let i = 0; i < toImport.length; i++){
 
                 // default; matches ImportBank.js
                 if (toImport[i].itemName === ""){
@@ -133,7 +133,7 @@ class Save extends Component<Props>{
 
                 // Assign/create item
                 if (toImport[i].itemId === ""){
-                    var matching = this.props.items.filter(j => j.dateId === toImport[i].dateId && j.categoryId === toImport[i].categoryId && j.name === toImport[i].itemName);
+                    const matching = this.props.items.filter(j => j.dateId === toImport[i].dateId && j.categoryId === toImport[i].categoryId && j.name === toImport[i].itemName);
 
                     if (matching.length === 0){
 
@@ -143,20 +143,18 @@ class Save extends Component<Props>{
                                 categoryId: toImport[i].categoryId,
                                 itemName: toImport[i].itemName
                             });
-                        } else {
-                            if (itemsToAdd.filter(j => j.dateId === toImport[i].dateId && j.categoryId === toImport[i].categoryId && j.itemName === toImport[i].itemName).length === 0){
+                        } else if (itemsToAdd.filter(j => j.dateId === toImport[i].dateId && j.categoryId === toImport[i].categoryId && j.itemName === toImport[i].itemName).length === 0){
                                 itemsToAdd.push({
                                     dateId: toImport[i].dateId,
                                     categoryId: toImport[i].categoryId,
                                     itemName: toImport[i].itemName
                                 });
-                            } 
-                        }
+                            }
                     }
                 }
             }
 
-            for (var i = 0; i < itemsToAdd.length; i++){            
+            for (let i = 0; i < itemsToAdd.length; i++){            
                 this.props.addItem2(itemsToAdd[i].dateId, itemsToAdd[i].categoryId, itemsToAdd[i].itemName);
             }
 
@@ -164,10 +162,10 @@ class Save extends Component<Props>{
         } else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.props.importTransactionsOptions.readyToSetItemIds && this.lock && this.lockAddItemIds && !this.lockSetItemIds){
             this.lockSetItemIds = true;
 
-            let toImport = this.props.pendingImport.filter(pi => pi.toImport);            
+            const toImport = this.props.pendingImport.filter(pi => pi.toImport);            
 
             // Set -sub-categories
-            for (var i = 0; i < toImport.length; i++){
+            for (let i = 0; i < toImport.length; i++){
 
                 // default; matches ImportBank.js
                 if (toImport[i].itemName === ""){
@@ -175,7 +173,7 @@ class Save extends Component<Props>{
                 }
 
                 if (toImport[i].itemId === ""){
-                    var matched = this.props.items.filter(j => j.dateId === toImport[i].dateId && j.categoryId === toImport[i].categoryId && j.name === toImport[i].itemName);
+                    const matched = this.props.items.filter(j => j.dateId === toImport[i].dateId && j.categoryId === toImport[i].categoryId && j.name === toImport[i].itemName);
 
                     if (matched.length === 0){
                         debugger;
@@ -188,10 +186,10 @@ class Save extends Component<Props>{
             this.props.setReadyToImport(true); 
         } else if (this.props.importTransactionsOptions.readyToSetCategoryIds &&this.props.importTransactionsOptions.readyToCreateItems && this.props.importTransactionsOptions.readyToSetItemIds && this.props.importTransactionsOptions.readyToImport && this.lock && this.lockAddItemIds && this.lockSetItemIds && !this.lockAddTransactions){                          
             this.lockAddTransactions = true;
-            let toImport = this.props.pendingImport.filter(pi => pi.toImport);    
+            const toImport = this.props.pendingImport.filter(pi => pi.toImport);    
 
             // Add transactions
-            for (var i = 0; i < toImport.length; i++){
+            for (let i = 0; i < toImport.length; i++){
 
                 this.props.addTransaction2(toImport[i].dateId, toImport[i].categoryId, toImport[i].itemId, toImport[i].day, toImport[i].amount, toImport[i].note);
             }
@@ -212,7 +210,7 @@ class Save extends Component<Props>{
         }
     }
 
-    multi(event){
+    multi(){
         this.props.falseModify();
         this.props.save();        
     }    
@@ -227,9 +225,9 @@ class Save extends Component<Props>{
 
         if (!this.puppeteerLock){
             this.puppeteerLock = true;
-            var imported = await bankSyncFetch(this.props.categories, this.props.items, this.state.selectedBank, this.state.username, this.state.password);
+            const imported = await bankSyncFetch(this.props.categories, this.props.items, this.state.selectedBank, this.state.username, this.state.password);
                     
-            for (var i = 0; i < imported.length; i++){
+            for (let i = 0; i < imported.length; i++){
                 this.props.addImportTransaction(imported[i].tempId, imported[i].toImport, imported[i].dateId, imported[i].categoryId, imported[i].categoryName, imported[i].itemId, imported[i].itemName, imported[i].day, imported[i].amount, imported[i].note, imported[i].overwriteCategoryName, imported[i].overwriteItemName, imported[i].overwriteNote);
             }
             this.props.sortImportTransactions();
@@ -265,29 +263,29 @@ class Save extends Component<Props>{
     }
 
     fuzzySelectChange(event){        
-        var value = event.target.selectedOptions[0].getAttribute("id");
+        const value = event.target.selectedOptions[0].getAttribute("id");
         this.setState({
             selectedBank: value
         });        
     }
 
     export(event){
-        var today = new Date();
-        var month = today.getMonth() + 1;
-        var day = today.getDate();
-        var year = today.getFullYear();
+        const today = new Date();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        const year = today.getFullYear();
 
-        var callback = function(filename, bookmark){
+        const callback = function callback(filename, bookmark){
             if (typeof filename !== "undefined"){
 
                 try
                 {                    
 
-                    var fileContents = filehelper.get();
+                    let fileContents = filehelper.get();
 
                     if (fileContents !== ""){
                         if (crypto.cryptoAvailable() && this.props.passphrase !== ""){
-                            var decrypted = crypto.decrypt(fileContents, this.props.passphrase);
+                            const decrypted = crypto.decrypt(fileContents, this.props.passphrase);
                                                         
                             fileContents = JSON.parse(decrypted);
                         } else {
@@ -298,7 +296,7 @@ class Save extends Component<Props>{
                         fileContents.passphrase = "";
 
                         this.toggleExportModal();
-                        fs.writeFile(filename, JSON.stringify(fileContents), "utf-8", function(){
+                        fs.writeFile(filename, JSON.stringify(fileContents), "utf-8", () => {
                             alert("Exported data successfully.");
                         });
                     } else {
@@ -312,7 +310,7 @@ class Save extends Component<Props>{
                 }                                 
             }
         };
-        var boundCallback = callback.bind(this);
+        const boundCallback = callback.bind(this);
 
         dialog.showSaveDialog(
             { 
@@ -324,17 +322,17 @@ class Save extends Component<Props>{
     }
 
     exportCSV(){
-        var today = new Date();
-        var month = today.getMonth() + 1;
-        var day = today.getDate();
-        var year = today.getFullYear();
+        const today = new Date();
+        const month = today.getMonth() + 1;
+        const day = today.getDate();
+        const year = today.getFullYear();
 
-        var callback = function(filename, bookmark){
+        const callback = function(filename, bookmark){
             if (typeof filename !== "undefined"){
 
                 try
                 {                    
-                    let csvWriter = createCsvWriter({
+                    const csvWriter = createCsvWriter({
                         path: filename,
                         header: [
                             {id: "date", title: "Date"},
@@ -345,20 +343,20 @@ class Save extends Component<Props>{
                         ]
                     });
             
-                    let csvRecords = [];
+                    const csvRecords = [];
             
-                    for (var i = 0; i < this.props.transactions.length; i++){
-                        var category = "";
-                        var subcategory = "";
+                    for (let i = 0; i < this.props.transactions.length; i++){
+                        let category = "";
+                        let subcategory = "";
             
-                        for (var j = 0; j < this.props.categories.length; j++){
+                        for (let j = 0; j < this.props.categories.length; j++){
                             if (this.props.transactions[i].dateId === this.props.categories[j].dateId &&
                                 this.props.transactions[i].categoryId === this.props.categories[j].id){
                                     category = this.props.categories[j].name;
                                     break;
                                 }
                         }
-                        for (var j = 0; j < this.props.items.length; j++){
+                        for (let j = 0; j < this.props.items.length; j++){
                             if (this.props.transactions[i].dateId === this.props.items[j].dateId &&
                                 this.props.transactions[i].categoryId === this.props.items[j].categoryId &&
                                 this.props.transactions[i].itemId === this.props.items[j].id){
@@ -367,39 +365,39 @@ class Save extends Component<Props>{
                                 }
                         }
             
-                        var split = this.props.transactions[i].dateId.split("-");
+                        const split = this.props.transactions[i].dateId.split("-");
             
                         csvRecords.push({
                             date: dateToMMDDYYYY(split[0], this.props.transactions[i].day, split[1]),
-                            category: category,
-                            subcategory: subcategory,
+                            category,
+                            subcategory,
                             amount: parseFloat(this.props.transactions[i].amount),
                             note: this.props.transactions[i].note
                         });
                     }
             
-                    csvRecords.sort(function(a, b){
+                    csvRecords.sort((a, b) => {
                                                                     
-                        var split1 = a.date.split('/');
-                        var split2 = b.date.split('/');
-                        var m1 = split1[0];
-                        var d1 = split1[1];
-                        var y1 = split1[2];
-                        var m2 = split2[0];
-                        var d2 = split2[1];
-                        var y2 = split2[2];
+                        const split1 = a.date.split('/');
+                        const split2 = b.date.split('/');
+                        const m1 = split1[0];
+                        const d1 = split1[1];
+                        const y1 = split1[2];
+                        const m2 = split2[0];
+                        const d2 = split2[1];
+                        const y2 = split2[2];
             
                         if (y1 > y2){
                             return 1;
-                        } else if (y2 > y1) {
+                        } if (y2 > y1) {
                             return -1;
-                        } else if (m1 > m2) {
+                        } if (m1 > m2) {
                             return 1;
-                        } else if (m2 > m1) {
+                        } if (m2 > m1) {
                             return -1;
-                        } else if (d1 > d2) {
+                        } if (d1 > d2) {
                             return 1;
-                        } else if (d2 > d1) {
+                        } if (d2 > d1) {
                             return -1;
                         }
                         return 0;
@@ -409,6 +407,9 @@ class Save extends Component<Props>{
                         .then(() => {
                             this.toggleExportModal();
                             alert("Exported data as CSV successfully.");
+                        })
+                        .catch((err) => {
+                            console.error(`Error writing CSV: ${err}`);
                         });
                 }
                 catch (exception){
@@ -417,7 +418,7 @@ class Save extends Component<Props>{
                 }                                 
             }
         };
-        var boundCallback = callback.bind(this);
+        const boundCallback = callback.bind(this);
 
         dialog.showSaveDialog(
             { 
@@ -441,13 +442,13 @@ class Save extends Component<Props>{
     }
 
     importTransactions(){        
-        let toImport = this.props.pendingImport.filter(pi => pi.toImport);
+        const toImport = this.props.pendingImport.filter(pi => pi.toImport);
 
-        let categoriesToAdd = [];
+        const categoriesToAdd = [];
         
-        let toCreate = [];
+        const toCreate = [];
 
-        for (var i = 0; i < toImport.length; i++){
+        for (let i = 0; i < toImport.length; i++){
 
             // default; matches ImportBank.js
             if (toImport[i].categoryName === ""){
@@ -456,7 +457,7 @@ class Save extends Component<Props>{
 
             // Assign/create category 
             if (toImport[i].categoryId === ""){
-                var matching = this.props.categories.filter(c => c.dateId === toImport[i].dateId && c.name === toImport[i].categoryName);
+                const matching = this.props.categories.filter(c => c.dateId === toImport[i].dateId && c.name === toImport[i].categoryName);
 
                 if (matching.length === 0){
                     
@@ -465,20 +466,18 @@ class Save extends Component<Props>{
                             dateId: toImport[i].dateId,
                             categoryName: toImport[i].categoryName
                         });
-                    } else {
-                        if (categoriesToAdd.filter(c => c.dateId === toImport[i].dateId && c.categoryName === toImport[i].categoryName).length === 0){
+                    } else if (categoriesToAdd.filter(c => c.dateId === toImport[i].dateId && c.categoryName === toImport[i].categoryName).length === 0){
                             categoriesToAdd.push({
                                 dateId: toImport[i].dateId,
                                 categoryName: toImport[i].categoryName
                             });
-                        }
-                    }                                        
+                        }                                        
                 }
             }                      
         }
 
         // Bulk add categories
-        for (var i = 0; i < categoriesToAdd.length; i++){            
+        for (let i = 0; i < categoriesToAdd.length; i++){            
             this.props.addCategory2(categoriesToAdd[i].dateId, categoriesToAdd[i].categoryName, false);
         }
 
@@ -490,16 +489,16 @@ class Save extends Component<Props>{
         this.props.setReadyToSetCategoryIds(true);
     }
 
-    toggleBankSyncAdd(event){
-        let newState = !this.state.bankSyncAdd;
+    toggleBankSyncAdd(){
+        const newState = !this.state.bankSyncAdd;
 
         this.setState({
             bankSyncAdd: newState            
         });
     }
 
-    toggleExportModal(event){
-        let newState = !this.state.exportModalActive;
+    toggleExportModal(){
+        const newState = !this.state.exportModalActive;
 
         this.setState({
             exportModalActive: newState            
@@ -507,14 +506,14 @@ class Save extends Component<Props>{
     }
 
     toggleAllImport(){
-        let current = this.state.allImport;
+        const current = this.state.allImport;
         this.setState({
             allImport: !current
         });
         this.props.modifyAllImportCheckbox(!current);
     }
 
-    deleteAll(event){
+    deleteAll(){
         
         dialog.showMessageBox({
             title: "Delete data",
@@ -535,22 +534,22 @@ class Save extends Component<Props>{
             if (this.state.step1){
                 return (
                     <div className="modal active" id="modal-id">
-                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                        <div className={`modal-container`}>
+                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
+                        <div className="modal-container">
                             <div className={`modal-header ${styles.h62}`}>
-                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
                                 <div className="modal-title h4">Select a bank</div>
                             </div>
                             <div className="modal-body">
                                 <div className="content">
                                     <div className={`${styles.mb}`}>
                                         Import transactions from your bank.<br />
-                                        Bank not found and you are good with code? Consider <a target="_blank" href={"https://github.com/reZach/my-budget/wiki/Creating-a-new-connector"}>writing a connector</a>.
+                                        Bank not found and you are good with code? Consider <a target="_blank" href="https://github.com/reZach/my-budget/wiki/Creating-a-new-connector">writing a connector</a>.
                                     </div>
                                     <div className="columns">
                                         <div className="column col-12 col-mr-auto">
                                             <div className="form-group">
-                                                <input type="text" className="form-input" placeholder="search" onChange={this.onFuzzyChange} value={this.state.searchBank}></input>
+                                                <input type="text" className="form-input" placeholder="search" onChange={this.onFuzzyChange} value={this.state.searchBank} />
                                                 <select className="form-select" onChange={this.fuzzySelectChange}>
                                                     {this.state.fuzzyResults.length == 0 ? <option id="" key="" style={{color: "gray"}}>---</option> : <option id="" key="" style={{color: "gray"}}>(found result/s)</option>}
                                                     {this.state.fuzzyResults.map((result) => <option id={result.name} key={result.url} selected={this.state.selectedBank === result.name}>{result.name} - ({result.url})</option>)}
@@ -564,7 +563,7 @@ class Save extends Component<Props>{
                                 <div className="float-right text-right">
                                     {this.state.selectedBank !== ""  ?
                                         <React.Fragment>
-                                            <input type="button" className="btn btn-primary" value="Next" onClick={() => this.moveToStep(2)}></input>
+                                            <input type="button" className="btn btn-primary" value="Next" onClick={() => this.moveToStep(2)} />
                                         </React.Fragment> : <React.Fragment></React.Fragment>
                                     }
                                 </div>                                
@@ -572,13 +571,13 @@ class Save extends Component<Props>{
                         </div>
                     </div>
                 );
-            } else if (this.state.step2){
+            } if (this.state.step2){
                 return (
                     <div className="modal active" id="modal-id">
-                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                        <div className={`modal-container`}>
+                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
+                        <div className="modal-container">
                             <div className={`modal-header ${styles.h62}`}>
-                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
                                 <div className="modal-title h5">Enter credentials</div>
                             </div>
                             <div className="modal-body">
@@ -592,7 +591,7 @@ class Save extends Component<Props>{
                                                             <label className="form-label">Username</label>
                                                         </div>
                                                         <div className="column col-9">
-                                                            <input className="form-input" type="text" value={this.state.username} onChange={this.changeUsername} placeholder="username"></input>
+                                                            <input className="form-input" type="text" value={this.state.username} onChange={this.changeUsername} placeholder="username" />
                                                         </div>
                                                     </div>
                                                     <div className="form-group">
@@ -600,7 +599,7 @@ class Save extends Component<Props>{
                                                             <label className="form-label">Password</label>
                                                         </div>
                                                         <div className="column col-9">
-                                                            <input className="form-input" type="password" value={this.state.password} onChange={this.changePassword} placeholder="password"></input>
+                                                            <input className="form-input" type="password" value={this.state.password} onChange={this.changePassword} placeholder="password" />
                                                         </div>
                                                     </div>
                                                 </form>
@@ -611,12 +610,12 @@ class Save extends Component<Props>{
                             </div>
                             <div className="modal-footer">
                                 <div className="float-left text-left">                                        
-                                    <input type="button" className="btn" value="Back" onClick={() => this.moveToStep(1)}></input>
+                                    <input type="button" className="btn" value="Back" onClick={() => this.moveToStep(1)} />
                                 </div>
                                 <div className="float-right text-right">
                                     {this.state.username !== "" && this.state.password !== "" ?
                                         <React.Fragment>
-                                            <input className="btn btn-primary" type="submit" value="Next" onClick={() => this.moveToStep(3)}></input>
+                                            <input className="btn btn-primary" type="submit" value="Next" onClick={() => this.moveToStep(3)} />
                                         </React.Fragment> : <React.Fragment></React.Fragment>
                                     }
                                 </div>                                
@@ -624,39 +623,39 @@ class Save extends Component<Props>{
                         </div>
                     </div>
                 );
-            } else if (this.state.step3){
+            } if (this.state.step3){
                 return (
                     <div className="modal active" id="modal-id">
-                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                        <div className={`modal-container`}>
+                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
+                        <div className="modal-container">
                             <div className={`modal-header ${styles.h62}`}>
-                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
                                 <div className="modal-title h5">Loading transactions</div>
                             </div>
                             <div className="modal-body">
                                 <div className="content">
                                     <div className="columns">
                                         <div className="column col-12 text-center">
-                                            <div className="loading loading-lg"></div>
+                                            <div className="loading loading-lg" />
                                         </div>
                                     </div>                                    
                                 </div>
                             </div>
                             <div className="modal-footer">
                                 <div className="float-left text-left">
-                                    <input type="button" className="btn" value="Back" onClick={() => this.moveToStep(1)}></input>
+                                    <input type="button" className="btn" value="Back" onClick={() => this.moveToStep(1)} />
                                 </div>                                
                             </div>
                         </div>
                     </div>
                 );                
-            } else if (this.state.step4 && this.props.pendingImport.length > 0){
+            } if (this.state.step4 && this.props.pendingImport.length > 0){
                 return (
                     <div className="modal active" id="modal-id">
-                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
-                        <div className={`modal-container modal-large`}>
+                        <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
+                        <div className="modal-container modal-large">
                             <div className={`modal-header ${styles.h62}`}>
-                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()}></a>
+                                <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
                                 <div className="modal-title h5">Import transactions</div>
                             </div>
                             <div className="modal-body">
@@ -678,21 +677,19 @@ class Save extends Component<Props>{
                                         <div className="column col-2">
                                             Sub-category
                                         </div>
-                                        <div className={`column col-5`}>
+                                        <div className="column col-5">
                                             Note
                                         </div>
                                     </div>
                                     <div className={`${styles.hrest}`}>
-                                    {this.props.pendingImport.map((value, index, array) => {
-                                        return <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName !== "" ? value.categoryName : "default"} defaultItem={value.itemName !== "" ? value.itemName : "default"} defaultNote={value.note} />
-                                    })}
+                                    {this.props.pendingImport.map((value, index, array) => <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName !== "" ? value.categoryName : "default"} defaultItem={value.itemName !== "" ? value.itemName : "default"} defaultNote={value.note} />)}
                                     </div>
                                 </div>
                             </div>
                             <div className="modal-footer">
                                 <div className="column col-12">
                                     <div className="form-group float-left">
-                                        <input className="btn" type="button" value="Toggle import all" onClick={() => this.toggleAllImport()}></input>
+                                        <input className="btn" type="button" value="Toggle import all" onClick={() => this.toggleAllImport()} />
                                     </div>
                                     <div className="form-group float-right">
                                         <button className="btn btn-primary" onClick={() => this.importTransactions()}>Import</button>
@@ -712,18 +709,18 @@ class Save extends Component<Props>{
         if (this.state.exportModalActive){
             return (
                 <div className="modal active" id="modal-id">
-                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleExportModal()}></a>
-                    <div className={`modal-container`}>
+                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleExportModal()} />
+                    <div className="modal-container">
                         <div className={`modal-header ${styles.h62}`}>
-                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleExportModal()}></a>
+                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleExportModal()} />
                             <div className="modal-title h4">Export your data</div>
                         </div>
                         <div className="modal-body">
                             <div className="float-left text-left">                                        
-                                <input type="button" className="btn btn-primary" value="Application data" onClick={() => this.export()}></input>
+                                <input type="button" className="btn btn-primary" value="Application data" onClick={() => this.export()} />
                             </div>
                             <div className="float-right text-right">
-                                <input type="button" className="btn btn-primary" value="CSV" onClick={() => this.exportCSV()}></input>
+                                <input type="button" className="btn btn-primary" value="CSV" onClick={() => this.exportCSV()} />
                             </div>
                         </div>
                     </div>
@@ -741,7 +738,7 @@ class Save extends Component<Props>{
                         <button className={`btn btn-primary ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>Save</button>
                         <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>Bank</button>
                         <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.toggleExportModal()}>Export</button>
-                        <button className={`btn btn-error`} type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>Delete</button>
+                        <button className="btn btn-error" type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>Delete</button>
                     </div>
                 </div>
                 {this.renderBankSync()}  

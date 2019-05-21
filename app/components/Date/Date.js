@@ -17,7 +17,7 @@ class Date extends Component<Props> {
                             <div className={`column col-auto col-ml-auto ${styles['btn-fix']}`}>
                                 <button className="btn btn-primary btn-lg" onClick={this.props.decrement} type="button">&lt;</button>
                             </div>
-                            <div className={`column col-auto text-center ${styles["middle"]}`}>
+                            <div className={`column col-auto text-center ${styles.middle}`}>
                                 <div className="popover popover-bottom">
                                     <h5 className={`${styles.pt}`}>{dateToReadble(this.props.date)}</h5>
                                     <div className="popover-container">
@@ -28,19 +28,19 @@ class Date extends Component<Props> {
                                             <div className="card-body">
                                                 <div className="columns">
                                                     <div className="column col-2">
-                                                        <button className="btn btn-primary" onClick={() => this.props.decrement12()}>-12</button>
+                                                        <button type="button" className="btn btn-primary" onClick={() => this.props.decrement12()}>-12</button>
                                                     </div>
                                                     <div className="column col-2">
-                                                        <button className="btn btn-primary" onClick={() => this.props.decrement6()}>-6</button>
+                                                        <button type="button" className="btn btn-primary" onClick={() => this.props.decrement6()}>-6</button>
                                                     </div>
                                                     <div className="column col-4">
-                                                        <button className="btn" onClick={() => this.props.now()}>Now</button>
+                                                        <button type="button" className="btn" onClick={() => this.props.now()}>Now</button>
                                                     </div>
                                                     <div className="column col-2">
-                                                        <button className="btn btn-primary" onClick={() => this.props.increment6()}>+6</button>
+                                                        <button type="button" className="btn btn-primary" onClick={() => this.props.increment6()}>+6</button>
                                                     </div>
                                                     <div className="column col-2">
-                                                        <button className="btn btn-primary" onClick={() => this.props.increment12()}>+12</button>
+                                                        <button type="button" className="btn btn-primary" onClick={() => this.props.increment12()}>+12</button>
                                                     </div>
                                                 </div>
                                             </div>

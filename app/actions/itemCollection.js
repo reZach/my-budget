@@ -10,42 +10,42 @@ export const ITEM_COLLECTION_INITIAL_STATE = [
     ITEM_INITIAL_STATE
 ];
 
-var add_item = function(dateId: string, categoryId: string, name: string){
+const add_item = function(dateId: string, categoryId: string, name: string){
     return {
         type: ADD_ITEM,
         payload: {
-            dateId: dateId,
-            categoryId: categoryId,
-            name: name
+            dateId,
+            categoryId,
+            name
         }
     };
 }
-var remove_item = function(dateId: string, categoryId: string, id: string){
+const remove_item = function(dateId: string, categoryId: string, id: string){
     return {
         type: REMOVE_ITEM,
         payload: {
-            dateId: dateId,
-            categoryId: categoryId,
-            id: id
+            dateId,
+            categoryId,
+            id
         }
     };
 }
-var rename_item = function(dateId: string, categoryId: string, id: string, newName: string){
+const rename_item = function(dateId: string, categoryId: string, id: string, newName: string){
     return {
         type: RENAME_ITEM,
         payload: {
-            dateId: dateId,
-            categoryId: categoryId,
-            id: id,            
-            newName: newName
+            dateId,
+            categoryId,
+            id,            
+            newName
         }        
     };
 }
-var entry_items = function(items: any){
+const entry_items = function(items: any){
     return {
         type: ENTRY_ITEMS,
         payload: {
-            items: items
+            items
         }
     };
 }

@@ -8,8 +8,8 @@
   "env": {
     "browser": true,
     "node": true
-  },
-  "rules": {
+  },  
+  "rules": {    
     "arrow-parens": ["off"],
     "compat/compat": "error",
     "consistent-return": "off",
@@ -36,12 +36,14 @@
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "no-console": "off",
+    "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
     "no-use-before-define": "off",
     "no-multi-assign": "off",
     "promise/param-names": "error",
     "promise/always-return": "error",
     "promise/catch-or-return": "error",
     "promise/no-native": "off",
+    "react/destructuring-assignment": "off",
     "react/sort-comp": [
       "error",
       {

@@ -28,11 +28,11 @@ export default function createTransaction(state: any = CREATE_NEW_TRANSACTION_IN
                         note: action.payload.amount
                     }]
                 );
-            } else {
+            } 
                 return update(state,
                     [{
                         id: (state.filter(t => t.dateId === action.payload.dateId && t.categoryId === action.payload.categoryId && t.itemId === action.payload.itemId).reduce((accumulator, current) => {
-                            var id = parseInt(current.id);
+                            const id = parseInt(current.id);
 
                             if (id > accumulator) {
                                 return id;
@@ -49,7 +49,7 @@ export default function createTransaction(state: any = CREATE_NEW_TRANSACTION_IN
                         note: action.payload.note
                     }]
                 );
-            }
+            
         case RESET_CREATE_NEW_TRANSACTION:
             return update(state, {
                 amount: "",

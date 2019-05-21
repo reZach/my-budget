@@ -5,13 +5,13 @@ export const FALSE = "FALSE";
 
 
 
-var _true = function(){
+const truePrivate = function truePrivate(){
     return {
         type: TRUE,
         payload: {}        
     };
 }
-var _false = function(){
+const falsePrivate = function falsePrivate(){
     return {
         type: FALSE,
         payload: {}        
@@ -19,15 +19,16 @@ var _false = function(){
 }
 
 
-
+// Sets the app to modified; must save changes
 export function trueModify() {
     return (dispatch: Dispatch) => {
-        dispatch(_true());
+        dispatch(truePrivate());
     }
 }
 
+// Sets the app to no pending changes present
 export function falseModify() {
     return (dispatch: Dispatch) => {
-        dispatch(_false());
+        dispatch(falsePrivate());
     }
 }

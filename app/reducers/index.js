@@ -1,9 +1,9 @@
 // @flow
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import counter from './counter';
+// import counter from './counter';
 import date from "./date";
-//import category from "./category";
+// import category from "./category";
 import passphrase from "./passphrase";
 import categoryCollection from "./categoryCollection";
 import itemCollection from "./itemCollection";
@@ -18,18 +18,18 @@ import modified from "./modified";
 
 export default function createRootReducer(history: History) {
   return combineReducers({
-    modified: modified,
+    modified,
     router: connectRouter(history),
-    income: income,
-    incomeRecords: incomeRecords,
-    date: date,
-    passphrase: passphrase,
+    income,
+    incomeRecords,
+    date,
+    passphrase,
     categories: categoryCollection,
     items: itemCollection,
     transactions: transactionCollection,
-    createTransaction: createTransaction,
-    bankSync: bankSync,
-    importTransactionsOptions: importTransactionsOptions,
-    pendingImport: pendingImport
+    createTransaction,
+    bankSync,
+    importTransactionsOptions,
+    pendingImport
   });
 }

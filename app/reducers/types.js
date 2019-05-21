@@ -14,13 +14,13 @@ export type Action = {
 export function update(state, mutations) {
     if (Array.isArray(state) && Array.isArray(mutations)) {
         return state.concat(mutations);
-    } else {
+    } 
         return Object.assign({}, state, mutations);
-    }
+    
 }
 
 export type GetState = () => counterStateType;
 
-export type Dispatch = ReduxDispatch < Action > ;
+export type Dispatch = ReduxDispatch<Action> ;
 
-export type Store = ReduxStore < GetState, Action > ;
+export type Store = ReduxStore<GetState, Action> ;

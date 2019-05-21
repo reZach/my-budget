@@ -9,51 +9,51 @@ export const INCREMENT_YEAR = "INCREMENT_YEAR";
 export const DECREMENT_YEAR = "DECREMENT_YEAR";
 export const SET_DATE = "SET_DATE";
 
-var increment_month = function(){
+const increment_month = function(){
     return {
         type: INCREMENT_MONTH
     };
 }
-var decrement_month = function(){
+const decrement_month = function(){
     return {
         type: DECREMENT_MONTH
     };
 }
-var reset_month_1 = function(){
+const reset_month_1 = function(){
     return {
         type: RESET_MONTH_1
     };
 }
-var reset_month_12 = function(){
+const reset_month_12 = function(){
     return {
         type: RESET_MONTH_12
     };
 }
-var increment_year = function(){
+const increment_year = function(){
     return {
         type: INCREMENT_YEAR
     };
 }
-var decrement_year = function(){
+const decrement_year = function(){
     return {
         type: DECREMENT_YEAR
     };
 }
-var set_date = function(month: number, year: number){
+const set_date = function(month: number, year: number){
     return {
         type: SET_DATE,
         payload: {
-            month: month,
-            year: year
+            month,
+            year
         }
     };
 }
 
 export function increment() {
     return (dispatch: Dispatch, store: Store) => {
-        const month = store().date.month;
+        const {month} = store().date;
 
-        if (month == 12){
+        if (month === 12){
             dispatch(reset_month_1());
             dispatch(increment_year());
         }
@@ -64,13 +64,13 @@ export function increment() {
 }
 export function increment6() {
     return (dispatch: Dispatch, store: Store) => {
-        const month = store().date.month;
-        const year = store().date.year;
+        const {month} = store().date;
+        const {year} = store().date;
 
         if (month < 6){
             dispatch(set_date(month + 6, year));
         } else {
-            let rem = (month + 6) % 12;
+            const rem = (month + 6) % 12;
             dispatch(set_date(rem, year + 1));
         }
     };
@@ -93,9 +93,9 @@ export function now() {
 
 export function decrement() {
     return (dispatch: Dispatch, store: Store) => {
-        const month = store().date.month;
+        const {month} = store().date;
 
-        if (month == 1){
+        if (month === 1){
             dispatch(reset_month_12());
             dispatch(decrement_year());
         }
@@ -106,19 +106,19 @@ export function decrement() {
 }
 export function decrement6() {
     return (dispatch: Dispatch, store: Store) => {
-        const month = store().date.month;
-        const year = store().date.year;
+        const {month} = store().date;
+        const {year} = store().date;
 
         if (month > 6){
             dispatch(set_date(month - 6, year));
         } else {
-            let rem = 12 - (6 - month);
+            const rem = 12 - (6 - month);
             dispatch(set_date(rem, year - 1));
         }
     };
 }
 export function decrement12() {
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(decrement_year());
     };
 }

@@ -13,43 +13,43 @@ export const TRANSACTION_COLLECTION_INITIAL_STATE = [
 
 
 
-var add_transaction = function(dateId: string, categoryId: string, itemId: string, day: string, amount: string, note: string){
+const add_transaction = function(dateId: string, categoryId: string, itemId: string, day: string, amount: string, note: string){
     return {
         type: ADD_TRANSACTION,
         payload: {
-            dateId: dateId,
-            categoryId: categoryId,
-            itemId: itemId,
-            day: day,
-            amount: amount,
-            note: note
+            dateId,
+            categoryId,
+            itemId,
+            day,
+            amount,
+            note
         }
     };
 }
-var remove_transaction = function(dateId: string, categoryId: string, itemId: string, transactionId: string){
+const remove_transaction = function(dateId: string, categoryId: string, itemId: string, transactionId: string){
     return {
         type: REMOVE_TRANSACTION,
         payload: {
-            dateId: dateId,
-            categoryId: categoryId,
-            itemId: itemId,
-            transactionId: transactionId
+            dateId,
+            categoryId,
+            itemId,
+            transactionId
         }
     }
 }
-var remove_all_transactions = function(dateId: string){
+const remove_all_transactions = function(dateId: string){
     return {
         type: REMOVE_ALL_TRANSACTION,
         payload: {
-            dateId: dateId
+            dateId
         }
     }
 }
-var entry_transactions = function(transactions: any){
+const entry_transactions = function(transactions: any){
     return {
         type: ENTRY_TRANSACTIONS,
         payload: {
-            transactions: transactions
+            transactions
         }
     };
 }
@@ -83,7 +83,7 @@ export function entryTransactions(transactions: any){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(entry_transactions(transactions));
 
-        for(var i = 0; i < transactions.length; i++){
+        for(let i = 0; i < transactions.length; i++){
             recalculateCategorySpent(transactions[i].dateId, transactions[i].categoryId);
         }
     }

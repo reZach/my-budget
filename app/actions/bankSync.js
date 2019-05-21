@@ -9,25 +9,25 @@ export const BANK_SYNC_INITIAL_STATE = {
     development: ""
 }
 
-var add_bank_sync_keys = function(clientId: string, publicKey: string, development: string){
+const addBankSyncKeysPrivate = function addBankSyncKeysPrivate(clientId: string, publicKey: string, development: string){
     return {
         type: ADD_BANK_SYNC_KEYS,
         payload: {
-            clientId: clientId,
-            publicKey: publicKey,
-            development: development
+            clientId,
+            publicKey,
+            development
         }
     };
 }
 
 export function addBankSyncKeys(clientId: string, publicKey: string, development: string){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(add_bank_sync_keys(clientId, publicKey, development));
+    return (dispatch: Dispatch) => {
+        dispatch(addBankSyncKeysPrivate(clientId, publicKey, development));
     }
 }
 
 export function entryBankSyncKeys(clientId: string, publicKey: string, development: string){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(add_bank_sync_keys(clientId, publicKey, development));
+    return (dispatch: Dispatch) => {
+        dispatch(addBankSyncKeysPrivate(clientId, publicKey, development));
     }
 }

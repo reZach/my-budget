@@ -27,97 +27,97 @@ export const INCOME_RECORDS_FREQUENCY_MAP = {
     "0": "one time",
     "1": "every week",
     "2": "every 2 weeks",
-    //"3": "first business day of month",
-    //"4": "last business day of month"
+    // "3": "first business day of month",
+    // "4": "last business day of month"
 }
 
-var add_income_record = function(day: Number, month: Number, year: Number, income: Number, frequency: String, note: string){
+const add_income_record = function(day: Number, month: Number, year: Number, income: Number, frequency: String, note: string){
     return {
         type: ADD_INCOME_RECORD,
         payload: {
             startDay: day,
             startMonth: month,
             startYear: year,
-            income: income,
-            frequency: frequency,
-            note: note
+            income,
+            frequency,
+            note
         }
     };
 }
 
-var modify_income_record_start_day = function(id: String, day: number){
+const modify_income_record_start_day = function(id: String, day: number){
     return {
         type: MODIFY_INCOME_RECORD_START_DAY,
         payload: {
-            id: id,
+            id,
             startDay: day
         }
     };
 }
 
-var modify_income_record_start_month = function(id: String, month: number){
+const modify_income_record_start_month = function(id: String, month: number){
     return {
         type: MODIFY_INCOME_RECORD_START_MONTH,
         payload: {
-            id: id,
+            id,
             startMonth: month
         }
     };
 }
 
-var modify_income_record_start_year = function(id: String, year: number){
+const modify_income_record_start_year = function(id: String, year: number){
     return {
         type: MODIFY_INCOME_RECORD_START_YEAR,
         payload: {
-            id: id,
+            id,
             startYear: year
         }
     };
 }
 
-var modify_income_record_income = function(id: String, income: number){
+const modify_income_record_income = function(id: String, income: number){
     return {
         type: MODIFY_INCOME_RECORD_INCOME,
         payload: {
-            id: id,
-            income: income
+            id,
+            income
         }
     };
 }
 
-var modify_income_record_frequency = function(id: String, frequency: string){
+const modify_income_record_frequency = function(id: String, frequency: string){
     return {
         type: MODIFY_INCOME_RECORD_FREQUENCY,
         payload: {
-            id: id,
-            frequency: frequency
+            id,
+            frequency
         }
     };
 }
 
-var modify_income_record_note = function(id: String, note: string){
+const modify_income_record_note = function(id: String, note: string){
     return {
         type: MODIFY_INCOME_RECORD_NOTE,
         payload: {
-            id: id,
-            note: note
+            id,
+            note
         }
     };
 }
 
-var remove_income_record = function(id: string){
+const remove_income_record = function(id: string){
     return {
         type: REMOVE_INCOME_RECORD,
         payload: {
-            id: id
+            id
         }
     };
 }
-var entry_income_records = function(incomeRecords: any){
+const entry_income_records = function(incomeRecords: any){
     return {
         type: ENTRY_INCOME_RECORDS,
         payload: {
-            incomeRecords: incomeRecords
+            incomeRecords
         }
     };
 }

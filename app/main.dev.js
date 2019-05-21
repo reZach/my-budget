@@ -12,9 +12,10 @@
  */
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
-const path = require("path");
 import log from 'electron-log';
 import MenuBuilder from './menu';
+
+const path = require("path");
 
 export default class AppUpdater {
   constructor() {

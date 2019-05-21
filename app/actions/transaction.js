@@ -9,21 +9,21 @@ export const TRANSACTION_INITIAL_STATE = {
     note: ""
 };
 
-var add_transaction = function(itemId: string, amount: number, note: string){
+const addTransactionPrivate = function addTransactionPrivate(itemId: string, amount: number, note: string){
     return {
         type: ADD_TRANSACTION,
         payload: {
-            itemId: itemId,
-            amount: amount,
-            note: note
+            itemId,
+            amount,
+            note
         }
     }
 }
 
 
 export function addTransaction(itemId: string, amount: number, note: string){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(add_transaction(itemId, amount, note));
+    return (dispatch: Dispatch) => {
+        dispatch(addTransactionPrivate(itemId, amount, note));
     }
 }
 

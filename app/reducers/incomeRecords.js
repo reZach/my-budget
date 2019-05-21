@@ -27,11 +27,11 @@ export default function incomeRecords(state: any = [], action: Action){
                         note: action.payload.note
                     }]
                 );
-            } else {
+            } 
                 return update(state,
                     [{
                         id: (state.reduce((accumulator, current) => {
-                            var id = parseInt(current.id);
+                            const id = parseInt(current.id);
 
                             if (id > accumulator) {
                                 return id;
@@ -49,7 +49,7 @@ export default function incomeRecords(state: any = [], action: Action){
                         note: action.payload.note
                     }]
                 );
-            }
+            
         case MODIFY_INCOME_RECORD_START_DAY:
             return update([], 
                 state.map(i => {

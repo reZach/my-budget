@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-const {dialog} = require('electron').remote;
 import * as TransactionActions from "../../actions/transactionCollection";
 import * as CreateTransaction from "../../actions/createTransaction";
 import * as ModifyActions from "../../actions/modify";
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import styles from "./TransactionCollection.css";
 import Transaction from "../Transaction/Transaction";
+
+const {dialog} = require('electron').remote;
 
 class TransactionCollection extends Component<Props> {
     props: Props;
@@ -30,7 +31,7 @@ class TransactionCollection extends Component<Props> {
     }
 
     modifyAmount(event){        
-        let newValue = event.target.value;
+        const newValue = event.target.value;
         if (newValue.match(/^$/) !== null ||
             newValue.match(/^\d+\.?\d?\d?$/) !== null){
             this.props.modifyAmount(newValue);
@@ -40,7 +41,7 @@ class TransactionCollection extends Component<Props> {
     }
 
     modifyDay(event){
-        let day = event.target.value;
+        const day = event.target.value;
         if (day.match(/^$/) !== null ||
             day.match(/^[1-9]$/) !== null ||
             day.match(/^[12][0-9]$/) !== null ||   
@@ -54,17 +55,17 @@ class TransactionCollection extends Component<Props> {
     modifyCategory(event){
 
         // find category
-        var category = this.props.categories.find(c => c.name === event.target.value);
+        const category = this.props.categories.find(c => c.name === event.target.value);
         
-        var newCategoryId = (typeof category !== "undefined") ? category.id : "";
+        const newCategoryId = (typeof category !== "undefined") ? category.id : "";
 
         // find item
-        var item = "";
-        var newItemId = "";
+        let item = "";
+        let newItemId = "";
         if (this.props.items.length > 0){
-            var exists = this.props.items.sort(function(a, b){
-                var a1 = a.name.toLowerCase();
-                var b1 = b.name.toLowerCase();
+            const exists = this.props.items.sort((a, b) => {
+                const a1 = a.name.toLowerCase();
+                const b1 = b.name.toLowerCase();
                 if (a1 > b1) return 1;
                 if (a1 < b1) return -1;
                 return 0;
@@ -82,7 +83,7 @@ class TransactionCollection extends Component<Props> {
     }
 
     modifyItem(event){
-        var item = this.props.items.find(i => i.categoryId === this.props.createTransaction.selectedCategoryId && i.name === event.target.value);
+        const item = this.props.items.find(i => i.categoryId === this.props.createTransaction.selectedCategoryId && i.name === event.target.value);
 
         if (typeof item !== "undefined"){
             this.props.modifySelectedItem(item.id, item.name);
@@ -134,10 +135,10 @@ class TransactionCollection extends Component<Props> {
     }
 
     createCategoriesDropDown(){
-        let categories = this.props.categories;
-        return categories.sort(function(a, b){
-            var a1 = a.name.toLowerCase();
-            var b1 = b.name.toLowerCase();
+        const {categories} = this.props;
+        return categories.sort((a, b) => {
+            const a1 = a.name.toLowerCase();
+            const b1 = b.name.toLowerCase();
             if (a1 > b1) return 1;
             if (a1 < b1) return -1;
             return 0;            
@@ -147,10 +148,10 @@ class TransactionCollection extends Component<Props> {
     }
 
     createItemsDropDown(){
-        let items = this.props.items;
-        return items.filter(i => i.categoryId === this.props.createTransaction.selectedCategoryId).sort(function(a, b){
-            var a1 = a.name.toLowerCase();
-            var b1 = b.name.toLowerCase();
+        const {items} = this.props;
+        return items.filter(i => i.categoryId === this.props.createTransaction.selectedCategoryId).sort((a, b) => {
+            const a1 = a.name.toLowerCase();
+            const b1 = b.name.toLowerCase();
             if (a1 > b1) return 1;
             if (a1 < b1) return -1;
             return 0;
@@ -168,7 +169,7 @@ class TransactionCollection extends Component<Props> {
                             <h2>Transactions</h2>
                         </div>
                     </div>
-                    <div className={`columns`}>
+                    <div className="columns">
                         <div className="column col-12 text-left">
                             <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>
                                 <div className="form-group">
@@ -198,7 +199,7 @@ class TransactionCollection extends Component<Props> {
                                         <label className="form-label">Amount</label>
                                     </div>
                                     <div className="col-8">
-                                        <input className="form-input" type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount}></input>
+                                        <input className="form-input" type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount} />
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -206,7 +207,7 @@ class TransactionCollection extends Component<Props> {
                                         <label className="form-label">Date</label>
                                     </div>
                                     <div className="col-8">
-                                        <input className="form-input" type="number" placeholder="date" value={this.props.createTransaction.day} onChange={this.modifyDay}></input>
+                                        <input className="form-input" type="number" placeholder="date" value={this.props.createTransaction.day} onChange={this.modifyDay} />
                                     </div>
                                 </div>
                                 <div className="form-group">
@@ -214,15 +215,15 @@ class TransactionCollection extends Component<Props> {
                                         <label className="form-label">Note</label>
                                     </div>
                                     <div className="col-8">
-                                        <input className="form-input" type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote}></input>
+                                        <input className="form-input" type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote} />
                                     </div>
                                 </div>
                                 <div className="column col-12">
                                     <div className={`form-group float-left ${styles["delete-all-btn"]}`}>
-                                        <input className="btn btn-lg btn-error" type="button" value="Delete all" onClick={() => this.deleteAllTransactions()} disabled={this.props.transactions.length <= 0}></input>
+                                        <input className="btn btn-lg btn-error" type="button" value="Delete all" onClick={() => this.deleteAllTransactions()} disabled={this.props.transactions.length <= 0} />
                                     </div>
                                     <div className={`form-group float-right ${styles["add-new-btn"]}`}>
-                                        <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="Add new"></input>
+                                        <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="Add new" />
                                     </div>
                                 </div>
                             </form>
@@ -230,13 +231,13 @@ class TransactionCollection extends Component<Props> {
                     </div>
                 </div>                
                 <div className={`${styles['transaction-container']}`}>
-                    {this.props.transactions.sort(function(a, b){
+                    {this.props.transactions.sort((a, b) => {
                         
                         if (a.day > b.day) return 1;
                         if (b.day > a.day) return -1;                        
                         return 0;
                     }).map((value, index, array) => 
-                        <Transaction key={index} {...value} delete={this.deleteTransaction}></Transaction>
+                        <Transaction key={index} {...value} delete={this.deleteTransaction} />
                     )}
                 </div>                                
             </div>

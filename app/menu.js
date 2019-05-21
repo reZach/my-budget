@@ -1,7 +1,7 @@
 // @flow
 import { app, Menu, shell, BrowserWindow } from 'electron';
 
-let appVersion = app.getVersion();
+const appVersion = app.getVersion();
 
 
 export default class MenuBuilder {

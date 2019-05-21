@@ -12,62 +12,62 @@ export const IMPORT_TRANSACTIONS_OPTIONS_INITIAL_STATE = {
     readyToImport: false
 };
 
-var set_ready_to_set_category_ids = function(value: boolean){
+const set_ready_to_set_category_ids = function(value: boolean){
     return {
         type: SET_READY_TO_SET_CATEGORY_IDS,
         payload: {
-            value: value
+            value
         }
     };
 }
 
-var set_ready_to_create_items = function(value: boolean){
+const set_ready_to_create_items = function(value: boolean){
     return {
         type: SET_READY_TO_CREATE_ITEMS,
         payload: {
-            value: value
+            value
         }
     };
 }
 
-var set_ready_to_set_item_ids = function(value: boolean){
+const set_ready_to_set_item_ids = function(value: boolean){
     return {
         type: SET_READY_TO_SET_ITEM_IDS,
         payload: {
-            value: value
+            value
         }
     };
 }
 
-var set_ready_to_import = function(value: boolean){
+const set_ready_to_import = function(value: boolean){
     return {
         type: SET_READY_TO_IMPORT,
         payload: {
-            value: value
+            value
         }
     };
 }
 
 export function setReadyToSetCategoryIds(value: boolean){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(set_ready_to_set_category_ids(value));
     }
 }
 
 export function setReadyToCreateItems(value: boolean){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(set_ready_to_create_items(value));
     }
 }
 
 export function setReadyToSetItemIds(value: boolean){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(set_ready_to_set_item_ids(value));
     }
 }
 
 export function setReadyToImport(value: boolean) {
-    return (dispatch: Dispatch, store: Store) => {        
+    return (dispatch: Dispatch) => {        
         dispatch(set_ready_to_import(value));        
     }
 }

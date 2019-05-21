@@ -21,9 +21,9 @@ export default function transaction(state: any = TRANSACTION_INITIAL_STATE, acti
                         note: action.payload.note
                     }]
                 );
-            } else {
+            } 
                 return state;
-            }        
+                    
         default:
             return state;
     }
