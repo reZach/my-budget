@@ -62,7 +62,7 @@ export function addTransaction(categoryId: string, itemId: string, day: string, 
     }
 }
 export function addTransaction2(dateId: string, categoryId: string, itemId: string, day: string, amount: string, note: string){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(add_transaction(
             dateId, categoryId, itemId, day, amount, note));
         recalculateCategorySpent(dateId, categoryId);
@@ -80,7 +80,7 @@ export function removeAllTransactions(){
     }
 }
 export function entryTransactions(transactions: any){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(entry_transactions(transactions));
 
         for(let i = 0; i < transactions.length; i++){

@@ -17,7 +17,7 @@ import {
     update
 } from "./types";
 
-export default function categoryCollection(state: any = CATEGORY_COLLECTION_INITIAL_STATE, action: Action) {
+export default function categoryCollection(state: array = CATEGORY_COLLECTION_INITIAL_STATE, action: Action) {
     switch (action.type) {
         case ADD_CATEGORY:
             if (state.length === 0) {

@@ -1,17 +1,13 @@
 import { CREATE_NEW_TRANSACTION_INITIAL_STATE } from "../actions/createTransaction";
 import { IMPORT_TRANSACTIONS_OPTIONS_INITIAL_STATE } from "../actions/importTransactionsOptions";
-import { INCOME_RECORDS_INITIAL_STATE } from "../actions/incomeRecords";
 import { BANK_SYNC_INITIAL_STATE } from "../actions/bankSync";
 
-// let fs = require("fs");
-// import * as crypto from "../crypto/code";
 
 const date: Date = (new Date());
 const month: string = date.getMonth() + 1;
 const year: string = date.getFullYear();
 
-
-export const initialStore = {
+const initialStore = {
     modified: /* success ? fileContents.modified : */ false,
     income: /* success ? fileContents.income : */ [{
         id: "1",
@@ -81,3 +77,5 @@ export const initialStore = {
         year
     }
 }
+
+export default initialStore;

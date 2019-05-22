@@ -1,4 +1,4 @@
-import { Store, Dispatch } from "../reducers/types";
+import { Dispatch } from "../reducers/types";
 
 export const ADD_CATEGORY_ITEM = "ADD_CATEGORY_ITEM";
 export const REMOVE_CATEGORY_ITEM = "REMOVE_CATEGORY_ITEM";
@@ -44,4 +44,3 @@ export function removeCategoryItem(categoryName: string, name: string) {
         dispatch(removeCategoryItemPrivate(categoryName, name));
     }
 }
-

@@ -1,8 +1,6 @@
-import { navigate as discover } from "./banks/discover";
+import { default as discover } from "./banks/discover";
 
-const crypto = require("crypto");
-
-export async function bankSyncFetch(categories, items, bankName, username, password){
+export default async function bankSyncFetch(categories, bankName, username, password){
 
     let transactionLoad = [];
 
@@ -14,11 +12,11 @@ export async function bankSyncFetch(categories, items, bankName, username, passw
             break;
     }
 
-    return clean(transactionLoad, categories, items);
+    return clean(transactionLoad);
 }
 
 // cleans the input from the individual banks
-var clean = function(transactions, categories, items){
+var clean = function(transactions){
     const cleaned = [];
 
     for (let i = 0; i < transactions.length; i++){        

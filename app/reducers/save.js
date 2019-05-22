@@ -2,12 +2,11 @@ import {
     SAVE
 } from "../actions/save";
 import {
-    Action,
-    update
+    Action
 } from "./types";
 
 
-export default function save(state: any = {}, action: Action) {
+export default function save(state: boolean = false, action: Action) {
     switch (action.type){
         case SAVE:
             return state;

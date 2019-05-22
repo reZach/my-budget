@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import routes from '../../constants/routes';
+// import { Link } from 'react-router-dom';
+// import routes from '../../constants/routes';
 import styles from './Home.css';
 import Date from "../Date/Date";
 import Income from "../Income/Income";

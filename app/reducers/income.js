@@ -1,15 +1,21 @@
-import { SAVE_INCOME, ENTRY_INCOME, INCOME_INITIAL_STATE } from "../actions/income";
-import { Action, update } from "./types";
+import {
+    SAVE_INCOME,
+    ENTRY_INCOME
+} from "../actions/income";
+import {
+    Action,
+    update
+} from "./types";
 
-export default function income(state: any = {}, action: Action){
-    switch(action.type){
+export default function income(state: Array = [], action: Action) {
+    switch (action.type) {
         case SAVE_INCOME:
             var index = state.find(i => i.dateId === action.payload.dateId);
 
-            if (typeof index === "undefined"){
-                
+            if (typeof index === "undefined") {
+
                 // Add into state
-                return update(state, 
+                return update(state,
                     [{
                         id: (state
                             .filter(i => i.dateId === action.payload.dateId)
@@ -27,19 +33,19 @@ export default function income(state: any = {}, action: Action){
                         amount: action.payload.amount
                     }]
                 );
-            } 
+            }
 
-                // Update existing
-                return update([], 
-                    state.map(i => {
-                        if (i.dateId === action.payload.dateId){
-                            i.amount = action.payload.amount;
-                        }
-    
-                        return i;
-                    })
-                );
-            
+            // Update existing
+            return update([],
+                state.map(i => {
+                    if (i.dateId === action.payload.dateId) {
+                        i.amount = action.payload.amount;
+                    }
+
+                    return i;
+                })
+            );
+
         case ENTRY_INCOME:
             return update([], action.payload.income);
         default:

@@ -56,8 +56,8 @@ export function addItem(categoryId: string, name: string){
             store().date.id, categoryId, name));
     }
 }
-export function addItem2(dateId: String, categoryId: String, name: string){
-    return (dispatch: Dispatch, store: Store) => {
+export function addItem2(dateId: string, categoryId: string, name: string){
+    return (dispatch: Dispatch) => {
         dispatch(add_item(dateId, categoryId, name));
     }
 }
@@ -73,7 +73,7 @@ export function renameItem(categoryId: string, id: string, newName: string) {
     }
 }
 export function entryItems(items: any){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(entry_items(items));
     }
 }

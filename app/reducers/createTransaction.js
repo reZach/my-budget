@@ -13,7 +13,7 @@ import {
     update
 } from "./types";
 
-export default function createTransaction(state: any = CREATE_NEW_TRANSACTION_INITIAL_STATE, action: Action){
+export default function createTransaction(state: object = CREATE_NEW_TRANSACTION_INITIAL_STATE, action: Action){
     switch (action.type){
         case CREATE_NEW_TRANSACTION:            
             if (state.length === 0) {

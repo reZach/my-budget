@@ -10,7 +10,7 @@ import {
     update
 } from "./types";
 
-export default function importTransactionsOptions(state: any = IMPORT_TRANSACTIONS_OPTIONS_INITIAL_STATE, action: Action){
+export default function importTransactionsOptions(state: {} = IMPORT_TRANSACTIONS_OPTIONS_INITIAL_STATE, action: Action){
     switch (action.type){
         case SET_READY_TO_SET_CATEGORY_IDS:
             return update(state, {

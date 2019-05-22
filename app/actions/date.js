@@ -76,13 +76,13 @@ export function increment6() {
     };
 }
 export function increment12() {
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(increment_year());
     };
 }
 
 export function now() {
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         const today = new Date();
         const month = today.getMonth() + 1;
         const year = today.getFullYear();

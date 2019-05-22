@@ -32,7 +32,7 @@ class Transaction extends Component<Props> {
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(){
     return {
 
     }

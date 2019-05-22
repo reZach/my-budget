@@ -9,7 +9,7 @@ import {
     update
 } from "./types";
 
-export default function transactionCollection(state: any = {}, action: Action){
+export default function transactionCollection(state: Array = [], action: Action){
     switch (action.type){
         case ADD_TRANSACTION:
             if (state.length === 0) {
@@ -28,7 +28,7 @@ export default function transactionCollection(state: any = {}, action: Action){
                 return update(state,
                     [{
                         id: (state.filter(t => t.dateId === action.payload.dateId && t.categoryId === action.payload.categoryId && t.itemId === action.payload.itemId).reduce((accumulator, current) => {
-                            const id = parseInt(current.id);
+                            const id = parseInt(current.id, 10);
 
                             if (id > accumulator) {
                                 return id;

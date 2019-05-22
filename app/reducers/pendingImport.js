@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import {
     MODIFY_IMPORT_CHECKBOX,
     MODIFY_ALL_IMPORT_CHECKBOX,
@@ -17,7 +16,7 @@ import {
     update
 } from "./types";
 
-export default function pendingImport(state: any = [], action: Action){
+export default function pendingImport(state: array = [], action: Action){
     switch (action.type){
         case ADD_IMPORT_TRANSACTION:        
             return update(state, [{
