@@ -1,5 +1,4 @@
 import { Store, Dispatch } from "../reducers/types";
-import { falseModify } from "./modify";
 import * as crypto from "../crypto/code";
 import filehelper from "../utils/filehelper";
 
@@ -25,9 +24,9 @@ export function save(){
             encrypted = JSON.stringify(store());
         }
 
-        filehelper.set(encrypted, (error, data) => {
+        filehelper.set(encrypted, (error) => {
             if (error){
-                alert(`Could not write file: ${  error.message}`);
+                alert(`Could not write file: ${error.message}`);
                 return;
             }
             console.log("saved data");
@@ -37,9 +36,9 @@ export function save(){
 }
 
 export function deleteAll(suppress = false){
-    return (dispatch: Dispatch, store: Store) => {
+    return () => {
 
-        filehelper.set("", (error, data) => {
+        filehelper.set("", (error) => {
             if (error){
                 if (!suppress){
                     alert(`Could not delete data: ${  error.message}`);

@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-export async function navigate(username, password){
+export default async function navigate(username, password){
     return async function x(username, password){
         const browser = await puppeteer.launch({
             headless: false
@@ -19,7 +19,7 @@ export async function navigate(username, password){
         const transactions = await page.evaluate(() => {
             const raw = [];
             document.querySelectorAll("tr[id^=transaction-]")
-                .forEach((current, index, list) => {
+                .forEach((current) => {
                     raw.push(current.innerHTML);
                 }
             );
@@ -46,7 +46,7 @@ var parse = function(raw){
         const category = raw[i].match(/<td class="ctg"[^>]+>(.+)<\/td>/);
         if (category.length !== 2) continue;
 
-        const amount = raw[i].match(/<td class="amt">(\-?\$.+)<\/td>/);
+        const amount = raw[i].match(/<td class="amt">(-?\$.+)<\/td>/);
         if (amount.length !== 2) continue;
         if (amount[1].indexOf("-") >= 0){
             console.warn(`found payment of: ${amount[1]}. skipping.`);

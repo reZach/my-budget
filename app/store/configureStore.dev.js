@@ -15,13 +15,12 @@ import * as pendingImportActions from "../actions/pendingImport";
 import * as transactionCollectionActions from "../actions/transactionCollection";
 import * as saveActions from "../actions/save";
 import * as modifyActions from "../actions/modify";
-import category from '../reducers/category';
 
 const history = createHashHistory();
 
 const rootReducer = createRootReducer(history);
 
-const configureStore = (initialState?: any) => {
+const configureStore = (initialState?: object) => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];

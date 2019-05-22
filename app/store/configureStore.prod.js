@@ -10,7 +10,7 @@ const rootReducer = createRootReducer(history);
 const router = routerMiddleware(history);
 const enhancer = applyMiddleware(thunk, router);
 
-function configureStore(initialState?: any) {
+function configureStore(initialState?: Object) {
   return createStore(rootReducer, initialState, enhancer);
 }
 

@@ -3,11 +3,10 @@ import {
     FALSE
 } from "../actions/modify";
 import {
-    Action,
-    update
+    Action
 } from "./types";
 
-export default function modified(state: any = false, action: Action) {
+export default function modified(state: boolean = false, action: Action) {
     switch (action.type) {
         case TRUE:
             return true;

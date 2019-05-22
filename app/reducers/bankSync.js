@@ -1,6 +1,6 @@
 import {
     ADD_BANK_SYNC_KEYS,
-    ENTRY_BANK_SYNC,
+    // ENTRY_BANK_SYNC,
     BANK_SYNC_INITIAL_STATE
 } from "../actions/bankSync";
 import {
@@ -8,7 +8,7 @@ import {
     update
 } from "./types";
 
-export default function bankSync(state: any = BANK_SYNC_INITIAL_STATE, action: Action){
+export default function bankSync(state: Object = BANK_SYNC_INITIAL_STATE, action: Action){
     switch (action.type){
         case ADD_BANK_SYNC_KEYS:            
             return update(state, {

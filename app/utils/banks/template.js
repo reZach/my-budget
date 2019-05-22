@@ -2,7 +2,7 @@
 // please visit: https://github.com/reZach/my-budget/wiki/Creating-a-new-connector
 const puppeteer = require("puppeteer");
 
-export async function navigate(username, password){
+export default async function navigate(username, password){
     return async function x(username, password){
         const browser = await puppeteer.launch({
             headless: false

@@ -10,7 +10,7 @@ import {
     update
 } from "./types";
 
-export default function itemCollection(state: any = ITEM_COLLECTION_INITIAL_STATE, action: Action){
+export default function itemCollection(state: array = ITEM_COLLECTION_INITIAL_STATE, action: Action){
     switch (action.type){
         case ADD_ITEM:
             if (state.length === 0){

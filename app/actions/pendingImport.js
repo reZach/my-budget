@@ -34,27 +34,7 @@ const modifyAllImportCheckboxPrivate = function modifyAllImportCheckboxPrivate(v
     };
 }
 
-const modifyImportCategoryPrivate = function modifyImportCategoryPrivate(id: string, category: string){
-    return {
-        type: MODIFY_IMPORT_CATEGORY,
-        payload:{
-            id,
-            category
-        }
-    };
-}
-
-const modifyImportItemPrivate = function modifyImportItemPrivate(id: string, item: string){
-    return {
-        type: MODIFY_IMPORT_ITEM,
-        payload: {
-            id,
-            item
-        }
-    };
-}
-
-const setCategoryIdPrivate = function setCategoryIdPrivate(id: String, categoryId: string){
+const setCategoryIdPrivate = function setCategoryIdPrivate(id: string, categoryId: string){
     return {
         type: SET_CATEGORY_ID,
         payload: {
@@ -64,7 +44,7 @@ const setCategoryIdPrivate = function setCategoryIdPrivate(id: String, categoryI
     };
 }
 
-const setItemIdPrivate = function setItemIdPrivate(id: String, itemId: string){
+const setItemIdPrivate = function setItemIdPrivate(id: string, itemId: string){
     return {
         type: SET_ITEM_ID,
         payload: {
@@ -74,7 +54,7 @@ const setItemIdPrivate = function setItemIdPrivate(id: String, itemId: string){
     };
 }
 
-const setNotePrivate = function setNotePrivate(id: String, note: string) {
+const setNotePrivate = function setNotePrivate(id: string, note: string) {
     return {
         type: SET_NOTE,
         payload: {
@@ -84,7 +64,7 @@ const setNotePrivate = function setNotePrivate(id: String, note: string) {
     };
 }
 
-const set_overwrite_category_name = function(id: String, name: string){
+const set_overwrite_category_name = function(id: string, name: string){
     return {
         type: SET_OVERWRITE_CATEGORY_NAME,
         payload: {
@@ -94,7 +74,7 @@ const set_overwrite_category_name = function(id: String, name: string){
     };
 }
 
-const setOverwriteItemNamePrivate = function setOverwriteItemNamePrivate(id: String, name: string){
+const setOverwriteItemNamePrivate = function setOverwriteItemNamePrivate(id: string, name: string){
     return {
         type: SET_OVERWRITE_ITEM_NAME,
         payload: {
@@ -104,7 +84,7 @@ const setOverwriteItemNamePrivate = function setOverwriteItemNamePrivate(id: Str
     };
 }
 
-const setOverwriteNotePrivate = function setOverwriteNotePrivate(id: String, note: string){
+const setOverwriteNotePrivate = function setOverwriteNotePrivate(id: string, note: string){
     return {
         type: SET_OVERWRITE_NOTE,
         payload: {
@@ -173,31 +153,31 @@ export function setCategoryId(id: String, categoryId: string){
     }
 }
 
-export function setItemId(id: String, itemId: string){
+export function setItemId(id: string, itemId: string){
     return (dispatch: Dispatch) => {
         dispatch(setItemIdPrivate(id, itemId));
     }
 }
 
-export function setNote(id: String, note: string){
+export function setNote(id: string, note: string){
     return (dispatch: Dispatch) => {
         dispatch(setNotePrivate(id, note));
     }
 }
 
-export function setOverwriteCategoryName(id: String, name: string){
-    return (dispatch: Dispatch, store: Store) => {
+export function setOverwriteCategoryName(id: string, name: string){
+    return (dispatch: Dispatch) => {
         dispatch(set_overwrite_category_name(id, name));
     }
 }
 
-export function setOverwriteItemName(id: String, name: string){
+export function setOverwriteItemName(id: string, name: string){
     return (dispatch: Dispatch) => {
         dispatch(setOverwriteItemNamePrivate(id, name));
     }
 }
 
-export function setOverwriteNote(id: String, note: string){
+export function setOverwriteNote(id: string, note: string){
     return (dispatch: Dispatch) => {
         dispatch(setOverwriteNotePrivate(id, note));
     }
@@ -209,7 +189,7 @@ export function removeAllImportTransactions(){
     }    
 }
 
-export function addImportTransaction(id: String, toImport: Boolean, dateId: String, categoryId: String, categoryName: String, itemId: String, itemName: String, day: Number, amount: String, note: string, overwriteCategoryName: String, overwriteItemName: string, overwriteNote: string){
+export function addImportTransaction(id: string, toImport: Boolean, dateId: string, categoryId: string, categoryName: string, itemId: string, itemName: string, day: Number, amount: string, note: string, overwriteCategoryName: string, overwriteItemName: string, overwriteNote: string){
     return (dispatch: Dispatch) => {
         dispatch(addImportTransactionPrivate(id, toImport, dateId, categoryId, categoryName, itemId, itemName, day, amount, note, overwriteCategoryName, overwriteItemName, overwriteNote));
     }

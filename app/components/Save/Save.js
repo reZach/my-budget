@@ -11,7 +11,7 @@ import * as TransactionCollectionActions from "../../actions/transactionCollecti
 import * as PendingImportActions from "../../actions/pendingImport";
 import * as ImportTransactionsOptionsActions from "../../actions/importTransactionsOptions";
 import styles from "./Save.css";
-import { bankSyncFetch } from "../../utils/banksync";
+import bankSyncFetch from "../../utils/banksync";
 import ImportBank from "../ImportBank/ImportBank";
 import filehelper from "../../utils/filehelper";
 import * as crypto from "../../crypto/code";
@@ -176,7 +176,7 @@ class Save extends Component<Props>{
                     const matched = this.props.items.filter(j => j.dateId === toImport[i].dateId && j.categoryId === toImport[i].categoryId && j.name === toImport[i].itemName);
 
                     if (matched.length === 0){
-                        debugger;
+                        // ?
                     }
                     toImport[i].itemId = matched[0].id;
                     this.props.setItemId(toImport[i].tempId, toImport[i].itemId);
@@ -225,7 +225,7 @@ class Save extends Component<Props>{
 
         if (!this.puppeteerLock){
             this.puppeteerLock = true;
-            const imported = await bankSyncFetch(this.props.categories, this.props.items, this.state.selectedBank, this.state.username, this.state.password);
+            const imported = await bankSyncFetch(this.props.categories, this.state.selectedBank, this.state.username, this.state.password);
                     
             for (let i = 0; i < imported.length; i++){
                 this.props.addImportTransaction(imported[i].tempId, imported[i].toImport, imported[i].dateId, imported[i].categoryId, imported[i].categoryName, imported[i].itemId, imported[i].itemName, imported[i].day, imported[i].amount, imported[i].note, imported[i].overwriteCategoryName, imported[i].overwriteItemName, imported[i].overwriteNote);
@@ -269,13 +269,13 @@ class Save extends Component<Props>{
         });        
     }
 
-    export(event){
+    export(){
         const today = new Date();
         const month = today.getMonth() + 1;
         const day = today.getDate();
         const year = today.getFullYear();
 
-        const callback = function callback(filename, bookmark){
+        const callback = function callback(filename){
             if (typeof filename !== "undefined"){
 
                 try
@@ -327,7 +327,7 @@ class Save extends Component<Props>{
         const day = today.getDate();
         const year = today.getFullYear();
 
-        const callback = function(filename, bookmark){
+        const callback = function(filename){
             if (typeof filename !== "undefined"){
 
                 try
@@ -407,6 +407,7 @@ class Save extends Component<Props>{
                         .then(() => {
                             this.toggleExportModal();
                             alert("Exported data as CSV successfully.");
+                            return true; // eslint
                         })
                         .catch((err) => {
                             console.error(`Error writing CSV: ${err}`);
@@ -445,8 +446,6 @@ class Save extends Component<Props>{
         const toImport = this.props.pendingImport.filter(pi => pi.toImport);
 
         const categoriesToAdd = [];
-        
-        const toCreate = [];
 
         for (let i = 0; i < toImport.length; i++){
 
@@ -490,18 +489,14 @@ class Save extends Component<Props>{
     }
 
     toggleBankSyncAdd(){
-        const newState = !this.state.bankSyncAdd;
-
-        this.setState({
-            bankSyncAdd: newState            
+        this.setState((state) => {
+            return {bankSyncAdd: !state.bankSyncAdd};                       
         });
     }
 
-    toggleExportModal(){
-        const newState = !this.state.exportModalActive;
-
-        this.setState({
-            exportModalActive: newState            
+    toggleExportModal(){        
+        this.setState((state) => {
+            return {exportModalActive: !state.exportModalActive};
         });
     }
 
@@ -544,7 +539,7 @@ class Save extends Component<Props>{
                                 <div className="content">
                                     <div className={`${styles.mb}`}>
                                         Import transactions from your bank.<br />
-                                        Bank not found and you are good with code? Consider <a target="_blank" href="https://github.com/reZach/my-budget/wiki/Creating-a-new-connector">writing a connector</a>.
+                                        Bank not found and you are good with code? Consider <a target="_blank" rel="noopener noreferrer" href="https://github.com/reZach/my-budget/wiki/Creating-a-new-connector">writing a connector</a>.
                                     </div>
                                     <div className="columns">
                                         <div className="column col-12 col-mr-auto">
@@ -588,18 +583,18 @@ class Save extends Component<Props>{
                                                 <form className="form-horizontal" style={{width: "100%"}}>
                                                     <div className="form-group">
                                                         <div className="column col-3">
-                                                            <label className="form-label">Username</label>
+                                                            <label className="form-label" htmlFor="banksync-username-input">Username</label>
                                                         </div>
                                                         <div className="column col-9">
-                                                            <input className="form-input" type="text" value={this.state.username} onChange={this.changeUsername} placeholder="username" />
+                                                            <input className="form-input" id="banksync-username-input" type="text" value={this.state.username} onChange={this.changeUsername} placeholder="username" />
                                                         </div>
                                                     </div>
                                                     <div className="form-group">
                                                         <div className="column col-3">
-                                                            <label className="form-label">Password</label>
+                                                            <label className="form-label" htmlFor="banksync-password-input">Password</label>
                                                         </div>
                                                         <div className="column col-9">
-                                                            <input className="form-input" type="password" value={this.state.password} onChange={this.changePassword} placeholder="password" />
+                                                            <input className="form-input" id="banksync-password-input" type="password" value={this.state.password} onChange={this.changePassword} placeholder="password" />
                                                         </div>
                                                     </div>
                                                 </form>

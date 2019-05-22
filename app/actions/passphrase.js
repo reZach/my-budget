@@ -14,7 +14,7 @@ const set_passphrase = function(passphrase: string){
 }
 
 export function setPassphrase(passphrase: string){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
 
         let hash = "";
 

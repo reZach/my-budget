@@ -92,7 +92,7 @@ class TransactionCollection extends Component<Props> {
         }
     }
 
-    createNewTransaction(event){
+    createNewTransaction(){
         this.props.addTransaction(this.props.createTransaction.selectedCategoryId, 
             this.props.createTransaction.selectedItemId, this.props.createTransaction.day, this.props.createTransaction.amount, this.props.createTransaction.note);
         this.props.recalculateCategorySpent(this.props.date.id, this.props.createTransaction.selectedCategoryId);
@@ -174,10 +174,10 @@ class TransactionCollection extends Component<Props> {
                             <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <label className="form-label">Category</label>
+                                        <label className="form-label" htmlFor="transaction-select-categorydropdown">Category</label>
                                     </div>
                                     <div className="col-8">
-                                        <select className="form-select" value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
+                                        <select className="form-select" id="transaction-select-categorydropdown" value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
                                             <option value="">---</option>
                                             {this.createCategoriesDropDown()}
                                         </select>
@@ -185,10 +185,10 @@ class TransactionCollection extends Component<Props> {
                                 </div>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <label className="form-label">Sub-category</label>
+                                        <label className="form-label" htmlFor="transaction-select-subcategorydropdown">Sub-category</label>
                                     </div>
                                     <div className="col-8">
-                                        <select className="form-select" value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
+                                        <select className="form-select" id="transaction-select-subcategorydropdown" value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
                                             <option value="">---</option>
                                             {this.createItemsDropDown()}  
                                         </select>
@@ -196,26 +196,26 @@ class TransactionCollection extends Component<Props> {
                                 </div>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <label className="form-label">Amount</label>
+                                        <label className="form-label" htmlFor="transaction-create-amount">Amount</label>
                                     </div>
                                     <div className="col-8">
-                                        <input className="form-input" type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount} />
+                                        <input className="form-input" id="transaction-create-amount" type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <label className="form-label">Date</label>
+                                        <label className="form-label" htmlFor="transaction-create-date">Date</label>
                                     </div>
                                     <div className="col-8">
-                                        <input className="form-input" type="number" placeholder="date" value={this.props.createTransaction.day} onChange={this.modifyDay} />
+                                        <input className="form-input" id="transaction-create-date" type="number" placeholder="date" value={this.props.createTransaction.day} onChange={this.modifyDay} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <label className="form-label">Note</label>
+                                        <label className="form-label" htmlFor="transaction-create-note">Note</label>
                                     </div>
                                     <div className="col-8">
-                                        <input className="form-input" type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote} />
+                                        <input className="form-input" id="transaction-create-note" type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote} />
                                     </div>
                                 </div>
                                 <div className="column col-12">
@@ -236,7 +236,7 @@ class TransactionCollection extends Component<Props> {
                         if (a.day > b.day) return 1;
                         if (b.day > a.day) return -1;                        
                         return 0;
-                    }).map((value, index, array) => 
+                    }).map((value, index) => 
                         <Transaction key={index} {...value} delete={this.deleteTransaction} />
                     )}
                 </div>                                

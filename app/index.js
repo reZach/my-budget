@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
-import { initialStore } from "./store/initialStore";
+import initialStore from "./store/initialStore";
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 

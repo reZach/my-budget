@@ -1,4 +1,4 @@
-import { Store, Dispatch } from "../reducers/types";
+import { Dispatch } from "../reducers/types";
 
 export const TRUE = "TRUE";
 export const FALSE = "FALSE";

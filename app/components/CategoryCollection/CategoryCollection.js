@@ -19,8 +19,7 @@ class CategoryCollection extends Component<Props> {
             newCategoryName: "",
             copyPreviousCategoriesActive: false,
             previousCategoryDates: [],
-            selectedPreviousDateForCategories: "",
-            collapseState: false
+            selectedPreviousDateForCategories: ""
         };
 
         this.modifyNewCategoryName = this.modifyNewCategoryName.bind(this);
@@ -45,7 +44,7 @@ class CategoryCollection extends Component<Props> {
         });
     }
 
-    createNewCategory(event) {        
+    createNewCategory() {        
         if (this.state.newCategoryName !== "") {
 
             // Don't create duplicate categories
@@ -71,10 +70,7 @@ class CategoryCollection extends Component<Props> {
     }
 
     toggleAllCategoryState(value){
-        this.props.setCollapseCategoryAll(value)
-        this.setState({
-            collapseState: value
-        });
+        this.props.setCollapseCategoryAll(value);
     }
 
     deleteCategory(id, name){
@@ -94,8 +90,8 @@ class CategoryCollection extends Component<Props> {
         
                 // delete items
                 if (items.length > 0){
-                    for (var i = 0; i < items.length; i++){
-                        this.props.removeItem(id, items[i].id);
+                    for (let j = 0; j < items.length; j++){
+                        this.props.removeItem(id, items[j].id);
                     }
                 }
                 this.props.trueModify();
@@ -117,19 +113,19 @@ class CategoryCollection extends Component<Props> {
         });
     }
 
-    sortAlpha(event){
+    sortAlpha(){
         this.props.sortAlphabetically(this.props.date.id);
     }
 
-    sortReverseAlpha(event){
+    sortReverseAlpha(){
         this.props.sortReverseAlphabetically(this.props.date.id);
     }
 
-    sortSpendDescending(event){
+    sortSpendDescending(){
         this.props.sortSpentDescending(this.props.date.id);
     }
 
-    sortSpendAscending(event){
+    sortSpendAscending(){
         this.props.sortSpentAscending(this.props.date.id);
     }
 
@@ -139,7 +135,7 @@ class CategoryCollection extends Component<Props> {
         });
     }
 
-    toggleCopyPreviousCategories(event){
+    toggleCopyPreviousCategories(){
         const newState = !this.state.copyPreviousCategoriesActive;
         if (newState){
             this.prepPreviousCategories();
@@ -150,7 +146,7 @@ class CategoryCollection extends Component<Props> {
         });
     }
 
-    copyPreviousCategories(event){
+    copyPreviousCategories(){
         const target = this.state.selectedPreviousDateForCategories;
 
         // copy all categories
@@ -256,22 +252,22 @@ class CategoryCollection extends Component<Props> {
                             </form>
                         </div>
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort alphabetically" onClick={() => this.sortAlpha()}>
-                            <i className={`fas fa-sort-alpha-down ${styles.control}`} />
+                            <i role="button" className={`fas fa-sort-alpha-down ${styles.control}`} />
                         </div>
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort reverse-alphabetically" onClick={() => this.sortReverseAlpha()}>
-                            <i className={`fas fa-sort-alpha-up ${styles.control}`} />
+                            <i role="button" className={`fas fa-sort-alpha-up ${styles.control}`} />
                         </div>
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent descending" onClick={() => this.sortSpendDescending()}>
-                            <i className={`fas fa-sort-amount-down ${styles.control}`} />
+                            <i role="button" className={`fas fa-sort-amount-down ${styles.control}`} />
                         </div>
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent ascending" onClick={() => this.sortSpendAscending()}>
-                            <i className={`fas fa-sort-amount-up ${styles.control}`} />
+                            <i role="button" className={`fas fa-sort-amount-up ${styles.control}`} />
                         </div>                        
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Collapses all categories" onClick={() => this.toggleAllCategoryState(true)}>
-                            <i className={`fas fa-compress ${styles.control}`} />
+                            <i role="button" className={`fas fa-compress ${styles.control}`} />
                         </div>
                         <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Expands all categories" onClick={() => this.toggleAllCategoryState(false)}>
-                        <i className={`fas fa-expand ${styles.control}`} />
+                        <i role="button" className={`fas fa-expand ${styles.control}`} />
                         </div>                         
                     </div>
                 </div>
@@ -282,7 +278,7 @@ class CategoryCollection extends Component<Props> {
                         if (a1 > b1) return 1;
                         if (a1 < b1) return -1;
                         return 0;
-                    }).map((value, index, array) => value.dateId === this.props.date.id &&
+                    }).map((value) => value.dateId === this.props.date.id &&
                             <div className={`column col-12 text-left ${styles.category}`} key={`${this.props.date.id  }-${  value.id}`}>
                                 <Category {...value} dateId={this.props.date.id} rename={this.renameCategory} delete={this.deleteCategory} />
                             </div>)}

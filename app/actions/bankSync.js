@@ -1,4 +1,4 @@
-import { Store, Dispatch } from "../reducers/types";
+import { Dispatch } from "../reducers/types";
 
 export const ADD_BANK_SYNC_KEYS = "ADD_BANK_SYNC_KEYS";
 export const ENTRY_BANK_SYNC = "ENTRY_BANK_SYNC";

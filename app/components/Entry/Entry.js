@@ -11,6 +11,7 @@ import * as IncomeRecordActions from "../../actions/incomeRecords";
 import * as ModifyActions from "../../actions/modify";
 import * as IncomeActions from "../../actions/income";
 import * as SaveActions from "../../actions/save";
+import * as DateActions from "../../actions/date";
 import * as BankSyncActions from "../../actions/bankSync";
 import filehelper from "../../utils/filehelper";
 import * as crypto from "../../crypto/code";
@@ -42,13 +43,17 @@ class Entry extends Component<Props>{
         this.changePassphraseModal = this.changePassphraseModal.bind(this);
     }
 
+    componentDidMount(){
+        this.fixbuginput.click();
+    }
+
     changePassphrase(event){
         this.setState({
             passphrase: event.target.value
         });        
     }
 
-    resetData(event){
+    resetData(){
         dialog.showMessageBox({
             title: "Delete data",
             type: "warning",
@@ -74,7 +79,7 @@ class Entry extends Component<Props>{
         });
     }
 
-    go(event){
+    go(){
         const date: Date = (new Date());
         const month: string = date.getMonth() + 1;
         const year: string = date.getFullYear();
@@ -186,6 +191,8 @@ class Entry extends Component<Props>{
             }
             this.props.entryBankSyncKeys(bankSync.clientId, bankSync.publicKey, bankSync.development);
 
+            this.props.now();
+
             // Lets us save when we navigate to the main screen
             if (this.state.dataImported && success){
                 this.props.trueModify();
@@ -205,9 +212,7 @@ class Entry extends Component<Props>{
                 type: "warning",
                 buttons: ["Ok"],
                 message: `Wrong passphrase, if you cannot remember your passphrase, reset your data by clicking the delete button above. You may set a new passphrase after resetting your data.`
-            }, (i) => {
-                    
-            });             
+            }, null);             
         }
     }
 
@@ -250,11 +255,7 @@ class Entry extends Component<Props>{
             dataImported: false,
             dataToImport: "",
         });
-    }
-
-    componentDidMount(){
-        this.fixbuginput.click();
-    }
+    }    
 
     fixBug(){
 
@@ -331,7 +332,7 @@ class Entry extends Component<Props>{
                                                 If this is your first time using MyBudget, you can choose to encrypt your data with a passphrase. If you do so, you must enter in your passphrase every time you use this app. You cannot change your passphrase once it's been set! If you don't choose a passphrase, your data will be saved unencrypted on your computer.
                                             </div> */}
                                             <div className="card-footer" style={{fontStyle: "italic"}}>
-                                                Please visit the <a target="_blank" href="https://github.com/reZach/my-budget/wiki/First-time-user-guide">new user's guide</a> if you'd like a walkthrough how to use My Budget.
+                                                Please visit the <a target="_blank" rel="noopener noreferrer" href="https://github.com/reZach/my-budget/wiki/First-time-user-guide">new user's guide</a> if you'd like a walkthrough how to use My Budget.
                                             </div>
                                         </div>
                                     </div>
@@ -364,6 +365,7 @@ function mapDispatchToProps(dispatch) {
         ...ModifyActions,
         ...IncomeActions,
         ...SaveActions,
+        ...DateActions,
         ...IncomeRecordActions,
         ...BankSyncActions,
         ...TransactionCollectionActions

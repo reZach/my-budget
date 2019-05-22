@@ -15,8 +15,7 @@ export function update(state, mutations) {
     if (Array.isArray(state) && Array.isArray(mutations)) {
         return state.concat(mutations);
     } 
-        return Object.assign({}, state, mutations);
-    
+    return Object.assign({}, state, mutations);
 }
 
 export type GetState = () => counterStateType;
