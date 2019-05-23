@@ -1,4 +1,4 @@
-import { ITEM_INITIAL_STATE } from "./item";
+import ITEM_INITIAL_STATE from "./item";
 import { Store, Dispatch } from "../reducers/types";
 
 export const ADD_ITEM = "ADD_ITEM";
@@ -41,7 +41,7 @@ const rename_item = function(dateId: string, categoryId: string, id: string, new
         }        
     };
 }
-const entry_items = function(items: any){
+const entry_items = function(items: array){
     return {
         type: ENTRY_ITEMS,
         payload: {
@@ -72,7 +72,7 @@ export function renameItem(categoryId: string, id: string, newName: string) {
         dispatch(rename_item(store().date.id, categoryId, id, newName));
     }
 }
-export function entryItems(items: any){
+export function entryItems(items: array){
     return (dispatch: Dispatch) => {
         dispatch(entry_items(items));
     }

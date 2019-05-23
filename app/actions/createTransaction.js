@@ -1,6 +1,5 @@
-import { CATEGORY_INITIAL_STATE } from "./category";
 import { addTransaction } from "./transactionCollection";
-import { Store, Dispatch } from "../reducers/types";
+import { Dispatch } from "../reducers/types";
 
 export const CREATE_NEW_TRANSACTION = "CREATE_NEW_TRANSACTION";
 export const RESET_CREATE_NEW_TRANSACTION = "RESET_CREATE_NEW_TRANSACTION";
@@ -78,32 +77,32 @@ export function createNewTransaction(categoryId: string, itemId: string, day: nu
     }
 }
 export function resetCreateNewTransaction(){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(reset_create_new_transaction());
     }
 }
 export function modifyNote(note: string){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(modify_note(note));
     }
 }
 export function modifyAmount(amount: number){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(modify_amount(amount));
     }
 }
 export function modifyDay(day: number){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(modify_day(parseInt(day)));
     }
 }
 export function modifySelectedCategory(categoryId: string, categoryName: string){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(modify_selected_category(categoryId, categoryName));
     }
 }
 export function modifySelectedItem(itemId: string, itemName: string){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(modify_selected_item(itemId, itemName));
     }
 }

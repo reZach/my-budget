@@ -1,4 +1,4 @@
-import { Dispatch, Store } from "../reducers/types";
+import { Dispatch } from "../reducers/types";
 
 export const ENTRY_MODIFIED = "ENTRY_MODIFIED";
 export const ENTRY_INCOME = "ENTRY_INCOME";
@@ -7,15 +7,8 @@ export const ENTRY_CATEGORIES = "ENTRY_CATEGORIES";
 export const ENTRY_ITEMS = "ENTRY_ITEMS";
 export const ENTRY_TRANSACTIONS = "ENTRY_TRANSACTIONS";
 
-const entry_modified = function(modified: any){
-    return {
-        type: ENTRY_MODIFIED,
-        payload: {
-            modified
-        }
-    };
-}
-const entry_income = function(income: any){
+
+const entry_income = function(income: array){
     return {
         type: ENTRY_INCOME,
         payload: {
@@ -23,7 +16,7 @@ const entry_income = function(income: any){
         }
     };
 }
-const entry_categories = function(categories: any){
+const entry_categories = function(categories: array){
     return {
         type: ENTRY_CATEGORIES,
         payload: {
@@ -31,7 +24,7 @@ const entry_categories = function(categories: any){
         }
     };
 }
-const entry_items = function(items: any){
+const entry_items = function(items: array){
     return {
         type: ENTRY_ITEMS,
         payload: {
@@ -39,7 +32,7 @@ const entry_items = function(items: any){
         }
     };
 }
-const entry_transactions = function(transactions: any){
+const entry_transactions = function(transactions: array){
     return {
         type: ENTRY_TRANSACTIONS,
         payload: {
@@ -48,28 +41,24 @@ const entry_transactions = function(transactions: any){
     };
 }
 
-export function entryModified(modified: any){
-    return (dispatch: Dispatch, store: Store) => {
-        dispatch(entry_modified(modified));
-    }
-}
-export function entryIncome(income: any){
-    return (dispatch: Dispatch, store: Store) => {
+
+export function entryIncome(income: array){
+    return (dispatch: Dispatch) => {
         dispatch(entry_income(income));
     }
 }
-export function entryCategories(categories: any) {
-    return (dispatch: Dispatch, store: Store) => {
+export function entryCategories(categories: array) {
+    return (dispatch: Dispatch) => {
         dispatch(entry_categories(categories));
     }
 }
-export function exportItems(items: any){
-    return (dispatch: Dispatch, store: Store) => {
+export function exportItems(items: array){
+    return (dispatch: Dispatch) => {
         dispatch(entry_items(items));
     }
 }
-export function exportTransactions(transactions: any){
-    return (dispatch: Dispatch, store: Store) => {
+export function exportTransactions(transactions: array){
+    return (dispatch: Dispatch) => {
         dispatch(entry_transactions(transactions));
     }
 }

@@ -1,4 +1,4 @@
-import { Dispatch, Store } from "../reducers/types";
+import { Dispatch } from "../reducers/types";
 
 const crypto = require("crypto");
 

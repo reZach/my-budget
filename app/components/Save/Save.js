@@ -583,7 +583,7 @@ class Save extends Component<Props>{
                                                 <form className="form-horizontal" style={{width: "100%"}}>
                                                     <div className="form-group">
                                                         <div className="column col-3">
-                                                            <label className="form-label" htmlFor="banksync-username-input">Username</label>
+                                                            <label className="form-label" htmlFor={"banksync-username-input"}>Username</label>
                                                         </div>
                                                         <div className="column col-9">
                                                             <input className="form-input" id="banksync-username-input" type="text" value={this.state.username} onChange={this.changeUsername} placeholder="username" />
@@ -591,7 +591,7 @@ class Save extends Component<Props>{
                                                     </div>
                                                     <div className="form-group">
                                                         <div className="column col-3">
-                                                            <label className="form-label" htmlFor="banksync-password-input">Password</label>
+                                                            <label className="form-label" htmlFor={"banksync-password-input"}>Password</label>
                                                         </div>
                                                         <div className="column col-9">
                                                             <input className="form-input" id="banksync-password-input" type="password" value={this.state.password} onChange={this.changePassword} placeholder="password" />
@@ -677,7 +677,7 @@ class Save extends Component<Props>{
                                         </div>
                                     </div>
                                     <div className={`${styles.hrest}`}>
-                                    {this.props.pendingImport.map((value, index, array) => <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName !== "" ? value.categoryName : "default"} defaultItem={value.itemName !== "" ? value.itemName : "default"} defaultNote={value.note} />)}
+                                    {this.props.pendingImport.map((value, index) => <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName !== "" ? value.categoryName : "default"} defaultItem={value.itemName !== "" ? value.itemName : "default"} defaultNote={value.note} />)}
                                     </div>
                                 </div>
                             </div>
@@ -687,8 +687,8 @@ class Save extends Component<Props>{
                                         <input className="btn" type="button" value="Toggle import all" onClick={() => this.toggleAllImport()} />
                                     </div>
                                     <div className="form-group float-right">
-                                        <button className="btn btn-primary" onClick={() => this.importTransactions()}>Import</button>
-                                        <button className="btn" onClick={() => this.toggleBankSyncAdd()}>Cancel</button>
+                                        <button type="button" className="btn btn-primary" onClick={() => this.importTransactions()}>Import</button>
+                                        <button type="button" className="btn" onClick={() => this.toggleBankSyncAdd()}>Cancel</button>
                                     </div>
                                 </div>
                             </div>

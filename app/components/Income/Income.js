@@ -42,7 +42,7 @@ class Income extends Component<Props>{
         this.getRemainingDays = this.getRemainingDays.bind(this);
     }
 
-    componentDidUpdate(previousProps){
+    componentDidUpdate(){
         const data = this.props.income[0];
         if (typeof data === "undefined"){
             this.props.saveIncome(0);
@@ -108,7 +108,7 @@ class Income extends Component<Props>{
         
     }
     
-    addNewIncomeRecord(event){
+    addNewIncomeRecord(){
         this.props.addIncomeRecord(this.state.day, this.state.month, this.state.year, this.state.income, this.state.frequency, this.state.note);
 
         this.setState({
@@ -162,11 +162,10 @@ class Income extends Component<Props>{
                 this.state.income !== 0);
     }
 
-    toggleModal(event){
-        const current = this.state.modalActive;
-        this.setState({
-            modalActive: !current
-        });
+    toggleModal(){
+        this.setState(state => (
+            {modalActive: !state.modalActive}
+        ));
     }
 
     getCurrentCashFlow(){
@@ -234,10 +233,6 @@ class Income extends Component<Props>{
 
         // Get transactions for the current month
         const validTransactions = this.props.transactions.filter((t) => {
-            const split = t.dateId.split("-");
-
-            const tDate = new Date(parseInt(split[1]), parseInt(split[0])-1, t.day);
-
             if (t.day <= day){
                 return true;
             }
@@ -283,7 +278,7 @@ class Income extends Component<Props>{
                                     </div>
                                     <div className="card-footer">
                                         <div className="bar">
-                                            <div className={`bar-item ${spent <= 33 ? styles["bar-good"] : spent <= 66 ? styles["bar-okay"] : styles["bar-bad"]}`} role="progressbar" style={{width: `${spent  }%`}} aria-valuenow={`${spent}`} aria-valuemin="0" />
+                                            <div className={`bar-item ${spent <= 33 ? styles["bar-good"] : spent <= 66 ? styles["bar-okay"] : styles["bar-bad"]}`} role="progressbar" style={{width: `${spent  }%`}} aria-valuenow="0" aria-valuemin="0" />
                                         </div>
                                     </div>
                                 </React.Fragment> : <React.Fragment></React.Fragment>    
@@ -315,12 +310,12 @@ class Income extends Component<Props>{
             }
         ];
 
-        const components = options.map((value, index, array) => 
+        const components = options.map((value) => 
             <option key={value.value} value={value.value}>{value.text}</option>
         );
         
         return components;
-    }
+f    }
 
     incomeTable(){
         if (this.props.incomeRecords.length > 0){
@@ -429,34 +424,10 @@ class Income extends Component<Props>{
         return (
             <div className={`columns ${styles["header-fix"]}`}>
                 {this.getCurrentCashFlow()}
-                <button className="btn btn-primary" onClick={this.toggleModal}>Income</button>
+                <button type="button" className="btn btn-primary" onClick={this.toggleModal}>Income</button>
                 {this.modal()}
             </div>
-        );    
-        // let data = this.props.income[0];        
-        // if (typeof data !== "undefined"){
-        //     let spent = this.getPercentSpent(data);
-
-        //     return (
-        //         <div className="columns">
-        //             <div className={`column col-4 text-center ${styles['label-padding']}`}>
-        //                 {this.renderRemainingDays(data)}                      
-        //             </div>
-        //             <div className={`column col-8 ${styles['form-padding']}`}>
-        //                 <form onSubmit={() => this.changeIncome()}>
-        //                     <div className="input-group">
-        //                         <input className="form-input" type="text" placeholder="income" value={this.state.amount} onChange={this.changeAmount}></input>
-        //                         <button className="btn btn-primary" type="submit">set</button>
-        //                     </div>                                
-        //                 </form>
-        //             </div>                    
-        //         </div>
-        //     );
-        // } else {
-        //     return (
-        //         <div></div>
-        //     );
-        // }        
+        );
     }
 }
 

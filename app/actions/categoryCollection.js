@@ -49,7 +49,7 @@ const renameCategoryPrivate = function renameCategoryPrivate(dateId: string, cat
         }        
     };
 }
-const set_category_spent = function(dateId: String, categoryId: String, spent: string){    
+const set_category_spent = function(dateId: string, categoryId: string, spent: string){    
     return {
         type: SET_CATEGORY_SPENT,
         payload: {
@@ -59,7 +59,7 @@ const set_category_spent = function(dateId: String, categoryId: String, spent: s
         }
     };
 }
-const set_collapse_category = function(dateId: String, categoryId: String, collapse: boolean){
+const set_collapse_category = function(dateId: string, categoryId: string, collapse: boolean){
     return {
         type: SET_COLLAPSE_CATEGORY,
         payload: {
@@ -69,7 +69,7 @@ const set_collapse_category = function(dateId: String, categoryId: String, colla
         }
     };
 }
-const set_collapse_category_all = function(dateId: String, collapse: boolean){
+const set_collapse_category_all = function(dateId: string, collapse: boolean){
     return {
         type: SET_COLLAPSE_CATEGORY_ALL,
         payload: {
@@ -110,7 +110,7 @@ const sort_spent_ascending = function(dateId: string){
         }
     };
 }
-const recalculate_category_spent = function(dateId: String, categoryId: string){
+const recalculate_category_spent = function(dateId: string, categoryId: string){
     return {
         type: RECALCULATE_CATEGORY_SPENT,
         payload: {
@@ -119,7 +119,7 @@ const recalculate_category_spent = function(dateId: String, categoryId: string){
         }
     };
 }
-const entry_categories = function(categories: any){
+const entry_categories = function(categories: array){
     return {
         type: ENTRY_CATEGORIES,
         payload: {
@@ -135,8 +135,8 @@ export function addCategory(name: string, collapse: boolean, order: number, spen
     }
 }
 
-export function addCategory2(dateId: String, name: string, collapse: boolean, order: number, spent: number) {
-    return (dispatch: Dispatch, store: Store) => {
+export function addCategory2(dateId: string, name: string, collapse: boolean, order: number, spent: number) {
+    return (dispatch: Dispatch) => {
         dispatch(addCategoryPrivate(dateId, name, collapse, order, spent));
     }
 }
@@ -155,13 +155,13 @@ export function renameCategory(categoryId: string, newName: string) {
     }
 }
 
-export function setCategorySpent(dateId: string, categoryId: String, spent: string){
-    return (dispatch: Dispatch, store: Store) => {
+export function setCategorySpent(dateId: string, categoryId: string, spent: string){
+    return (dispatch: Dispatch) => {
         dispatch(set_category_spent(dateId, categoryId, spent));
     }
 }
 
-export function setCollapseCategory(categoryId: String, collapse: boolean){
+export function setCollapseCategory(categoryId: string, collapse: boolean){
     return (dispatch: Dispatch, store: Store) => {
         dispatch(set_collapse_category(store().date.id, categoryId, collapse));
     }
@@ -174,30 +174,30 @@ export function setCollapseCategoryAll(collapse: boolean){
 }
 
 export function sortAlphabetically(dateId: string){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(sort_alphabetically(dateId));
     }
 }
 
 export function sortReverseAlphabetically(dateId: string){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(sort_reverse_alphabetically(dateId));
     }
 }
 
 export function sortSpentDescending(dateId: string){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(sort_spent_descending(dateId));
     }
 }
 
 export function sortSpentAscending(dateId: string){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(sort_spent_ascending(dateId));
     }
 }
 
-export function recalculateCategorySpent(dateId: String, categoryId: string){
+export function recalculateCategorySpent(dateId: string, categoryId: string){
     return (dispatch: Dispatch, store: Store) => {
         
         const transactions = store().transactions.filter(t => t.dateId === dateId);
@@ -222,7 +222,7 @@ export function recalculateCategorySpent(dateId: String, categoryId: string){
 }
 
 export function entryCategories(categories: any){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(entry_categories(categories));
     }
 }

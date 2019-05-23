@@ -85,8 +85,7 @@ class Entry extends Component<Props>{
         const year: string = date.getFullYear();
 
         let success = false;
-        let fileContents;
-        const localpath = filehelper.localpath();
+        let fileContents;        
         try
         {
             const hash = this.props.setPassphrase(this.state.passphrase);
@@ -171,15 +170,11 @@ class Entry extends Component<Props>{
             }
             this.props.entryTransactions(setTransactions);
             
-            let pendingImport = [];
-            if (success){
-                pendingImport = fileContents.pendingImport;
-            }
-            
-            let importTransactionsOptions = {};
-            if (success){
-                importTransactionsOptions = fileContents.importTransactionsOptions;
-            }
+            // let pendingImport = [];
+            // if (success){
+            //     pendingImport = fileContents.pendingImport;
+            // }
+            // TODO: do we need this?
             
             let bankSync = {
                 clientId: "",
@@ -216,8 +211,8 @@ class Entry extends Component<Props>{
         }
     }
 
-    importData(event){
-        const callback = function(filePaths, bookmark){
+    importData(){
+        const callback = function(filePaths){
             if (typeof filePaths !== "undefined"){
 
                 try
@@ -250,7 +245,7 @@ class Entry extends Component<Props>{
         );
     }
 
-    emptyImport(event){
+    emptyImport(){
         this.setState({
             dataImported: false,
             dataToImport: "",
@@ -281,7 +276,7 @@ class Entry extends Component<Props>{
                         </div>
                         <div className="modal-footer">
                             <div className="text-center">
-                                If you decide not to import existing data, please click the "clear loaded data" button and continue to use My Budget as you have.
+                                {"If you decide not to import existing data, please click the \"clear loaded data\" button and continue to use My Budget as you have."}
                             </div>
                         </div>
                     </div>
@@ -299,18 +294,18 @@ class Entry extends Component<Props>{
             <div className={`container ${styles.h100}`}>
                 <div className={`columns ${styles.header} ${styles.h50}`}>
                     <div className={`column col-8 ${styles["btn-fix"]}`}>
-                        <button onClick={this.importData} className="btn btn-primary">Import data</button>
-                        <button onClick={this.emptyImport} disabled={!this.state.dataImported && this.state.dataToImport === ""} className={`btn ${styles.ml}`}>Clear loaded data</button>
+                        <button type="button" onClick={this.importData} className="btn btn-primary">Import data</button>
+                        <button type="button" onClick={this.emptyImport} disabled={!this.state.dataImported && this.state.dataToImport === ""} className={`btn ${styles.ml}`}>Clear loaded data</button>
                     </div>
                     <div className={`column col-4 text-right ${styles["btn-fix"]}`}>
-                        <button onClick={this.resetData} className={`btn btn-error ${styles.ml}`}>Delete data</button>
+                        <button type="button" onClick={this.resetData} className={`btn btn-error ${styles.ml}`}>Delete data</button>
                     </div>                    
                 </div>
                 <div className={`columns text-center ${styles.top}`}>
                     <div className="column col-4 col-mx-auto">
                         <h1>My Budget</h1>
                         <div>
-                            Let's start
+                            {"Let's start"}                            
                         </div>                        
                         <div className={`columns ${styles.less}`}>
                             <div className="column col-12">
@@ -325,14 +320,14 @@ class Entry extends Component<Props>{
                         <div className={`columns ${styles.smaller}`}>
                             <div className="column col-12">
                                 <div className="popover popover-top">
-                                    <button className="btn">New user?</button>
+                                    <button type="button" className="btn">New user?</button>
                                     <div className="popover-container">
                                         <div className="card">
                                             {/* <div className="card-body">
                                                 If this is your first time using MyBudget, you can choose to encrypt your data with a passphrase. If you do so, you must enter in your passphrase every time you use this app. You cannot change your passphrase once it's been set! If you don't choose a passphrase, your data will be saved unencrypted on your computer.
                                             </div> */}
                                             <div className="card-footer" style={{fontStyle: "italic"}}>
-                                                Please visit the <a target="_blank" rel="noopener noreferrer" href="https://github.com/reZach/my-budget/wiki/First-time-user-guide">new user's guide</a> if you'd like a walkthrough how to use My Budget.
+                                                Please visit the <a target="_blank" rel="noopener noreferrer" href="https://github.com/reZach/my-budget/wiki/First-time-user-guide">{"new user's guide"}</a> {"if you'd like a walkthrough how to use My Budget."}
                                             </div>
                                         </div>
                                     </div>
