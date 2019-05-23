@@ -1,4 +1,4 @@
-import { Store, Dispatch } from "../reducers/types";
+import { Dispatch } from "../reducers/types";
 
 export const SET_READY_TO_SET_CATEGORY_IDS = "SET_READY_TO_SET_CATEGORY_IDS";
 export const SET_READY_TO_CREATE_ITEMS = "SET_READY_TO_CREATE_ITEMS";

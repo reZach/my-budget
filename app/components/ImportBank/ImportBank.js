@@ -224,16 +224,15 @@ class ImportBank extends Component<Props> {
     toggleEditPane(event){
         // Don't toggle it if we clicked the import checkbox
         if (event.target.localName === "input") return;
-        const state = this.state.editPane;
 
-        this.setState({
-            editPane: !state,
-            pendingCategory: this.state.savedCategory,
-            pendingItem: this.state.savedItem,
-            pendingNote: this.state.savedNote,
+        this.setState(state => ({
+            editPane: !state.editPane,
+            pendingCategory: state.savedCategory,
+            pendingItem: state.savedItem,
+            pendingNote: state.savedNote,
             editCategory: false,
             editItem: false
-        });
+        }));
     }
 
     changeNewCategory(event){
@@ -299,7 +298,7 @@ class ImportBank extends Component<Props> {
         });
     }
 
-    submitNewCategoryName(event){
+    submitNewCategoryName(){
         const {newCategory} = this.state;
         this.setState({
             savedCategory: newCategory,
@@ -308,7 +307,7 @@ class ImportBank extends Component<Props> {
         });
     }
 
-    submitNewItemName(event){
+    submitNewItemName(){
         const {newItem} = this.state;
         this.setState({
             savedItem: newItem,
@@ -317,7 +316,7 @@ class ImportBank extends Component<Props> {
         });
     }
 
-    submitNewNote(event){
+    submitNewNote(){
         const {newNote} = this.state;
         this.setState({
             savedNote: newNote,
@@ -331,10 +330,10 @@ class ImportBank extends Component<Props> {
                 <div className="form-horizontal">
                     <div className="form-group">
                         <div className="col-3">
-                            <label className="form-label">New category name</label>
+                            <label className="form-label" htmlFor={"new-category-input"}>New category name</label>
                         </div>
                         <div className="col-6">
-                            <input className="form-input" type="text" value={this.state.newCategory} onKeyUp={this.newCategoryNameKeyup} onChange={this.changeNewCategory} placeholder="new category name" />
+                            <input className="form-input" id="new-category-input" type="text" value={this.state.newCategory} onKeyUp={this.newCategoryNameKeyup} onChange={this.changeNewCategory} placeholder="new category name" />
                         </div>
                     </div>
                 </div>  
@@ -348,10 +347,10 @@ class ImportBank extends Component<Props> {
                 <div className="form-horizontal">
                     <div className="form-group">
                         <div className="col-3">
-                            <label className="form-label">New sub-category name</label>
+                            <label className="form-label" htmlFor={"new-subcategory-input"}>New sub-category name</label>
                         </div>
                         <div className="col-6">
-                            <input className="form-input" type="text" value={this.state.newItem} onKeyUp={this.newItemNameKeyup} onChange={this.changeNewItem} placeholder="new sub-category name" />
+                            <input className="form-input" id="new-subcategory-input" type="text" value={this.state.newItem} onKeyUp={this.newItemNameKeyup} onChange={this.changeNewItem} placeholder="new sub-category name" />
                         </div>
                     </div>
                 </div>  
@@ -367,10 +366,10 @@ class ImportBank extends Component<Props> {
                         <form className="form-horizontal" onSubmit={() => this.saveAllPendingChanges()}>
                             <div className="form-group">                                
                                 <div className="col-3">
-                                    <label className="form-label">Category</label>
+                                    <label className="form-label" htmlFor={"category-select-edit"}>Category</label>
                                 </div>
                                 <div className="col-6">
-                                    <select className="form-select" onChange={this.onCategoryChange}>
+                                    <select className="form-select" id="category-select-edit" onChange={this.onCategoryChange}>
                                         {this.createCategoryDropDown()}
                                     </select>
                                 </div>
@@ -378,10 +377,10 @@ class ImportBank extends Component<Props> {
                             {this.renderCreateNewCategory()}
                             <div className="form-group">                                
                                 <div className="col-3">
-                                    <label className="form-label">Sub-category</label>
+                                    <label className="form-label" htmlFor={"subcategory-select-edit"}>Sub-category</label>
                                 </div>
                                 <div className="col-6">
-                                    <select className="form-select" onChange={this.onItemChange}>
+                                    <select className="form-select" id="subcategory-select-edit" onChange={this.onItemChange}>
                                         {this.createItemDropDown()}
                                     </select>
                                 </div>
@@ -389,10 +388,10 @@ class ImportBank extends Component<Props> {
                             {this.renderCreateNewItem()}
                             <div className="form-group">
                                 <div className="col-3">
-                                    <label className="form-label">Note</label>
+                                    <label className="form-label" htmlFor={"note-edit-label"}>Note</label>
                                 </div>
                                 <div className="col-6">
-                                    <input className="form-input" type="text" value={this.state.newNote} onChange={this.changeNewNote} onKeyUp={this.newNoteKeyup} placeholder="note" />
+                                    <input className="form-input" id="note-edit-label" type="text" value={this.state.newNote} onChange={this.changeNewNote} onKeyUp={this.newNoteKeyup} placeholder="note" />
                                 </div>
                             </div>
                             <div className="column col-12">
@@ -473,7 +472,7 @@ class ImportBank extends Component<Props> {
     render () {
         return (
             <React.Fragment>
-                <div className={`columns ${styles.importrow}`} onClick={this.toggleEditPane}>
+                <div role="switch" className={`columns ${styles.importrow}`} onClick={this.toggleEditPane}>
                     <div className="column col-1">
                         <input type="checkbox" value="import" checked={this.props.toImport} onClick={() => this.props.modifyImportCheckbox(this.props.tempId, !this.props.toImport)} />
                     </div>                    

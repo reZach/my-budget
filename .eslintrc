@@ -35,6 +35,7 @@
     "import/no-unresolved": "error",
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/label-has-for": "off",
     "no-console": "off",
     "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
     "no-use-before-define": "off",

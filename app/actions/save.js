@@ -2,8 +2,6 @@ import { Store, Dispatch } from "../reducers/types";
 import * as crypto from "../crypto/code";
 import filehelper from "../utils/filehelper";
 
-const fs = require("fs");
-
 export const SAVE = "SAVE";
 
 const _save = function(){

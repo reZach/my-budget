@@ -1,4 +1,4 @@
-import { Store, Dispatch } from "../reducers/types";
+import { Dispatch } from "../reducers/types";
 
 export const ADD_INCOME_RECORD = "ADD_INCOME_RECORD";
 export const MODIFY_INCOME_RECORD_START_DAY = "MODIFY_INCOME_RECORD_START_DAY";
@@ -31,7 +31,7 @@ export const INCOME_RECORDS_FREQUENCY_MAP = {
     // "4": "last business day of month"
 }
 
-const add_income_record = function(day: Number, month: Number, year: Number, income: Number, frequency: String, note: string){
+const add_income_record = function(day: number, month: number, year: number, income: number, frequency: string, note: string){
     return {
         type: ADD_INCOME_RECORD,
         payload: {
@@ -45,7 +45,7 @@ const add_income_record = function(day: Number, month: Number, year: Number, inc
     };
 }
 
-const modify_income_record_start_day = function(id: String, day: number){
+const modify_income_record_start_day = function(id: string, day: number){
     return {
         type: MODIFY_INCOME_RECORD_START_DAY,
         payload: {
@@ -55,7 +55,7 @@ const modify_income_record_start_day = function(id: String, day: number){
     };
 }
 
-const modify_income_record_start_month = function(id: String, month: number){
+const modify_income_record_start_month = function(id: string, month: number){
     return {
         type: MODIFY_INCOME_RECORD_START_MONTH,
         payload: {
@@ -65,7 +65,7 @@ const modify_income_record_start_month = function(id: String, month: number){
     };
 }
 
-const modify_income_record_start_year = function(id: String, year: number){
+const modify_income_record_start_year = function(id: string, year: number){
     return {
         type: MODIFY_INCOME_RECORD_START_YEAR,
         payload: {
@@ -75,7 +75,7 @@ const modify_income_record_start_year = function(id: String, year: number){
     };
 }
 
-const modify_income_record_income = function(id: String, income: number){
+const modify_income_record_income = function(id: string, income: number){
     return {
         type: MODIFY_INCOME_RECORD_INCOME,
         payload: {
@@ -85,7 +85,7 @@ const modify_income_record_income = function(id: String, income: number){
     };
 }
 
-const modify_income_record_frequency = function(id: String, frequency: string){
+const modify_income_record_frequency = function(id: string, frequency: string){
     return {
         type: MODIFY_INCOME_RECORD_FREQUENCY,
         payload: {
@@ -95,7 +95,7 @@ const modify_income_record_frequency = function(id: String, frequency: string){
     };
 }
 
-const modify_income_record_note = function(id: String, note: string){
+const modify_income_record_note = function(id: string, note: string){
     return {
         type: MODIFY_INCOME_RECORD_NOTE,
         payload: {
@@ -113,7 +113,7 @@ const remove_income_record = function(id: string){
         }
     };
 }
-const entry_income_records = function(incomeRecords: any){
+const entry_income_records = function(incomeRecords: array){
     return {
         type: ENTRY_INCOME_RECORDS,
         payload: {
@@ -122,56 +122,56 @@ const entry_income_records = function(incomeRecords: any){
     };
 }
 
-export function addIncomeRecord(day: Number, month: Number, year: Number, income: Number, frequency: String, note: string){
-    return (dispatch: Dispatch, store: Store) => {
+export function addIncomeRecord(day: number, month: number, year: number, income: number, frequency: string, note: string){
+    return (dispatch: Dispatch) => {
         dispatch(add_income_record(day, month, year, income, frequency, note));
     }
 }
 
-export function modifyIncomeRecordStartDay(id: String, day: number){
-    return (dispatch: Dispatch, store: Store) => {
+export function modifyIncomeRecordStartDay(id: string, day: number){
+    return (dispatch: Dispatch) => {
         dispatch(modify_income_record_start_day(id, day));
     }
 }
 
-export function modifyIncomeRecordStartMonth(id: String, month: number){
-    return (dispatch: Dispatch, store: Store) => {
+export function modifyIncomeRecordStartMonth(id: string, month: number){
+    return (dispatch: Dispatch) => {
         dispatch(modify_income_record_start_month(id, month));
     }
 }
 
-export function modifyIncomeRecordStartYear(id: String, year: number) {
-    return (dispatch: Dispatch, store: Store) => {
+export function modifyIncomeRecordStartYear(id: string, year: number) {
+    return (dispatch: Dispatch) => {
         dispatch(modify_income_record_start_year(id, year));
     }
 }
 
-export function modifyIncomeRecordIncome(id: String, income: number) {
-    return (dispatch: Dispatch, store: Store) => {
+export function modifyIncomeRecordIncome(id: string, income: number) {
+    return (dispatch: Dispatch) => {
         dispatch(modify_income_record_income(id, income));
     }
 }
 
-export function modifyIncomeRecordFrequency(id: String, frequency: string) {
-    return (dispatch: Dispatch, store: Store) => {
+export function modifyIncomeRecordFrequency(id: string, frequency: string) {
+    return (dispatch: Dispatch) => {
         dispatch(modify_income_record_frequency(id, frequency));
     }
 }
 
-export function modifyIncomeRecordNote(id: String, note: string) {
-    return (dispatch: Dispatch, store: Store) => {
+export function modifyIncomeRecordNote(id: string, note: string) {
+    return (dispatch: Dispatch) => {
         dispatch(modify_income_record_note(id, note));
     }
 }
 
 export function removeIncomeRecord(id: string){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(remove_income_record(id));
     }
 }
 
 export function entryIncomeRecords(incomeRecords: any){
-    return (dispatch: Dispatch, store: Store) => {
+    return (dispatch: Dispatch) => {
         dispatch(entry_income_records(incomeRecords));
     }
 }

@@ -150,14 +150,14 @@ class CategoryCollection extends Component<Props> {
         const target = this.state.selectedPreviousDateForCategories;
 
         // copy all categories
-        for (var i = 0; i < this.props.categories.length; i++){
+        for (let i = 0; i < this.props.categories.length; i++){
             if (this.props.categories[i].dateId === target){
                 this.props.addCategory(this.props.categories[i].name, false);
             }            
         }
 
         // copy all items
-        for (var i = 0; i < this.props.items.length; i++){
+        for (let i = 0; i < this.props.items.length; i++){
             if (this.props.items[i].dateId === target){
                 this.props.addItem(this.props.items[i].categoryId, this.props.items[i].name);
             }
@@ -251,23 +251,23 @@ class CategoryCollection extends Component<Props> {
                                 </div>
                             </form>
                         </div>
-                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort alphabetically" onClick={() => this.sortAlpha()}>
-                            <i role="button" className={`fas fa-sort-alpha-down ${styles.control}`} />
+                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort alphabetically" onClick={() => this.sortAlpha()}>
+                            <i className={`fas fa-sort-alpha-down ${styles.control}`} />
                         </div>
-                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort reverse-alphabetically" onClick={() => this.sortReverseAlpha()}>
-                            <i role="button" className={`fas fa-sort-alpha-up ${styles.control}`} />
+                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort reverse-alphabetically" onClick={() => this.sortReverseAlpha()}>
+                            <i className={`fas fa-sort-alpha-up ${styles.control}`} />
                         </div>
-                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent descending" onClick={() => this.sortSpendDescending()}>
-                            <i role="button" className={`fas fa-sort-amount-down ${styles.control}`} />
+                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent descending" onClick={() => this.sortSpendDescending()}>
+                            <i className={`fas fa-sort-amount-down ${styles.control}`} />
                         </div>
-                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent ascending" onClick={() => this.sortSpendAscending()}>
-                            <i role="button" className={`fas fa-sort-amount-up ${styles.control}`} />
+                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent ascending" onClick={() => this.sortSpendAscending()}>
+                            <i className={`fas fa-sort-amount-up ${styles.control}`} />
                         </div>                        
-                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Collapses all categories" onClick={() => this.toggleAllCategoryState(true)}>
-                            <i role="button" className={`fas fa-compress ${styles.control}`} />
+                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Collapses all categories" onClick={() => this.toggleAllCategoryState(true)}>
+                            <i className={`fas fa-compress ${styles.control}`} />
                         </div>
-                        <div className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Expands all categories" onClick={() => this.toggleAllCategoryState(false)}>
-                        <i role="button" className={`fas fa-expand ${styles.control}`} />
+                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Expands all categories" onClick={() => this.toggleAllCategoryState(false)}>
+                        <i className={`fas fa-expand ${styles.control}`} />
                         </div>                         
                     </div>
                 </div>

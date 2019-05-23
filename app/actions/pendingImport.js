@@ -1,4 +1,4 @@
-import { Store, Dispatch } from "../reducers/types";
+import { Dispatch } from "../reducers/types";
 
 
 export const MODIFY_IMPORT_CHECKBOX = "MODIFY_IMPORT_CHECKBOX";
@@ -108,7 +108,7 @@ const removeAllImportTransactionsPrivate = function removeAllImportTransactionsP
     };
 }
 
-const addImportTransactionPrivate = function addImportTransactionPrivate(id: string, toImport: boolean, dateId: string, categoryId: string, categoryName: string, itemId: string, itemName: string, day: number, amount: string, note: string, overwriteCategoryName: String, overwriteItemName: string, overwriteNote: string){
+const addImportTransactionPrivate = function addImportTransactionPrivate(id: string, toImport: boolean, dateId: string, categoryId: string, categoryName: string, itemId: string, itemName: string, day: number, amount: string, note: string, overwriteCategoryName: string, overwriteItemName: string, overwriteNote: string){
     return {
         type: ADD_IMPORT_TRANSACTION,
         payload: {
@@ -129,7 +129,7 @@ const addImportTransactionPrivate = function addImportTransactionPrivate(id: str
     };
 }
 
-export function modifyImportCheckbox(id: String, value: boolean){
+export function modifyImportCheckbox(id: string, value: boolean){
     return (dispatch: Dispatch) => {
         dispatch(modifyImportCheckboxPrivate(id, value));
     }
@@ -147,7 +147,7 @@ export function sortImportTransactions(){
     }
 }
 
-export function setCategoryId(id: String, categoryId: string){
+export function setCategoryId(id: string, categoryId: string){
     return (dispatch: Dispatch) => {
         dispatch(setCategoryIdPrivate(id, categoryId));
     }
@@ -189,7 +189,7 @@ export function removeAllImportTransactions(){
     }    
 }
 
-export function addImportTransaction(id: string, toImport: Boolean, dateId: string, categoryId: string, categoryName: string, itemId: string, itemName: string, day: Number, amount: string, note: string, overwriteCategoryName: string, overwriteItemName: string, overwriteNote: string){
+export function addImportTransaction(id: string, toImport: boolean, dateId: string, categoryId: string, categoryName: string, itemId: string, itemName: string, day: number, amount: string, note: string, overwriteCategoryName: string, overwriteItemName: string, overwriteNote: string){
     return (dispatch: Dispatch) => {
         dispatch(addImportTransactionPrivate(id, toImport, dateId, categoryId, categoryName, itemId, itemName, day, amount, note, overwriteCategoryName, overwriteItemName, overwriteNote));
     }
