@@ -60,3 +60,7 @@ app/utils/banks/template.js
 
 # Old test file
 test/components/Counter.spec.js
+
+#VSTS
+home/vsts/work/**
+**.sh
