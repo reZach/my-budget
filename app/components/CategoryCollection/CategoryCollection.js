@@ -141,9 +141,10 @@ class CategoryCollection extends Component<Props> {
             this.prepPreviousCategories();
         }
 
-        this.setState({
-            copyPreviousCategoriesActive: newState
-        });
+        // Done this way because of eslint...
+        this.setState(state => ({
+            copyPreviousCategoriesActive: !state.copyPreviousCategoriesActive
+        }));
     }
 
     copyPreviousCategories(){
@@ -251,22 +252,22 @@ class CategoryCollection extends Component<Props> {
                                 </div>
                             </form>
                         </div>
-                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort alphabetically" onClick={() => this.sortAlpha()}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort alphabetically" onClick={() => this.sortAlpha()} onKeyUp={() => this.sortAlpha()}>
                             <i className={`fas fa-sort-alpha-down ${styles.control}`} />
                         </div>
-                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort reverse-alphabetically" onClick={() => this.sortReverseAlpha()}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort reverse-alphabetically" onClick={() => this.sortReverseAlpha()} onKeyUp={() => this.sortReverseAlpha()}>
                             <i className={`fas fa-sort-alpha-up ${styles.control}`} />
                         </div>
-                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent descending" onClick={() => this.sortSpendDescending()}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent descending" onClick={() => this.sortSpendDescending()} onKeyUp={() => this.sortSpendDescending()}>
                             <i className={`fas fa-sort-amount-down ${styles.control}`} />
                         </div>
-                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent ascending" onClick={() => this.sortSpendAscending()}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent ascending" onClick={() => this.sortSpendAscending()} onKeyUp={() => this.sortSpendAscending()}>
                             <i className={`fas fa-sort-amount-up ${styles.control}`} />
                         </div>                        
-                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Collapses all categories" onClick={() => this.toggleAllCategoryState(true)}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Collapses all categories" onClick={() => this.toggleAllCategoryState(true)} onKeyUp={() => this.toggleAllCategoryState(true)}>
                             <i className={`fas fa-compress ${styles.control}`} />
                         </div>
-                        <div role="button" className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Expands all categories" onClick={() => this.toggleAllCategoryState(false)}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Expands all categories" onClick={() => this.toggleAllCategoryState(false)} onKeyUp={() => this.toggleAllCategoryState(false)}>
                         <i className={`fas fa-expand ${styles.control}`} />
                         </div>                         
                     </div>
@@ -279,7 +280,7 @@ class CategoryCollection extends Component<Props> {
                         if (a1 < b1) return -1;
                         return 0;
                     }).map((value) => value.dateId === this.props.date.id &&
-                            <div className={`column col-12 text-left ${styles.category}`} key={`${this.props.date.id  }-${  value.id}`}>
+                            <div className={`column col-12 text-left ${styles.category}`} key={`${this.props.date.id  }-${value.id}`}>
                                 <Category {...value} dateId={this.props.date.id} rename={this.renameCategory} delete={this.deleteCategory} />
                             </div>)}
                     {this.props.categories.filter(c => c.dateId === this.props.date.id).length === 0 && this.renderCopyPreviousCategories()}

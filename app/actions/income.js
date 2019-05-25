@@ -18,7 +18,7 @@ const saveIncomePrivate = function saveIncomePrivate(dateId: string, amount: num
         }
     }
 }
-const entryIncomePrivate = function entryIncomePrivate(income: any){
+const entryIncomePrivate = function entryIncomePrivate(income: array){
     return {
         type: ENTRY_INCOME,
         payload: {
@@ -32,7 +32,7 @@ export function saveIncome(amount: number){
         dispatch(saveIncomePrivate(store().date.id, amount));
     }
 }
-export function entryIncome(income: any){
+export function entryIncome(income: array){
     return (dispatch: Dispatch) => {
         dispatch(entryIncomePrivate(income));
     }

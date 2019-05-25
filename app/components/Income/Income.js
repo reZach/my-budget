@@ -172,9 +172,7 @@ class Income extends Component<Props>{
 
         // calculate transactions up to today
         const today = new Date();
-        const month = today.getMonth() + 1;
         const day = today.getDate();
-        const year = today.getFullYear();
 
         const validIncomeRecords = this.props.incomeRecords.filter((fr) => {
             const date = new Date(fr.startYear, fr.startMonth-1, fr.startDay);
@@ -198,28 +196,18 @@ class Income extends Component<Props>{
                     break;
                 case "1":
                     // every week                    
-                    while(true){
+                    while(startDate <= today){
 
-                        if (startDate <= today){
-                            cash += parseFloat(validIncomeRecords[i].income);
-
-                            startDate.setDate(startDate.getDate() + 7);
-                        } else {
-                            break;
-                        }
+                        cash += parseFloat(validIncomeRecords[i].income);
+                        startDate.setDate(startDate.getDate() + 7);
                     }
                     break;
                 case "2":
                     // every 2 weeks                    
-                    while (true){
+                    while (startDate <= today){
 
-                        if (startDate <= today){
-                            cash += parseFloat(validIncomeRecords[i].income);
-
-                            startDate.setDate(startDate.getDate() + 14);
-                        } else {
-                            break;
-                        }                        
+                        cash += parseFloat(validIncomeRecords[i].income);
+                        startDate.setDate(startDate.getDate() + 14);                       
                     }
                     break;
                 case "3":
@@ -315,7 +303,7 @@ class Income extends Component<Props>{
         );
         
         return components;
-f    }
+    }
 
     incomeTable(){
         if (this.props.incomeRecords.length > 0){
@@ -326,19 +314,19 @@ f    }
                         .sort((a, b) => {
                             if (a.startYear > b.startYear){
                                 return 1;
-                            } if (b.startYear > a.startYear) {
+                            } else if (b.startYear > a.startYear) {
                                 return -1;
-                            } if (a.startMonth > b.startMonth) {
+                            } else if (a.startMonth > b.startMonth) {
                                 return 1;
-                            } if (b.startMonth > b.startMonth) {
+                            } else if (b.startMonth > b.startMonth) {
                                 return -1;
-                            } if (a.startDay > b.startDay) {
+                            } else if (a.startDay > b.startDay) {
                                 return 1;
-                            } if (b.startDay > a.startDay) {
+                            } else if (b.startDay > a.startDay) {
                                 return -1;
                             }
                             return 0;
-                        }).map((value, index, array) => <IncomeRecord key={index} {...value} delete={this.deleteIncomeRecord} />)}
+                        }).map((value) => <IncomeRecord key={`${value.id}-${value.frequency}-${value.income}`} {...value} delete={this.deleteIncomeRecord} />)}
                     </div>
                 </div>
             );
@@ -370,36 +358,36 @@ f    }
                                             <form className="form-horizontal" style={{width: "100%"}} onSubmit={this.addNewIncomeRecord}>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        <label className="form-label">Income</label>
+                                                        <label className="form-label" htmlFor="income-income-input">Income</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <input className="form-input" type="text" value={this.state.income} onSelect={this.selectIncomeInput} onChange={this.changeIncome} placeholder="income" />
+                                                        <input className="form-input" id="income-income-input" type="text" value={this.state.income} onSelect={this.selectIncomeInput} onChange={this.changeIncome} placeholder="income" />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        <label className="form-label">Date</label>
+                                                        <label className="form-label" htmlFor="income-date-input">Date</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <input className="form-input" type="date" value={this.state.date} onChange={this.changeDate} placeholder="date" />
+                                                        <input className="form-input" id="income-date-input" type="date" value={this.state.date} onChange={this.changeDate} placeholder="date" />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        <label className="form-label">Frequency</label>
+                                                        <label className="form-label" htmlFor="income-frequency-input">Frequency</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <select className="form-input" value={this.state.frequency} onChange={this.changeFrequency}>
+                                                        <select className="form-input" id="income-frequency-input" value={this.state.frequency} onChange={this.changeFrequency}>
                                                             {this.frequencyDropDown()}
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        <label className="form-label">Note</label>
+                                                        <label className="form-label" htmlFor="income-note-input">Note</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <input className="form-input" type="text" value={this.state.note} onChange={this.changeNote} placeholder="note" />
+                                                        <input className="form-input" id="income-note-input" type="text" value={this.state.note} onChange={this.changeNote} placeholder="note" />
                                                     </div>
                                                 </div>
                                                 <div className="float-right text-right">

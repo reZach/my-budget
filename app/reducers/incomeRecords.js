@@ -8,7 +8,7 @@ import { ADD_INCOME_RECORD,
     REMOVE_INCOME_RECORD,
     ENTRY_INCOME_RECORDS,    
     INCOME_RECORDS_FREQUENCY_MAP } from "../actions/incomeRecords";
-import { Action, update } from "./types";
+import update, { Action } from "./types";
 
 export default function incomeRecords(state: array = [], action: Action){
     switch(action.type){

@@ -170,7 +170,7 @@ export function removeIncomeRecord(id: string){
     }
 }
 
-export function entryIncomeRecords(incomeRecords: any){
+export function entryIncomeRecords(incomeRecords: array){
     return (dispatch: Dispatch) => {
         dispatch(entry_income_records(incomeRecords));
     }

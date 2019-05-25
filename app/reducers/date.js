@@ -1,5 +1,5 @@
 import { INCREMENT_MONTH, DECREMENT_MONTH, RESET_MONTH_1, RESET_MONTH_12, INCREMENT_YEAR, DECREMENT_YEAR, SET_DATE } from "../actions/date";
-import { Action, update } from "./types";
+import update, { Action } from "./types";
 
 export default function date(state: object = {}, action: Action) {
     switch (action.type) {

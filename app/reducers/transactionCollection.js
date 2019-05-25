@@ -4,9 +4,8 @@ import {
     REMOVE_ALL_TRANSACTION,
     ENTRY_TRANSACTIONS
 } from "../actions/transactionCollection";
-import {
-    Action,
-    update
+import update, {
+    Action
 } from "./types";
 
 export default function transactionCollection(state: Array = [], action: Action){

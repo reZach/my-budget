@@ -5,9 +5,8 @@ import {
     SET_READY_TO_IMPORT,
     IMPORT_TRANSACTIONS_OPTIONS_INITIAL_STATE
 } from "../actions/importTransactionsOptions";
-import {
-    Action,
-    update
+import update, {
+    Action
 } from "./types";
 
 export default function importTransactionsOptions(state: {} = IMPORT_TRANSACTIONS_OPTIONS_INITIAL_STATE, action: Action){

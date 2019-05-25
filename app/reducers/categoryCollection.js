@@ -12,9 +12,8 @@ import {
     SORT_CATEGORIES_SPENT_ASCENDING,
     ENTRY_CATEGORIES
 } from "../actions/categoryCollection";
-import {
-    Action,
-    update
+import update, {
+    Action
 } from "./types";
 
 export default function categoryCollection(state: array = CATEGORY_COLLECTION_INITIAL_STATE, action: Action) {

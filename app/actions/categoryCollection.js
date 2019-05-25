@@ -221,7 +221,7 @@ export function recalculateCategorySpent(dateId: string, categoryId: string){
     }
 }
 
-export function entryCategories(categories: any){
+export function entryCategories(categories: array){
     return (dispatch: Dispatch) => {
         dispatch(entry_categories(categories));
     }

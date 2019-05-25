@@ -31,7 +31,7 @@ node_modules
 .DS_Store
 
 # flow-typed
-flow-typed/npm/*
+flow-typed/**
 !flow-typed/npm/module_vx.x.x.js
 
 # App packaged
@@ -54,3 +54,9 @@ __snapshots__
 # Package.json
 package.json
 .travis.yml
+
+# Template file
+app/utils/banks/template.js
+
+# Old test file
+test/components/Counter.spec.js

@@ -19,23 +19,21 @@ export default async function navigate(username, password){
         // Here are sample code snippets you can use
         // while writing your connector
 
-        /*
-            // Takes you to "https://www.discover.com"    
-            await page.goto('https://www.discover.com');
+        // Takes you to "https://www.discover.com"    
+        await page.goto('https://www.discover.com');
 
-            // Enters in a value in the <input> with id of "userid"
-            await page.type("#userid", username);
+        // Enters in a value in the <input> with id of "userid"
+        await page.type("#userid", username);
 
-            // Enters in a value in the <input> with id of "password"
-            await page.type("#password", password);
+        // Enters in a value in the <input> with id of "password"
+        await page.type("#password", password);
 
-            // Clicks the log in button with the id of "log-in-button"
-            await page.click("#log-in-button");
+        // Clicks the log in button with the id of "log-in-button"
+        await page.click("#log-in-button");
 
-            // Necessary to call to ensure the page has finished
-            // loading before taking the next step
-            await page.waitForNavigation();
-        */
+        // Necessary to call to ensure the page has finished
+        // loading before taking the next step
+        await page.waitForNavigation();
     
         const transactions = await page.evaluate(() => {
             const raw = [];

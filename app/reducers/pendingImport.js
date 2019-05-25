@@ -11,9 +11,8 @@ import {
     SET_OVERWRITE_ITEM_NAME,
     SET_OVERWRITE_NOTE    
 } from "../actions/pendingImport";
-import {
-    Action,
-    update
+import update, {
+    Action
 } from "./types";
 
 export default function pendingImport(state: array = [], action: Action){

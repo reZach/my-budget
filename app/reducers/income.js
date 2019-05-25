@@ -2,9 +2,8 @@ import {
     SAVE_INCOME,
     ENTRY_INCOME
 } from "../actions/income";
-import {
-    Action,
-    update
+import update, {
+    Action
 } from "./types";
 
 export default function income(state: Array = [], action: Action) {

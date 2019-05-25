@@ -8,9 +8,8 @@ import {
     MODIFY_SELECTED_CATEGORY,
     MODIFY_SELECTED_ITEM
 } from "../actions/createTransaction";
-import {
-    Action,
-    update
+import update, {
+    Action
 } from "./types";
 
 export default function createTransaction(state: object = CREATE_NEW_TRANSACTION_INITIAL_STATE, action: Action){
