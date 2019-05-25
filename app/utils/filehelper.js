@@ -1,5 +1,5 @@
 // credit to https://medium.com/cameron-nokes/how-to-store-user-data-in-electron-3ba6bf66bc1e
-import ivpath from "../crypto/code";
+import { ivpath } from "../crypto/code";
 
 const electron = require('electron');
 const path = require('path');

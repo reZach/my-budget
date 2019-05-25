@@ -110,15 +110,6 @@ const sort_spent_ascending = function(dateId: string){
         }
     };
 }
-const recalculate_category_spent = function(dateId: string, categoryId: string){
-    return {
-        type: RECALCULATE_CATEGORY_SPENT,
-        payload: {
-            dateId,
-            categoryId
-        }
-    };
-}
 const entry_categories = function(categories: array){
     return {
         type: ENTRY_CATEGORIES,
@@ -199,7 +190,7 @@ export function sortSpentAscending(dateId: string){
 
 export function recalculateCategorySpent(dateId: string, categoryId: string){
     return (dispatch: Dispatch, store: Store) => {
-        
+                
         const transactions = store().transactions.filter(t => t.dateId === dateId);
         let total = 0;
         let part = 0;

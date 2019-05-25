@@ -73,7 +73,7 @@ app.on('ready', async () => {
     show: false,
     width: 1024,
     height: 728,
-    icon: path.join(__dirname, "assets/icons/png/64x64.png")
+    icon: path.join(__dirname, "build/icons/64x64.png")
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);

@@ -302,7 +302,8 @@ class Category extends Component<Props> {
 function mapStateToProps(state, props){
     return {                
         items: state.items.filter(i => i.dateId === props.dateId && i.categoryId === props.id),
-        transactions: state.transactions.filter(t => t.dateId === props.dateId)
+        transactions: state.transactions.filter(t => t.dateId === props.dateId),
+        categories: state.categories.filter(c => c.dateId === props.dateId)
     }
 }
 

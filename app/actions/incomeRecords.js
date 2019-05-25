@@ -27,8 +27,8 @@ export const INCOME_RECORDS_FREQUENCY_MAP = {
     "0": "one time",
     "1": "every week",
     "2": "every 2 weeks",
-    // "3": "first business day of month",
-    // "4": "last business day of month"
+    "3": "first business day of the month",
+    "4": "last business day of the month"
 }
 
 const add_income_record = function(day: number, month: number, year: number, income: number, frequency: string, note: string){
