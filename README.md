@@ -1,7 +1,7 @@
-[![Build Status](https://my-budget.visualstudio.com/My%20Budget/_apis/build/status/ci?branchName=master)](https://my-budget.visualstudio.com/My%20Budget/_build/latest?definitionId=9&branchName=master)
+# My Budget
+Free, open source offline cross-platform budgeting solution built with Electron. Take control of your budget today.
 
-# Welcome
-Take control of your budget, download it today. It is free - forever.
+[![Build Status](https://my-budget.visualstudio.com/My%20Budget/_apis/build/status/ci?branchName=master)](https://my-budget.visualstudio.com/My%20Budget/_build/latest?definitionId=9&branchName=master)
 
 ![MyBudget](images/readme.png)
 
