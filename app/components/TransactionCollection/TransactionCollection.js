@@ -95,7 +95,11 @@ class TransactionCollection extends Component<Props> {
     createNewTransaction(){
         this.props.addTransaction(this.props.createTransaction.selectedCategoryId, 
             this.props.createTransaction.selectedItemId, this.props.createTransaction.day, this.props.createTransaction.amount, this.props.createTransaction.note);
-        this.props.recalculateCategorySpent(this.props.date.id, this.props.createTransaction.selectedCategoryId);
+
+        // Recalculate spent for all categories in the same month
+        for (let i = 0; i < this.props.categories.length; i++){
+            this.props.recalculateCategorySpent(this.props.date.id, this.props.categories[i].id); 
+        }
 
         this.props.resetCreateNewTransaction();
         this.props.trueModify();

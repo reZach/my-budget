@@ -250,10 +250,10 @@ class Entry extends Component<Props>{
         if (this.state.importedModal){
             return (
                 <div className="modal active" id="modal-id">
-                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.closeImportModal()}>x</a>
+                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.closeImportModal()} />
                     <div className="modal-container">
                         <div className={`modal-header ${styles.h62}`}>
-                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.closeImportModal()}>x</a>
+                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.closeImportModal()} />
                             <div className="modal-title h4">Import successful</div>
                         </div>
                         <div className="modal-body">

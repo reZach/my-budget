@@ -187,17 +187,15 @@ class Income extends Component<Props>{
         let cash = 0;        
         // sum income records to the current month
         for (let i = 0; i < validIncomeRecords.length; i++){
-            const startDate = new Date(parseInt(validIncomeRecords[i].startYear), parseInt(validIncomeRecords[i].startMonth)-1, parseInt(validIncomeRecords[i].startDay));
+            let startDate = new Date(parseInt(validIncomeRecords[i].startYear), parseInt(validIncomeRecords[i].startMonth)-1, parseInt(validIncomeRecords[i].startDay));
             
             switch(validIncomeRecords[i].frequency){
                 case "0":
-
                     cash += parseFloat(validIncomeRecords[i].income);
                     break;
                 case "1":
                     // every week                    
                     while(startDate <= today){
-
                         cash += parseFloat(validIncomeRecords[i].income);
                         startDate.setDate(startDate.getDate() + 7);
                     }
@@ -205,15 +203,45 @@ class Income extends Component<Props>{
                 case "2":
                     // every 2 weeks                    
                     while (startDate <= today){
-
                         cash += parseFloat(validIncomeRecords[i].income);
-                        startDate.setDate(startDate.getDate() + 14);                       
+                        startDate.setDate(startDate.getDate() + 14);
                     }
                     break;
-                case "3":
+                case "3": {
                     // first business day of every month
+                    let greaterThanAMonth = false;
+                    while (startDate <= today){
+                          
+                        if (today.getFullYear() > startDate.getFullYear() && greaterThanAMonth){
+                            cash += parseFloat(validIncomeRecords[i].income);                            
+                        } else if (today.getMonth() - startDate.getMonth() > 0 && greaterThanAMonth){
+                            cash += parseFloat(validIncomeRecords[i].income);
+                        } else {
+                            
+                            var firstBusinessDay = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
 
+                            // Land on a weekday (0 == sunday, 6 == saturday)                            
+                            while(firstBusinessDay > 0 && firstBusinessDay < 6){
+                                firstBusinessDay.setDate(firstBusinessDay.getDate() + 1);
+                            }
+
+                            if ((today >= firstBusinessDay && greaterThanAMonth) ||
+                                startDate.getTime() === firstBusinessDay.getTime()){
+                                cash += parseFloat(validIncomeRecords[i].income);
+                            }                           
+                        }
+
+                        // set to next month
+                        startDate.setDate(1);
+                        startDate.setMonth(startDate.getMonth() + 1);
+                        greaterThanAMonth = true;
+                    }
                     break;
+                }
+                case "4":
+                    // last business day of every month
+                    
+                    break; 
                 default:
                     break;
             }
@@ -295,6 +323,10 @@ class Income extends Component<Props>{
             {
                 value: "2",
                 text: "every 2 weeks"
+            },
+            {
+                value: "3",
+                text: "first business day of the month"
             }
         ];
 
