@@ -20,4 +20,5 @@ steps:
     npm run lint
     if [ $? -ne 0 ]; then
         exit 1
+    fi
   displayName: 'npm install and lint'
