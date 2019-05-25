@@ -6,6 +6,10 @@ layout: default
 Free, open source offline cross-platform budgeting solution built with Electron. Take control of your budget today.
 
 [![Build Status](https://my-budget.visualstudio.com/My%20Budget/_apis/build/status/ci?branchName=master)](https://my-budget.visualstudio.com/My%20Budget/_build/latest?definitionId=9&branchName=master)
+![GitHub All Releases](https://img.shields.io/github/downloads/reZach/my-budget/total.svg)
+![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/reZach/my-budget.svg)
+![GitHub release](https://img.shields.io/github/release-pre/reZach/my-budget.svg)
+![GitHub stars](https://img.shields.io/github/stars/reZach/my-budget.svg?style=social)
 
 ![MyBudget](https://raw.githubusercontent.com/reZach/my-budget/master/images/readme.png)
 
