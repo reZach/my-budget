@@ -2,6 +2,8 @@
 layout: default
 ---
 
+[![Build Status](https://my-budget.visualstudio.com/My%20Budget/_apis/build/status/ci?branchName=master)](https://my-budget.visualstudio.com/My%20Budget/_build/latest?definitionId=9&branchName=master)
+
 # Welcome
 Take control of your budget, download it today. It is free - forever.
 
