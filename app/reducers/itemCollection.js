@@ -5,9 +5,8 @@ import {
     ENTRY_ITEMS,
     ITEM_COLLECTION_INITIAL_STATE
 } from "../actions/itemCollection";
-import {
-    Action,
-    update
+import update, {
+    Action
 } from "./types";
 
 export default function itemCollection(state: array = ITEM_COLLECTION_INITIAL_STATE, action: Action){

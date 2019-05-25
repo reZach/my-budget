@@ -10,7 +10,7 @@ class Transaction extends Component<Props> {
 
     renderControls(){
         return (
-            <div role="button" className={`column col-1 text-center ${styles.icon}`} onClick={() => this.props.delete(this.props.categoryId, this.props.itemId, this.props.id, this.props.amount)}>
+            <div role="button" tabIndex={0} className={`column col-1 text-center ${styles.icon}`} onClick={() => this.props.delete(this.props.categoryId, this.props.itemId, this.props.id, this.props.amount)} onKeyUp={() => this.props.delete(this.props.categoryId, this.props.itemId, this.props.id, this.props.amount)}>
                 <i className="fas fa-trash-alt" />
             </div>                                
         );

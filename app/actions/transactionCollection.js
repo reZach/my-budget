@@ -45,7 +45,7 @@ const remove_all_transactions = function(dateId: string){
         }
     }
 }
-const entry_transactions = function(transactions: any){
+const entry_transactions = function(transactions: array){
     return {
         type: ENTRY_TRANSACTIONS,
         payload: {
@@ -79,7 +79,7 @@ export function removeAllTransactions(){
         dispatch(remove_all_transactions(store().date.id));
     }
 }
-export function entryTransactions(transactions: any){
+export function entryTransactions(transactions: array){
     return (dispatch: Dispatch) => {
         dispatch(entry_transactions(transactions));
 

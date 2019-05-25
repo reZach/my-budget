@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import Fuse from "fuse.js";
 import * as SaveActions from "../../actions/save";
 import * as ModifyActions from "../../actions/modify";
-import * as BankSyncActions from "../../actions/bankSync";
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ItemCollectionActions from "../../actions/itemCollection";
 import * as TransactionCollectionActions from "../../actions/transactionCollection";
@@ -256,10 +255,11 @@ class Save extends Component<Props>{
     }
 
     handleFuzzySearch(value){
-        const fuse = new Fuse(this.state.validBanks, this.fuzzyOptions);
-        this.setState({
-            fuzzyResults: fuse.search(value)
-        });
+
+        // eslint complained about this...
+        this.setState(state => ({
+            fuzzyResults: (new Fuse(state.validBanks, this.fuzzyOptions)).search(value)
+        }));
     }
 
     fuzzySelectChange(event){        
@@ -583,7 +583,7 @@ class Save extends Component<Props>{
                                                 <form className="form-horizontal" style={{width: "100%"}}>
                                                     <div className="form-group">
                                                         <div className="column col-3">
-                                                            <label className="form-label" htmlFor={"banksync-username-input"}>Username</label>
+                                                            <label className="form-label" htmlFor="banksync-username-input">Username</label>
                                                         </div>
                                                         <div className="column col-9">
                                                             <input className="form-input" id="banksync-username-input" type="text" value={this.state.username} onChange={this.changeUsername} placeholder="username" />
@@ -591,7 +591,7 @@ class Save extends Component<Props>{
                                                     </div>
                                                     <div className="form-group">
                                                         <div className="column col-3">
-                                                            <label className="form-label" htmlFor={"banksync-password-input"}>Password</label>
+                                                            <label className="form-label" htmlFor="banksync-password-input">Password</label>
                                                         </div>
                                                         <div className="column col-9">
                                                             <input className="form-input" id="banksync-password-input" type="password" value={this.state.password} onChange={this.changePassword} placeholder="password" />
@@ -605,12 +605,12 @@ class Save extends Component<Props>{
                             </div>
                             <div className="modal-footer">
                                 <div className="float-left text-left">                                        
-                                    <input type="button" className="btn" value="Back" onClick={() => this.moveToStep(1)} />
+                                    <input type="button" className="btn" value="Back" onClick={() => this.moveToStep(1)} onKeyUp={() => this.moveToStep(1)} />
                                 </div>
                                 <div className="float-right text-right">
                                     {this.state.username !== "" && this.state.password !== "" ?
                                         <React.Fragment>
-                                            <input className="btn btn-primary" type="submit" value="Next" onClick={() => this.moveToStep(3)} />
+                                            <input className="btn btn-primary" type="submit" value="Next" onClick={() => this.moveToStep(3)} onKeyUp={() => this.moveToStep(3)} />
                                         </React.Fragment> : <React.Fragment></React.Fragment>
                                     }
                                 </div>                                
@@ -677,7 +677,7 @@ class Save extends Component<Props>{
                                         </div>
                                     </div>
                                     <div className={`${styles.hrest}`}>
-                                    {this.props.pendingImport.map((value, index) => <ImportBank key={index} value={index} {...value} defaultCategory={value.categoryName !== "" ? value.categoryName : "default"} defaultItem={value.itemName !== "" ? value.itemName : "default"} defaultNote={value.note} />)}
+                                    {this.props.pendingImport.map((value, index) => <ImportBank key={value.tempId} value={index} {...value} defaultCategory={value.categoryName !== "" ? value.categoryName : "default"} defaultItem={value.itemName !== "" ? value.itemName : "default"} defaultNote={value.note} />)}
                                     </div>
                                 </div>
                             </div>
@@ -762,7 +762,6 @@ function mapDispatchToProps(dispatch){
     return bindActionCreators({
         ...SaveActions,
         ...ModifyActions,
-        ...BankSyncActions,
         ...CategoryCollectionActions,
         ...ItemCollectionActions,
         ...TransactionCollectionActions,

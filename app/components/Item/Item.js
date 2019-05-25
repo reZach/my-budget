@@ -80,9 +80,9 @@ class Item extends Component<Props> {
             return (
                 <div className="column col-xs-auto text-center">
                     <div className="columns">
-                        <input className="column col-8" type="text" autoFocus value={this.state.newItemName} onChange={this.newItemName} onKeyUp={this.handleEnter} placeholder="new name" />
-                        <i role="button" className={`column col-2 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.renameItem()} />
-                        <i role="button" className={`column col-2 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()} />
+                        <input className="column col-8" type="text" value={this.state.newItemName} onChange={this.newItemName} onKeyUp={this.handleEnter} placeholder="new name" />
+                        <i role="button" tabIndex={0} className={`column col-2 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.renameItem()} onKeyUp={() => this.renameItem()} />
+                        <i role="button" tabIndex={0} className={`column col-2 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()} onKeyUp={() => this.toggleRenameActive()} />
                     </div>
                 </div>                
             );
@@ -90,10 +90,10 @@ class Item extends Component<Props> {
 
         return (
             <React.Fragment>
-                <div role="button" className={`column col-1 text-center ${styles.icon}`} onClick={this.toggleRenameActive}>
+                <div role="button" tabIndex={0} className={`column col-1 text-center ${styles.icon}`} onClick={this.toggleRenameActive} onKeyUp={() => this.toggleRenameActive()}>
                     <i className="fas fa-edit" />
                 </div>
-                <div role="button" className={`column col-1 text-center ${styles.icon}`} id={this.props.id} onClick={() => this.deleteItem()}>
+                <div role="button" tabIndex={0} className={`column col-1 text-center ${styles.icon}`} id={this.props.id} onClick={() => this.deleteItem()} onKeyUp={() => this.deleteItem()}>
                     <i className={`fas fa-trash-alt ${styles.icon}`} />
                 </div>
             </React.Fragment>                                

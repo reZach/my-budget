@@ -12,7 +12,6 @@ import * as ModifyActions from "../../actions/modify";
 import * as IncomeActions from "../../actions/income";
 import * as SaveActions from "../../actions/save";
 import * as DateActions from "../../actions/date";
-import * as BankSyncActions from "../../actions/bankSync";
 import filehelper from "../../utils/filehelper";
 import * as crypto from "../../crypto/code";
 
@@ -175,16 +174,6 @@ class Entry extends Component<Props>{
             //     pendingImport = fileContents.pendingImport;
             // }
             // TODO: do we need this?
-            
-            let bankSync = {
-                clientId: "",
-                publicKey: "",
-                development: ""
-            };
-            if (success){
-                bankSync = fileContents.bankSync;
-            }
-            this.props.entryBankSyncKeys(bankSync.clientId, bankSync.publicKey, bankSync.development);
 
             this.props.now();
 
@@ -261,10 +250,10 @@ class Entry extends Component<Props>{
         if (this.state.importedModal){
             return (
                 <div className="modal active" id="modal-id">
-                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.closeImportModal()} />
+                    <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.closeImportModal()}>x</a>
                     <div className="modal-container">
                         <div className={`modal-header ${styles.h62}`}>
-                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.closeImportModal()} />
+                            <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.closeImportModal()}>x</a>
                             <div className="modal-title h4">Import successful</div>
                         </div>
                         <div className="modal-body">
@@ -311,7 +300,7 @@ class Entry extends Component<Props>{
                             <div className="column col-12">
                                 <form onSubmit={() => this.go()}>
                                     <div className="input-group">
-                                        <input className="form-input input-lg" type="password" placeholder="passphrase" autoFocus value={this.state.passphrase} onChange={this.changePassphrase} />
+                                        <input className="form-input input-lg" type="password" placeholder="passphrase" value={this.state.passphrase} onChange={this.changePassphrase} />
                                         <button className="btn btn-lg btn-primary" type="submit">Go</button>
                                     </div>
                                 </form>                                                                
@@ -327,7 +316,7 @@ class Entry extends Component<Props>{
                                                 If this is your first time using MyBudget, you can choose to encrypt your data with a passphrase. If you do so, you must enter in your passphrase every time you use this app. You cannot change your passphrase once it's been set! If you don't choose a passphrase, your data will be saved unencrypted on your computer.
                                             </div> */}
                                             <div className="card-footer" style={{fontStyle: "italic"}}>
-                                                Please visit the <a target="_blank" rel="noopener noreferrer" href="https://github.com/reZach/my-budget/wiki/First-time-user-guide">{"new user's guide"}</a> {"if you'd like a walkthrough how to use My Budget."}
+                                                Please visit the <a target="_blank" rel="noopener noreferrer" href="https://github.com/reZach/my-budget/wiki/First-time-user-guide">new user&apos;s guide</a> if you&apos;d like a walkthrough how to use My Budget.
                                             </div>
                                         </div>
                                     </div>
@@ -362,7 +351,6 @@ function mapDispatchToProps(dispatch) {
         ...SaveActions,
         ...DateActions,
         ...IncomeRecordActions,
-        ...BankSyncActions,
         ...TransactionCollectionActions
     }, dispatch);
 }

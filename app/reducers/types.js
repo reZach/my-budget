@@ -11,7 +11,7 @@ export type Action = {
     payload: object
 };
 
-export function update(state, mutations) {
+export default function update(state, mutations) {
     if (Array.isArray(state) && Array.isArray(mutations)) {
         return state.concat(mutations);
     } 

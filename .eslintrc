@@ -32,9 +32,13 @@
     "flowtype/use-flow-type": "error",
     "flowtype/valid-syntax": "error",
     "generator-star-spacing": "off",
+    "import/no-named-default": "off",
+    "import/no-named-as-default": "off",
     "import/no-unresolved": "error",
-    "import/no-extraneous-dependencies": "off",
+    "import/no-extraneous-dependencies": "off", 
+    "jsx-a11y/anchor-has-content": "off",   
     "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/label-has-associated-control": "off",
     "jsx-a11y/label-has-for": "off",
     "no-console": "off",
     "no-plusplus": ["error", {"allowForLoopAfterthoughts": true}],
@@ -57,6 +61,11 @@
         ]
       }
     ],
+    "react/jsx-curly-brace-presence": ["error",
+    {
+      "props": "never",
+      "children": "never"
+    }],
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": [
       "error",

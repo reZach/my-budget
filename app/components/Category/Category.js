@@ -161,7 +161,7 @@ class Category extends Component<Props> {
         );
     }
 
-    createNewItem(event){
+    createNewItem(){
         if (this.state.newItemName !== ""){
 
             // Don't create duplicate items
@@ -202,18 +202,18 @@ class Category extends Component<Props> {
             return (
                 <form onSubmit={() => this.renameCategory()}>
                     <div className="input-group">
-                        <input className="form-input input-sm" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} />
+                        <input className="form-input input-sm" type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} />
                         <button className="btn btn-sm btn-primary input-group-btn" type="submit">update</button>
-                        <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()}>cancel</button>
+                        <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()} onKeyUp={() => this.toggleRenameActive()}>cancel</button>
                     </div>
                 </form>
             );
         } if (this.state.editActive) {
             return (
                 <div className="input-group float-right">                    
-                    <button className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.props.delete(this.props.id, this.props.name)}>delete</button>
-                    <button className="btn btn-sm btn-primary input-group-btn" onClick={this.toggleRenameActive}>rename</button>                    
-                    <button className="btn btn-sm input-group-btn" onClick={this.toggleEditActive}>cancel</button>
+                    <button type="button" className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.props.delete(this.props.id, this.props.name)} onKeyUp={() => this.props.delete(this.props.id, this.props.name)}>delete</button>
+                    <button type="button" className="btn btn-sm btn-primary input-group-btn" onClick={this.toggleRenameActive} onKeyUp={this.toggleRenameActive}>rename</button>                    
+                    <button type="button" className="btn btn-sm input-group-btn" onClick={this.toggleEditActive} onKeyUp={this.toggleEditActive}>cancel</button>
                 </div>
             );            
         }
@@ -224,20 +224,20 @@ class Category extends Component<Props> {
             return (
                 <div className="column col-xs-auto text-center">
                     <div className="columns">
-                        <input type="button" className="column col-8" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEnterForCategory} placeholder="new name" />
-                        <i role="button" className={`column col-2 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.renameCategory()} />
-                        <i role="button" className={`column col-2 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()} />
+                        <input className="column col-8" type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEnterForCategory} placeholder="new name" />
+                        <i role="button" tabIndex={0} className={`column col-2 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.renameCategory()} onKeyUp={() => this.renameCategory()} />
+                        <i role="button" tabIndex={0} className={`column col-2 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()} onKeyUp={() => this.toggleRenameActive()} />
                     </div>
                 </div>                
             );
         } 
             return (
                 <React.Fragment>
-                    <div className={`column col-1 text-center ${styles.icon}`} onClick={this.toggleRenameActive}>
-                        <i role="button" className="fas fa-edit" />
+                    <div role="button" tabIndex={0} className={`column col-1 text-center ${styles.icon}`} onClick={this.toggleRenameActive} onKeyUp={this.toggleRenameActive}>
+                        <i className="fas fa-edit" />
                     </div>
-                    <div className={`column col-1 text-center ${styles.icon}`} onClick={() => this.props.delete(this.props.id, this.props.name)}>
-                        <i role="button" className={`fas fa-trash-alt ${styles.icon}`} />
+                    <div role="button" tabIndex={0} className={`column col-1 text-center ${styles.icon}`} onClick={() => this.props.delete(this.props.id, this.props.name)} onKeyUp={() => this.props.delete(this.props.id, this.props.name)}>
+                        <i className={`fas fa-trash-alt ${styles.icon}`} />
                     </div>
                 </React.Fragment>                                
             );            
@@ -247,8 +247,8 @@ class Category extends Component<Props> {
     renderNewSubcategory(){
         if (!this.state.addActive){
             return (
-                <div className={`column col-xs-auto text-left ${styles.h30} ${styles.icon}`} onClick={() => this.toggleAddActive()}>
-                    sub-category <i role="button" className="fas fa-plus-square" />
+                <div role="button" tabIndex={0} className={`column col-xs-auto text-left ${styles.h30} ${styles.icon}`} onClick={() => this.toggleAddActive()} onKeyUp={() => this.toggleAddActive()}>
+                    sub-category <i className="fas fa-plus-square" />
                 </div>
             );
         } 
@@ -256,8 +256,8 @@ class Category extends Component<Props> {
                 <div className={`column col-xs-auto text-center ${styles.h30}`}>
                     <div className="columns">
                         <input ref={me => (this.newSubcategoryInput = me)} className="column col-10" type="text" placeholder="sub-category" value={this.state.newItemName} onChange={this.modifyNewItemName} onKeyUp={this.handleEnterForSubcategory} />
-                        <i role="button" className={`column col-1 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.createNewItem()} />
-                        <i role="button" className={`column col-1 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleAddActive()} />                                
+                        <i role="button" tabIndex={0} className={`column col-1 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.createNewItem()} onKeyUp={() => this.createNewItem()} />
+                        <i role="button" tabIndex={0} className={`column col-1 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleAddActive()} onKeyUp={() => this.toggleAddActive()} />                                
                     </div>
                 </div>
             );
@@ -271,8 +271,8 @@ class Category extends Component<Props> {
                     <div className="column col-12">
                         {/* HACK TABLE */}
                         <div className={`columns ${styles.dark} ${styles.category}`}>
-                            <div className={`column col-xs-auto ${styles["category-header"]}`} onClick={this.toggleCollapse}>
-                                {this.props.collapse ? <i role="button" className="fas fa-caret-right" /> : <i role="button" className="fas fa-caret-down" />} {this.props.name} {this.getPercentageSpent()}
+                            <div role="button" tabIndex={0} className={`column col-xs-auto ${styles["category-header"]}`} onClick={this.toggleCollapse} onKeyUp={this.toggleCollapse}>
+                                {this.props.collapse ? <i className="fas fa-caret-right" /> : <i className="fas fa-caret-down" />} {this.props.name} {this.getPercentageSpent()}
                             </div>
                             {this.renderControls()}                            
                         </div>
@@ -284,7 +284,7 @@ class Category extends Component<Props> {
                                 if (a1 > b1) return 1;
                                 if (a1 < b1) return -1;
                                 return 0;
-                            }).map((value, index) => <div key={index}>
+                            }).map((value) => <div key={`${value.dateId}-${value.id}-${value.categoryId}`}>
                                     <Item {...value} categoryId={this.props.id} dateId={this.props.dateId} rename={this.renameItem} delete={this.deleteItem} />
                                 </div>)}
                             <div className="columns">

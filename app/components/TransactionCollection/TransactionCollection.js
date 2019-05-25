@@ -174,10 +174,10 @@ class TransactionCollection extends Component<Props> {
                             <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <label className="form-label" htmlFor="transaction-select-categorydropdown">Category</label>
+                                        <span className="form-label">Category</span>
                                     </div>
                                     <div className="col-8">
-                                        <select className="form-select" id="transaction-select-categorydropdown" value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
+                                        <select className="form-select" value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
                                             <option value="">---</option>
                                             {this.createCategoriesDropDown()}
                                         </select>
@@ -185,10 +185,10 @@ class TransactionCollection extends Component<Props> {
                                 </div>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <label className="form-label" htmlFor="transaction-select-subcategorydropdown">Sub-category</label>
+                                        <span className="form-label">Sub-category</span>
                                     </div>
                                     <div className="col-8">
-                                        <select className="form-select" id="transaction-select-subcategorydropdown" value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
+                                        <select className="form-select" value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
                                             <option value="">---</option>
                                             {this.createItemsDropDown()}  
                                         </select>
@@ -236,8 +236,8 @@ class TransactionCollection extends Component<Props> {
                         if (a.day > b.day) return 1;
                         if (b.day > a.day) return -1;                        
                         return 0;
-                    }).map((value, index) => 
-                        <Transaction key={index} {...value} delete={this.deleteTransaction} />
+                    }).map((value) => 
+                        <Transaction key={`${value.dateId}-${value.id}-${value.amount}`} {...value} delete={this.deleteTransaction} />
                     )}
                 </div>                                
             </div>

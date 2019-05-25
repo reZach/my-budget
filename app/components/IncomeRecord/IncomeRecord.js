@@ -45,7 +45,7 @@ class IncomeRecord extends Component<Props> {
             return (
                 <form onSubmit={() => this.renameCategory()}>
                     <div className="input-group">
-                        <input className="form-input input-sm" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} />
+                        <input className="form-input input-sm" type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} />
                         <button className="btn btn-sm btn-primary input-group-btn" type="submit">update</button>
                         <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()}>cancel</button>
                     </div>
@@ -67,16 +67,16 @@ class IncomeRecord extends Component<Props> {
             return (
                 <div className="column col-xs-auto text-center">
                     <div className="columns">
-                        <input className="column col-8" type="text" autoFocus value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEnterForCategory} placeholder="new name" />
-                        <i role="button" className={`column col-2 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.renameCategory()} />
-                        <i role="button" className={`column col-2 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()} />
+                        <input className="column col-8" type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEnterForCategory} placeholder="new name" />
+                        <i role="button" tabIndex={0} className={`column col-2 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.renameCategory()} onKeyUp={() => this.renameCategory()} />
+                        <i role="button" tabIndex={0} className={`column col-2 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()} onKeyUp={() => this.toggleRenameActive()} />
                     </div>
                 </div>    
             );
         } 
             return (
                 <React.Fragment>
-                    <div role="button" className={`column col-1 text-center ${styles.icon}`} onClick={() => this.props.delete(this.props.id)}>
+                    <div role="button" tabIndex={0} className={`column col-1 text-center ${styles.icon}`} onClick={() => this.props.delete(this.props.id)} onKeyUp={() => this.props.delete(this.props.id)}>
                         <i className={`fas fa-trash-alt ${styles.icon}`} />
                     </div>
                 </React.Fragment>                                
