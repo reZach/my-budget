@@ -289,7 +289,7 @@ class Income extends Component<Props>{
                     // every "x" days
                     while (startDate <= today){
                         cash += parseFloat(validIncomeRecords[i].income);
-                        startDate.setDate(startDate.getDate() + validIncomeRecords[i].xdays);
+                        startDate.setDate(startDate.getDate() + parseInt(validIncomeRecords[i].xdays));
                     }
                     break;
                 default:
