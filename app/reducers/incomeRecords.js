@@ -22,32 +22,34 @@ export default function incomeRecords(state: array = [], action: Action){
                         startYear: action.payload.startYear,
                         income: action.payload.income,
                         frequency: action.payload.frequency,
-                        frequencyName: INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency],
+                        frequencyName: action.payload.frequency !== "5" ? INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency] : (parseInt(action.payload.xdays) > 1 ? INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency].replace("{0}", action.payload.xdays).replace("{1}", "days") : INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency].replace("{0}", action.payload.xdays).replace("{1}", "day")),
+                        xdays: parseInt(action.payload.xdays),
                         note: action.payload.note
                     }]
                 );
             } 
-                return update(state,
-                    [{
-                        id: (state.reduce((accumulator, current) => {
-                            const id = parseInt(current.id);
+            return update(state,
+                [{
+                    id: (state.reduce((accumulator, current) => {
+                        const id = parseInt(current.id);
 
-                            if (id > accumulator) {
-                                return id;
-                            }
+                        if (id > accumulator) {
+                            return id;
+                        }
 
-                            // Should never get into this, but still
-                            return accumulator;
-                        }, 0) + 1).toString(),
-                        startDay: action.payload.startDay,
-                        startMonth: action.payload.startMonth,
-                        startYear: action.payload.startYear,
-                        income: action.payload.income,
-                        frequency: action.payload.frequency,
-                        frequencyName: INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency],
-                        note: action.payload.note
-                    }]
-                );
+                        // Should never get into this, but still
+                        return accumulator;
+                    }, 0) + 1).toString(),
+                    startDay: action.payload.startDay,
+                    startMonth: action.payload.startMonth,
+                    startYear: action.payload.startYear,
+                    income: action.payload.income,
+                    frequency: action.payload.frequency,
+                    frequencyName: action.payload.frequency !== "5" ? INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency] : (parseInt(action.payload.xdays) > 1 ? INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency].replace("{0}", action.payload.xdays).replace("{1}", "days") : INCOME_RECORDS_FREQUENCY_MAP[action.payload.frequency].replace("{0}", action.payload.xdays).replace("{1}", "day")),
+                    xdays: action.payload.xdays,
+                    note: action.payload.note
+                }]
+            );
             
         case MODIFY_INCOME_RECORD_START_DAY:
             return update([], 
