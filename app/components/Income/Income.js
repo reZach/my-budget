@@ -24,6 +24,7 @@ class Income extends Component<Props>{
             date: "",
             income: 0,
             frequency: "0",
+            xdays: "1",
             note: ""
         };
 
@@ -31,6 +32,7 @@ class Income extends Component<Props>{
         this.changeIncome = this.changeIncome.bind(this);
         this.changeDate = this.changeDate.bind(this);
         this.changeFrequency = this.changeFrequency.bind(this);
+        this.changeXDays = this.changeXDays.bind(this);
         this.changeNote = this.changeNote.bind(this);
         this.addNewIncomeRecord = this.addNewIncomeRecord.bind(this);
         this.addIncomeRecordIsValid = this.addIncomeRecordIsValid.bind(this);
@@ -71,7 +73,14 @@ class Income extends Component<Props>{
 
     changeFrequency(event){        
         this.setState({
-            frequency: event.target.value
+            frequency: event.target.value,
+            xdays: event.target.value === "5" ? "1" : "0" // reset if not picking "x" days frequency
+        });
+    }
+
+    changeXDays(event){
+        this.setState({
+            xdays: event.target.value
         });
     }
 
@@ -109,7 +118,7 @@ class Income extends Component<Props>{
     }
     
     addNewIncomeRecord(){
-        this.props.addIncomeRecord(this.state.day, this.state.month, this.state.year, this.state.income, this.state.frequency, this.state.note);
+        this.props.addIncomeRecord(this.state.day, this.state.month, this.state.year, this.state.income, this.state.frequency, this.state.xdays, this.state.note);
 
         this.setState({
             day: 0,
@@ -156,10 +165,18 @@ class Income extends Component<Props>{
     }
 
     addIncomeRecordIsValid(){
-        return (this.state.day !== 0 &&
+        if (this.state.frequency === "5"){
+            return (this.state.day !== 0 &&
+                this.state.month !== 0 &&
+                this.state.year !== 0 &&
+                this.state.income !== 0 &&
+                parseInt(this.state.xdays) > 0);
+        } else {
+            return (this.state.day !== 0 &&
                 this.state.month !== 0 &&
                 this.state.year !== 0 &&
                 this.state.income !== 0);
+        }        
     }
 
     toggleModal(){
@@ -218,7 +235,7 @@ class Income extends Component<Props>{
                             cash += parseFloat(validIncomeRecords[i].income);
                         } else {
                             
-                            var firstBusinessDay = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+                            let firstBusinessDay = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
 
                             // Land on a weekday (0 == sunday, 6 == saturday)                            
                             while(firstBusinessDay > 0 && firstBusinessDay < 6){
@@ -238,10 +255,43 @@ class Income extends Component<Props>{
                     }
                     break;
                 }
-                case "4":
+                case "4": {
                     // last business day of every month
-                    
-                    break; 
+                    let greaterThanAMonth = false;
+                    while (startDate <= today){
+                          
+                        if (today.getFullYear() > startDate.getFullYear()){
+                            cash += parseFloat(validIncomeRecords[i].income);                            
+                        } else if (today.getMonth() - startDate.getMonth() > 0){
+                            cash += parseFloat(validIncomeRecords[i].income);
+                        } else {                            
+                            let firstBusinessDay = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+
+                            // Land on a weekday (0 == sunday, 6 == saturday)                            
+                            while(firstBusinessDay > 0 && firstBusinessDay < 6){
+                                firstBusinessDay.setDate(firstBusinessDay.getDate() - 1);
+                            }
+
+                            if ((today >= firstBusinessDay && greaterThanAMonth) ||
+                                startDate.getTime() === firstBusinessDay.getTime()){
+                                cash += parseFloat(validIncomeRecords[i].income);
+                            }                           
+                        }
+
+                        // set to next month
+                        startDate.setDate(1);
+                        startDate.setMonth(startDate.getMonth() + 1);
+                        greaterThanAMonth = true;
+                    }
+                    break;
+                } 
+                case "5":
+                    // every "x" days
+                    while (startDate <= today){
+                        cash += parseFloat(validIncomeRecords[i].income);
+                        startDate.setDate(startDate.getDate() + validIncomeRecords[i].xdays);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -304,10 +354,9 @@ class Income extends Component<Props>{
                 </div>
             );
         } 
-            return (
-                <span className="label label-success">${data.amount}</span>
-            );
-        
+        return (
+            <span className="label label-success">${data.amount}</span>
+        );
     }
 
     frequencyDropDown(){
@@ -327,6 +376,14 @@ class Income extends Component<Props>{
             {
                 value: "3",
                 text: "first business day of the month"
+            },
+            {
+                value: "4",
+                text: "last business day of the month"
+            },
+            {
+                value: "5",
+                text: "every x days"
             }
         ];
 
@@ -414,6 +471,14 @@ class Income extends Component<Props>{
                                                         </select>
                                                     </div>
                                                 </div>
+                                                {this.state.frequency !== "5" ? <React.Fragment></React.Fragment> : <div className="form-group">
+                                                    <div className="column col-3">
+                                                        <label className="form-label" htmlFor="income-xdays-input">{"\"X\" days"}</label>
+                                                    </div>
+                                                    <div className="column col-9">
+                                                        <input className="form-input" id="income-xdays-input" type="number" value={this.state.xdays} onChange={this.changeXDays} placeholder={"\"x\" days"} />
+                                                    </div>
+                                                </div> }
                                                 <div className="form-group">
                                                     <div className="column col-3">
                                                         <label className="form-label" htmlFor="income-note-input">Note</label>

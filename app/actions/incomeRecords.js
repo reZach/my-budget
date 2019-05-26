@@ -28,10 +28,11 @@ export const INCOME_RECORDS_FREQUENCY_MAP = {
     "1": "every week",
     "2": "every 2 weeks",
     "3": "first business day of the month",
-    "4": "last business day of the month"
+    "4": "last business day of the month",
+    "5": "every \"{0}\" {1}"
 }
 
-const add_income_record = function(day: number, month: number, year: number, income: number, frequency: string, note: string){
+const add_income_record = function(day: number, month: number, year: number, income: number, frequency: string, xdays: number, note: string){
     return {
         type: ADD_INCOME_RECORD,
         payload: {
@@ -40,6 +41,7 @@ const add_income_record = function(day: number, month: number, year: number, inc
             startYear: year,
             income,
             frequency,
+            xdays,
             note
         }
     };
@@ -122,9 +124,9 @@ const entry_income_records = function(incomeRecords: array){
     };
 }
 
-export function addIncomeRecord(day: number, month: number, year: number, income: number, frequency: string, note: string){
+export function addIncomeRecord(day: number, month: number, year: number, income: number, frequency: string, xdays: number, note: string){
     return (dispatch: Dispatch) => {
-        dispatch(add_income_record(day, month, year, income, frequency, note));
+        dispatch(add_income_record(day, month, year, income, frequency, xdays, note));
     }
 }
 
