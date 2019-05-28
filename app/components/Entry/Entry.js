@@ -1,9 +1,8 @@
-import React, { Component, Suspense } from "react";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import { withTranslation } from "react-i18next";
-const ipc = require("electron").ipcRenderer;
 import styles from "./Entry.css";
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ItemCollectionActions from "../../actions/itemCollection";
@@ -20,6 +19,7 @@ import * as crypto from "../../crypto/code";
 
 const {dialog} = require('electron').remote;
 const fs = require("fs");
+const ipc = require("electron").ipcRenderer;
 
 class Entry extends Component<Props>{
     props: Props;
@@ -69,10 +69,9 @@ class Entry extends Component<Props>{
 
     changeLanguage(event){
         let lang = event.target.value;
-
-        this.setState(state => ({
+        this.setState({
             selectedLanguage: lang
-        }));
+        });
         this.props.setLanguage(lang);
         ipc.send("language-changed", lang);
     }

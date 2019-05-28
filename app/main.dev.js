@@ -19,8 +19,8 @@ import {
 } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
-import i18n from "./utils/i18n/i18n.config";
-const ipc = require('electron').ipcMain
+// import i18n from "./utils/i18n/i18n.config";
+// const ipc = require('electron').ipcMain;
 
 const path = require("path");
 

@@ -6,7 +6,7 @@ import {
     AppContainer
 } from 'react-hot-loader';
 import Root from './containers/Root';
-import i18n from "./utils/i18n/i18n.client.config";
+// import i18n from "./utils/i18n/i18n.client.config";
 import initialStore from "./store/initialStore";
 import {
     configureStore,
