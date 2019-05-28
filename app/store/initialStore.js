@@ -13,6 +13,7 @@ const initialStore = {
         dateId: `${month}-${year}`,
         amount: 0
     }],
+    language: "en",
     incomeRecords: [],
     categories: /* success ? fileContents.categories : */ [],
     items: /* success ? fileContents.items : */ [],

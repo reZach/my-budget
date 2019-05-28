@@ -10,43 +10,50 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
-import { autoUpdater } from 'electron-updater';
+import {
+    app,
+    BrowserWindow
+} from 'electron';
+import {
+    autoUpdater
+} from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+import i18n from "./utils/i18n/i18n.config";
+const ipc = require('electron').ipcMain
 
 const path = require("path");
 
 export default class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
+    constructor() {
+        log.transports.file.level = 'info';
+        autoUpdater.logger = log;
+        autoUpdater.checkForUpdatesAndNotify();
+    }
 }
 
 let mainWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
-  sourceMapSupport.install();
+    const sourceMapSupport = require('source-map-support');
+    sourceMapSupport.install();
 }
 
 if (
-  process.env.NODE_ENV === 'development' ||
-  process.env.DEBUG_PROD === 'true'
-) {
-  require('electron-debug')();
+    process.env.NODE_ENV === 'development' ||
+    process.env.DEBUG_PROD === 'true'
+) {    
+    require('electron-debug')();
 }
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
+    const installer = require('electron-devtools-installer');
+    const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
+    const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
 
-  return Promise.all(
-    extensions.map(name => installer.default(installer[name], forceDownload))
-  ).catch(console.log);
+    return Promise.all(
+        extensions.map(name => installer.default(installer[name], forceDownload))
+    ).catch(console.log);
 };
 
 /**
@@ -54,52 +61,64 @@ const installExtensions = async () => {
  */
 
 app.on('window-all-closed', () => {
-  // Respect the OSX convention of having the application in memory even
-  // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+    // Respect the OSX convention of having the application in memory even
+    // after all windows have been closed
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 
 app.on('ready', async () => {
-  if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.DEBUG_PROD === 'true'
-  ) {
-    await installExtensions();
-  }  
-
-  mainWindow = new BrowserWindow({
-    show: false,
-    width: 1024,
-    height: 728,
-    icon: path.join(__dirname, "build/icons/64x64.png")
-  });
-
-  mainWindow.loadURL(`file://${__dirname}/app.html`);
-
-  // @TODO: Use 'ready-to-show' event
-  //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
-  mainWindow.webContents.on('did-finish-load', () => {
-    if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
+    if (
+        process.env.NODE_ENV === 'development' ||
+        process.env.DEBUG_PROD === 'true'
+    ) {
+        await installExtensions();
     }
-    if (process.env.START_MINIMIZED) {
-      mainWindow.minimize();
-    } else {
-      mainWindow.show();
-      mainWindow.focus();
-    }
-  });
 
-  mainWindow.on('closed', () => {    
-    mainWindow = null;
-  });
+    mainWindow = new BrowserWindow({
+        show: false,
+        width: 1024,
+        height: 728,
+        icon: path.join(__dirname, "build/icons/64x64.png")
+    });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+    mainWindow.loadURL(`file://${__dirname}/app.html`);
 
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
+    // @TODO: Use 'ready-to-show' event
+    //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
+    mainWindow.webContents.on('did-finish-load', () => {
+        if (!mainWindow) {
+            throw new Error('"mainWindow" is not defined');
+        }
+        if (process.env.START_MINIMIZED) {
+            mainWindow.minimize();
+        } else {
+            mainWindow.show();
+            mainWindow.focus();
+        }
+    });
+
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+    });
+
+    const menuBuilder = new MenuBuilder(mainWindow);
+    menuBuilder.buildMenu();           
+
+    // Remove this if your app does not use auto updates
+    // eslint-disable-next-line
+    // new AppUpdater();
 });
+
+// i18n.on('loaded', (loaded) => {
+//   i18n.changeLanguage('en');
+//   i18n.off('loaded');
+// });
+
+// not working...
+// ipc.on("language-changed", function(event, arg){
+//   i18n.changeLanguage(event);        
+//   const menuBuilder = new MenuBuilder(mainWindow);
+//   menuBuilder.buildMenu(i18n);
+// }); 

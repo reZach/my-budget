@@ -1,11 +1,14 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
+import { withTranslation } from "react-i18next";
+const ipc = require("electron").ipcRenderer;
 import styles from "./Entry.css";
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ItemCollectionActions from "../../actions/itemCollection";
 import * as TransactionCollectionActions from "../../actions/transactionCollection";
+import * as LanguageActions from "../../actions/language";
 import * as PassphraseActions from "../../actions/passphrase";
 import * as IncomeRecordActions from "../../actions/incomeRecords";
 import * as ModifyActions from "../../actions/modify";
@@ -21,22 +24,24 @@ const fs = require("fs");
 class Entry extends Component<Props>{
     props: Props;
 
-    constructor(){
-        super();        
+    constructor(props){
+        super(props);        
 
         this.state = {
             passphrase: "",
             dataImported: false,
             dataToImport: "",
             goHome: false,
-            importedModal: false
+            importedModal: false,
+            selectedLanguage: "en"
         };
-
+        
         this.changePassphrase = this.changePassphrase.bind(this);
         this.go = this.go.bind(this);
         this.importData = this.importData.bind(this);
         this.emptyImport = this.emptyImport.bind(this);
         this.closeImportModal = this.closeImportModal.bind(this);
+        this.changeLanguage = this.changeLanguage.bind(this);
         this.resetData = this.resetData.bind(this);
         this.fixBug = this.fixBug.bind(this);
         this.changePassphraseModal = this.changePassphraseModal.bind(this);
@@ -44,12 +49,32 @@ class Entry extends Component<Props>{
 
     componentDidMount(){
         this.fixbuginput.click();
+        // let lang = this.props.language;
+        // if (lang === ""){
+        //     lang = "en";
+        // }
+
+        // this.setState(state => ({
+        //     selectedLanguage: lang
+        // }));
+        // this.props.setLanguage(lang);
+        // ipc.send("language-changed", lang);
     }
 
     changePassphrase(event){
         this.setState({
             passphrase: event.target.value
         });        
+    }
+
+    changeLanguage(event){
+        let lang = event.target.value;
+
+        this.setState(state => ({
+            selectedLanguage: lang
+        }));
+        this.props.setLanguage(lang);
+        ipc.send("language-changed", lang);
     }
 
     resetData(){
@@ -175,7 +200,14 @@ class Entry extends Component<Props>{
             // }
             // TODO: do we need this?
 
+            // set date
             this.props.now();
+            
+            let language = this.state.selectedLanguage;
+            if (success){
+                language = fileContents.language;
+            }
+            this.props.setLanguage(language);
 
             // Lets us save when we navigate to the main screen
             if (this.state.dataImported && success){
@@ -279,29 +311,30 @@ class Entry extends Component<Props>{
             return <Redirect to="/Home" />
         }
 
+        const { t } = this.props;
         return (
             <div className={`container ${styles.h100}`}>
                 <div className={`columns ${styles.header} ${styles.h50}`}>
                     <div className={`column col-8 ${styles["btn-fix"]}`}>
-                        <button type="button" onClick={this.importData} className="btn btn-primary">Import data</button>
-                        <button type="button" onClick={this.emptyImport} disabled={!this.state.dataImported && this.state.dataToImport === ""} className={`btn ${styles.ml}`}>Clear loaded data</button>
+                        <button type="button" onClick={this.importData} className="btn btn-primary">{t("importData")}</button>
+                        <button type="button" onClick={this.emptyImport} disabled={!this.state.dataImported && this.state.dataToImport === ""} className={`btn ${styles.ml}`}>{t("clearLoadedData")}</button>
                     </div>
                     <div className={`column col-4 text-right ${styles["btn-fix"]}`}>
-                        <button type="button" onClick={this.resetData} className={`btn btn-error ${styles.ml}`}>Delete data</button>
+                        <button type="button" onClick={this.resetData} className={`btn btn-error ${styles.ml}`}>{t("deleteData")}</button>
                     </div>                    
                 </div>
                 <div className={`columns text-center ${styles.top}`}>
                     <div className="column col-4 col-mx-auto">
                         <h1>My Budget</h1>
                         <div>
-                            {"Let's start"}                            
+                            {t("letsStart")}
                         </div>                        
                         <div className={`columns ${styles.less}`}>
                             <div className="column col-12">
                                 <form onSubmit={() => this.go()}>
                                     <div className="input-group">
-                                        <input className="form-input input-lg" type="password" placeholder="passphrase" value={this.state.passphrase} onChange={this.changePassphrase} />
-                                        <button className="btn btn-lg btn-primary" type="submit">Go</button>
+                                        <input className="form-input input-lg" type="password" placeholder={t("passphrase")} value={this.state.passphrase} onChange={this.changePassphrase} />
+                                        <button className="btn btn-lg btn-primary" type="submit">{t("go")}</button>
                                     </div>
                                 </form>                                                                
                             </div>
@@ -309,7 +342,7 @@ class Entry extends Component<Props>{
                         <div className={`columns ${styles.smaller}`}>
                             <div className="column col-12">
                                 <div className="popover popover-top">
-                                    <button type="button" className="btn">New user?</button>
+                                    <button type="button" className="btn">{t("newUserQuestionMark")}</button>
                                     <div className="popover-container">
                                         <div className="card">
                                             {/* <div className="card-body">
@@ -323,13 +356,24 @@ class Entry extends Component<Props>{
                                 </div>                             
                             </div>
                         </div>
+                        <div className="columns">
+                            <div className="column col-12">
+                                <div className="form-group">
+                                    <select className="form-select" onChange={this.changeLanguage} value={this.state.selectedLanguage}>
+                                        <option value="en">en</option>
+                                        <option value="de">de</option>
+                                        <option value="fr">fr</option>
+                                    </select>
+                                </div>                                
+                            </div>
+                        </div>
                         <form style={{display: "none"}} onSubmit={() => this.fixBug()}>
                             <button ref={input => this.fixbuginput = input}  type="submit" />
                         </form>
                         {this.changePassphraseModal()}
                     </div>
                 </div>
-            </div>
+            </div>        
         );
     }
 }
@@ -337,7 +381,8 @@ class Entry extends Component<Props>{
 
 function mapStateToProps(state){
     return {
-        passphrase: state.passphrase
+        passphrase: state.passphrase,
+        language: state.language
     }
 }
 
@@ -346,6 +391,7 @@ function mapDispatchToProps(dispatch) {
         ...CategoryCollectionActions,
         ...ItemCollectionActions,
         ...PassphraseActions,
+        ...LanguageActions,
         ...ModifyActions,
         ...IncomeActions,
         ...SaveActions,
@@ -355,7 +401,9 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
+const translatedComponent = withTranslation()(Entry);
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Entry);
+)(translatedComponent);
