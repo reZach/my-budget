@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Fuse from "fuse.js";
+import { withTranslation } from "react-i18next";
 import * as SaveActions from "../../actions/save";
 import * as ModifyActions from "../../actions/modify";
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
@@ -726,14 +727,15 @@ class Save extends Component<Props>{
 
 
     render(){
+        const { t } = this.props;
         return (
             <React.Fragment>
                 <div className="columns">
                     <div className={`column col-12 ${styles['btn-fix']}`}>
-                        <button className={`btn btn-primary ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>Save</button>
-                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>Bank</button>
-                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.toggleExportModal()}>Export</button>
-                        <button className="btn btn-error" type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>Delete</button>
+                        <button className={`btn btn-primary ${styles['some-mr']}`} type="button" data-tooltip="saves pending changes" disabled={!this.props.modified} onClick={() => this.multi()}>{t("save")}</button>
+                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.sync()}>{t("bank")}</button>
+                        <button className={`btn btn-primary ${styles['some-mr']}`} data-tooltip="syncs transactions from banks" type="button" onClick={() => this.toggleExportModal()}>{t("export")}</button>
+                        <button className="btn btn-error" type="button" data-tooltip="deletes all data" onClick={() => this.deleteAll()}>{t("delete")}</button>
                     </div>
                 </div>
                 {this.renderBankSync()}  
@@ -770,7 +772,9 @@ function mapDispatchToProps(dispatch){
     }, dispatch);
 }
 
+const translatedComponent = withTranslation()(Save);
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Save);
+)(translatedComponent);

@@ -12,6 +12,7 @@ import createTransaction from "./createTransaction";
 import incomeRecords from "./incomeRecords";
 import importTransactionsOptions from "./importTransactionsOptions";
 import pendingImport from "./pendingImport";
+import language from "./language";
 import income from "./income";
 import modified from "./modified";
 
@@ -23,6 +24,7 @@ export default function createRootReducer(history: History) {
     incomeRecords,
     date,
     passphrase,
+    language,
     categories: categoryCollection,
     items: itemCollection,
     transactions: transactionCollection,
