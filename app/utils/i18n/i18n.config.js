@@ -1,7 +1,7 @@
-const i18n = require('i18next');
-const i18nextBackend = require('i18next-node-fs-backend');
 import config from "./i18n.languages.config";
 
+const i18n = require('i18next');
+const i18nextBackend = require('i18next-node-fs-backend');
 
 const i18nextOptions = {
     backend: {

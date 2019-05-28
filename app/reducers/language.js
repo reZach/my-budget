@@ -1,5 +1,5 @@
 import { SET_LANGUAGE } from "../actions/language";
-import update, { Action } from "./types";
+import { Action } from "./types";
 
 export default function language(state: string = "en", action: Action){
     switch(action.type){
