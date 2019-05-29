@@ -1,16 +1,3 @@
 {
-    "file": "file",
-    "open": "open",
-    "close": "close",
-    "&View": "&View",
-    "reload": "reload",
-    "toggleFullScreen": "toggleFullScreen",
-    "toggleDeveloperTools": "toggleDeveloperTools",
-    "help": "help",
-    "newUsersGuide": "newUsersGuide",
-    "learnMore": "learnMore",
-    "documentation": "documentation",
-    "communityDiscussions": "communityDiscussions",
-    "searchIssues": "searchIssues",
-    "changelog": "changelog"
+    "&View": "&View"
 }

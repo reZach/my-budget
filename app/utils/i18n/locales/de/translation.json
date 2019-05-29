@@ -1,3 +1,23 @@
 {
-    
+    "file": "Datei",
+    "open": "Öffnen",
+    "close": "Schließen",
+    "&View": "&View",
+    "reload": "Neu laden",
+    "toggleFullScreen": "Vollbild umschalten",
+    "toggleDeveloperTools": "Entwickler-Tools umschalten",
+    "help": "Hilfe",
+    "newUsersGuide": "Neue Bedienungsanleitung",
+    "learnMore": "Lern mehr",
+    "documentation": "Dokumentation",
+    "communityDiscussions": "Community-Diskussionen",
+    "searchIssues": "Suchprobleme",
+    "changelog": "Änderungsprotokoll",
+    "importData": "Daten importieren",
+    "clearLoadedData": "Geladene Daten löschen",
+    "deleteData": "Daten löschen",
+    "letsStart": "Lasst uns beginnen",
+    "passphrase": "passphrase",
+    "go": "Gehen",
+    "newUserQuestionMark": "Neuer Benutzer?"
 }

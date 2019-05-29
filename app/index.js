@@ -5,8 +5,9 @@ import {
 import {
     AppContainer
 } from 'react-hot-loader';
+import { I18nextProvider } from "react-i18next";
 import Root from './containers/Root';
-// import i18n from "./utils/i18n/i18n.client.config";
+import i18n from "./utils/i18n/i18n.config";
 import initialStore from "./store/initialStore";
 import {
     configureStore,
@@ -19,7 +20,9 @@ const store = configureStore(initialStore);
 
 render( 
   <AppContainer>
-    <Root store = {store} history = {history}/>
+    <I18nextProvider i18n={i18n}>
+      <Root store = {store} history = {history}/>
+    </I18nextProvider>    
   </AppContainer>,
   document.getElementById('root')
 );

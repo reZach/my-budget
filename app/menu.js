@@ -80,45 +80,45 @@ export default class MenuBuilder {
       ]
     };
     const subMenuEdit = {
-      label: i18n.t("edit"),//'Edit',
+      label: 'Edit',
       submenu: [
-        { label: i18n.t("undo"),//'Undo', 
+        { label: 'Undo', 
           accelerator: 'Command+Z', selector: 'undo:' },
-        { label: i18n.t("redo"),//'Redo', 
+        { label: 'Redo', 
           accelerator: 'Shift+Command+Z', selector: 'redo:' },
         { type: 'separator' },
-        { label: i18n.t("cut"),//'Cut', 
+        { label: 'Cut', 
           accelerator: 'Command+X', selector: 'cut:' },
-        { label: i18n.t("copy"),//'Copy', 
+        { label: 'Copy', 
           accelerator: 'Command+C', selector: 'copy:' },
-        { label: i18n.t("paste"),//'Paste', 
+        { label: 'Paste', 
           accelerator: 'Command+V', selector: 'paste:' },
         {
-          label: i18n.t("selectAll"),//'Select All',
+          label: 'Select All',
           accelerator: 'Command+A',
           selector: 'selectAll:'
         }
       ]
     };
     const subMenuViewDev = {
-      label: i18n.t("view"),//'View',
+      label: 'View',
       submenu: [
         {
-          label: i18n.t("reload"),//'Reload',
+          label: 'Reload',
           accelerator: 'Command+R',
           click: () => {
             this.mainWindow.webContents.reload();
           }
         },
         {
-          label: i18n.t("toggleFullScreen"),//'Toggle Full Screen',
+          label: 'Toggle Full Screen',
           accelerator: 'Ctrl+Command+F',
           click: () => {
             this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
           }
         },
         {
-          label: i18n.t("toggleDeveloperTools"),//'Toggle Developer Tools',
+          label: 'Toggle Developer Tools',
           accelerator: 'Alt+Command+I',
           click: () => {
             this.mainWindow.toggleDevTools();
@@ -127,7 +127,7 @@ export default class MenuBuilder {
       ]
     };
     const subMenuViewProd = {
-      label: i18n.t("view"),//'View',
+      label: 'View',
       submenu: [
         {
           label: i18n.t('Toggle Full Screen'),
@@ -139,37 +139,37 @@ export default class MenuBuilder {
       ]
     };
     const subMenuWindow = {
-      label: i18n.t("window"),//'Window',
+      label: 'Window',
       submenu: [
         {
-          label: i18n.t("minimize"),//'Minimize',
+          label: 'Minimize',
           accelerator: 'Command+M',
           selector: 'performMiniaturize:'
         },
-        { label: i18n.t("close"),//'Close', 
+        { label: 'Close', 
           accelerator: 'Command+W', selector: 'performClose:' },
         { type: 'separator' },
-        { label: i18n.t("bringAllToFront"),//'Bring All to Front', 
+        { label: 'Bring All to Front', 
           selector: 'arrangeInFront:' }
       ]
     };
     const subMenuHelp = {
-      label: i18n.t("help"),//'Help',
+      label: 'Help',
       submenu: [
         {
-          label: i18n.t("newUsersGuide"),//'New user\'s guide',
+          label: 'New user\'s guide',
           click() {
             shell.openExternal('https://github.com/reZach/my-budget/wiki/New-user\'s-guide');
           }
         },
         {
-          label: i18n.t("learnMore"),//'Learn More',
+          label: 'Learn More',
           click() {
             shell.openExternal('https://github.com/reZach/my-budget/blob/master/README.md');
           }
         },
         {
-          label: i18n.t("documentation"),//'Documentation',
+          label: 'Documentation',
           click() {
             shell.openExternal(
               'https://github.com/reZach/my-budget/wiki'
@@ -177,13 +177,13 @@ export default class MenuBuilder {
           }
         },
         {
-          label: i18n.t("communityDiscussions"),//'Community Discussions',
+          label: 'Community Discussions',
           click() {
             shell.openExternal('https://my-budget.slack.com');
           }
         },
         {
-          label: i18n.t("searchIssues"),//'Search Issues',
+          label: 'Search Issues',
           click() {
             shell.openExternal('https://github.com/reZach/my-budget/issues');
           }
@@ -199,7 +199,7 @@ export default class MenuBuilder {
         label: `v${appVersion}`,
         submenu: [
           {
-            label: i18n.t("changelog"),//'Changelog',
+            label: 'Changelog',
             click() {
               shell.openExternal('https://github.com/reZach/my-budget/releases');
             }
@@ -212,14 +212,14 @@ export default class MenuBuilder {
   buildDefaultTemplate() {
     const templateDefault = [
       {
-        label: i18n.t("file"),//'&File',
+        label: '&File',
         submenu: [
           {
-            label: i18n.t("open"),//'&Open',
+            label: '&Open',
             accelerator: 'Ctrl+O'
           },
           {
-            label: i18n.t("close"),//'&Close',
+            label: '&Close',
             accelerator: 'Ctrl+W',
             click: () => {
               this.mainWindow.close();
@@ -233,14 +233,14 @@ export default class MenuBuilder {
           process.env.NODE_ENV === 'development'
             ? [
                 {
-                  label: i18n.t("reload"),//'&Reload',
+                  label: '&Reload',
                   accelerator: 'Ctrl+R',
                   click: () => {
                     this.mainWindow.webContents.reload();
                   }
                 },
                 {
-                  label: i18n.t("toggleFullScreen"),//'Toggle &Full Screen',
+                  label: 'Toggle &Full Screen',
                   accelerator: 'F11',
                   click: () => {
                     this.mainWindow.setFullScreen(
@@ -249,7 +249,7 @@ export default class MenuBuilder {
                   }
                 },
                 {
-                  label: i18n.t("toggleDeveloperTools"),//'Toggle &Developer Tools',
+                  label: 'Toggle &Developer Tools',
                   accelerator: 'Alt+Ctrl+I',
                   click: () => {
                     this.mainWindow.toggleDevTools();
@@ -258,7 +258,7 @@ export default class MenuBuilder {
               ]
             : [
                 {
-                  label: i18n.t("toggleFullScreen"),//'Toggle &Full Screen',
+                  label: 'Toggle &Full Screen',
                   accelerator: 'F11',
                   click: () => {
                     this.mainWindow.setFullScreen(
@@ -269,22 +269,22 @@ export default class MenuBuilder {
               ]
       },
       {
-        label: i18n.t("help"),//'Help',
+        label: 'Help',
         submenu: [
           {
-            label: i18n.t("newUsersGuide"),//'New user\'s guide',
+            label: 'New user\'s guide',
             click() {
               shell.openExternal('https://github.com/reZach/my-budget/wiki/New-user\'s-guide');
             }
           },
           {
-            label: i18n.t("learnMore"),//'Learn More',
+            label: 'Learn More',
             click() {
               shell.openExternal('https://github.com/reZach/my-budget/blob/master/README.md');
             }
           },
           {
-            label: i18n.t("documentation"),//'Documentation',
+            label: 'Documentation',
             click() {
               shell.openExternal(
                 'https://github.com/reZach/my-budget/wiki'
@@ -292,13 +292,13 @@ export default class MenuBuilder {
             }
           },
           {
-            label: i18n.t("communityDiscussions"),//'Community Discussions',
+            label: 'Community Discussions',
             click() {
               shell.openExternal('https://my-budget.slack.com');
             }
           },
           {
-            label: i18n.t("searchIssues"),//'Search Issues',
+            label: 'Search Issues',
             click() {
               shell.openExternal('https://github.com/reZach/my-budget/issues');
             }
@@ -309,7 +309,7 @@ export default class MenuBuilder {
         label: `v${appVersion}`,
         submenu: [
           {
-            label: i18n.t("changelog"),//'Changelog',
+            label: 'Changelog',
             click() {
               shell.openExternal('https://github.com/reZach/my-budget/releases');
             }
