@@ -22,16 +22,22 @@ const i18nextOptions = {
     saveMissing: true,
     fallbackLng: config.fallbackLng,
     whitelist: config.whitelist,
-    defaultLocale: config.fallbackLng,
     react: {
         wait: false
     }
 };
 
-i18n.use(i18nextBackend);
-
 if (!i18n.isInitialized){
-    i18n.init(i18nextOptions);
+    i18n.use(i18nextBackend).init(i18nextOptions).then(function(){
+        i18n.changeLanguage(config.fallbackLng, (err) => {
+            if (err){
+                return console.log("couldn't change language");
+            }
+        });
+        return true;
+    }).catch(function(err){
+        console.error(err);
+    });
 }
 
 export default i18n;

@@ -19,7 +19,7 @@ import * as crypto from "../../crypto/code";
 
 const {dialog} = require('electron').remote;
 const fs = require("fs");
-const ipc = require("electron").ipcRenderer;
+// const ipc = require("electron").ipcRenderer;
 
 class Entry extends Component<Props>{
     props: Props;
@@ -49,16 +49,6 @@ class Entry extends Component<Props>{
 
     componentDidMount(){
         this.fixbuginput.click();
-        // let lang = this.props.language;
-        // if (lang === ""){
-        //     lang = "en";
-        // }
-
-        // this.setState(state => ({
-        //     selectedLanguage: lang
-        // }));
-        // this.props.setLanguage(lang);
-        // ipc.send("language-changed", lang);
     }
 
     changePassphrase(event){
@@ -73,7 +63,7 @@ class Entry extends Component<Props>{
             selectedLanguage: lang
         });
         this.props.setLanguage(lang);
-        ipc.send("language-changed", lang);
+        this.props.i18n.changeLanguage(lang);
     }
 
     resetData(){
