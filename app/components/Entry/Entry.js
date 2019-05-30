@@ -348,10 +348,16 @@ class Entry extends Component<Props>{
                         <div className="columns">
                             <div className="column col-12">
                                 <div className="form-group">
-                                    <select className="form-select" onChange={this.changeLanguage} value={this.state.selectedLanguage}>
-                                        <option value="en">en</option>
-                                        <option value="de">de</option>
-                                        <option value="fr">fr</option>
+                                    <select className="form-select" onChange={this.changeLanguage} value={this.state.selectedLanguage}>                                    
+                                        <option value="ar">عربى</option>
+                                        <option value="am">አማርኛ</option>
+                                        <option value="bg">български</option>
+                                        <option value="ca">Català</option>
+                                        <option value="cs">Čech</option>
+                                        <option value="de">Deutsche</option>
+                                        <option value="en">English</option>
+                                        <option value="es">Español</option>
+                                        <option value="fr">Français</option>
                                     </select>
                                 </div>                                
                             </div>
