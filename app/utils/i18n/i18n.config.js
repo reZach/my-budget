@@ -20,7 +20,8 @@ const i18nextOptions = {
     },
     namespace: "transaction",
     saveMissing: true,
-    fallbackLng: config.fallbackLng,
+    saveMissingTo: "current",
+    fallbackLng: false,
     whitelist: config.whitelist,
     react: {
         wait: false

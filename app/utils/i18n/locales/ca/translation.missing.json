@@ -1,0 +1,9 @@
+{
+    "importData": "importData",
+    "clearLoadedData": "clearLoadedData",
+    "deleteData": "deleteData",
+    "letsStart": "letsStart",
+    "passphrase": "passphrase",
+    "go": "go",
+    "newUserQuestionMark": "newUserQuestionMark"
+}
