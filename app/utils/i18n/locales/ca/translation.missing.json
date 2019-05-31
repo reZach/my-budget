@@ -5,5 +5,22 @@
     "letsStart": "letsStart",
     "passphrase": "passphrase",
     "go": "go",
-    "newUserQuestionMark": "newUserQuestionMark"
+    "newUserQuestionMark": "newUserQuestionMark",
+    "&File": "&File",
+    "&View": "&View",
+    "reload": "reload",
+    "&file": "&file",
+    "&open": "&open",
+    "&close": "&close",
+    "&view": "&view",
+    "&reload": "&reload",
+    "toggle&FullScreen": "toggle&FullScreen",
+    "toggle&DeveloperTools": "toggle&DeveloperTools",
+    "newUsersGuide": "newUsersGuide",
+    "learnMore": "learnMore",
+    "documentation": "documentation",
+    "communityDiscussions": "communityDiscussions",
+    "searchIssues": "searchIssues",
+    "changelog": "changelog",
+    "help": "help"
 }

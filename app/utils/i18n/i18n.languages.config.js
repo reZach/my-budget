@@ -1,6 +1,6 @@
 const config = {
     fallbackLng: "en",
-    whitelist: ["ar", "am", "de", "en", "es", "fr"]
+    whitelist: ["ar", "am", "bg", "ca", "cs", "de", "en", "es", "fr"]
 };
 
 export default config;

@@ -19,9 +19,9 @@ import {
 } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
-// import i18n from "./utils/i18n/i18n.config";
-// const ipc = require('electron').ipcMain;
+import i18n from "./utils/i18n/i18n.config";
 
+const { ipcMain } = require('electron');
 const path = require("path");
 
 export default class AppUpdater {
@@ -33,6 +33,7 @@ export default class AppUpdater {
 }
 
 let mainWindow = null;
+let menuBuilder = null;
 
 if (process.env.NODE_ENV === 'production') {
     const sourceMapSupport = require('source-map-support');
@@ -103,22 +104,25 @@ app.on('ready', async () => {
         mainWindow = null;
     });
 
-    const menuBuilder = new MenuBuilder(mainWindow);
-    menuBuilder.buildMenu();           
+    menuBuilder = new MenuBuilder(mainWindow);
+    menuBuilder.buildMenu();        
 
     // Remove this if your app does not use auto updates
     // eslint-disable-next-line
     // new AppUpdater();
 });
 
-// i18n.on('loaded', (loaded) => {
-//   i18n.changeLanguage('en');
-//   i18n.off('loaded');
-// });
 
 // not working...
-// ipc.on("language-changed", function(event, arg){
-//   i18n.changeLanguage(event);        
-//   const menuBuilder = new MenuBuilder(mainWindow);
-//   menuBuilder.buildMenu(i18n);
-// }); 
+ipcMain.on("language-changed", function(event, arg){
+    
+    i18n.changeLanguage(arg, (err) => {
+        if (err){
+            return console.log("couldn't change language");
+        }
+
+        menuBuilder.buildMenu();
+        event.returnValue = "value"; // need to return value
+        // https://stackoverflow.com/a/51360971/1837080
+    });    
+});

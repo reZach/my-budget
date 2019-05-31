@@ -19,7 +19,7 @@ import * as crypto from "../../crypto/code";
 
 const {dialog} = require('electron').remote;
 const fs = require("fs");
-// const ipc = require("electron").ipcRenderer;
+const ipc = require("electron").ipcRenderer;
 
 class Entry extends Component<Props>{
     props: Props;
@@ -64,6 +64,7 @@ class Entry extends Component<Props>{
         });
         this.props.setLanguage(lang);
         this.props.i18n.changeLanguage(lang);
+        ipc.sendSync("language-changed", lang);
     }
 
     resetData(){
@@ -314,7 +315,7 @@ class Entry extends Component<Props>{
                 </div>
                 <div className={`columns text-center ${styles.top}`}>
                     <div className="column col-4 col-mx-auto">
-                        <h1>My Budget</h1>
+                        <h1>{t("myBudget")}</h1>
                         <div>
                             {t("letsStart")}
                         </div>                        

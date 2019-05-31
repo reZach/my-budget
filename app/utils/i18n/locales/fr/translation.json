@@ -1,11 +1,11 @@
 {
+    "myBudget": "Mon budget",
     "importData": "Importer des données",
     "clearLoadedData": "Effacer les données chargées",
     "deleteData": "Suprimmer les données",
     "letsStart": "Commençons",
-    "passphrase": "phrase secrète",
-    "tester": "tester",
-    "go": "go",
+    "passphrase": "phrase secrète",    
+    "go": "Aller",
     "newUserQuestionMark": "Nouvel utilisateur?",
     "file": "Fichier",
     "open": "Ouvrir",
@@ -20,5 +20,12 @@
     "documentation": "Documentation",
     "communityDiscussions": "Discussions communautaires",
     "searchIssues": "Problèmes de recherche",
-    "changelog": "Changelog"
+    "changelog": "Changelog",    
+    "&file": "&Fichier",
+    "&open": "&Ouvrir",
+    "&close": "&Fermer",
+    "&view": "&Vue",
+    "&reload": "&Recharger",
+    "toggle&FullScreen": "Basculer en plein écran",
+    "toggle&DeveloperTools": "Basculer les outils de développement"
 }

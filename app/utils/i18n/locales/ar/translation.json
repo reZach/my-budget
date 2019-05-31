@@ -1,9 +1,25 @@
 {
+    "myBudget": "ميزانيتي",
     "importData": "بيانات الاستيراد",
     "clearLoadedData": "مسح البيانات المحملة",
     "deleteData": "حذف البيانات",
     "letsStart": "لنبدأ",
     "passphrase": "عبارة المرور",
     "go": "اذهب",
-    "newUserQuestionMark": "مستخدم جديد؟"
+    "newUserQuestionMark": "مستخدم جديد؟",
+    "reload": "إعادة تحميل",
+    "&file": "&ملف",
+    "&open": "&افتح",
+    "&close": "&قريب",
+    "&view": "&رأي",
+    "&reload": "&إعادة تحميل",
+    "toggle&FullScreen": "ملء الشاشة تبديل",
+    "toggle&DeveloperTools": "تبديل أدوات المطور",
+    "newUsersGuide": "دليل المستخدم الجديد",
+    "learnMore": "أعرف أكثر",
+    "documentation": "كابل بيانات",
+    "communityDiscussions": "مناقشات المجتمع",
+    "searchIssues": "بحث القضايا",
+    "changelog": "التغيير",
+    "help": "مساعدة"
 }
