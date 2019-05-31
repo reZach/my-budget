@@ -1,4 +1,5 @@
 {
+    "myBudget": "My Budget",
     "importData": "Import data",
     "clearLoadedData": "Clear loaded data",
     "deleteData": "Delete data",
@@ -9,7 +10,7 @@
     "file": "File",
     "open": "Open",
     "close": "Close",
-    "&View": "&View",
+    "view": "View",
     "reload": "Reload",
     "toggleFullScreen": "Toggle Full Screen",
     "toggleDeveloperTools": "Toggle Developer Tools",

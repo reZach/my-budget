@@ -1,3 +1,11 @@
 {
-    "&View": "&View"
+    "&View": "&View",
+    "&File": "&File",
+    "&file": "&file",
+    "&open": "&open",
+    "&close": "&close",
+    "&view": "&view",
+    "&reload": "&reload",
+    "toggle&FullScreen": "toggle&FullScreen",
+    "toggle&DeveloperTools": "toggle&DeveloperTools"
 }
