@@ -12,5 +12,13 @@
     "documentation": "documentation",
     "communityDiscussions": "communityDiscussions",
     "searchIssues": "searchIssues",
-    "changelog": "changelog"
+    "changelog": "changelog",
+    "importData": "importData",
+    "clearLoadedData": "clearLoadedData",
+    "deleteData": "deleteData",
+    "myBudget": "myBudget",
+    "letsStart": "letsStart",
+    "passphrase": "passphrase",
+    "go": "go",
+    "newUserQuestionMark": "newUserQuestionMark"
 }

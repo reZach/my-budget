@@ -271,6 +271,8 @@ class Save extends Component<Props>{
     }
 
     export(){
+        const { t } = this.props;
+
         const today = new Date();
         const month = today.getMonth() + 1;
         const day = today.getDate();
@@ -298,16 +300,16 @@ class Save extends Component<Props>{
 
                         this.toggleExportModal();
                         fs.writeFile(filename, JSON.stringify(fileContents), "utf-8", () => {
-                            alert("Exported data successfully.");
+                            alert(t("exportedDataSuccessfullyPeriod"));
                         });
                     } else {
                         this.toggleExportModal();
-                        alert("No data is saved, try saving and export again.");
+                        alert(t("noDataIsSavedTryAgainPeriod"));
                     }  
                 }
                 catch (exception){
                     this.toggleExportModal();
-                    alert("Could not export data.")
+                    alert(t("couldNotExportDataPeriod"));
                 }                                 
             }
         };
@@ -315,7 +317,7 @@ class Save extends Component<Props>{
 
         dialog.showSaveDialog(
             { 
-                title: "Export data",
+                title: t("exportData"),
                 defaultPath: `mybudgetdata_${year}${month}${day}.json`
             },
             boundCallback
@@ -323,6 +325,8 @@ class Save extends Component<Props>{
     }
 
     exportCSV(){
+        const { t } = this.props;
+
         const today = new Date();
         const month = today.getMonth() + 1;
         const day = today.getDate();
@@ -336,11 +340,11 @@ class Save extends Component<Props>{
                     const csvWriter = createCsvWriter({
                         path: filename,
                         header: [
-                            {id: "date", title: "Date"},
-                            {id: "category", title: "Category"},
-                            {id: "subcategory", title: "Subcategory"},
-                            {id: "amount", title: "Amount"},
-                            {id: "note", title: "Note"}
+                            {id: "date", title: t("Date")},
+                            {id: "category", title: t("Category")},
+                            {id: "subcategory", title: t("Subcategory")},
+                            {id: "amount", title: t("Amount")},
+                            {id: "note", title: t("Note")}
                         ]
                     });
             
@@ -407,16 +411,16 @@ class Save extends Component<Props>{
                     csvWriter.writeRecords(csvRecords)
                         .then(() => {
                             this.toggleExportModal();
-                            alert("Exported data as CSV successfully.");
+                            alert(t("exportedDataAsCSVSuccessfully"));
                             return true; // eslint
                         })
                         .catch((err) => {
-                            console.error(`Error writing CSV: ${err}`);
+                            console.error(`${t("errorWritingCSVColon")} ${err}`);
                         });
                 }
                 catch (exception){
                     this.toggleExportModal();
-                    alert("Could not export CSV data.")
+                    alert(`${t("couldNotExportCSVDataPeriod")}`);
                 }                                 
             }
         };
@@ -424,7 +428,7 @@ class Save extends Component<Props>{
 
         dialog.showSaveDialog(
             { 
-                title: "Export data as CSV",
+                title: t("exportDataAsCSV"),
                 defaultPath: `mybudgetcsv_${year}${month}${day}.csv`
             },
             boundCallback
@@ -510,12 +514,13 @@ class Save extends Component<Props>{
     }
 
     deleteAll(){
-        
+        const { t } = this.props;
+
         dialog.showMessageBox({
-            title: "Delete data",
+            title: t("deleteData"),
             type: "warning",
-            buttons: ["Yes", "No"],
-            message: "Are you sure you want to delete everything? We can't recover it if you do. (this does not delete exported data)."
+            buttons: [t("Yes"), t("No")],
+            message: t("areYouSureYouWantToDeleteEverythingSaveModule")
         }, (i) => {
 
             // Yes
@@ -527,6 +532,8 @@ class Save extends Component<Props>{
 
     renderBankSync(){
         if (this.state.bankSyncAdd){
+            const { t } = this.props;
+
             if (this.state.step1){
                 return (
                     <div className="modal active" id="modal-id">
@@ -534,20 +541,20 @@ class Save extends Component<Props>{
                         <div className="modal-container">
                             <div className={`modal-header ${styles.h62}`}>
                                 <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
-                                <div className="modal-title h4">Select a bank</div>
+                                <div className="modal-title h4">{t("selectABank")}</div>
                             </div>
                             <div className="modal-body">
                                 <div className="content">
                                     <div className={`${styles.mb}`}>
-                                        Import transactions from your bank.<br />
-                                        Bank not found and you are good with code? Consider <a target="_blank" rel="noopener noreferrer" href="https://github.com/reZach/my-budget/wiki/Creating-a-new-connector">writing a connector</a>.
+                                        {t("importTransactionsFromYourBank")}<br />
+                                        {t("bankNotFoundAndGoodWCodeConsider")} <a target="_blank" rel="noopener noreferrer" href="https://github.com/reZach/my-budget/wiki/Creating-a-new-connector">{t("writingAConnector")}</a>.
                                     </div>
                                     <div className="columns">
                                         <div className="column col-12 col-mr-auto">
                                             <div className="form-group">
-                                                <input type="text" className="form-input" placeholder="search" onChange={this.onFuzzyChange} value={this.state.searchBank} />
+                                                <input type="text" className="form-input" placeholder={t("search")} onChange={this.onFuzzyChange} value={this.state.searchBank} />
                                                 <select className="form-select" onChange={this.fuzzySelectChange}>
-                                                    {this.state.fuzzyResults.length == 0 ? <option id="" key="" style={{color: "gray"}}>---</option> : <option id="" key="" style={{color: "gray"}}>(found result/s)</option>}
+                                                    {this.state.fuzzyResults.length == 0 ? <option id="" key="" style={{color: "gray"}}>---</option> : <option id="" key="" style={{color: "gray"}}>{t("parenfoundResults")}</option>}
                                                     {this.state.fuzzyResults.map((result) => <option id={result.name} key={result.url} selected={this.state.selectedBank === result.name}>{result.name} - ({result.url})</option>)}
                                                 </select>
                                             </div>
@@ -559,7 +566,7 @@ class Save extends Component<Props>{
                                 <div className="float-right text-right">
                                     {this.state.selectedBank !== ""  ?
                                         <React.Fragment>
-                                            <input type="button" className="btn btn-primary" value="Next" onClick={() => this.moveToStep(2)} />
+                                            <input type="button" className="btn btn-primary" value={t("next")} onClick={() => this.moveToStep(2)} />
                                         </React.Fragment> : <React.Fragment></React.Fragment>
                                     }
                                 </div>                                
@@ -574,7 +581,7 @@ class Save extends Component<Props>{
                         <div className="modal-container">
                             <div className={`modal-header ${styles.h62}`}>
                                 <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
-                                <div className="modal-title h5">Enter credentials</div>
+                                <div className="modal-title h5">{t("enterCredentials")}</div>
                             </div>
                             <div className="modal-body">
                                 <div className="content">
@@ -584,18 +591,18 @@ class Save extends Component<Props>{
                                                 <form className="form-horizontal" style={{width: "100%"}}>
                                                     <div className="form-group">
                                                         <div className="column col-3">
-                                                            <label className="form-label" htmlFor="banksync-username-input">Username</label>
+                                                            <label className="form-label" htmlFor="banksync-username-input">{t("Username")}</label>
                                                         </div>
                                                         <div className="column col-9">
-                                                            <input className="form-input" id="banksync-username-input" type="text" value={this.state.username} onChange={this.changeUsername} placeholder="username" />
+                                                            <input className="form-input" id="banksync-username-input" type="text" value={this.state.username} onChange={this.changeUsername} placeholder={t("usernameLowercase")} />
                                                         </div>
                                                     </div>
                                                     <div className="form-group">
                                                         <div className="column col-3">
-                                                            <label className="form-label" htmlFor="banksync-password-input">Password</label>
+                                                            <label className="form-label" htmlFor="banksync-password-input">{t("Password")}</label>
                                                         </div>
                                                         <div className="column col-9">
-                                                            <input className="form-input" id="banksync-password-input" type="password" value={this.state.password} onChange={this.changePassword} placeholder="password" />
+                                                            <input className="form-input" id="banksync-password-input" type="password" value={this.state.password} onChange={this.changePassword} placeholder={t("passwordLowercase")} />
                                                         </div>
                                                     </div>
                                                 </form>
@@ -606,12 +613,12 @@ class Save extends Component<Props>{
                             </div>
                             <div className="modal-footer">
                                 <div className="float-left text-left">                                        
-                                    <input type="button" className="btn" value="Back" onClick={() => this.moveToStep(1)} onKeyUp={() => this.moveToStep(1)} />
+                                    <input type="button" className="btn" value={t("Back")} onClick={() => this.moveToStep(1)} onKeyUp={() => this.moveToStep(1)} />
                                 </div>
                                 <div className="float-right text-right">
                                     {this.state.username !== "" && this.state.password !== "" ?
                                         <React.Fragment>
-                                            <input className="btn btn-primary" type="submit" value="Next" onClick={() => this.moveToStep(3)} onKeyUp={() => this.moveToStep(3)} />
+                                            <input className="btn btn-primary" type="submit" value={t("Next")} onClick={() => this.moveToStep(3)} onKeyUp={() => this.moveToStep(3)} />
                                         </React.Fragment> : <React.Fragment></React.Fragment>
                                     }
                                 </div>                                
@@ -626,7 +633,7 @@ class Save extends Component<Props>{
                         <div className="modal-container">
                             <div className={`modal-header ${styles.h62}`}>
                                 <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
-                                <div className="modal-title h5">Loading transactions</div>
+                                <div className="modal-title h5">{t("loadingTransactions")}</div>
                             </div>
                             <div className="modal-body">
                                 <div className="content">
@@ -639,7 +646,7 @@ class Save extends Component<Props>{
                             </div>
                             <div className="modal-footer">
                                 <div className="float-left text-left">
-                                    <input type="button" className="btn" value="Back" onClick={() => this.moveToStep(1)} />
+                                    <input type="button" className="btn" value={t("Back")} onClick={() => this.moveToStep(1)} />
                                 </div>                                
                             </div>
                         </div>
@@ -652,29 +659,29 @@ class Save extends Component<Props>{
                         <div className="modal-container modal-large">
                             <div className={`modal-header ${styles.h62}`}>
                                 <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleBankSyncAdd()} />
-                                <div className="modal-title h5">Import transactions</div>
+                                <div className="modal-title h5">{t("importTransactions")}</div>
                             </div>
                             <div className="modal-body">
                                 <div className="content">
                                     {/* Header for the table */}
                                     <div className={`columns ${styles.h48}`}>
                                         <div className="column col-1">
-                                            <div>Import</div>
+                                            <div>{t("Import")}</div>
                                         </div>                    
                                         <div className="column col-1">
-                                            Date
+                                            {t("Date")}
                                         </div>
                                         <div className="column col-1">
-                                            Amount
+                                            {t("Amount")}
                                         </div>
                                         <div className="column col-2">
-                                            Category
+                                            {t("Category")}
                                         </div>
                                         <div className="column col-2">
-                                            Sub-category
+                                            {t("Sub-category")}
                                         </div>
                                         <div className="column col-5">
-                                            Note
+                                            {t("Note")}
                                         </div>
                                     </div>
                                     <div className={`${styles.hrest}`}>
@@ -685,11 +692,11 @@ class Save extends Component<Props>{
                             <div className="modal-footer">
                                 <div className="column col-12">
                                     <div className="form-group float-left">
-                                        <input className="btn" type="button" value="Toggle import all" onClick={() => this.toggleAllImport()} />
+                                        <input className="btn" type="button" value={t("toggleImportAll")} onClick={() => this.toggleAllImport()} />
                                     </div>
                                     <div className="form-group float-right">
-                                        <button type="button" className="btn btn-primary" onClick={() => this.importTransactions()}>Import</button>
-                                        <button type="button" className="btn" onClick={() => this.toggleBankSyncAdd()}>Cancel</button>
+                                        <button type="button" className="btn btn-primary" onClick={() => this.importTransactions()}>{t("Import")}</button>
+                                        <button type="button" className="btn" onClick={() => this.toggleBankSyncAdd()}>{t("Cancel")}</button>
                                     </div>
                                 </div>
                             </div>
@@ -703,20 +710,22 @@ class Save extends Component<Props>{
 
     renderExportModal(){
         if (this.state.exportModalActive){
+            const { t } = this.props;
+
             return (
                 <div className="modal active" id="modal-id">
                     <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={() => this.toggleExportModal()} />
                     <div className="modal-container">
                         <div className={`modal-header ${styles.h62}`}>
                             <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.toggleExportModal()} />
-                            <div className="modal-title h4">Export your data</div>
+                            <div className="modal-title h4">{t("exportYourData")}</div>
                         </div>
                         <div className="modal-body">
                             <div className="float-left text-left">                                        
-                                <input type="button" className="btn btn-primary" value="Application data" onClick={() => this.export()} />
+                                <input type="button" className="btn btn-primary" value={t("applicationData")} onClick={() => this.export()} />
                             </div>
                             <div className="float-right text-right">
-                                <input type="button" className="btn btn-primary" value="CSV" onClick={() => this.exportCSV()} />
+                                <input type="button" className="btn btn-primary" value={t("csv")} onClick={() => this.exportCSV()} />
                             </div>
                         </div>
                     </div>

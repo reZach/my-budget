@@ -1,3 +1,6 @@
 {
-    
+    "save": "save",
+    "bank": "bank",
+    "export": "export",
+    "delete": "delete"
 }

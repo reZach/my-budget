@@ -23,5 +23,14 @@
     "communityDiscussions": "communityDiscussions",
     "searchIssues": "searchIssues",
     "changelog": "changelog",
-    "myBudget": "myBudget"
+    "myBudget": "myBudget",
+    "save": "save",
+    "bank": "bank",
+    "export": "export",
+    "delete": "delete",
+    "selectABank": "selectABank",
+    "importTransactionsFromYourBank": "importTransactionsFromYourBank",
+    "bankNotFoundAndGoodWCodeConsider": "bankNotFoundAndGoodWCodeConsider",
+    "writingAConnector": "writingAConnector",
+    "search": "search"
 }
