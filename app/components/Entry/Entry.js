@@ -49,6 +49,11 @@ class Entry extends Component<Props>{
 
     componentDidMount(){
         this.fixbuginput.click();
+
+        // auto-load last used language
+        if (this.props.language !== ""){
+            ipc.sendSync("language-changed", this.props.language);
+        }
     }
 
     changePassphrase(event){
@@ -349,16 +354,26 @@ class Entry extends Component<Props>{
                         <div className="columns">
                             <div className="column col-12">
                                 <div className="form-group">
-                                    <select className="form-select" onChange={this.changeLanguage} value={this.state.selectedLanguage}>                                    
+                                    <select className="form-select" onChange={this.changeLanguage} value={this.state.selectedLanguage}>   
+                                        {/* https://developer.chrome.com/webstore/i18n */}
                                         <option value="ar">عربى</option>
                                         <option value="am">አማርኛ</option>
                                         <option value="bg">български</option>
                                         <option value="ca">Català</option>
-                                        <option value="cs">Čech</option>
+                                        <option value="cs">Čech</option>    
+                                        <option value="da">Dansk</option>                                    
                                         <option value="de">Deutsche</option>
+                                        <option value="el">Ελληνικά</option>
                                         <option value="en">English</option>
                                         <option value="es">Español</option>
+                                        <option value="et">Eesti keel</option>
+                                        <option value="fa">فارسی</option>
+                                        <option value="fi">Suomalainen</option>
+                                        <option value="fil">Filipino</option>
                                         <option value="fr">Français</option>
+                                        <option value="gu">ગુજરાતી</option>
+                                        <option value="he">עברית</option>
+                                        <option value="zh_CN">中文</option>
                                     </select>
                                 </div>                                
                             </div>
