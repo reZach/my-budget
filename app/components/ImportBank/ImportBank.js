@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { withTranslation } from "react-i18next";
 import styles from "./ImportBank.css";
 // import { dateToShort } from "../../utils/readableDate";
 import * as PendingImportActions from "../../actions/pendingImport";
@@ -275,14 +276,16 @@ class ImportBank extends Component<Props> {
     
     renderCreateNewCategory(){
         if (this.state.editCategory){
+            const { t } = this.props;
+
             return (
                 <div className="form-horizontal">
                     <div className="form-group">
                         <div className="col-3">
-                            <label className="form-label" htmlFor="new-category-input">New category name</label>
+                            <label className="form-label" htmlFor="new-category-input">{t("NewCategoryName")}</label>
                         </div>
                         <div className="col-6">
-                            <input className="form-input" id="new-category-input" type="text" value={this.state.newCategory} onChange={this.changeNewCategory} placeholder="new category name" />
+                            <input className="form-input" id="new-category-input" type="text" value={this.state.newCategory} onChange={this.changeNewCategory} placeholder={t("NewCategoryNameLowercase")} />
                         </div>
                     </div>
                 </div>  
@@ -292,14 +295,16 @@ class ImportBank extends Component<Props> {
 
     renderCreateNewItem(){
         if (this.state.editItem){
+            const { t } = this.props;
+            
             return (
                 <div className="form-horizontal">
                     <div className="form-group">
                         <div className="col-3">
-                            <label className="form-label" htmlFor="new-subcategory-input">New sub-category name</label>
+                            <label className="form-label" htmlFor="new-subcategory-input">{t("NewSubHypenCategoryName")}</label>
                         </div>
                         <div className="col-6">
-                            <input className="form-input" id="new-subcategory-input" type="text" value={this.state.newItem} onChange={this.changeNewItem} placeholder="new sub-category name" />
+                            <input className="form-input" id="new-subcategory-input" type="text" value={this.state.newItem} onChange={this.changeNewItem} placeholder={t("NewSubHypenCategoryNameLowercase")} />
                         </div>
                     </div>
                 </div>  
@@ -309,13 +314,15 @@ class ImportBank extends Component<Props> {
 
     renderEditPane(){
         if (this.state.editPane){
+            const { t } = this.props;
+
             return (
                 <div className="columns">
                     <div className={`column col-12 ${styles["edit-window"]}`}>
                         <form className="form-horizontal" onSubmit={() => this.saveAllPendingChanges()}>
                             <div className="form-group">                                
                                 <div className="col-3">
-                                    <label className="form-label" htmlFor="category-select-edit">Category</label>
+                                    <label className="form-label" htmlFor="category-select-edit">{t("Category")}</label>
                                 </div>
                                 <div className="col-6">
                                     <select className="form-select" id="category-select-edit" onChange={this.onCategoryChange}>
@@ -326,7 +333,7 @@ class ImportBank extends Component<Props> {
                             {this.renderCreateNewCategory()}
                             <div className="form-group">                                
                                 <div className="col-3">
-                                    <label className="form-label" htmlFor="subcategory-select-edit">Sub-category</label>
+                                    <label className="form-label" htmlFor="subcategory-select-edit">{t("SubHypenCategory")}</label>
                                 </div>
                                 <div className="col-6">
                                     <select className="form-select" id="subcategory-select-edit" onChange={this.onItemChange}>
@@ -337,22 +344,22 @@ class ImportBank extends Component<Props> {
                             {this.renderCreateNewItem()}
                             <div className="form-group">
                                 <div className="col-3">
-                                    <label className="form-label" htmlFor="note-edit-label">Note</label>
+                                    <label className="form-label" htmlFor="note-edit-label">{t("Note")}</label>
                                 </div>
                                 <div className="col-6">
-                                    <input className="form-input" id="note-edit-label" type="text" value={this.state.newNote} onChange={this.changeNewNote} placeholder="note" />
+                                    <input className="form-input" id="note-edit-label" type="text" value={this.state.newNote} onChange={this.changeNewNote} placeholder={t("noteLowercase")} />
                                 </div>
                             </div>
                             <div className="column col-12">
                                 <div className="form-group float-left">
-                                    <input className="btn btn-error" type="button" value="Undo all" disabled={!(this.state.savedCategory !== this.props.defaultCategory || this.state.savedItem !== this.props.defaultitem || this.state.savedNote !== this.props.defaultNote)} onClick={() => this.undoPendingChanges()} />
+                                    <input className="btn btn-error" type="button" value={t("UndoAll")} disabled={!(this.state.savedCategory !== this.props.defaultCategory || this.state.savedItem !== this.props.defaultitem || this.state.savedNote !== this.props.defaultNote)} onClick={() => this.undoPendingChanges()} />
                                 </div>
                                 <div className="form-group float-right">
                                     <input className="btn btn-primary" type="submit" disabled={!((this.props.overwriteCategoryName === "" ? (this.state.pendingCategory !== this.state.savedCategory && this.state.newCategory !== "") : (this.state.newCategory !== "" ? this.props.overwriteCategoryName !== this.state.newCategory : this.state.pendingCategory !== this.props.overwriteCategoryName)) 
                                     ||
                                     (this.props.overwriteItemName === "" ? (this.state.pendingItem !== this.state.savedItem && this.state.newItem !== "") : (this.state.newItem !== "" ? this.props.overwriteItemName !== this.state.newItem : this.state.pendingItem !== this.props.overwriteItemName))
                                     ||
-                                    (this.state.newNote !== this.state.savedNote))} value="Update" />
+                                    (this.state.newNote !== this.state.savedNote))} value={t("Update")} />
                                 </div>
                             </div>
                         </form>
@@ -461,7 +468,9 @@ function mapDispatchToProps(dispatch){
     }, dispatch);
 }
 
+const translatedComponent = withTranslation()(ImportBank);
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ImportBank);
+)(translatedComponent);

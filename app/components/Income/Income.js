@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { withTranslation } from "react-i18next";
+import { dateMatches } from "../../utils/readableDate";
 import * as IncomeActions from "../../actions/income";
 import * as ModifyActions from "../../actions/modify";
 import * as IncomeRecordActions from "../../actions/incomeRecords";
 import styles from "./Income.css";
-import { dateMatches } from "../../utils/readableDate";
 import IncomeRecord from "../IncomeRecord/IncomeRecord";
 
 const {dialog} = require('electron').remote;
@@ -101,11 +102,13 @@ class Income extends Component<Props>{
     // }
 
     deleteIncomeRecord(id){
+        const { t } = this.props;
+
         dialog.showMessageBox({
-            title: "delete income",
+            title: t("DeleteIncome"),
             type: "warning",
-            buttons: ["Yes", "No"],
-            message: "are you sure you want to delete this income record?"
+            buttons: [t("Yes"), t("No")],
+            message: t("AreYouSureYouWantToDeleteThisIncomeRecordQuestionmark")
         }, (i) => {
 
             // Yes
@@ -329,18 +332,20 @@ class Income extends Component<Props>{
         const spent = this.getPercentSpent(this.props.income[0]);
 
         if (dateMatches(this.props.date)){
+            const { t } = this.props;
+
             return (
                 <div className="popover popover-bottom">
                     <span className="label label-success">${data.amount}</span>
                     <div className="popover-container">
                         <div className="card">
                             <div className="card-header">
-                                <span>{this.getRemainingDays() > 0 ? `${this.getRemainingDays()  } days left to budget` : "last day of the month"}</span>
+                                <span>{this.getRemainingDays() > 0 ? `${this.getRemainingDays()} ${t("daysLeftToBudgetLowercase")}` : `${t("lastDayOfTheMonthLowercase")}`}</span>
                             </div>
                             {spent !== "0.00" ?
                                 <React.Fragment>
                                     <div className="card-body">
-                                        {spent}% spent of total
+                                        {spent}% {t("spentOfTotalLowercase")}
                                     </div>
                                     <div className="card-footer">
                                         <div className="bar">
@@ -360,30 +365,32 @@ class Income extends Component<Props>{
     }
 
     frequencyDropDown(){
+        const { t } = this.props;
+
         const options = [
             {
                 value: "0",
-                text: "one time"
+                text: t("oneTimeLowercase")
             },
             {
                 value: "1",
-                text: "every week"
+                text: t("everyWeekLowercase")
             },
             {
                 value: "2",
-                text: "every 2 weeks"
+                text: t("every2WeeksLowercase")
             },
             {
                 value: "3",
-                text: "first business day of the month"
+                text: t("firstBusinessDayOfTheMonth")
             },
             {
                 value: "4",
-                text: "last business day of the month"
+                text: t("lastBusinessDayOfTheMonth")
             },
             {
                 value: "5",
-                text: "every x days"
+                text: t("everyXDays")
             }
         ];
 
@@ -420,50 +427,53 @@ class Income extends Component<Props>{
                 </div>
             );
         } 
-            return (
-                <div className="content">
-                    Please enter in your income data.
-                </div>
-            );
-                
+
+        const { t } = this.props;
+        return (
+            <div className="content">
+                {t("PleaseEnterInYourIncomeDataPeriod")}                
+            </div>
+        );        
     }
 
     modal(){
         if (this.state.modalActive){
+            const { t } = this.props;
+
             return (
                 <div className="modal active" id="modal-id">
                     <a href="javascript:void(0)" className="modal-overlay" aria-label="Close" onClick={this.toggleModal} />
                     <div className="modal-container">
                         <div className="modal-header">
                             <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={this.toggleModal} />
-                            <div className="modal-title h4">Income</div>
+                            <div className="modal-title h4">{t("Income")}</div>
                         </div>
                         <div className="modal-body">
                             <div className="content">
-                            <div className={`${styles.mb}`}>Enter in your sources of income.</div>
+                            <div className={`${styles.mb}`}>{t("EnterInYourSourcesOfIncomePeriod")}</div>
                                 <div className="columns">
                                     <div className="column col-12">
                                         <div className="columns">
                                             <form className="form-horizontal" style={{width: "100%"}} onSubmit={this.addNewIncomeRecord}>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        <label className="form-label" htmlFor="income-income-input">Income</label>
+                                                        <label className="form-label" htmlFor="income-income-input">{t("Income")}</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <input className="form-input" id="income-income-input" type="text" value={this.state.income} onSelect={this.selectIncomeInput} onChange={this.changeIncome} placeholder="income" />
+                                                        <input className="form-input" id="income-income-input" type="text" value={this.state.income} onSelect={this.selectIncomeInput} onChange={this.changeIncome} placeholder={t("income")} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        <label className="form-label" htmlFor="income-date-input">Date</label>
+                                                        <label className="form-label" htmlFor="income-date-input">{t("Date")}</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <input className="form-input" id="income-date-input" type="date" value={this.state.date} onChange={this.changeDate} placeholder="date" />
+                                                        <input className="form-input" id="income-date-input" type="date" value={this.state.date} onChange={this.changeDate} placeholder={t("date")} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        <label className="form-label" htmlFor="income-frequency-input">Frequency</label>
+                                                        <label className="form-label" htmlFor="income-frequency-input">{t("Frequency")}</label>
                                                     </div>
                                                     <div className="column col-9">
                                                         <select className="form-input" id="income-frequency-input" value={this.state.frequency} onChange={this.changeFrequency}>
@@ -476,19 +486,19 @@ class Income extends Component<Props>{
                                                         <label className="form-label" htmlFor="income-xdays-input">{"\"X\" days"}</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <input className="form-input" id="income-xdays-input" type="number" value={this.state.xdays} onChange={this.changeXDays} placeholder={"\"x\" days"} />
+                                                        <input className="form-input" id="income-xdays-input" type="number" value={this.state.xdays} onChange={this.changeXDays} placeholder={t("x days")} />
                                                     </div>
                                                 </div> }
                                                 <div className="form-group">
                                                     <div className="column col-3">
-                                                        <label className="form-label" htmlFor="income-note-input">Note</label>
+                                                        <label className="form-label" htmlFor="income-note-input">{t("Note")}</label>
                                                     </div>
                                                     <div className="column col-9">
-                                                        <input className="form-input" id="income-note-input" type="text" value={this.state.note} onChange={this.changeNote} placeholder="note" />
+                                                        <input className="form-input" id="income-note-input" type="text" value={this.state.note} onChange={this.changeNote} placeholder={t("note")} />
                                                     </div>
                                                 </div>
                                                 <div className="float-right text-right">
-                                                    <input className="btn btn-primary" type="submit" disabled={!this.addIncomeRecordIsValid()} value="Add" />
+                                                    <input className="btn btn-primary" type="submit" disabled={!this.addIncomeRecordIsValid()} value={t("Add")} />
                                                 </div>
                                             </form>                                            
                                         </div>
@@ -506,10 +516,12 @@ class Income extends Component<Props>{
     }
 
     render(){ 
+        const { t } = this.props;
+
         return (
             <div className={`columns ${styles["header-fix"]}`}>
                 {this.getCurrentCashFlow()}
-                <button type="button" className="btn btn-primary" onClick={this.toggleModal}>Income</button>
+                <button type="button" className="btn btn-primary" onClick={this.toggleModal}>{t("Income")}</button>
                 {this.modal()}
             </div>
         );
@@ -533,7 +545,9 @@ function mapDispatchToProps(dispatch){
     }, dispatch);
 }
 
+const translatedComponent = withTranslation()(Income);
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Income);
+)(translatedComponent);

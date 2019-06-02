@@ -14,7 +14,7 @@ const i18nextOptions = {
         // jsonIndent to use when storing json files
         jsonIndent: 4,
     },
-    debug: true,
+    // debug: true,
     interpolation: {
         escapeValue: false
     },

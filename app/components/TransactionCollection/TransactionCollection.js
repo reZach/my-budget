@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { withTranslation } from "react-i18next";
 import * as TransactionActions from "../../actions/transactionCollection";
 import * as CreateTransaction from "../../actions/createTransaction";
 import * as ModifyActions from "../../actions/modify";
@@ -165,12 +166,14 @@ class TransactionCollection extends Component<Props> {
     }
 
     render() {
+        const { t } = this.props;
+
         return (
             <div className={`${styles.h100}`}>
                 <div className={`${styles.h350}`}>
                     <div className="columns">
                         <div className="column col-12 text-left">
-                            <h2>Transactions</h2>
+                            <h2>{t("Transactions")}</h2>
                         </div>
                     </div>
                     <div className="columns">
@@ -178,7 +181,7 @@ class TransactionCollection extends Component<Props> {
                             <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <span className="form-label">Category</span>
+                                        <span className="form-label">{t("Category")}</span>
                                     </div>
                                     <div className="col-8">
                                         <select className="form-select" value={this.props.createTransaction.selectedCategory} onChange={this.modifyCategory}>
@@ -189,7 +192,7 @@ class TransactionCollection extends Component<Props> {
                                 </div>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <span className="form-label">Sub-category</span>
+                                        <span className="form-label">{t("SubHypencategory")}</span>
                                     </div>
                                     <div className="col-8">
                                         <select className="form-select" value={this.props.createTransaction.selectedItem} onChange={this.modifyItem}>
@@ -200,34 +203,34 @@ class TransactionCollection extends Component<Props> {
                                 </div>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <label className="form-label" htmlFor="transaction-create-amount">Amount</label>
+                                        <label className="form-label" htmlFor="transaction-create-amount">{t("Amount")}</label>
                                     </div>
                                     <div className="col-8">
-                                        <input className="form-input" id="transaction-create-amount" type="text" placeholder="amount" value={this.props.createTransaction.amount} onChange={this.modifyAmount} />
+                                        <input className="form-input" id="transaction-create-amount" type="text" placeholder={t("amount")} value={this.props.createTransaction.amount} onChange={this.modifyAmount} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <label className="form-label" htmlFor="transaction-create-date">Date</label>
+                                        <label className="form-label" htmlFor="transaction-create-date">{t("Date")}</label>
                                     </div>
                                     <div className="col-8">
-                                        <input className="form-input" id="transaction-create-date" type="number" placeholder="date" value={this.props.createTransaction.day} onChange={this.modifyDay} />
+                                        <input className="form-input" id="transaction-create-date" type="number" placeholder={t("date")} value={this.props.createTransaction.day} onChange={this.modifyDay} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-4">
-                                        <label className="form-label" htmlFor="transaction-create-note">Note</label>
+                                        <label className="form-label" htmlFor="transaction-create-note">{t("Note")}</label>
                                     </div>
                                     <div className="col-8">
-                                        <input className="form-input" id="transaction-create-note" type="text" placeholder="note" value={this.props.createTransaction.note} onChange={this.modifyNote} />
+                                        <input className="form-input" id="transaction-create-note" type="text" placeholder={t("note")} value={this.props.createTransaction.note} onChange={this.modifyNote} />
                                     </div>
                                 </div>
                                 <div className="column col-12">
                                     <div className={`form-group float-left ${styles["delete-all-btn"]}`}>
-                                        <input className="btn btn-lg btn-error" type="button" value="Delete all" onClick={() => this.deleteAllTransactions()} disabled={this.props.transactions.length <= 0} />
+                                        <input className="btn btn-lg btn-error" type="button" value={t("DeleteAll")} onClick={() => this.deleteAllTransactions()} disabled={this.props.transactions.length <= 0} />
                                     </div>
                                     <div className={`form-group float-right ${styles["add-new-btn"]}`}>
-                                        <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value="Add new" />
+                                        <input className="btn btn-lg btn-primary" type="submit" disabled={this.props.createTransaction.selectedCategoryId === "" || this.props.createTransaction.selectedItemId === "" || this.props.createTransaction.amount === ""} value={t("addNew")} />
                                     </div>
                                 </div>
                             </form>
@@ -271,7 +274,9 @@ function mapDispatchToProps(dispatch){
     }, dispatch);
 }
 
+const translatedComponent = withTranslation()(TransactionCollection);
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(TransactionCollection);
+)(translatedComponent);

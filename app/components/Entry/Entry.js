@@ -228,6 +228,8 @@ class Entry extends Component<Props>{
     }
 
     importData(){
+        const { t } = this.props;
+
         const callback = function(filePaths){
             if (typeof filePaths !== "undefined"){
 
@@ -246,7 +248,7 @@ class Entry extends Component<Props>{
                     this.onetimemodal = true;
                 }
                 catch (exception){
-                    alert("Could not import data.")
+                    alert(t("CouldNotImportDataPeriod"))
                 }                                 
             }
         };
@@ -254,7 +256,7 @@ class Entry extends Component<Props>{
 
         dialog.showOpenDialog(
             { 
-                title: "Import data",
+                title: t("importData"),
                 properties: ["openFile"]
             },
             boundCallback
@@ -273,6 +275,7 @@ class Entry extends Component<Props>{
     }
 
     changePassphraseModal(){
+        const { t } = this.props;
 
         if (this.state.importedModal){
             return (
@@ -281,18 +284,18 @@ class Entry extends Component<Props>{
                     <div className="modal-container">
                         <div className={`modal-header ${styles.h62}`}>
                             <a href="javascript:void(0)" className="btn btn-clear float-right" aria-label="Close" onClick={() => this.closeImportModal()} />
-                            <div className="modal-title h4">Import successful</div>
+                            <div className="modal-title h4">{t("ImportSuccessful")}</div>
                         </div>
                         <div className="modal-body">
                             <div className="content">
                                 <div>
-                                    By continuing to use My Budget with your imported data, your passphrase will be reset to the new passphrase you provide. the passphrase is optional if you do not want to set a passphrase.
+                                    {t("ByContinuingToUseMyBudgetWithImportedDataPeriod")}
                                 </div>                                
                             </div>
                         </div>
                         <div className="modal-footer">
                             <div className="text-center">
-                                {"If you decide not to import existing data, please click the \"clear loaded data\" button and continue to use My Budget as you have."}
+                                {t("IfYouDecideNotToImportExistingDataCommaPeriod")}
                             </div>
                         </div>
                     </div>
@@ -344,15 +347,15 @@ class Entry extends Component<Props>{
                                                 If this is your first time using MyBudget, you can choose to encrypt your data with a passphrase. If you do so, you must enter in your passphrase every time you use this app. You cannot change your passphrase once it's been set! If you don't choose a passphrase, your data will be saved unencrypted on your computer.
                                             </div> */}
                                             <div className="card-footer" style={{fontStyle: "italic"}}>
-                                                Please visit the <a target="_blank" rel="noopener noreferrer" href="https://github.com/reZach/my-budget/wiki/First-time-user-guide">new user&apos;s guide</a> if you&apos;d like a walkthrough how to use My Budget.
+                                                {t("PleaseVisitThe")} <a target="_blank" rel="noopener noreferrer" href="https://github.com/reZach/my-budget/wiki/First-time-user-guide">{t("newUsersGuideLowercase")}</a> {t("ifYoudLikeAWalkthroughPeriod")}
                                             </div>
                                         </div>
                                     </div>
                                 </div>                             
                             </div>
                         </div>
-                        <div className="columns">
-                            <div className="column col-12">
+                        <div className={`columns ${styles["evensmaller"]}`}>
+                            <div className="column col-8 col-mx-auto">
                                 <div className="form-group">
                                     <select className="form-select" onChange={this.changeLanguage} value={this.state.selectedLanguage}>   
                                         {/* https://developer.chrome.com/webstore/i18n */}
@@ -373,7 +376,36 @@ class Entry extends Component<Props>{
                                         <option value="fr">Français</option>
                                         <option value="gu">ગુજરાતી</option>
                                         <option value="he">עברית</option>
-                                        <option value="zh_CN">中文</option>
+                                        <option value="hi">हिंदी</option>
+                                        <option value="hr">Hrvatski</option>
+                                        <option value="hu">Magyar</option>
+                                        <option value="id">bahasa Indonesia</option>
+                                        <option value="it">Italiano</option>
+                                        <option value="ja">日本人</option>
+                                        <option value="kn">ಕನ್ನಡ</option>
+                                        <option value="ko">한국어</option>
+                                        <option value="lt">Lietuvių</option>
+                                        <option value="lv">Latviešu valoda</option>
+                                        <option value="ml">മലയാളം</option>
+                                        <option value="mr">मराठी</option>
+                                        <option value="ms">Melayu</option>
+                                        <option value="nl">Nederlands</option>
+                                        <option value="no">Norsk</option>
+                                        <option value="pl">Polskie</option>
+                                        <option value="pt_BR">Português</option>
+                                        <option value="ro">Română</option>
+                                        <option value="ru">Pусский</option>
+                                        <option value="sk">Slovenský</option>
+                                        <option value="sr">Словак</option>
+                                        <option value="sv">Svenska</option>
+                                        <option value="sw">Kiswahili</option>
+                                        <option value="ta">தமிழ்</option>
+                                        <option value="te">తెలుగు</option>
+                                        <option value="th">ไทย</option>
+                                        <option value="tr">Türk</option>
+                                        <option value="uk">Українська</option>
+                                        <option value="vi">Tiếng Việt</option>
+                                        <option value="zh_CN">中文 (China)</option>
                                     </select>
                                 </div>                                
                             </div>

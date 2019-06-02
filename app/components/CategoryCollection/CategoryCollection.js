@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { withTranslation } from "react-i18next";
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ItemCollectionActions from "../../actions/itemCollection";
 import * as ModifyActions from "../../actions/modify";
@@ -183,6 +184,7 @@ class CategoryCollection extends Component<Props> {
     }
 
     createPreviousCategoriesDropdown(){
+        const { t } = this.props;
         const dates = this.state.previousCategoryDates;
 
         return dates.sort((a, b) => {
@@ -204,70 +206,74 @@ class CategoryCollection extends Component<Props> {
             }
             return 0;
         }).map((date) =>
-            <option key={`${date}`} value={date}>{`${dateToReadble(date)}`}</option>
+            <option key={`${date}`} value={date}>{`${dateToReadble(t, date)}`}</option>
         );
     }
 
     renderCopyPreviousCategories(){
+        const { t } = this.props;
+
         if (!this.state.copyPreviousCategoriesActive){
             return (
                 <div className="columns">
                     <div className="column col-12 text-left">
                         <form onSubmit={() => this.toggleCopyPreviousCategories()}>
-                            <button className="btn btn-primary btn-lg" type="submit">Copy previous categories</button>
+                            <button className="btn btn-primary btn-lg" type="submit">{t("copyPreviousCategories")}</button>
                         </form>
                     </div>
                 </div>
             );
         } 
-            return (
-                <div className="columns">
-                    <div className="column col-6 col-mr-auto col-auto text-left">
-                        <div className="input-group">
-                            <select className="form-select form-input" value={this.state.selectedPreviousDateForCategories} onChange={this.modifySelectedDateForCategories}>
-                                <option value="">---</option>
-                                {this.createPreviousCategoriesDropdown()}  
-                            </select>
-                            <button className="btn btn-primary input-group-btn" type="button" onClick={() => this.copyPreviousCategories()} disabled={this.state.selectedPreviousDateForCategories === ""}>Copy</button>
-                        </div>
+
+        return (
+            <div className="columns">
+                <div className="column col-6 col-mr-auto col-auto text-left">
+                    <div className="input-group">
+                        <select className="form-select form-input" value={this.state.selectedPreviousDateForCategories} onChange={this.modifySelectedDateForCategories}>
+                            <option value="">---</option>
+                            {this.createPreviousCategoriesDropdown()}  
+                        </select>
+                        <button className="btn btn-primary input-group-btn" type="button" onClick={() => this.copyPreviousCategories()} disabled={this.state.selectedPreviousDateForCategories === ""}>{t("Copy")}</button>
                     </div>
                 </div>
-            );
-        
+            </div>
+        );
     }
 
     render() {
+        const { t } = this.props;
+
         return (
             <div className="columns">
                 <div className="column col-12 text-left">
                     <div className="columns col-gapless">
                         <div className="column col-12 text-left">
-                            <h2>Categories</h2>                        
+                            <h2>{t("Categories")}</h2>                        
                         </div>                    
                         <div className={`column col-6 text-left ${styles['category-input']}`}>      
                             <form onSubmit={() => this.createNewCategory()}>
                                 <div className="input-group">
-                                    <input className="form-input input-lg" type="text" placeholder="category" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEscapeKey} />
-                                    <button className="btn btn-primary btn-lg input-group-btn" type="submit">Add new</button>
+                                    <input className="form-input input-lg" type="text" placeholder={t("categoryLowercase")} value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEscapeKey} />
+                                    <button className="btn btn-primary btn-lg input-group-btn" type="submit">{t("addNew")}</button>
                                 </div>
                             </form>
                         </div>
-                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort alphabetically" onClick={() => this.sortAlpha()} onKeyUp={() => this.sortAlpha()}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip={t("sortAlphabetically")} onClick={() => this.sortAlpha()} onKeyUp={() => this.sortAlpha()}>
                             <i className={`fas fa-sort-alpha-down ${styles.control}`} />
                         </div>
-                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort reverse-alphabetically" onClick={() => this.sortReverseAlpha()} onKeyUp={() => this.sortReverseAlpha()}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip={t("sortReverseHypenAlphabetically")} onClick={() => this.sortReverseAlpha()} onKeyUp={() => this.sortReverseAlpha()}>
                             <i className={`fas fa-sort-alpha-up ${styles.control}`} />
                         </div>
-                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent descending" onClick={() => this.sortSpendDescending()} onKeyUp={() => this.sortSpendDescending()}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip={t("sortSpentDescending")} onClick={() => this.sortSpendDescending()} onKeyUp={() => this.sortSpendDescending()}>
                             <i className={`fas fa-sort-amount-down ${styles.control}`} />
                         </div>
-                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Sort spent ascending" onClick={() => this.sortSpendAscending()} onKeyUp={() => this.sortSpendAscending()}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip={t("sortSpentAscending")} onClick={() => this.sortSpendAscending()} onKeyUp={() => this.sortSpendAscending()}>
                             <i className={`fas fa-sort-amount-up ${styles.control}`} />
                         </div>                        
-                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Collapses all categories" onClick={() => this.toggleAllCategoryState(true)} onKeyUp={() => this.toggleAllCategoryState(true)}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip={t("collapsesAllCategories")} onClick={() => this.toggleAllCategoryState(true)} onKeyUp={() => this.toggleAllCategoryState(true)}>
                             <i className={`fas fa-compress ${styles.control}`} />
                         </div>
-                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip="Expands all categories" onClick={() => this.toggleAllCategoryState(false)} onKeyUp={() => this.toggleAllCategoryState(false)}>
+                        <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip={t("expandsAllCategories")} onClick={() => this.toggleAllCategoryState(false)} onKeyUp={() => this.toggleAllCategoryState(false)}>
                         <i className={`fas fa-expand ${styles.control}`} />
                         </div>                         
                     </div>
@@ -307,7 +313,9 @@ function mapDispatchToProps(dispatch) {
         ...ModifyActions}, dispatch);
 }
 
+const translatedComponent = withTranslation()(CategoryCollection);
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CategoryCollection);
+)(translatedComponent);
