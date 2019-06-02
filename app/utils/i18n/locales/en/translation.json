@@ -94,6 +94,8 @@
     "Password": "Password",
     "passwordLowercase": "password",
     "Back": "Back",
+    "AreYouSureYouWantToDeleteAllDataQuestionmark": "Are you sure you want to delete all data?",
+    "DeletedAllDataPeriod": "Deleted all data.",
     "EnterInYourSourcesOfIncomePeriod": "Enter in your sources of income.",
     "x days": "\"x\" days",
     "PleaseEnterInYourIncomeDataPeriod": "Please enter in your income data.",
@@ -107,5 +109,8 @@
     "lastBusinessDayOfTheMonth": "last business day of the month",
     "everyXDays": "every x days",
     "DeleteIncome": "Delete income",
-    "AreYouSureYouWantToDeleteThisIncomeRecordQuestionmark": "Are you sure you want to delete this income record?"
+    "AreYouSureYouWantToDeleteThisIncomeRecordQuestionmark": "Are you sure you want to delete this income record?",
+    "ErrorLoadingData": "Error loading data",
+    "Ok": "Ok",
+    "WrongPassphraseComma": "Wrong passphrase, if you cannot remember your passphrase, reset your data by clicking the delete button above. You may set a new passphrase after resetting your data."
 }
