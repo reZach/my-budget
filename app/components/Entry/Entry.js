@@ -73,11 +73,13 @@ class Entry extends Component<Props>{
     }
 
     resetData(){
+        const { t } = this.props;
+
         dialog.showMessageBox({
-            title: "Delete data",
+            title: t("DeleteData"),
             type: "warning",
-            buttons: ["Yes", "No"],
-            message: "Are you sure you want to delete all data?"
+            buttons: [t("Yes"), t("No")],
+            message: t("AreYouSureYouWantToDeleteAllDataQuestionmark")
         }, (i) => {
 
             // Yes
@@ -87,7 +89,7 @@ class Entry extends Component<Props>{
                     passphrase: ""
                 });
 
-                alert("Deleted all data.");                
+                alert(t("DeletedAllDataPeriod"));
             }
         });
     }
@@ -99,6 +101,8 @@ class Entry extends Component<Props>{
     }
 
     go(){
+        const { t } = this.props;
+
         const date: Date = (new Date());
         const month: string = date.getMonth() + 1;
         const year: string = date.getFullYear();
@@ -219,10 +223,10 @@ class Entry extends Component<Props>{
             console.error(error);
 
             dialog.showMessageBox({
-                title: "Error loading data",
+                title: t("ErrorLoadingData"),
                 type: "warning",
-                buttons: ["Ok"],
-                message: `Wrong passphrase, if you cannot remember your passphrase, reset your data by clicking the delete button above. You may set a new passphrase after resetting your data.`
+                buttons: [t("Ok")],
+                message: t("WrongPassphraseComma")
             }, null);             
         }
     }

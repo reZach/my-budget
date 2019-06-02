@@ -20,5 +20,8 @@
     "letsStart": "letsStart",
     "passphrase": "passphrase",
     "go": "go",
-    "newUserQuestionMark": "newUserQuestionMark"
+    "newUserQuestionMark": "newUserQuestionMark",
+    "PleaseVisitThe": "PleaseVisitThe",
+    "newUsersGuideLowercase": "newUsersGuideLowercase",
+    "ifYoudLikeAWalkthroughPeriod": "ifYoudLikeAWalkthroughPeriod"
 }
