@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { withTranslation } from "react-i18next";
 import * as ItemCollectionActions from "../../actions/itemCollection";
 import * as CategoryCollectionActions from "../../actions/categoryCollection";
 import * as ModifyActions from "../../actions/modify";
@@ -100,12 +101,13 @@ class Category extends Component<Props> {
     }
 
     deleteItem(categoryId: string, id: string, name: string){
-                
+        const { t } = this.props;        
+
         dialog.showMessageBox({
-            title: "Delete sub-category",
+            title: t("deleteSubHypenCategory"),
             type: "warning",
-            buttons: ["Yes", "No"],
-            message: `Are you sure you want to delete '${name}'?`
+            buttons: [t("Yes"), t("No")],
+            message: `${t("areYouSureYouWantToDelete")} '${name}'?`
         }, (i) => {
 
             // Yes
@@ -198,70 +200,76 @@ class Category extends Component<Props> {
     }
 
     renderCompound(){
+        const { t } = this.props;
+
         if (this.state.renameActive && this.state.editActive){
             return (
                 <form onSubmit={() => this.renameCategory()}>
                     <div className="input-group">
                         <input className="form-input input-sm" type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} />
-                        <button className="btn btn-sm btn-primary input-group-btn" type="submit">update</button>
-                        <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()} onKeyUp={() => this.toggleRenameActive()}>cancel</button>
+                        <button className="btn btn-sm btn-primary input-group-btn" type="submit">{t("update")}</button>
+                        <button type="button" className="btn btn-sm input-group-btn" onClick={() => this.toggleRenameActive()} onKeyUp={() => this.toggleRenameActive()}>{t("cancel")}</button>
                     </div>
                 </form>
             );
         } if (this.state.editActive) {
             return (
                 <div className="input-group float-right">                    
-                    <button type="button" className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.props.delete(this.props.id, this.props.name)} onKeyUp={() => this.props.delete(this.props.id, this.props.name)}>delete</button>
-                    <button type="button" className="btn btn-sm btn-primary input-group-btn" onClick={this.toggleRenameActive} onKeyUp={this.toggleRenameActive}>rename</button>                    
-                    <button type="button" className="btn btn-sm input-group-btn" onClick={this.toggleEditActive} onKeyUp={this.toggleEditActive}>cancel</button>
+                    <button type="button" className="btn btn-sm btn-error input-group-btn" id={this.props.id} onClick={() => this.props.delete(this.props.id, this.props.name)} onKeyUp={() => this.props.delete(this.props.id, this.props.name)}>{t("delete")}</button>
+                    <button type="button" className="btn btn-sm btn-primary input-group-btn" onClick={this.toggleRenameActive} onKeyUp={this.toggleRenameActive}>{t("rename")}</button>                    
+                    <button type="button" className="btn btn-sm input-group-btn" onClick={this.toggleEditActive} onKeyUp={this.toggleEditActive}>{t("cancel")}</button>
                 </div>
             );            
         }
     }
 
     renderControls(){
+        const { t } = this.props;
+
         if (this.state.renameActive){
             return (
                 <div className="column col-xs-auto text-center">
                     <div className="columns">
-                        <input className="column col-8" type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEnterForCategory} placeholder="new name" />
+                        <input className="column col-8" type="text" value={this.state.newCategoryName} onChange={this.modifyNewCategoryName} onKeyUp={this.handleEnterForCategory} placeholder={t("newNameLowercase")} />
                         <i role="button" tabIndex={0} className={`column col-2 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.renameCategory()} onKeyUp={() => this.renameCategory()} />
                         <i role="button" tabIndex={0} className={`column col-2 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleRenameActive()} onKeyUp={() => this.toggleRenameActive()} />
                     </div>
                 </div>                
             );
         } 
-            return (
-                <React.Fragment>
-                    <div role="button" tabIndex={0} className={`column col-1 text-center ${styles.icon}`} onClick={this.toggleRenameActive} onKeyUp={this.toggleRenameActive}>
-                        <i className="fas fa-edit" />
-                    </div>
-                    <div role="button" tabIndex={0} className={`column col-1 text-center ${styles.icon}`} onClick={() => this.props.delete(this.props.id, this.props.name)} onKeyUp={() => this.props.delete(this.props.id, this.props.name)}>
-                        <i className={`fas fa-trash-alt ${styles.icon}`} />
-                    </div>
-                </React.Fragment>                                
-            );            
-        
+
+        return (
+            <React.Fragment>
+                <div role="button" tabIndex={0} className={`column col-1 text-center ${styles.icon}`} onClick={this.toggleRenameActive} onKeyUp={this.toggleRenameActive}>
+                    <i className="fas fa-edit" />
+                </div>
+                <div role="button" tabIndex={0} className={`column col-1 text-center ${styles.icon}`} onClick={() => this.props.delete(this.props.id, this.props.name)} onKeyUp={() => this.props.delete(this.props.id, this.props.name)}>
+                    <i className={`fas fa-trash-alt ${styles.icon}`} />
+                </div>
+            </React.Fragment>                                
+        );
     }
 
     renderNewSubcategory(){
+        const { t } = this.props;
+
         if (!this.state.addActive){
             return (
                 <div role="button" tabIndex={0} className={`column col-xs-auto text-left ${styles.h30} ${styles.icon}`} onClick={() => this.toggleAddActive()} onKeyUp={() => this.toggleAddActive()}>
-                    sub-category <i className="fas fa-plus-square" />
+                    {t("subHypenCategory")} <i className="fas fa-plus-square" />
                 </div>
             );
         } 
-            return (
-                <div className={`column col-xs-auto text-center ${styles.h30}`}>
-                    <div className="columns">
-                        <input ref={me => (this.newSubcategoryInput = me)} className="column col-10" type="text" placeholder="sub-category" value={this.state.newItemName} onChange={this.modifyNewItemName} onKeyUp={this.handleEnterForSubcategory} />
-                        <i role="button" tabIndex={0} className={`column col-1 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.createNewItem()} onKeyUp={() => this.createNewItem()} />
-                        <i role="button" tabIndex={0} className={`column col-1 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleAddActive()} onKeyUp={() => this.toggleAddActive()} />                                
-                    </div>
+
+        return (
+            <div className={`column col-xs-auto text-center ${styles.h30}`}>
+                <div className="columns">
+                    <input ref={me => (this.newSubcategoryInput = me)} className="column col-10" type="text" placeholder={t("subHypenCategory")} value={this.state.newItemName} onChange={this.modifyNewItemName} onKeyUp={this.handleEnterForSubcategory} />
+                    <i role="button" tabIndex={0} className={`column col-1 fas fa-check ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.createNewItem()} onKeyUp={() => this.createNewItem()} />
+                    <i role="button" tabIndex={0} className={`column col-1 fas fa-ban ${styles.icon} ${styles['icon-fix']}`} onClick={() => this.toggleAddActive()} onKeyUp={() => this.toggleAddActive()} />                                
                 </div>
-            );
-        
+            </div>
+        );
     }
 
     render () {
@@ -314,10 +322,12 @@ function mapDispatchToProps(dispatch){
         ...CategoryCollectionActions}, dispatch);
 }
 
+const translatedComponent = withTranslation()(Category);
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Category);
+)(translatedComponent);
 
 // ugh:
 // https://blog.scottlogic.com/2016/05/19/redux-reducer-arrays.html

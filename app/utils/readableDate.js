@@ -37,7 +37,7 @@ export function dateToMMDDYYYY(month, day, year){
     return `${month}/${day}/${year}`;
 }
 
-export function dateToReadble(dateId){
+export function dateToReadble(t, dateId){
     const data = split(dateId);
     const {month} = data;
     const {year} = data;
@@ -45,40 +45,40 @@ export function dateToReadble(dateId){
     let readableMonth = "";
     switch(month){
         case "1":
-            readableMonth = "January";
+            readableMonth = t("January");
             break;
         case "2":
-            readableMonth = "February";
+            readableMonth = t("February");
             break;
         case "3":
-            readableMonth = "March";
+            readableMonth = t("March");
             break;
         case "4":
-            readableMonth = "April";
+            readableMonth = t("April");
             break;
         case "5":
-            readableMonth = "May";
+            readableMonth = t("May");
             break;
         case "6":
-            readableMonth = "June";
+            readableMonth = t("June");
             break;
         case "7":
-            readableMonth = "July";
+            readableMonth = t("July");
             break;
         case "8":
-            readableMonth = "August";
+            readableMonth = t("August");
             break;
         case "9":
-            readableMonth = "September";
+            readableMonth = t("September");
             break;
         case "10":
-            readableMonth = "October";
+            readableMonth = t("October");
             break;
         case "11":
-            readableMonth = "November";
+            readableMonth = t("November");
             break;
         case "12":
-            readableMonth = "December";
+            readableMonth = t("December");
             break;
         default:
             break;
