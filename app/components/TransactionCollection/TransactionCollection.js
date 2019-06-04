@@ -173,11 +173,6 @@ class TransactionCollection extends Component<Props> {
                 <div className={`${styles.h350}`}>
                     <div className="columns">
                         <div className="column col-12 text-left">
-                            <h2>{t("Transactions")}</h2>
-                        </div>
-                    </div>
-                    <div className="columns">
-                        <div className="column col-12 text-left">
                             <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>
                                 <div className="form-group">
                                     <div className="col-4">

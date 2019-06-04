@@ -30,5 +30,10 @@
     "Income": "Income",
     "income": "income",
     "Frequency": "Frequency",
-    "Add": "Add"
+    "Add": "Add",
+    "subHypenCategory": "subHypenCategory",
+    "newNameLowercase": "newNameLowercase",
+    "deleteSubHypenCategory": "deleteSubHypenCategory",
+    "Yes": "Yes",
+    "No": "No"
 }
