@@ -66,7 +66,7 @@ export function increment6() {
         const {month} = store().date;
         const {year} = store().date;
 
-        if (month < 6){
+        if (month <= 6){
             dispatch(set_date(month + 6, year));
         } else {
             const rem = (month + 6) % 12;
