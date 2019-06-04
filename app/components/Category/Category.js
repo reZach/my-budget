@@ -279,8 +279,14 @@ class Category extends Component<Props> {
                     <div className="column col-12">
                         {/* HACK TABLE */}
                         <div className={`columns ${styles.dark} ${styles.category}`}>
-                            <div role="button" tabIndex={0} className={`column col-xs-auto ${styles["category-header"]}`} onClick={this.toggleCollapse} onKeyUp={this.toggleCollapse}>
-                                {this.props.collapse ? <i className="fas fa-caret-right" /> : <i className="fas fa-caret-down" />} {this.props.name} {this.getPercentageSpent()}
+                            <div role="button" className="column col-auto" tabIndex={0} onClick={this.toggleCollapse} onKeyUp={this.toggleCollapse}>
+                                {this.props.collapse ? 
+                                    <i className="fas fa-caret-right" /> : 
+                                    <i className="fas fa-caret-down" />
+                                }
+                            </div>
+                            <div className={`column col-xs-auto ${styles["category-header"]}`}>
+                                 {this.props.name} {this.getPercentageSpent()}
                             </div>
                             {this.renderControls()}                            
                         </div>

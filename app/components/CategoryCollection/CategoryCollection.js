@@ -246,10 +246,7 @@ class CategoryCollection extends Component<Props> {
         return (
             <div className="columns">
                 <div className="column col-12 text-left">
-                    <div className="columns col-gapless">
-                        <div className="column col-12 text-left">
-                            <h2>{t("Categories")}</h2>                        
-                        </div>                    
+                    <div className={`columns col-gapless ${styles["mt"]}`}>
                         <div className={`column col-6 text-left ${styles['category-input']}`}>      
                             <form onSubmit={() => this.createNewCategory()}>
                                 <div className="input-group">
@@ -276,6 +273,28 @@ class CategoryCollection extends Component<Props> {
                         <div role="button" tabIndex={0} className={`column col-1 text-center tooltip tooltip-top ${styles["control-parent"]}`} data-tooltip={t("expandsAllCategories")} onClick={() => this.toggleAllCategoryState(false)} onKeyUp={() => this.toggleAllCategoryState(false)}>
                         <i className={`fas fa-expand ${styles.control}`} />
                         </div>                         
+                    </div>
+                </div>
+                <div className={`column col-12 ${styles["category-table-header"]}`}>
+                    <div className="columns">
+                        <div className="column col-auto">
+                            <i className={`fas fa-caret-down ${styles["invis"]}`} />
+                        </div>
+                        <div className="column col-xs-auto">
+                            header
+                        </div>
+                        <div className="column col-1 text-center">
+                            Budgeted
+                        </div>
+                        <div className="column col-1 text-center">
+                            Available
+                        </div>
+                        <div className="column col-1 text-center">
+                            <i className={`fas fa-edit ${styles["invis"]}`} />
+                        </div>
+                        <div className="column col-1 text-center">
+                            <i className={`fas fa-trash-alt ${styles["invis"]}`} />
+                        </div>
                     </div>
                 </div>
                 <div className={`column ${styles['category-container']}`}>

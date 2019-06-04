@@ -2,11 +2,22 @@
     margin-bottom: 20px;
 }
 
-.category {}
+.category-table-header {
+    padding-left:.8rem !important;
+    padding-right:.8rem !important;
+}
 
 .category-container {
     overflow-y: auto;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 130px);
+}
+
+.invis {
+    visibility: hidden;
+}
+
+.mt {
+    margin-top:10px;
 }
 
 .h100 {
