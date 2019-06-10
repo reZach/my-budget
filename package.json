@@ -1,7 +1,7 @@
 {
   "name": "my-budget",
   "productName": "MyBudget",
-  "version": "3.3.0-beta",
+  "version": "3.3.1-beta",
   "description": "Free, open source offline cross-platform budgeting solution built with Electron.",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
