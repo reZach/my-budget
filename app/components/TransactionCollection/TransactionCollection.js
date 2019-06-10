@@ -170,7 +170,7 @@ class TransactionCollection extends Component<Props> {
 
         return (
             <div className={`${styles.h100}`}>
-                <div className={`${styles.h350}`}>
+                <div className={`${styles.h290}`}>
                     <div className="columns">
                         <div className="column col-12 text-left">
                             <form className="form-horizontal" onSubmit={() => this.createNewTransaction()}>

@@ -364,16 +364,16 @@ class Entry extends Component<Props>{
                                     <select className="form-select" onChange={this.changeLanguage} value={this.state.selectedLanguage}>   
                                         {/* https://developer.chrome.com/webstore/i18n */}
                                         <option value="ar">عربى</option>
-                                        <option value="am">አማርኛ</option>
+                                        {/* <option value="am">አማርኛ</option>
                                         <option value="bg">български</option>
                                         <option value="ca">Català</option>
                                         <option value="cs">Čech</option>    
                                         <option value="da">Dansk</option>                                    
                                         <option value="de">Deutsche</option>
-                                        <option value="el">Ελληνικά</option>
+                                        <option value="el">Ελληνικά</option> */}
                                         <option value="en">English</option>
                                         <option value="es">Español</option>
-                                        <option value="et">Eesti keel</option>
+                                        {/* <option value="et">Eesti keel</option>
                                         <option value="fa">فارسی</option>
                                         <option value="fi">Suomalainen</option>
                                         <option value="fil">Filipino</option>
@@ -409,7 +409,7 @@ class Entry extends Component<Props>{
                                         <option value="tr">Türk</option>
                                         <option value="uk">Українська</option>
                                         <option value="vi">Tiếng Việt</option>
-                                        <option value="zh_CN">中文 (China)</option>
+                                        <option value="zh_CN">中文 (China)</option> */}
                                     </select>
                                 </div>                                
                             </div>
