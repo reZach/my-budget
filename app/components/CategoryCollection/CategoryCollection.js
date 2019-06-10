@@ -275,7 +275,7 @@ class CategoryCollection extends Component<Props> {
                         </div>                         
                     </div>
                 </div>
-                <div className={`column col-12 ${styles["category-table-header"]}`}>
+                {/* <div className={`column col-12 ${styles["category-table-header"]}`}>
                     <div className="columns">
                         <div className="column col-auto">
                             <i className={`fas fa-caret-down ${styles["invis"]}`} />
@@ -296,7 +296,7 @@ class CategoryCollection extends Component<Props> {
                             <i className={`fas fa-trash-alt ${styles["invis"]}`} />
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className={`column ${styles['category-container']}`}>
                     {this.props.categories.filter(c => c.dateId === this.props.date.id).sort((a, b) => {
                         const a1 = a.order;

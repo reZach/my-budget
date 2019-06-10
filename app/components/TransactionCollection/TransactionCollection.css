@@ -3,13 +3,17 @@
 }
 
 .transaction-container {
-    height: calc(100vh - 430px);
+    height: calc(100vh - 355px);
     overflow-x: hidden;
     overflow-y: auto;
 }
 
 .h100 {
     height: 100%;
+}
+
+.h290 {
+    height: 290px;
 }
 
 .h350 {
