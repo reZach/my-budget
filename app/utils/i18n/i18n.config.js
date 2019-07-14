@@ -1,27 +1,45 @@
 import config from "./i18n.languages.config";
 
+const isDev = require('electron-is-dev');
+
+let path = "";
+
+// Because we force refresh the app once after we start
+// because of some weird bug, the first time the below
+// code runs it throws an error. The second time it succeeds.
+// Don't know why...
+if (!isDev){
+    try{
+        path = require('electron').remote.getGlobal('sharedObject').value;
+    } catch (e){
+        console.log(e);
+    }    
+}
+
 const i18n = require('i18next');
 const i18nextBackend = require('i18next-node-fs-backend');
 
 const i18nextOptions = {
     backend: {
         // path where resources get loaded from
-        loadPath: './app/utils/i18n/locales/{{lng}}/{{ns}}.json',
+        loadPath: isDev ? "./app/utils/i18n/locales/{{lng}}/{{ns}}.json" :
+            `${path}.unpacked/app/utils/i18n/locales/{{lng}}/{{ns}}.json`,
 
         // path to post missing resources
-        addPath: './app/utils/i18n/locales/{{lng}}/{{ns}}.missing.json',
+        addPath: isDev ? "./app/utils/i18n/locales/{{lng}}/{{ns}}.missing.json" :
+            `${path}.unpacked/app/utils/i18n/locales/{{lng}}/{{ns}}.missing.json`,
 
         // jsonIndent to use when storing json files
         jsonIndent: 4,
     },
-    // debug: true,
+    debug: true,
     interpolation: {
         escapeValue: false
     },
     namespace: "transaction",
     saveMissing: true,
     saveMissingTo: "current",
-    fallbackLng: false,
+    fallbackLng: "en", // set to false when generating translation files locally
     whitelist: config.whitelist,
     react: {
         wait: false
