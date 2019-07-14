@@ -24,6 +24,11 @@ import i18n from "./utils/i18n/i18n.config";
 const { ipcMain } = require('electron');
 const path = require("path");
 
+// Done so we can pass getAppPath to render process
+global.sharedObject = {
+    value: app.getAppPath()
+};
+
 export default class AppUpdater {
     constructor() {
         log.transports.file.level = 'info';
@@ -113,10 +118,8 @@ app.on('ready', async () => {
 });
 
 
-// not working...
-ipcMain.on("language-changed", function(event, arg){
-    
-    i18n.changeLanguage(arg, (err) => {
+ipcMain.on("language-changed", function(event, arg){    
+    i18n.changeLanguage(arg, (err) => {        
         if (err){
             return console.log("couldn't change language");
         }
@@ -124,5 +127,6 @@ ipcMain.on("language-changed", function(event, arg){
         menuBuilder.buildMenu();
         event.returnValue = "value"; // need to return value
         // https://stackoverflow.com/a/51360971/1837080
-    });    
+    });
+    event.returnValue = "value";
 });

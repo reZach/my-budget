@@ -15,6 +15,8 @@ import {
 } from './store/configureStore';
 import './app.global.css';
 
+require("electron"); // Needed so we can call require("electron") in render processes
+
 const store = configureStore(initialStore);
 
 
