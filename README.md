@@ -1,7 +1,7 @@
 # My Budget
 Free, open source offline cross-platform budgeting solution built with Electron. Take control of your budget today.
 
-[![Build Status](https://my-budget.visualstudio.com/My%20Budget/_apis/build/status/ci?branchName=master)](https://my-budget.visualstudio.com/My%20Budget/_build/latest?definitionId=9&branchName=master)
+[![Build Status](https://my-budget.visualstudio.com/My%20Budget/_apis/build/status/ci?branchName=master)](https://my-budget.visualstudio.com/My%20Budget/_build/latest?definitionId=9&branchName=master) [![Greenkeeper badge](https://badges.greenkeeper.io/reZach/my-budget.svg)](https://greenkeeper.io/)
 ![GitHub All Releases](https://img.shields.io/github/downloads/reZach/my-budget/total.svg)
 ![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/reZach/my-budget.svg)
 ![GitHub release](https://img.shields.io/github/release-pre/reZach/my-budget.svg)
